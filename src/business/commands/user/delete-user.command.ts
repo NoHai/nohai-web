@@ -1,5 +1,5 @@
 import { ICommand } from '../command.interface';
-import { ResultModel } from '../../models/common';
+import { ResultModel } from '../../models';
 
 export class DeleteUserCommand implements ICommand<any, ResultModel<boolean>> {
     execute(userId: any): ResultModel<boolean> {
