@@ -1,8 +1,11 @@
 import { ICommand } from '../command.interface';
-import { ResultModel } from '../../models';
+import { ResultModel } from '../../../contracts/models';
+import { UserRepository } from '../../../data/repositories';
 
-export class DeleteUserCommand implements ICommand<any, ResultModel<boolean>> {
-    execute(userId: any): ResultModel<boolean> {
-        throw new Error('Method not implemented.');
+class DeleteUserCommandController implements ICommand<any, Promise<ResultModel<boolean>>> {
+    public async execute(userId: any): Promise<ResultModel<boolean>> {
+        return await UserRepository.Delete(userId);
     }
 }
+
+export const DeleteUserCommand = new DeleteUserCommandController();

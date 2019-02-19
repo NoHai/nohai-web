@@ -1,8 +1,11 @@
 import { ICommand } from '../command.interface';
-import { UserModel } from '../../models';
+import { UserModel } from '../../../contracts/models';
+import { UserRepository } from '../../../data/repositories';
 
-export class CreateUserCommand implements ICommand<UserModel, UserModel> {
-    execute(user: UserModel): UserModel {
-        throw new Error("Method not implemented.");
+class CreateUserCommandController implements ICommand<UserModel, Promise<UserModel>> {
+    public async execute(user: UserModel): Promise<UserModel> {
+        return await UserRepository.Create(user);
     }
 }
+
+export const CreateUserCommand = new CreateUserCommandController();
