@@ -1,0 +1,21 @@
+.auth-page {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: url('/assets/login-bg.jpg') no-repeat;
+    background-size: cover;
+
+    &:after {
+        content: ' ';
+        display: block;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1;
+        background-image: linear-gradient(rgba(4, 138, 129, 0.9), rgba(3, 79, 74, 0.96));
+    }
+}

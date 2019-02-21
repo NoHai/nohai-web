@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
+import './login.page.scss';
 
 class LoginPage extends Component {
     public render() {
-        return <div>Login</div>;
+        return (
+            <div className="auth-page">
+                Test
+            </div>
+        );
     }
 }
 
