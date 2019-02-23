@@ -33,6 +33,12 @@
         }
     }
 
+    a {
+        &.ant-btn {
+            line-height: 38px;
+        }
+    }
+
     .auth-page-container {
         align-self: flex-end;
         position: relative;
@@ -55,6 +61,10 @@
 
         &.margin-bottom {
             margin-bottom: 15px;
+
+            &.margin-bottom-large {
+                margin-bottom: 100px;
+            }
         }
 
         &.ant-btn-background-ghost {
@@ -71,7 +81,7 @@
                 margin-bottom: 50px;
             }
 
-            .icon{
+            .icon {
                 position: absolute;
                 left: 25px;
                 top: 8px;
@@ -110,6 +120,8 @@
     }
 
     .link {
+        cursor: pointer;
+        color: $login-text-color;
         border-bottom: 1px solid $login-button-border-color;
     }
 }

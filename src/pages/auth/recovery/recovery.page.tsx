@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import history from './../../../utilities/history';
-import { Button} from 'antd';
-import './register.page.scss';
+import { Button } from 'antd';
+import './recovery.page.scss';
 
-class RegisterPage extends Component {
+class RecoveryPage extends Component {
     public render() {
         return (
             <div className="auth-page">
@@ -11,21 +11,7 @@ class RegisterPage extends Component {
                     <div className="auth-page-form-group">
                         <div className="inline-input-wrapper">
                             <span className="icon mdi mdi-email-outline" />
-                            <input type="text" placeholder="Adresa de email" data-lpignore="true" />
-                        </div>
-
-                        <div className="inline-input-wrapper">
-                            <span className="icon mdi mdi-key" />
-                            <input type="password" placeholder="Parola" data-lpignore="true" />
-                        </div>
-
-                        <div className="inline-input-wrapper">
-                            <span className="icon mdi mdi-key" />
-                            <input
-                                type="password"
-                                placeholder="Confirma parola"
-                                data-lpignore="true"
-                            />
+                            <input type="email" placeholder="Adresa de email" data-lpignore="true" />
                         </div>
                     </div>
 
@@ -36,7 +22,7 @@ class RegisterPage extends Component {
                         size="large"
                         shape="round"
                     >
-                        Creeaza cont
+                        Recuperare parola
                     </Button>
 
                     <Button
@@ -51,7 +37,7 @@ class RegisterPage extends Component {
                         }}
                     >
                         <div className="icon mdi mdi-keyboard-backspace" />
-                        Am deja un cont
+                        Authentifica-te acum
                     </Button>
                 </div>
             </div>
@@ -63,4 +49,4 @@ class RegisterPage extends Component {
     }
 }
 
-export default RegisterPage;
+export default RecoveryPage;

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import history from './../../../utilities/history';
 import { Button, Row, Col } from 'antd';
 import './login.page.scss';
 
@@ -47,16 +49,31 @@ class LoginPage extends Component {
                             <p>Ti-ai uitat parola?</p>
                         </Col>
                         <Col span={12} className="text-right">
-                            <span className="link">Recupereaza-ti parola</span>
+                            <Link className="link" to="/recover">
+                                Recupereaza-ti parola
+                            </Link>
                         </Col>
                     </Row>
 
-                    <Button ghost block type="primary" size="large" shape="round">
+                    <Button
+                        ghost
+                        block
+                        type="primary"
+                        size="large"
+                        shape="round"
+                        onClick={() => {
+                            this.NavigateToRegister();
+                        }}
+                    >
                         Creeaza-ti un cont
                     </Button>
                 </div>
             </div>
         );
+    }
+
+    private NavigateToRegister() {
+        history.push('/register');
     }
 }
 
