@@ -1,0 +1,9 @@
+@import './../../globals/styles/variables';
+
+.page-header {
+    position: relative;
+    display: block;
+    background-color: $main-color;
+    color: $white-color;
+    padding: 15px 15px;
+}
