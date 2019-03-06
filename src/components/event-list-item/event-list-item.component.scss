@@ -10,8 +10,41 @@
         padding: 15px;
         background-color: $white-color;
         box-shadow: #f1f8ff;
-        min-height: 200px;
         @include box-shadow(rgba(237, 237, 237, 1));
         @include border-radius(5px);
+
+        .item-card-picture {
+            display: block;
+            width: 52px;
+            height: 68px;
+            background-image: url('/assets/run.svg');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+        }
+
+        .item-card-title {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        p {
+            font-size: 14px;
+            font-weight: 300;
+            margin-bottom: 15px;
+        }
+
+        .item-card-icons {
+            font-size: 14px;
+            font-weight: 400;
+            vertical-align: middle;
+
+            .icon {
+                display: inline-block;
+                color: $main-color;
+                margin-right: 5px;
+                font-size: 18px;
+            }
+        }
     }
 }
