@@ -1,0 +1,17 @@
+@import './../../globals/styles/variables';
+@import './../../globals/styles/functions';
+
+.event-list-item {
+    display: block;
+    padding: 25px 15px;
+    background-image: linear-gradient(#fdfdfc, #f1f8ff);
+
+    .item-card {
+        padding: 15px;
+        background-color: $white-color;
+        box-shadow: #f1f8ff;
+        min-height: 200px;
+        @include box-shadow(rgba(237, 237, 237, 1));
+        @include border-radius(5px);
+    }
+}
