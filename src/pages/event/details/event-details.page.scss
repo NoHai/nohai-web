@@ -1,0 +1,7 @@
+@import './../../../components/event-list-item/event-list-item.component.scss';
+
+.event-list-item {
+    &.full-height {
+        height: 100%;
+    }
+}

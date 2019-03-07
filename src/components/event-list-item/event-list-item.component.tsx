@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './event-list-item.component.scss';
-import ItemCard from '../item-card/item-card.component';
 import history from '../../utilities/history';
+import EventItemCard from '../event-item-card/event-item-card.component';
 
 class EventListItem extends Component {
     render() {
@@ -13,7 +13,7 @@ class EventListItem extends Component {
                     this.NavigateToEventDetails();
                 }}
             >
-                <ItemCard />
+                <EventItemCard />
             </div>
         );
     }
