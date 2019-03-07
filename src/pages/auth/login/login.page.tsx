@@ -27,6 +27,9 @@ class LoginPage extends Component {
                         type="primary"
                         size="large"
                         shape="round"
+                        onClick={() => {
+                            this.NavigateToHome();
+                        }}
                     >
                         Autentifica-te
                     </Button>
@@ -74,6 +77,10 @@ class LoginPage extends Component {
 
     private NavigateToRegister() {
         history.push('/register');
+    }
+
+    private NavigateToHome() {
+        history.push('/');
     }
 }
 

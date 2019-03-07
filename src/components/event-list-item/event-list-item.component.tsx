@@ -25,15 +25,15 @@ class EventListItem extends Component {
                     <Row className="item-card-icons">
                         <Col span={8}>
                             <span className="icon mdi mdi-map-marker" />
-                            Constanta
+                            <span className="text">Constanta</span>
                         </Col>
                         <Col span={10} className="text-center">
                             <span className="icon mdi mdi-alarm" />
-                            10/12/2019, 13:30
+                            <span className="text">10/12/2019, 13:30</span>
                         </Col>
                         <Col span={6} className="text-right">
                             <span className="icon mdi mdi-account-group" />
-                            7/12
+                            <span className="text">7/12</span>
                         </Col>
                     </Row>
                 </div>
