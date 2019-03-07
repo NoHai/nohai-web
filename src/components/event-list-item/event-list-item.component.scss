@@ -5,4 +5,5 @@
     display: block;
     padding: 25px 15px;
     background-image: linear-gradient(#fdfdfc, #f1f8ff);
+    @include user-select-none();
 }
