@@ -2,6 +2,7 @@
 
 .item-card-options {
     padding-top: 5px;
+    margin-bottom: 15px;
 
     .item-card-option {
         position: relative;
@@ -15,6 +16,24 @@
             font-size: 16px;
             width: 16px;
             text-align: center;
+        }
+    }
+}
+
+.join-button {
+    &.ant-btn-background-ghost.ant-btn-primary {
+        position: relative;
+        text-transform: uppercase;
+        font-weight: bold;
+        font-size: 13px;
+        border-color: $join-button-color;
+        color: $join-button-color;
+
+        .icon {
+            position: absolute;
+            font-size: 24px;
+            left: 10px;
+            top: 1px;
         }
     }
 }

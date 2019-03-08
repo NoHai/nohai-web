@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './event-card.component.scss';
-import { Row, Col } from 'antd';
+import { Row, Col, Button } from 'antd';
+import EventTags from '../event-tags/event-tags.component';
+import EventMembers from '../event-members/event-members.component';
 
 class EventCard extends Component {
     render() {
@@ -23,6 +25,20 @@ class EventCard extends Component {
                                 General Eremia Grigorescu, no.7, Sibiu
                             </div>
                         </div>
+                    </Col>
+                </Row>
+
+                <EventTags />
+
+                <Row type="flex" align="middle">
+                    <Col span={14}>
+                        <EventMembers />
+                    </Col>
+                    <Col span={10} className="text-right">
+                        <Button type="primary" size="large" ghost block className="join-button">
+                            <span className="icon mdi mdi-hand" />
+                            Vreau si eu
+                        </Button>
                     </Col>
                 </Row>
             </div>

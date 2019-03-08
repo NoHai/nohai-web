@@ -1,0 +1,28 @@
+@import './../../globals/styles/variables';
+@import './../../globals/styles/functions';
+
+.event-tags {
+    display: block;
+    margin-bottom: 15px;
+
+    .event-tag {
+        display: inline-block;
+        background-color: $gray-color;
+        margin-right: 5px;
+        padding: 4px 15px;
+        @include border-radius(15px);
+        text-transform: uppercase;
+        font-size: 12px;
+        font-weight: 500;
+
+        &.red {
+            background-color: $red-color;
+            color: $white-color;
+        }
+
+        &.outline {
+            background-color: transparent;
+            border: 1px solid $gray-medium-color;
+        }
+    }
+}
