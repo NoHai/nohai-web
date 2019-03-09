@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import history from './../../../utilities/history';
-import { Button} from 'antd';
+import { Button } from 'antd';
 import './register.page.scss';
 
 class RegisterPage extends Component {
@@ -35,6 +35,9 @@ class RegisterPage extends Component {
                         type="primary"
                         size="large"
                         shape="round"
+                        onClick={() => {
+                            this.Register();
+                        }}
                     >
                         Creeaza cont
                     </Button>
@@ -60,6 +63,10 @@ class RegisterPage extends Component {
 
     private NavigateToRegister() {
         history.push('/login');
+    }
+
+    private Register() {
+        history.push('/intro');
     }
 }
 

@@ -1,20 +1,3 @@
 @import './../../../globals/styles/variables';
 @import './../../../globals/styles/functions';
 
-.page-sections {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-
-    .page-section {
-        width: 100%;
-
-        &.page-section-large {
-            -webkit-flex-grow: 1;
-            flex-grow: 1;
-            height: 100%;
-            overflow-y: auto;
-        }
-    }
-}
