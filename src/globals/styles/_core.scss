@@ -1,6 +1,18 @@
+@import './variables';
+@import './functions';
+
 html,
 body {
     height: 100%;
+}
+
+hr {
+    display: block;
+    margin: 20px 0;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid $gray-color;
+    padding: 0;
 }
 
 .text-right {
@@ -9,4 +21,8 @@ body {
 
 .text-center {
     text-align: center;
+}
+
+.margin-bottom {
+    margin-bottom: 15px;
 }

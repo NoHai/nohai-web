@@ -12,8 +12,6 @@ class EventMembers extends Component {
                 <Avatar size={this._size} src="https://randomuser.me/api/portraits/women/44.jpg" />
                 <Avatar size={this._size} src="https://randomuser.me/api/portraits/men/85.jpg" />
                 <Avatar size={this._size}>+2</Avatar>
-
-                {/* <div className="event-members-text">5 utilizatori inscrisi</div> */}
             </div>
         );
     }

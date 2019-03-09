@@ -1,39 +1,55 @@
 @import './../event-item-card/event-item-card.component.scss';
 
-.item-card-options {
-    padding-top: 5px;
-    margin-bottom: 15px;
+.event-card {
+    margin-bottom: 25px;
 
-    .item-card-option {
-        position: relative;
-        padding-left: 20px;
+    .item-card-options {
+        padding-top: 5px;
+        margin-bottom: 15px;
 
-        .icon {
-            position: absolute;
-            color: $main-color;
-            left: 0;
-            top: -2px;
-            font-size: 16px;
-            width: 16px;
-            text-align: center;
+        .item-card-option {
+            position: relative;
+            padding-left: 20px;
+
+            .icon {
+                position: absolute;
+                color: $main-color;
+                left: 0;
+                top: -2px;
+                font-size: 16px;
+                width: 16px;
+                text-align: center;
+            }
         }
     }
-}
+    .join-button {
+        &.ant-btn-primary {
+            position: relative;
+            text-transform: uppercase;
+            font-weight: bold;
+            font-size: 13px;
+            background-color: $join-button-color;
+            border-color: $join-button-color;
+            color: $white-color;
 
-.join-button {
-    &.ant-btn-background-ghost.ant-btn-primary {
-        position: relative;
-        text-transform: uppercase;
-        font-weight: bold;
-        font-size: 13px;
-        border-color: $join-button-color;
-        color: $join-button-color;
-
-        .icon {
-            position: absolute;
-            font-size: 24px;
-            left: 10px;
-            top: 1px;
+            .icon {
+                position: absolute;
+                font-size: 24px;
+                left: 10px;
+                top: 1px;
+            }
         }
+    }
+
+    .ant-avatar {
+        margin-right: 5px;
+    }
+
+    .sub-title {
+        color: $main-color;
+        text-transform: uppercase;
+        font-weight: 500;
+        font-size: 14px;
+        margin-bottom: 15px;
     }
 }
