@@ -6,7 +6,7 @@
     h1 {
         font-size: 16px;
         text-align: center;
-        color: $main-color;
+        color: $text-color;
         font-weight: 500;
         text-transform: uppercase;
         margin-bottom: 25px;
@@ -36,9 +36,5 @@
         background-position: center;
         background-size: contain;
         margin: 0 auto 25px auto;
-    }
-
-    .intro-footer {
-        padding: 0 15px 25px 15px;
     }
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './page-header.component.scss';
 import { Row, Col } from 'antd';
+import history from '../../utilities/history';
 
 class PageHeader extends Component {
     render() {
@@ -13,6 +14,9 @@ class PageHeader extends Component {
                     <Col span={8} className="text-center" />
                     <Col span={8} className="text-right">
                         <div
+                            onClick={() => {
+                                this.NavigateToLogin();
+                            }}
                             className="avatar"
                             style={{
                                 backgroundImage:
@@ -23,6 +27,10 @@ class PageHeader extends Component {
                 </Row>
             </div>
         );
+    }
+
+    private NavigateToLogin() {
+        history.push('/login');
     }
 }
 

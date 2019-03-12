@@ -1,6 +1,12 @@
 {
+    "name": "NoHai",
     "short_name": "NoHai",
-    "name": "Create React App Sample",
+    "description": "Lorem lipsum",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#000000",
+    "theme_color": "#000000",
+    "homepage_url": "https://test.edelcode.com",
     "icons": [
         {
             "src": "favicon.ico",
@@ -17,9 +23,5 @@
             "type": "image/png",
             "sizes": "512x512"
         }
-    ],
-    "start_url": ".",
-    "display": "standalone",
-    "theme_color": "#000000",
-    "background_color": "#ffffff"
+    ]
 }
