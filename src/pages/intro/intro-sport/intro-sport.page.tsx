@@ -1,31 +1,19 @@
 import React, { Component } from 'react';
-import { Input, Button, Row, Col } from 'antd';
 import history from '../../../utilities/history';
+import { Row, Col, Button } from 'antd';
 
-class IntroMeasurements extends Component {
+class IntroSport extends Component {
     render() {
         return (
             <div className="intro-step-page">
                 <div className="page-sections">
                     <div className="page-section page-section-large">
-                        <h1>Sa ne cunoastem</h1>
+                        <h1>De care sport esti interesat?</h1>
 
                         <p>
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci, culpa
                             dolores architecto ipsam
                         </p>
-
-                        <div className="form">
-                            <div className="form-group">
-                                <label>Greutate</label>
-                                <Input size="large" addonAfter="kg" />
-                            </div>
-
-                            <div className="form-group">
-                                <label>Inaltime</label>
-                                <Input size="large" addonAfter="cm" />
-                            </div>
-                        </div>
                     </div>
 
                     <div className="page-section">
@@ -50,7 +38,7 @@ class IntroMeasurements extends Component {
                                             this.GoForward();
                                         }}
                                     >
-                                        Urmatorul pas
+                                        Finish
                                     </Button>
                                 </Col>
                             </Row>
@@ -62,12 +50,12 @@ class IntroMeasurements extends Component {
     }
 
     private GoForward() {
-        history.push('/intro/step-three');
+        history.push('/');
     }
 
     private GoBack() {
-        history.push('/intro/step-one');
+        history.push('/intro/step-two');
     }
 }
 
-export default IntroMeasurements;
+export default IntroSport;

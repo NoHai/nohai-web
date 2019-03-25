@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './intro-person.page.scss';
 import { Button, Input, DatePicker, Select } from 'antd';
 import history from '../../../utilities/history';
 
