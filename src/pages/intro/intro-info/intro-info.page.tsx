@@ -22,7 +22,7 @@ class IntroInfoPage extends Component {
                             type="primary"
                             size="large"
                             onClick={() => {
-                                this.GoToStepOne();
+                                this.GoForward();
                             }}
                         >
                             Hai sa incepem
@@ -33,7 +33,7 @@ class IntroInfoPage extends Component {
         );
     }
 
-    private GoToStepOne() {
+    private GoForward() {
         history.push('/intro/step-one');
     }
 }

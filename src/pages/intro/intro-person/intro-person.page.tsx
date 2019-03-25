@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import './intro-name.page.scss';
-import { Button, Row, Col, Input, DatePicker, Select } from 'antd';
+import './intro-person.page.scss';
+import { Button, Input, DatePicker, Select } from 'antd';
+import history from '../../../utilities/history';
 
-class IntroNamePage extends Component {
+class IntroPersonPage extends Component {
     render() {
         const Option = Select.Option;
 
         return (
-            <div className="intro-name-page">
+            <div className="intro-step-page">
                 <div className="page-sections">
                     <div className="page-section page-section-large">
                         <h1>Sa ne cunoastem</h1>
@@ -47,13 +48,24 @@ class IntroNamePage extends Component {
                         <hr />
 
                         <div className="intro-footer text-right">
-                            <Button type="primary">Urmatorul pas</Button>
+                            <Button
+                                type="primary"
+                                onClick={() => {
+                                    this.GoForward();
+                                }}
+                            >
+                                Urmatorul pas
+                            </Button>
                         </div>
                     </div>
                 </div>
             </div>
         );
     }
+
+    private GoForward() {
+        history.push('/intro/step-two');
+    }
 }
 
-export default IntroNamePage;
+export default IntroPersonPage;
