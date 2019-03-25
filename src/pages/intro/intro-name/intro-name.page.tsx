@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import './intro-name.page.scss';
-import { Button, Row, Col, Input, DatePicker } from 'antd';
+import { Button, Row, Col, Input, DatePicker, Select } from 'antd';
 
 class IntroNamePage extends Component {
     render() {
+        const Option = Select.Option;
+
         return (
             <div className="intro-name-page">
                 <div className="page-sections">
@@ -29,6 +31,14 @@ class IntroNamePage extends Component {
                             <div className="form-group">
                                 <label>Data nasterii</label>
                                 <DatePicker size="large" />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Gen</label>
+                                <Select size="large" placeholder="Alege" style={{ width: '100%' }}>
+                                    <Option value="m">Masculin</Option>
+                                    <Option value="f">Feminin</Option>
+                                </Select>
                             </div>
                         </div>
                     </div>
