@@ -1,0 +1,48 @@
+@import './../../globals/styles/variables';
+@import './../../globals/styles/functions';
+
+.sports-selection {
+    display: block;
+    text-align: center;
+
+    .open-modal-button {
+        display: inline-block;
+        text-align: center;
+        text-transform: uppercase;
+        padding: 15px 50px;
+        border: 1px dashed $gray-dark-color;
+        color: $gray-dark-color;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        @include user-select-none();
+        @include border-radius(2px);
+    }
+}
+
+.sports-drawer-buttons {
+    border-top: 1px solid #e8e8e8;
+    padding: 10px 0 0 0;
+    text-align: right;
+    left: 0;
+    background: #fff;
+}
+
+.sports-selection-drawer {
+    .ant-drawer-wrapper-body {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+
+        .ant-drawer-header {
+            width: 100%;
+        }
+        .ant-drawer-body {
+            -webkit-flex-grow: 1;
+            flex-grow: 1;
+            height: 100%;
+            overflow-y: auto;
+        }
+    }
+}

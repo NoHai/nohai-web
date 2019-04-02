@@ -5,7 +5,7 @@ import EventCard from '../../../components/event-card/event-card.component';
 class EventDetailsPage extends Component {
     render() {
         return (
-            <div className="event-list-item full-height">
+            <div className="event-list-item">
                 <EventCard />
             </div>
         );

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import history from '../../../utilities/history';
 import { Row, Col, Button } from 'antd';
+import SportsSelection from '../../../components/sports-selection/sports-selection.component';
 
 class IntroSport extends Component {
     render() {
@@ -8,12 +9,14 @@ class IntroSport extends Component {
             <div className="intro-step-page">
                 <div className="page-sections">
                     <div className="page-section page-section-large">
-                        <h1>De care sport esti interesat?</h1>
+                        <h1>De ce sport esti pasionat?</h1>
 
                         <p>
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci, culpa
                             dolores architecto ipsam
                         </p>
+
+                        <SportsSelection />
                     </div>
 
                     <div className="page-section">
