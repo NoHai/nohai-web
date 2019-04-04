@@ -16,6 +16,8 @@ class IntroSport extends Component {
                             dolores architecto ipsam
                         </p>
 
+                        <div className="image sports" />
+
                         <SportsSelection />
                     </div>
 

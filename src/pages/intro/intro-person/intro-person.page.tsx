@@ -17,6 +17,8 @@ class IntroPersonPage extends Component {
                             dolores architecto ipsam
                         </p>
 
+                        <div className="image persons" />
+
                         <div className="form">
                             <div className="form-group">
                                 <label>Prenume</label>
@@ -26,19 +28,6 @@ class IntroPersonPage extends Component {
                             <div className="form-group">
                                 <label>Nume</label>
                                 <Input size="large" />
-                            </div>
-
-                            <div className="form-group">
-                                <label>Data nasterii</label>
-                                <DatePicker size="large" />
-                            </div>
-
-                            <div className="form-group">
-                                <label>Gen</label>
-                                <Select size="large" placeholder="Alege" style={{ width: '100%' }}>
-                                    <Option value="m">Masculin</Option>
-                                    <Option value="f">Feminin</Option>
-                                </Select>
                             </div>
                         </div>
                     </div>

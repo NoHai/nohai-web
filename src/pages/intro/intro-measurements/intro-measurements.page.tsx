@@ -10,7 +10,7 @@ class IntroMeasurements extends Component {
                     <div className="page-section page-section-large">
                         <h1>Sa ne cunoastem</h1>
 
-                        <p>
+                        <p className="margin-bottom">
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci, culpa
                             dolores architecto ipsam
                         </p>

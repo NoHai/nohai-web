@@ -5,13 +5,8 @@ import { Drawer, Button, List, Typography } from 'antd';
 class SportsSelection extends Component {
     state = { visible: false, childrenDrawer: false };
 
-    private data = [
-        'Racing car sprays burning fuel into crowd.',
-        'Japanese princess to wed commoner.',
-        'Australian walks 100km after outback crash.',
-        'Man charged over missing wedding girl.',
-        'Los Angeles battles huge wildfires.',
-    ];
+    private sports = ['Alergat', 'Fotbal', 'Tenis', 'Handbal', 'Ping Pong', 'Sah'];
+    private levels = ['Incepator', 'Intermediar', 'Avansat'];
 
     showDrawer = () => {
         this.setState({
@@ -56,7 +51,7 @@ class SportsSelection extends Component {
                     <div className="page-sections">
                         <div className="page-section page-section-large">
                             <List
-                                dataSource={this.data}
+                                dataSource={this.sports}
                                 renderItem={(item: any) => (
                                     <List.Item onClick={this.showChildrenDrawer}>{item}</List.Item>
                                 )}
@@ -78,7 +73,7 @@ class SportsSelection extends Component {
                         placement="bottom"
                     >
                         <List
-                            dataSource={this.data}
+                            dataSource={this.levels}
                             renderItem={(item: any) => <List.Item>{item}</List.Item>}
                         />
                     </Drawer>

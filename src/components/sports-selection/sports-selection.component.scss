@@ -4,9 +4,12 @@
 .sports-selection {
     display: block;
     text-align: center;
+    width: 100%;
+    padding: 0 35px;
 
     .open-modal-button {
-        display: inline-block;
+        display: block;
+        width: 100%;
         text-align: center;
         text-transform: uppercase;
         padding: 15px 50px;

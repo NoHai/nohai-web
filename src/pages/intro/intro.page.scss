@@ -19,8 +19,10 @@
         p {
             text-align: center;
             padding: 0 30px;
-            margin-bottom: 45px;
             font-size: 13px;
+            &.margin-bottom {
+                margin-bottom: 45px;
+            }
         }
 
         hr {
@@ -76,6 +78,24 @@
 
         .intro-footer {
             padding: 0 15px 15px 15px;
+        }
+
+        .image {
+            display: block;
+            margin: 0 auto;
+            width: 250px;
+            height: 300px;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+
+            &.persons {
+                background-image: url(/assets/persons.svg);
+            }
+
+            &.sports {
+                background-image: url(/assets/sports.svg);
+            }
         }
     }
 }
