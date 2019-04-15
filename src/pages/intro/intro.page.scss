@@ -4,6 +4,11 @@
 .intro-page {
     height: 100%;
 
+    .ant-btn-primary {
+        background-color: $main-color;
+        border: 0;
+    }
+
     .intro-step-page {
         height: 100%;
 
@@ -14,6 +19,10 @@
             font-weight: 500;
             text-transform: uppercase;
             margin-bottom: 15px;
+
+            &.invert {
+                color: $white-color;
+            }
         }
 
         p {
@@ -23,6 +32,10 @@
             &.margin-bottom {
                 margin-bottom: 45px;
             }
+
+            &.invert {
+                color: $gray-color;
+            }
         }
 
         hr {
@@ -30,11 +43,17 @@
         }
 
         .page-section-large {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            &.align-middle {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+
+            &.page-section-with-color {
+                background: $main-color;
+            }
         }
 
         .form {
@@ -46,7 +65,7 @@
 
                 label {
                     display: block;
-                    color: $gray-dark-color;
+                    color: $green-color;
                     font-weight: bold;
                     font-size: 12px;
                     padding-left: 2px;
@@ -54,8 +73,16 @@
                     text-transform: uppercase;
                 }
 
+                input {
+                    border: 0;
+                }
+
                 .ant-calendar-picker {
                     display: block;
+                }
+
+                .ant-input-group-addon {
+                    border: 0;
                 }
             }
         }
@@ -96,6 +123,14 @@
             &.sports {
                 background-image: url(/assets/sports.svg);
             }
+        }
+
+        .wave {
+            display: block;
+            width: 100%;
+            height: auto;
+            margin-top: -1px;
+            margin-bottom: 25px;
         }
     }
 }

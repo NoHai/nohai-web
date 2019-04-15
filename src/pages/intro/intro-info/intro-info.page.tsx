@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './intro-info.page.scss';
-import { Row, Col, Button } from 'antd';
+import { Button } from 'antd';
 import history from '../../../utilities/history';
 
 class IntroInfoPage extends Component {

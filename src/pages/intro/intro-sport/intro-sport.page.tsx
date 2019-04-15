@@ -8,21 +8,19 @@ class IntroSport extends Component {
         return (
             <div className="intro-step-page">
                 <div className="page-sections">
-                    <div className="page-section page-section-large">
-                        <h1>De ce sport esti pasionat?</h1>
+                    <div className="page-section page-section-large page-section-with-color align-middle">
+                        <h1 className="invert">De ce sport esti pasionat?</h1>
 
-                        <p>
+                        <p className="invert margin-bottom">
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci, culpa
                             dolores architecto ipsam
                         </p>
-
-                        <div className="image sports" />
 
                         <SportsSelection />
                     </div>
 
                     <div className="page-section">
-                        <hr />
+                        <img className="wave" src="/assets/wave.svg" alt="" />
 
                         <div className="intro-footer">
                             <Row>

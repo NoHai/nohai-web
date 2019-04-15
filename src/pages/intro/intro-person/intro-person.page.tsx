@@ -9,15 +9,13 @@ class IntroPersonPage extends Component {
         return (
             <div className="intro-step-page">
                 <div className="page-sections">
-                    <div className="page-section page-section-large">
-                        <h1>Sa ne cunoastem</h1>
+                    <div className="page-section page-section-large page-section-with-color align-middle">
+                        <h1 className="invert">Sa ne cunoastem</h1>
 
-                        <p>
+                        <p className="margin-bottom invert">
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci, culpa
                             dolores architecto ipsam
                         </p>
-
-                        <div className="image persons" />
 
                         <div className="form">
                             <div className="form-group">
@@ -33,7 +31,7 @@ class IntroPersonPage extends Component {
                     </div>
 
                     <div className="page-section">
-                        <hr />
+                        <img className="wave" src="/assets/wave.svg" alt="" />
 
                         <div className="intro-footer text-right">
                             <Button
