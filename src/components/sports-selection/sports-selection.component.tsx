@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './sports-selection.component.scss';
-import { Drawer, Button, List, Typography } from 'antd';
+import { Drawer, Button, List } from 'antd';
 
 class SportsSelection extends Component {
     state = { visible: false, childrenDrawer: false };

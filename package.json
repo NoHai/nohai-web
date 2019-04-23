@@ -1,40 +1,40 @@
 {
-  "name": "nohai-app",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@types/jest": "24.0.11",
-    "@types/node": "11.13.0",
-    "@types/react": "16.8.10",
-    "@types/react-dom": "16.8.3",
-    "@types/react-router": "4.4.5",
-    "@types/react-router-dom": "4.3.1",
-    "antd": "3.16.1",
-    "node-sass": "4.11.0",
-    "react": "16.8.6",
-    "react-dom": "16.8.6",
-    "react-router-dom": "5.0.0",
-    "react-scripts": "2.1.8",
-    "typescript": "3.4.1"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ],
-  "devDependencies": {
-    "@babel/core": "^7.4.0",
-    "babel-core": "6.26.3",
-    "babel-loader": "8.0.5"
-  }
+    "name": "nohai-app",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject"
+    },
+    "dependencies": {
+        "@types/jest": "24.0.11",
+        "@types/node": "11.13.7",
+        "@types/react": "16.8.14",
+        "@types/react-dom": "16.8.4",
+        "@types/react-router": "4.4.5",
+        "@types/react-router-dom": "4.3.2",
+        "antd": "3.16.5",
+        "node-sass": "4.11.0",
+        "react": "16.8.6",
+        "react-dom": "16.8.6",
+        "react-router-dom": "5.0.0",
+        "react-scripts": "3.0.0",
+        "typescript": "3.4.4"
+    },
+    "devDependencies": {
+        "@babel/core": "7.4.3",
+        "babel-core": "6.26.3",
+        "babel-loader": "8.0.5"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "browserslist": [
+        ">0.2%",
+        "not dead",
+        "not ie <= 11",
+        "not op_mini all"
+    ]
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter, Router } from 'react-router';
+import { Router } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 import history from './utilities/history';
 import 'antd/dist/antd.css';

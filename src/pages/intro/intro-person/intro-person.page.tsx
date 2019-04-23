@@ -1,10 +1,20 @@
 import React, { Component } from 'react';
-import { Button, Input, DatePicker, Select } from 'antd';
+import { Button, Input, Slider, Row, Col, InputNumber } from 'antd';
 import history from '../../../utilities/history';
 
 class IntroPersonPage extends Component {
+    state = {
+        inputValue: 24,
+    };
+
+    onAgeChange = (value: any) => {
+        this.setState({
+            inputValue: value,
+        });
+    };
+
     render() {
-        const Option = Select.Option;
+        const { inputValue } = this.state;
 
         return (
             <div className="intro-step-page">
@@ -26,6 +36,31 @@ class IntroPersonPage extends Component {
                             <div className="form-group">
                                 <label>Nume</label>
                                 <Input size="large" />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Varsta</label>
+
+                                <Row>
+                                    <Col span={18}>
+                                        <Slider
+                                            min={18}
+                                            max={99}
+                                            onChange={this.onAgeChange}
+                                            value={typeof inputValue === 'number' ? inputValue : 0}
+                                        />
+                                    </Col>
+                                    <Col span={5}>
+                                        <InputNumber
+                                            size="large"
+                                            min={18}
+                                            max={99}
+                                            style={{ marginLeft: 16 }}
+                                            value={inputValue}
+                                            onChange={this.onAgeChange}
+                                        />
+                                    </Col>
+                                </Row>
                             </div>
                         </div>
                     </div>
