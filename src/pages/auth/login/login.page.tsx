@@ -112,8 +112,8 @@ class LoginPage extends Component {
             '/me',
             { locale: 'en_US', fields: 'id,first_name,last_name,email,link,gender,locale,picture' },
             (response: any) => {
-                console.log(process.env.REACT_APP_FACEBOOK_APP_ID);
-                console.table(response);
+                // console.log(process.env.REACT_APP_FACEBOOK_APP_ID);
+                // console.table(response);
             }
         );
     }
