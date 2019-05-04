@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import history from './../../../utilities/history';
+import history from '../../../utilities/core/history';
 import { Button } from 'antd';
 import './recovery.page.scss';
 

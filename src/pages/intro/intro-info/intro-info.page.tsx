@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './intro-info.page.scss';
 import { Button } from 'antd';
-import history from '../../../utilities/history';
+import history from '../../../utilities/core/history';
 
 class IntroInfoPage extends Component {
     render() {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import history from '../../../utilities/history';
+import history from '../../../utilities/core/history';
 import { Row, Col, Button } from 'antd';
 import SportsSelection from '../../../components/sports-selection/sports-selection.component';
 

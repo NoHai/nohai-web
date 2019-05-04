@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Input, Button, Row, Col } from 'antd';
-import history from '../../../utilities/history';
+import history from '../../../utilities/core/history';
 
 class IntroMeasurements extends Component {
     render() {

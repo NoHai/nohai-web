@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './page-header.component.scss';
 import { Row, Col } from 'antd';
-import history from '../../utilities/history';
+import history from '../../utilities/core/history';
 
 class PageHeader extends Component {
     render() {

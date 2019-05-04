@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './event-list-item.component.scss';
-import history from '../../utilities/history';
+import history from '../../utilities/core/history';
 import EventItemCard from '../event-item-card/event-item-card.component';
 
 class EventListItem extends Component {

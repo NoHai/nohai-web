@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Input, Row, Col, Select } from 'antd';
-import history from '../../../utilities/history';
+import history from '../../../utilities/core/history';
 import DateHelper from '../../../helpers/date.helper';
 
 class IntroPersonPage extends Component {

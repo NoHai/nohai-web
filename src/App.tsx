@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Router } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
-import history from './utilities/history';
+import history from './utilities/core/history';
 import 'antd/dist/antd.css';
 import './App.scss';
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import history from './../../../utilities/history';
+import history from '../../../utilities/core/history';
 import { Button, Row, Col } from 'antd';
 import './login.page.scss';
 import FacebookHelper from '../../../helpers/facebook.helper';
