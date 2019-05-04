@@ -3,8 +3,14 @@ import { Link } from 'react-router-dom';
 import history from './../../../utilities/history';
 import { Button, Row, Col } from 'antd';
 import './login.page.scss';
+import FacebookHelper from '../../../helpers/facebook.helper';
+
+declare var FB: any;
 
 class LoginPage extends Component {
+    componentDidMount() {
+        FacebookHelper.Init();
+    }
     public render() {
         return (
             <div className="auth-page">
@@ -41,15 +47,27 @@ class LoginPage extends Component {
                     <p className="text-center margin-bottom">sau foloseste contul de Facebook</p>
 
                     <Button
-                        className="margin-bottom facebook"
+                        className="margin-bottom facebook fb-login-button"
                         block
                         type="primary"
                         size="large"
                         shape="round"
+                        onClick={() => {
+                            this.fbLogin();
+                        }}
                     >
                         <span className="icon mdi mdi-facebook" />
                         Login with Facebook
                     </Button>
+                    {/* 
+                    <div
+                        className="fb-login-button"
+                        data-size="medium"
+                        data-auto-logout-link="true"
+                        data-onlogin={() => {
+                            this.checkLoginState();
+                        }}
+                    /> */}
 
                     <Row>
                         <Col span={12}>
@@ -85,6 +103,27 @@ class LoginPage extends Component {
 
     private NavigateToHome() {
         history.push('/');
+    }
+
+    private fbLogin() {
+        FB.login(
+            (response: any) => {
+                if (response.authResponse) {
+                    this.getFbUserData();
+                }
+            },
+            { scope: 'email' }
+        );
+    }
+
+    private getFbUserData() {
+        FB.api(
+            '/me',
+            { locale: 'en_US', fields: 'id,first_name,last_name,email,link,gender,locale,picture' },
+            (response: any) => {
+                console.table(response);
+            }
+        );
     }
 }
 
