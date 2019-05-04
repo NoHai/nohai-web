@@ -2,6 +2,7 @@
 
 .auth-page {
     display: flex;
+    flex-direction: column;
     position: fixed;
     top: 0;
     bottom: 0;
@@ -40,7 +41,7 @@
     }
 
     .auth-page-container {
-        align-self: flex-end;
+        align-self: baseline;
         position: relative;
         z-index: 2;
         display: block;
@@ -139,5 +140,23 @@
         cursor: pointer;
         color: $login-text-color;
         border-bottom: 1px solid $login-button-border-color;
+    }
+
+    .login-logo-container {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-grow: 1;
+        display: flex;
+        justify-content: center;
+        padding-top: 150px;
+
+        .login-logo {
+            width: 150px;
+            height: 150px;
+            background: url('/assets/login-logo.svg') no-repeat;
+            background-size: contain;
+            background-position: center;
+        }
     }
 }

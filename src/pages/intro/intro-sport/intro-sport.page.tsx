@@ -12,8 +12,8 @@ class IntroSport extends Component {
                         <h1 className="invert">De ce sport esti pasionat?</h1>
 
                         <p className="invert margin-bottom">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci, culpa
-                            dolores architecto ipsam
+                            Alege sporturile de care esti pasionat si nivelul la care esti. <br />
+                            Pe baza sporturilor selectate iti vom genera timeline-ul
                         </p>
 
                         <SportsSelection />

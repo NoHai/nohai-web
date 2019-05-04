@@ -8,6 +8,10 @@ class LoginPage extends Component {
     public render() {
         return (
             <div className="auth-page">
+                <div className="login-logo-container">
+                    <div className="login-logo" />
+                </div>
+
                 <div className="auth-page-container">
                     <div className="auth-page-form-group">
                         <div className="inline-input-wrapper">

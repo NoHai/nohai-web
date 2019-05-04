@@ -18,12 +18,20 @@ class IntroMeasurements extends Component {
                         <div className="form">
                             <div className="form-group">
                                 <label>Greutate</label>
-                                <Input size="large" addonAfter="kg" />
+                                <Input
+                                    size="large"
+                                    addonAfter="kg"
+                                    placeholder="Greutatea ta in kilograme"
+                                />
                             </div>
 
                             <div className="form-group">
                                 <label>Inaltime</label>
-                                <Input size="large" addonAfter="cm" />
+                                <Input
+                                    size="large"
+                                    addonAfter="cm"
+                                    placeholder="Inaltime ta in centimetri"
+                                />
                             </div>
                         </div>
                     </div>
