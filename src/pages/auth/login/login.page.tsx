@@ -59,15 +59,6 @@ class LoginPage extends Component {
                         <span className="icon mdi mdi-facebook" />
                         Login with Facebook
                     </Button>
-                    {/* 
-                    <div
-                        className="fb-login-button"
-                        data-size="medium"
-                        data-auto-logout-link="true"
-                        data-onlogin={() => {
-                            this.checkLoginState();
-                        }}
-                    /> */}
 
                     <Row>
                         <Col span={12}>
@@ -121,6 +112,7 @@ class LoginPage extends Component {
             '/me',
             { locale: 'en_US', fields: 'id,first_name,last_name,email,link,gender,locale,picture' },
             (response: any) => {
+                console.log(process.env.REACT_APP_FACEBOOK_APP_ID);
                 console.table(response);
             }
         );

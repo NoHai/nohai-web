@@ -5,7 +5,7 @@ export default class FacebookHelper {
     public static Init() {
         window.fbAsyncInit = function() {
             FB.init({
-                appId: '824817741217116',
+                appId: process.env.REACT_APP_FACEBOOK_APP_ID,
                 cookie: true,
                 xfbml: true,
                 version: 'v3.3',
