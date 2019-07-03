@@ -36,9 +36,7 @@ class IntroMeasurements extends Component {
                         </div>
                     </div>
 
-                    <div className="page-section">
-                        <img className="wave" src="/assets/wave.svg" alt="" />
-
+                    <div className="page-section page-section-footer">
                         <div className="intro-footer">
                             <Row>
                                 <Col span={12}>

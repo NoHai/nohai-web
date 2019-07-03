@@ -122,9 +122,7 @@ class IntroPersonPage extends Component {
                         </div>
                     </div>
 
-                    <div className="page-section">
-                        <img className="wave" src="/assets/wave.svg" alt="" />
-
+                    <div className="page-section page-section-footer">
                         <div className="intro-footer text-right">
                             <Button
                                 type="primary"
@@ -151,7 +149,7 @@ class IntroPersonPage extends Component {
         const months = DateHelper.GetMonths();
 
         for (let i = 0; i < months.length; i++) {
-            options.push(<Option value={i + 1}>{months[i]}</Option>);
+            options.push(<Option key={i} value={i + 1}>{months[i]}</Option>);
         }
 
         return options;
@@ -165,7 +163,7 @@ class IntroPersonPage extends Component {
         const endYear = new Date().getFullYear() - 17;
 
         for (let i = startYear; i <= endYear; i++) {
-            options.push(<Option value={i}>{i}</Option>);
+            options.push(<Option key={i} value={i}>{i}</Option>);
         }
 
         return options;
@@ -179,7 +177,7 @@ class IntroPersonPage extends Component {
         const endDay = 31;
 
         for (let i = startDay; i <= endDay; i++) {
-            options.push(<Option value={i}>{i}</Option>);
+            options.push(<Option key={i} value={i}>{i}</Option>);
         }
 
         return options;

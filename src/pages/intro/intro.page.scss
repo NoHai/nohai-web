@@ -96,11 +96,11 @@
                     border: 0;
                 }
 
-                .ant-select-lg .ant-select-selection__rendered{
+                .ant-select-lg .ant-select-selection__rendered {
                     line-height: 40px;
                 }
 
-                .ant-input-number-lg input{
+                .ant-input-number-lg input {
                     height: 43px;
                 }
             }
@@ -123,6 +123,8 @@
         }
 
         .intro-footer {
+            display: block;
+            width: 100%;
             padding: 0 15px 15px 15px;
         }
 
@@ -150,6 +152,28 @@
             height: auto;
             margin-top: -1px;
             margin-bottom: 25px;
+        }
+    }
+
+    .page-section-footer {
+        position: relative;
+        height: 140px;
+        overflow: hidden;
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+
+        &::before {
+            display: block;
+            content: ' ';
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: 0;
+            background: url('/assets/wave.svg') no-repeat;
+            background-position: right top;
+            background-size: cover;
         }
     }
 }
