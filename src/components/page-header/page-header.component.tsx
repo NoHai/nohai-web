@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './page-header.component.scss';
 import { Row, Col } from 'antd';
 import history from '../../utilities/core/history';
+import UserIconButton from '../user-icon-button/user-icon-button';
 
 class PageHeader extends Component {
     render() {
@@ -9,29 +10,23 @@ class PageHeader extends Component {
             <div className="page-header page-section">
                 <Row>
                     <Col span={8}>
-                        <div className="icon mdi mdi-bell" />
+                        <div  onClick={() => {
+                                this.NavigateToNotification();
+                            }} className="icon mdi mdi-bell" />
                     </Col>
                     <Col span={8} className="text-center" />
                     <Col span={8} className="text-right">
-                        <div
-                            onClick={() => {
-                                this.NavigateToLogin();
-                            }}
-                            className="avatar"
-                            style={{
-                                backgroundImage:
-                                    'url(https://randomuser.me/api/portraits/women/65.jpg)',
-                            }}
-                        />
+                    <UserIconButton/>
                     </Col>
                 </Row>
             </div>
         );
     }
 
-    private NavigateToLogin() {
-        history.push('/login');
+    private NavigateToNotification() {
+        history.push('/notification');
     }
+    
 }
 
 export default PageHeader;
