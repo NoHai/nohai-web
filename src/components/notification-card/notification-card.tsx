@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Button } from 'antd';
 import { NotificationCardProps } from './notification-card.props';
-import { ActionType } from '../../contracts/enums/common';
-import history from '../../utilities/core/history';
+import { ActionType, ActionButtonType } from '../../contracts/enums/common';
 
 class NotificationCard extends Component<NotificationCardProps> {
     render() {
@@ -10,7 +9,7 @@ class NotificationCard extends Component<NotificationCardProps> {
             <div className="item-card">
                 <Row
                     onClick={() => {
-                        this.NavigateToEventDetails();
+                        this.onButtonClickHandler(ActionButtonType.Info);
                     }}
                 >
                     <Col span={3}>
@@ -23,8 +22,7 @@ class NotificationCard extends Component<NotificationCardProps> {
                     </Col>
                     <Col span={21}>
                         <div className="item-card-title">
-                            {this.props.user.FirstName}{' '}
-                            {this.props.actionType === 0 && <span>someting </span>}
+                            {this.props.user.FirstName} {this.getNotificationType()}
                         </div>
 
                         <p>{this.props.event.Description}</p>
@@ -33,6 +31,19 @@ class NotificationCard extends Component<NotificationCardProps> {
                 {this.getCardButtons()}
             </div>
         );
+    }
+
+    getNotificationType() {
+        switch (this.props.actionType) {
+            default:
+                return <span>ti-a trimis o cerere</span>;
+            case ActionType.Request:
+                return <span>ti-a trimis o cerere</span>;
+            case ActionType.Accept:
+                return <span>a acceptat cererea ta pentru {this.props.event.Name}</span>;
+            case ActionType.Reject:
+                return <span>a refuzat cererea ta pentru {this.props.event.Name}</span>;
+        }
     }
 
     getCardButtons() {
@@ -46,7 +57,7 @@ class NotificationCard extends Component<NotificationCardProps> {
                             className="link red-color"
                             block
                             onClick={() => {
-                                this.RejectRequest();
+                                this.onButtonClickHandler(ActionButtonType.Reject);
                             }}
                         >
                             Refuza
@@ -57,7 +68,7 @@ class NotificationCard extends Component<NotificationCardProps> {
                             type="primary"
                             block
                             onClick={() => {
-                                this.ApproveRequest();
+                                this.onButtonClickHandler(ActionButtonType.Approve);
                             }}
                         >
                             Accepta
@@ -68,16 +79,10 @@ class NotificationCard extends Component<NotificationCardProps> {
         }
     }
 
-    private NavigateToEventDetails() {
-        history.push('/details');
-    }
-
-    private RejectRequest() {
-       window.alert(this.props.id);
-    }
-
-    private ApproveRequest() {
-        window.alert(this.props.event.Description);
+    private onButtonClickHandler(action: ActionButtonType) {
+        if (this.props.onButtonClick) {
+            this.props.onButtonClick(action, this.props.id);
+        }
     }
 }
 

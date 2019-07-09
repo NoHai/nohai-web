@@ -1,0 +1,25 @@
+@import './../../../globals/styles/variables';
+
+.create-event-page {
+    height: 100%;
+
+    .ant-carousel {
+        height: 100%;
+
+        .slick-slider {
+            height: 100%;
+
+            .slick-list {
+                height: 100%;
+            }
+        }
+
+        .slick-dots li button {
+            background-color: $main-color;
+        }
+
+        .slick-dots li.slick-active button {
+            background-color: $main-color;
+        }
+    }
+}

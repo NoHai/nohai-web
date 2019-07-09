@@ -1,0 +1,77 @@
+@import './../../globals/styles/variables';
+@import './../../globals/styles/functions';
+
+.slider-component {
+    .slider-buttons {
+        padding: 5px 15px;
+
+        .arrow-button {
+            font-size: 32px;
+            color: $text-color;
+            cursor: pointer;
+            @include user-select-none();
+
+            &.active {
+                color: $main-color;
+            }
+
+            &.right {
+                text-align: right;
+            }
+        }
+    }
+
+    .display-inline {
+        display: inline;
+    }
+
+    .inline-input-wrapper {
+        position: relative;
+        margin-bottom: 5px;
+        display: inline-block;
+        padding-left: 32px;
+
+        input {
+            display: inline-block;
+            background: transparent;
+            border: 0;
+            padding: 5px 0px;
+            border-bottom: 1px solid $login-input-border-color;
+            font-size: 14px;
+            font-weight: 500;
+            color: $green-color;
+            
+
+            &::placeholder {
+                /* Chrome, Firefox, Opera, Safari 10.1+ */
+                color: $main-color;
+                opacity: 1; /* Firefox */
+            }
+
+            &:-ms-input-placeholder {
+                /* Internet Explorer 10-11 */
+                color: $main-color;
+            }
+
+            &::-ms-input-placeholder {
+                /* Microsoft Edge */
+                color: $main-color;
+            }
+        }
+
+        .icon {
+            display: block;
+            position: absolute;
+            left: 0;
+            top: 3px;
+            font-size: 20px;
+        }
+
+        span {
+            display: inline;
+            vertical-align: center;
+            color: $main-color;
+            font-weight: 1000;
+        }
+    }
+}

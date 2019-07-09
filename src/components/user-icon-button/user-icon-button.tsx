@@ -7,7 +7,6 @@ class UserIconButton extends Component {
             <Menu>
                 <Menu.Item key="0">Profil</Menu.Item>
                 <Menu.Item key="1">Deconectare</Menu.Item>
-                <Menu.Divider />
             </Menu>
         );
         return (

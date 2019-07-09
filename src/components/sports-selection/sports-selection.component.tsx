@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import './sports-selection.component.scss';
-import { Drawer, Button, List } from 'antd';
+import { Drawer, List } from 'antd';
 
 class SportsSelection extends Component {
     state = { visible: false, childrenDrawer: false };
 
     private sports = ['Alergat', 'Fotbal', 'Tenis', 'Handbal', 'Ping Pong', 'Sah'];
     private levels = ['Incepator', 'Intermediar', 'Avansat'];
+    public selectedSport = '';
+    public inputText = '';
 
     showDrawer = () => {
         this.setState({
@@ -17,27 +19,36 @@ class SportsSelection extends Component {
     onClose = () => {
         this.setState({
             visible: false,
+            textPick: this.selectedSport,
         });
     };
 
-    showChildrenDrawer = () => {
+    showChildrenDrawer(item: string) {
         this.setState({
             childrenDrawer: true,
         });
-    };
+        this.selectedSport = item;
+    }
 
-    onChildrenDrawerClose = () => {
+    onChildrenDrawerClose(item: string) {
         this.setState({
             childrenDrawer: false,
+            visible: false,
         });
-    };
+        this.inputText = this.selectedSport + ' - ' + item;
+    }
 
     public render() {
         return (
             <div className="sports-selection">
-                <div className="open-modal-button" onClick={this.showDrawer}>
-                    Alege un sport
-                </div>
+                <input
+                    className="open-modal-button"
+                    type="text"
+                    onClick={this.showDrawer}
+                    defaultValue={this.inputText}
+                    placeholder="Alege Sportul si nivelul"
+                >
+                </input>
 
                 <Drawer
                     title="Sports"
@@ -53,28 +64,35 @@ class SportsSelection extends Component {
                             <List
                                 dataSource={this.sports}
                                 renderItem={(item: any) => (
-                                    <List.Item onClick={this.showChildrenDrawer}>{item}</List.Item>
+                                    <List.Item
+                                        onClick={() => {
+                                            this.showChildrenDrawer(item);
+                                        }}
+                                    >
+                                        {item}
+                                    </List.Item>
                                 )}
                             />
-                        </div>
-
-                        <div className="page-section sports-drawer-buttons">
-                            <Button onClick={this.onClose} type="primary">
-                                Done
-                            </Button>
                         </div>
                     </div>
                     <Drawer
                         title="Sport Level"
                         width={320}
                         closable={false}
-                        onClose={this.onChildrenDrawerClose}
                         visible={this.state.childrenDrawer}
                         placement="bottom"
                     >
                         <List
                             dataSource={this.levels}
-                            renderItem={(item: any) => <List.Item>{item}</List.Item>}
+                            renderItem={(item: any) => (
+                                <List.Item
+                                    onClick={() => {
+                                        this.onChildrenDrawerClose(item);
+                                    }}
+                                >
+                                    {item}
+                                </List.Item>
+                            )}
                         />
                     </Drawer>
                 </Drawer>
