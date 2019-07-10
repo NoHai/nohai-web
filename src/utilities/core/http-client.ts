@@ -1,5 +1,5 @@
 export default class HttpClient {
-    public async Get(url: string) {
+    public async get(url: string) {
         return await fetch(url, {
             method: 'GET',
             headers: {
@@ -9,7 +9,7 @@ export default class HttpClient {
         });
     }
 
-    public async Post(url: string, data?: any) {
+    public async post(url: string, data?: any) {
         return await fetch(url, {
             method: 'POST',
             headers: {

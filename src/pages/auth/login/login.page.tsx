@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import history from '../../../utilities/core/history';
-import { Button, Row, Col } from 'antd';
 import './login.page.scss';
+import { Link } from 'react-router-dom';
+import { Button, Row, Col } from 'antd';
+import history from '../../../utilities/core/history';
 import FacebookHelper from '../../../helpers/facebook.helper';
+import AuthService from '../../../business/services/auth.service';
 
 declare var FB: any;
 
@@ -37,8 +38,8 @@ class LoginPage extends Component {
                         type="primary"
                         size="large"
                         shape="round"
-                        onClick={() => {
-                            this.NavigateToHome();
+                        onClick={async () => {
+                            await this.doLogin();
                         }}
                     >
                         Autentifica-te
@@ -78,7 +79,7 @@ class LoginPage extends Component {
                         size="large"
                         shape="round"
                         onClick={() => {
-                            this.NavigateToRegister();
+                            this.navigateToRegister();
                         }}
                     >
                         Creeaza-ti un cont
@@ -88,12 +89,19 @@ class LoginPage extends Component {
         );
     }
 
-    private NavigateToRegister() {
-        history.push('/register');
+    public async doLogin() {
+        const isValid = await AuthService.login('', '');
+        if (isValid) {
+            this.navigateHome();
+        }
     }
 
-    private NavigateToHome() {
+    private navigateHome() {
         history.push('/');
+    }
+
+    private navigateToRegister() {
+        history.push('/register');
     }
 
     private fbLogin() {
