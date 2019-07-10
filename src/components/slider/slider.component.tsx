@@ -4,13 +4,12 @@ import { Row, Col } from 'antd';
 import SportsSelection from '../sports-selection/sports-selection.component';
 import { EventFormModel } from '../../contracts/models';
 
-
 class SliderComp extends Component {
-    public eventForm=new EventFormModel();
+    public eventForm = new EventFormModel();
     state = {
         slides: [
             <div className="inline-input-wrapper">
-                <div >
+                <div>
                     <Row>
                         <Col span={6}>
                             <span>Sportul:</span>
@@ -32,14 +31,20 @@ class SliderComp extends Component {
                     </Row>
                 </div>
 
-                <div >
-                <Row>
+                <div>
+                    <Row>
                         <Col span={12}>
-                    <span>Locuri Disponibile:</span>
-                    </Col>
+                            <span>Locuri Disponibile:</span>
+                        </Col>
                         <Col span={12}>
-                    <input type="number" placeholder="Locuri Disponibile" data-lpignore="true" value={this.eventForm.FreeSpots} onChange={this.onChangeHendller} />
-                    </Col>
+                            <input
+                                type="number"
+                                placeholder="Locuri Disponibile"
+                                data-lpignore="true"
+                                value={this.eventForm.FreeSpots}
+                                onChange={this.onChangeHendller}
+                            />
+                        </Col>
                     </Row>
                 </div>
 
@@ -73,15 +78,13 @@ class SliderComp extends Component {
             </div>,
         ],
         currentIndex: 0,
-        sport:"",
-        totalParticipants:0,
-        spotsLeft:0,
-        priceParticipant:0,
+        sport: '',
+        totalParticipants: 0,
+        spotsLeft: 0,
+        priceParticipant: 0,
     };
 
-    onChangeHendller(){
-
-    }
+    onChangeHendller() {}
 
     goToPrevSlide(prevIndex: number) {
         if (this.state.currentIndex === 0) return;
@@ -132,6 +135,5 @@ class SliderComp extends Component {
         );
     }
 }
-
 
 export default SliderComp;
