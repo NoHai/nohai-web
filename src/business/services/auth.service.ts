@@ -1,8 +1,8 @@
-import StorageService from './storage.service';
-import { AuthKey } from '../../contracts/enums/common';
 import { LoginViewModel, RegisterViewModel } from '../../contracts/view-models';
 import { LoginCommand } from '../commands/auth';
 import { RegisterCommand } from '../commands/auth/register.command';
+import TokenProvider from '../../utilities/providers/token.provider';
+import HttpClient from '../../utilities/core/http-client';
 
 class AuthServiceController {
     private static instance: AuthServiceController;
@@ -21,17 +21,12 @@ class AuthServiceController {
         const model = new LoginViewModel(email, password);
         const token = await LoginCommand.execute(model);
 
-        if (token) {
-            this.saveToken(token);
+        if (!!token) {
+            await TokenProvider.saveToken(token);
             return true;
         }
 
         return false;
-    }
-
-    public async isValid() {
-        const token = await this.getToken();
-        return !!token;
     }
 
     public async register(model: RegisterViewModel): Promise<boolean> {
@@ -39,13 +34,8 @@ class AuthServiceController {
         return result;
     }
 
-    private async saveToken(token: string) {
-        await StorageService.set(AuthKey.SessionId, token);
-    }
-
-    private async getToken() {
-        const token = StorageService.get(AuthKey.SessionId);
-        return token;
+    public async isAuthorized(): Promise<boolean> {
+        return await HttpClient.checkToken();
     }
 }
 
