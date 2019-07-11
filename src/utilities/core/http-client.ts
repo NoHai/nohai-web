@@ -1,6 +1,7 @@
 import TokenProvider from '../providers/token.provider';
 import { Token } from '../../contracts/models/auth';
 import { AuthEndpoint } from '../endpoints';
+import { HttpMethod } from '../../contracts/enums/common';
 
 class HttpClientController {
     private static instance: HttpClientController;
@@ -18,34 +19,23 @@ class HttpClientController {
     public async get(url: string, checkToken: boolean = true) {
         checkToken && (await this.checkToken());
         const accessToken = await this.getAccessToken();
+        const result = await this.doFetch(HttpMethod.Get, url, accessToken);
 
-        const result = await fetch(url, {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${accessToken}`,
-            },
-        });
-
-        return await result.json();
+        if (result.ok) {
+            return await result.json();
+        }
     }
 
     public async post(url: string, data?: any, checkToken: boolean = true) {
         checkToken && (await this.checkToken());
         const accessToken = await this.getAccessToken();
+        const result = await this.doFetch(HttpMethod.Post, url, accessToken, data);
 
-        const result = await fetch(url, {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${accessToken}`,
-            },
-            body: JSON.stringify(data),
-        });
+        if (result.ok) {
+            return await result.json();
+        }
 
-        return await result.json();
+        return null;
     }
 
     public async checkToken(): Promise<boolean> {
@@ -61,15 +51,13 @@ class HttpClientController {
     private async refreshToken(token: Token | null): Promise<boolean> {
         if (!!token) {
             try {
-                const data = {
-                    RefreshToken: token.RefreshToken,
-                };
-
+                const data = { RefreshToken: token.RefreshToken };
                 const result = await this.post(AuthEndpoint.Refresh, data, false);
-                const newToken: Token = await result.json();
-                await TokenProvider.saveToken(newToken);
 
-                return true;
+                if (!!result) {
+                    await TokenProvider.saveToken(result);
+                    return true;
+                }
             } catch {
                 return false;
             }
@@ -85,6 +73,25 @@ class HttpClientController {
         }
 
         return '';
+    }
+
+    private async doFetch(
+        method: HttpMethod,
+        url: string,
+        accessToken: string,
+        data: any = null
+    ): Promise<Response> {
+        const body = !!data ? JSON.stringify(data) : null;
+
+        return await fetch(url, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${accessToken}`,
+            },
+            body: body,
+        });
     }
 }
 

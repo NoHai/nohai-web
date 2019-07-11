@@ -24,7 +24,7 @@ class App extends Component<any, any> {
     }
 
     async componentDidMount() {
-        const isAuthorized = true // await AuthService.isAuthorized();
+        const isAuthorized = true //await AuthService.isAuthorized();
 
         this.setState({
             isAuthorized,
