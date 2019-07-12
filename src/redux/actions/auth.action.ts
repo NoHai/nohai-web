@@ -1,8 +1,8 @@
-import { ReduxActionType } from '../../contracts/enums/common/redux-action.type';
 import AuthService from '../../business/services/auth.service';
+import { ReduxAuthActionType } from '../../contracts/enums/actions';
 
 export const checkLoginResult = (model: any) => ({
-    type: ReduxActionType.CheckLoginResult,
+    type: ReduxAuthActionType.CheckLoginResult,
     result: model,
 });
 
