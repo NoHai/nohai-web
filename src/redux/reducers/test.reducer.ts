@@ -1,8 +1,8 @@
-import { ReduxActionType } from '../actions/redux-action.type';
+import { ReduxActionType } from "../../contracts/enums/common/redux-action.type";
 
-const initialState = {};
+const initialTestState = {};
 
-const testReducer = (state: any = initialState, action: ReduxActionType) => {
+const testReducer = (state: any = initialTestState, action: ReduxActionType) => {
     switch (action) {
         case ReduxActionType.Default:
         default:

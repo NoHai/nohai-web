@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Router, Redirect, RouteProps } from 'react-router';
+import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import history from './utilities/core/history';
 import 'antd/dist/antd.css';
@@ -10,30 +11,16 @@ import RegisterPage from './pages/auth/register/register.page';
 import RecoveryPage from './pages/auth/recovery/recovery.page';
 import WrapperPage from './pages/common/wrapper/wrapper.page';
 import IntroPage from './pages/intro/intro.page';
-import AuthService from './business/services/auth.service';
-
-interface PrivateRouteProps extends RouteProps {
-    component: any;
-    isAuthorized: boolean;
-}
+import { checkLogin } from './redux/actions/auth.action';
+import { initialAuthState } from './redux/reducers/auth.reducer';
 
 class App extends Component<any, any> {
-    constructor(props: any) {
-        super(props);
-        this.state = { isLoaded: false, isAuthorized: false };
-    }
-
-    async componentDidMount() {
-        const isAuthorized = true //await AuthService.isAuthorized();
-
-        this.setState({
-            isAuthorized,
-            isLoaded: true,
-        });
+    componentDidMount() {
+        this.checkLogin();
     }
 
     render() {
-        return this.state.isLoaded ? (
+        return this.props.isLoaded ? (
             <Router history={history}>
                 <div className="app">
                     <Switch>
@@ -43,11 +30,11 @@ class App extends Component<any, any> {
                         <PrivateRoute
                             path="/intro"
                             component={IntroPage}
-                            isAuthorized={this.state.isAuthorized}
+                            isAuthorized={this.props.isAuthorized}
                         />
                         <PrivateRoute
                             component={WrapperPage}
-                            isAuthorized={this.state.isAuthorized}
+                            isAuthorized={this.props.isAuthorized}
                         />
                     </Switch>
                 </div>
@@ -56,6 +43,15 @@ class App extends Component<any, any> {
             <div>loading</div>
         );
     }
+
+    private checkLogin() {
+        return this.props.checkLogin();
+    }
+}
+
+interface PrivateRouteProps extends RouteProps {
+    component: any;
+    isAuthorized: boolean;
 }
 
 const PrivateRoute = (props: PrivateRouteProps) => {
@@ -75,4 +71,22 @@ const PrivateRoute = (props: PrivateRouteProps) => {
     );
 };
 
-export default App;
+const mapStateToProps = (state: any) => {
+    if (state.authReducer) {
+        return {
+            isLoaded: state.authReducer.isLoaded,
+            isAuthorized: state.authReducer.isAuthorized,
+        };
+    }
+
+    return initialAuthState;
+};
+
+const mapDispatchToProps = {
+    checkLogin,
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(App);
