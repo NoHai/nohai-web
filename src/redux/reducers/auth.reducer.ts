@@ -1,4 +1,4 @@
-import { ReduxAuthActionType } from "../../contracts/enums/actions";
+import { ReduxAuthActionType } from '../../contracts/enums/actions';
 
 export const initialAuthState = {
     isLoaded: false,
@@ -7,10 +7,12 @@ export const initialAuthState = {
 
 const authReducer = (state: any = initialAuthState, action: any) => {
     switch (action.type) {
-        case ReduxAuthActionType.CheckLogin:
-            return state;
         case ReduxAuthActionType.CheckLoginResult:
+        case ReduxAuthActionType.LoginResult:
+        case ReduxAuthActionType.Logout:
             return action.result;
+        case ReduxAuthActionType.CheckLogin:
+        case ReduxAuthActionType.Login:
         default:
             return state;
     }

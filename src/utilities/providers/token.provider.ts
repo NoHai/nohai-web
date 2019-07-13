@@ -33,7 +33,7 @@ class TokenProviderController {
         return null;
     }
 
-    public async removeTokne() {
+    public async removeToken() {
         StorageProvider.remove(AuthKey.SessionId);
     }
 

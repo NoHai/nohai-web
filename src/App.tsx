@@ -71,16 +71,7 @@ const PrivateRoute = (props: PrivateRouteProps) => {
     );
 };
 
-const mapStateToProps = (state: any) => {
-    if (state.authReducer) {
-        return {
-            isLoaded: state.authReducer.isLoaded,
-            isAuthorized: state.authReducer.isAuthorized,
-        };
-    }
-
-    return initialAuthState;
-};
+const mapStateToProps = ({ authReducer }: any) => authReducer || initialAuthState;
 
 const mapDispatchToProps = {
     checkLogin,

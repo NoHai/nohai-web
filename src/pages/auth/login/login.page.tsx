@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import './login.page.scss';
 import { Link } from 'react-router-dom';
 import { Button, Row, Col } from 'antd';
 import history from '../../../utilities/core/history';
 import FacebookHelper from '../../../helpers/facebook.helper';
-import AuthService from '../../../business/services/auth.service';
+import { initialAuthState } from '../../../redux/reducers/auth.reducer';
+import { login } from './../../../redux/actions/auth.action';
 
 declare var FB: any;
 
-class LoginPage extends Component {
+class LoginPage extends Component<any, any> {
     componentDidMount() {
         FacebookHelper.Init();
     }
+
     public render() {
         return (
             <div className="auth-page">
@@ -90,15 +93,9 @@ class LoginPage extends Component {
     }
 
     public async doLogin() {
-        const isValid = await AuthService.login('', '');
-        if (isValid) {
-            this.navigateHome();
-        }
+        this.props.login('', '');
     }
 
-    private navigateHome() {
-        history.push('/');
-    }
 
     private navigateToRegister() {
         history.push('/register');
@@ -119,7 +116,7 @@ class LoginPage extends Component {
         FB.api(
             '/me',
             { locale: 'en_US', fields: 'id,first_name,last_name,email,link,gender,locale,picture' },
-            (response: any) => {
+            () => {
                 // console.log(process.env.REACT_APP_FACEBOOK_APP_ID);
                 // console.table(response);
             }
@@ -127,4 +124,24 @@ class LoginPage extends Component {
     }
 }
 
-export default LoginPage;
+const mapStateToProps = (state: any) => {
+    if (state.authReducer && state.authReducer.isAuthorized) {
+        history.push('/');
+        
+        return {
+            isLoaded: state.authReducer.isLoaded,
+            isAuthorized: state.authReducer.isAuthorized,
+        };
+    }
+
+    return initialAuthState;
+};
+
+const mapDispatchToProps = {
+    login,
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(LoginPage);
