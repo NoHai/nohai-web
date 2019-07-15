@@ -125,9 +125,7 @@ class LoginPage extends Component<any, any> {
 }
 
 const mapStateToProps = (state: any) => {
-    if (state.authReducer && state.authReducer.isAuthorized) {
-        history.push('/');
-        
+    if (state.authReducer && state.authReducer.isAuthorized) {        
         return {
             isLoaded: state.authReducer.isLoaded,
             isAuthorized: state.authReducer.isAuthorized,

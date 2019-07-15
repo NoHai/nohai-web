@@ -24,9 +24,21 @@ class App extends Component<any, any> {
             <Router history={history}>
                 <div className="app">
                     <Switch>
-                        <Route path="/login" component={LoginPage} />
-                        <Route path="/register" component={RegisterPage} />
-                        <Route path="/recover" component={RecoveryPage} />
+                        <AuthorizationRoute
+                            path="/login"
+                            component={LoginPage}
+                            isAuthorized={this.props.isAuthorized}
+                        />
+                        <AuthorizationRoute
+                            path="/register"
+                            component={RegisterPage}
+                            isAuthorized={this.props.isAuthorized}
+                        />
+                        <AuthorizationRoute
+                            path="/recover"
+                            component={RecoveryPage}
+                            isAuthorized={this.props.isAuthorized}
+                        />
                         <PrivateRoute
                             path="/intro"
                             component={IntroPage}
@@ -66,6 +78,19 @@ const PrivateRoute = (props: PrivateRouteProps) => {
                 ) : (
                     <Redirect to={{ pathname: '/login' }} />
                 )
+            }
+        />
+    );
+};
+
+const AuthorizationRoute = (props: PrivateRouteProps) => {
+    const { component: Component, isAuthorized, ...rest } = props;
+
+    return (
+        <Route
+            {...rest}
+            render={routeProps =>
+                !isAuthorized ? <Component {...routeProps} /> : <Redirect to={{ pathname: '/' }} />
             }
         />
     );
