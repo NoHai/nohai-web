@@ -1,9 +1,22 @@
 import { IUserRepository } from '../../contracts/repositories/user-repository.interface';
 import { UserModel, ResultModel } from '../../contracts/models';
+import gql from 'graphql-tag';
+import GraphqlClient from '../request/graphql-client';
 
 class UserRepositoryController implements IUserRepository {
-    public Get(id: any): Promise<UserModel> {
-        throw new Error('Method not implemented.');
+    public async Get(id: any): Promise<UserModel> {
+        const query = gql`
+            {
+                users(id: ${id}) {
+                    id,
+                    firstName,
+                    lastName
+                }
+            }
+        `;
+
+        const results: any = await GraphqlClient.query(query);
+        return results.users;
     }
 
     public Create(data: UserModel): Promise<UserModel> {
