@@ -12,7 +12,7 @@ export const checkLogin = () => {
         AuthService.isAuthorized().then(isAuthorized => {
             const result = {
                 isLoaded: true,
-                isAuthorized: true,
+                isAuthorized: isAuthorized,
             };
             dispatch(checkLoginResult(result));
             return result;
@@ -29,7 +29,7 @@ export const login = (username: string, password: string) => {
         AuthService.login(username, password).then(isAuthorized => {
             const result = {
                 isLoaded: true,
-                isAuthorized: true,
+                isAuthorized: isAuthorized,
             };
             dispatch(loginResult(result));
             return result;
