@@ -9,7 +9,7 @@
         "eject": "react-scripts eject"
     },
     "dependencies": {
-        "antd": "3.20.1",
+        "antd": "3.20.2",
         "class-validator": "^0.9.1",
         "localforage": "^1.7.3",
         "node-sass": "4.12.0",
