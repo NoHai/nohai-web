@@ -27,9 +27,10 @@ class ParticipantsEventCompnoent extends Component<any, any> {
     public render() {
         return (
             <div className="participants-form">
-                 <div className="slide-title">Detalii participantii
-                 <div className="mdi mdi-account-group"></div>
-                 </div>
+                <div className="slide-title">
+                    <div className="mdi mdi-account-group" />
+                    Detalii participantii
+                </div>
                 <div>
                     <Row>
                         <Col span={12}>

@@ -29,19 +29,19 @@ class SliderComp extends Component<any, any> {
         switch (this.props.currentSlide) {
             case SlidesEventEnum.ParticipantDetails:
                 return (
-                    <div className="inline-input-wrapper">                      
+                    <div className="inline-input-wrapper">
                         <ParticipantsEventCompoent />
                     </div>
                 );
             case SlidesEventEnum.LocationDetails:
                 return (
-                    <div className="inline-input-wrapper"> 
+                    <div className="inline-input-wrapper">
                         <LocationComponent />
                     </div>
                 );
             case SlidesEventEnum.Description:
                 return (
-                    <div className="inline-input-wrapper"> 
+                    <div className="inline-input-wrapper">
                         <DescriptionEventComponent />
                     </div>
                 );
@@ -59,37 +59,51 @@ class SliderComp extends Component<any, any> {
                 this.props.changeCreateEventSlide(prevIndex + 1);
             }
         }
-       
     }
 
     public render() {
         return (
-            <div className="slider-component page-sections">               
-                <div className="page-section page-section-large">
-                    <div> {this.getSlides()}</div>
-                </div>
-
-                <div className="page-section page-section slider-buttons">
-                    <Row>
-                        <Col span={12}>
-                            <div
-                                className="arrow-button mdi mdi-arrow-left-bold-circle-outline"
-                                onClick={() => {
-                                    this.goToPrevSlide(this.props.currentSlide);
-                                }}
-                            />
-                        </Col>
-                        <Col span={12} className="text-right">
-                            <div
-                                className="arrow-button mdi mdi-arrow-right-bold-circle-outline"
-                                onClick={() => {
-                                    this.goToNextSlide(this.props.currentSlide);
-                                }}
-                            />
-                        </Col>
-                    </Row>
+            <div className="event-list-item full-height">
+                <div className="page-sections">
+                    <div className="page-section">
+                        <div className="slide-title">
+                            Detalii participantii
+                            <div className="icon mdi mdi-account-group" />
+                        </div>
+                    </div>
+                    <div className="page-section page-section-large">
+                        <div className="item-card event-card">a</div>
+                    </div>
+                    <div className="page-section">b</div>
                 </div>
             </div>
+
+            // <div className="slider-component page-sections">
+            //     <div className="page-section page-section-large">
+            //         <div> {this.getSlides()}</div>
+            //     </div>
+
+            //     <div className="page-section page-section slider-buttons">
+            //         <Row>
+            //             <Col span={12}>
+            //                 <div
+            //                     className="arrow-button mdi mdi-arrow-left-bold-circle-outline"
+            //                     onClick={() => {
+            //                         this.goToPrevSlide(this.props.currentSlide);
+            //                     }}
+            //                 />
+            //             </Col>
+            //             <Col span={12} className="text-right">
+            //                 <div
+            //                     className="arrow-button mdi mdi-arrow-right-bold-circle-outline"
+            //                     onClick={() => {
+            //                         this.goToNextSlide(this.props.currentSlide);
+            //                     }}
+            //                 />
+            //             </Col>
+            //         </Row>
+            //     </div>
+            // </div>
         );
     }
 }
