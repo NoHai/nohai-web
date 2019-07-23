@@ -40,9 +40,8 @@ class SportsSelection extends Component {
 
     public render() {
         return (
-            <div className="sports-selection">
+            <div >
                 <input
-                    className="open-modal-button"
                     type="text"
                     onClick={this.showDrawer}
                     defaultValue={this.inputText}

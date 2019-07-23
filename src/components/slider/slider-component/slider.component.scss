@@ -1,5 +1,5 @@
-@import './../../globals/styles/variables';
-@import './../../globals/styles/functions';
+@import './../../../globals/styles/variables';
+@import './../../../globals/styles/functions';
 
 .slider-component {
     .slider-buttons {
@@ -28,19 +28,51 @@
     .inline-input-wrapper {
         position: relative;
         margin-bottom: 5px;
-        display: inline-block;
-        padding-left: 32px;
+        padding-left: 10px;
 
         input {
-            display: inline-block;
-            background: transparent;
+            display: block;
+            background-image: linear-gradient(#fdfdfc, #f1f8ff);
             border: 0;
+            width: 100%;
+            max-width: 80%;
             padding: 5px 0px;
-            border-bottom: 1px solid $login-input-border-color;
+            border: 1px solid $login-input-border-color;
             font-size: 14px;
             font-weight: 500;
-            color: $green-color;
-            
+            margin-bottom: 10px;
+            text-align: center;
+            border-radius: 10px;
+
+            &::placeholder {
+                /* Chrome, Firefox, Opera, Safari 10.1+ */
+                color: $main-color;
+                opacity: 1; /* Firefox */
+            }
+
+            &:-ms-input-placeholder {
+                /* Internet Explorer 10-11 */
+                color: $main-color;
+            }
+
+            &::-ms-input-placeholder {
+                /* Microsoft Edge */
+                color: $main-color;
+            }
+        }
+
+        textarea {
+            border: 0;
+            border: 1px solid $login-input-border-color;
+            width: 100%;
+            max-width: 80%;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 10px;
+            display: block;
+            padding: 15px 15px;
+            background-image: linear-gradient(#fdfdfc, #f1f8ff);
+            @include user-select-none();
 
             &::placeholder {
                 /* Chrome, Firefox, Opera, Safari 10.1+ */
@@ -70,7 +102,6 @@
         span {
             display: inline;
             vertical-align: center;
-            color: $main-color;
             font-weight: 1000;
         }
     }

@@ -1,0 +1,1 @@
+export { SlidesEventEnum } from './slides-event.type';

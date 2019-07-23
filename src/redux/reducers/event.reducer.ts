@@ -4,6 +4,7 @@ import { EventDetailsViewModel } from '../../contracts/models';
 export const initialCreateEventState = {
     currentSlide: 0,
     eventDetails: new EventDetailsViewModel(),
+    canSlide:false,
 };
 
 const eventReducer = (state: any = initialCreateEventState, action: any) => {

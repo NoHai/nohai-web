@@ -1,23 +1,15 @@
 import { ReduxCommonActionType } from "../../contracts/enums/actions";
 
 export const changeCreateEventSlide = (slideIndex: number) => {
-    const result = {
-        currentSlide: slideIndex,
-    }
-
     return {
         type: ReduxCommonActionType.CreateEventState,
-        result,
+        result:slideIndex,
     };
 };
 
-export const changeEventDetails = (model: any) => {
-    const result = {
-        eventDetails: model,
-    }
-
+export const changeEventDetails = (eventDetails: any) => {
     return {
         type: ReduxCommonActionType.ChangeEventDetails,
-        result,
+        result: eventDetails,
     };
 };

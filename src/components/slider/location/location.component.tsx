@@ -1,24 +1,35 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'antd';
 import { connect } from 'react-redux';
-import { changeEventDetails } from './../../../redux/actions/event.action'; 
+import { changeEventDetails } from './../../../redux/actions/event.action';
+import { EventDetailsViewModel } from '../../../contracts/models';
+import { validate } from 'class-validator';
+import { registerSchema } from 'class-validator';
+import { LocationDetailsSchema } from './../../../contracts/schemas/location-details.schema';
+registerSchema(LocationDetailsSchema);
 
-class LocationComponent extends Component<any,any> {
-
-
-    handleChange(event: any) {
+class LocationComponent extends Component<any, any> {
+    public eventDetails = new EventDetailsViewModel();
+    async handleChange(event: any) {
+        const eventDetails = JSON.parse(JSON.stringify(this.props.eventDetails));
         const { name, value } = event.target;
-        let locationDetail: any = this.props.eventDetails.locationDetail;
+        eventDetails.locationDetails[name] = value;
+        eventDetails.locationDetails.IsValid = await this.chekIfIsValid(eventDetails);
+        this.props.changeEventDetails(eventDetails);
+    }
 
-        locationDetail[name] = value;
-        this.props.eventDetails.locationDetail=locationDetail
-        changeEventDetails(this.props.eventDetails)
+    async chekIfIsValid(model: EventDetailsViewModel) {
+        let error = await validate('locationDetailsSchema', model.locationDetails);
+        return error.length === 0;
     }
 
     public render() {
         return (
             <div>
-                <span>Alege locatia evenimentului</span>
+                <div className="slide-title">
+                    Detalii locatie
+                    <div className="mdi mdi-map-marker-plus" />
+                </div>
                 <div>
                     <Row>
                         <Col span={12}>
@@ -29,8 +40,8 @@ class LocationComponent extends Component<any,any> {
                                 type="text"
                                 placeholder="Judet"
                                 data-lpignore="true"
-                                name="District"
-                                value={this.props.eventDetails.locationDetail.District}
+                                name="County"
+                                value={this.props.eventDetails.locationDetails.County}
                                 onChange={e => this.handleChange(e)}
                             />
                         </Col>
@@ -47,7 +58,7 @@ class LocationComponent extends Component<any,any> {
                                 placeholder="Oras"
                                 data-lpignore="true"
                                 name="City"
-                                value={this.props.eventDetails.locationDetail.City}
+                                value={this.props.eventDetails.locationDetails.City}
                                 onChange={e => this.handleChange(e)}
                             />
                         </Col>
@@ -64,7 +75,7 @@ class LocationComponent extends Component<any,any> {
                                 placeholder="Adresa"
                                 data-lpignore="true"
                                 name="Address"
-                                value={this.props.eventDetails.locationDetail.Address}
+                                value={this.props.eventDetails.locationDetails.Address}
                                 onChange={e => this.handleChange(e)}
                             />
                         </Col>
