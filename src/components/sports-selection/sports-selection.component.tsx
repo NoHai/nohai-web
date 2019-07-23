@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './sports-selection.component.scss';
-import { Drawer, List } from 'antd';
+import { Drawer, List, Button } from 'antd';
 
 class SportsSelection extends Component {
     state = { visible: false, childrenDrawer: false };
@@ -8,7 +8,7 @@ class SportsSelection extends Component {
     private sports = ['Alergat', 'Fotbal', 'Tenis', 'Handbal', 'Ping Pong', 'Sah'];
     private levels = ['Incepator', 'Intermediar', 'Avansat'];
     public selectedSport = '';
-    public inputText = '';
+    public inputText = 'Alege Sportul si nivelul';
 
     showDrawer = () => {
         this.setState({
@@ -40,14 +40,10 @@ class SportsSelection extends Component {
 
     public render() {
         return (
-            <div >
-                <input
-                    type="text"
-                    onClick={this.showDrawer}
-                    defaultValue={this.inputText}
-                    placeholder="Alege Sportul si nivelul"
-                >
-                </input>
+            <div>
+                <Button className="full-width" type="dashed" size={'large'} onClick={this.showDrawer}>
+                    {this.inputText}
+                </Button>
 
                 <Drawer
                     title="Sports"

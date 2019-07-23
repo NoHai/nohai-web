@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col } from 'antd';
+import { Input } from 'antd';
 import './participants-event.component.scss';
 import SportsSelection from '../../sports-selection/sports-selection.component';
 import { connect } from 'react-redux';
@@ -26,79 +26,39 @@ class ParticipantsEventCompnoent extends Component<any, any> {
 
     public render() {
         return (
-            <div className="participants-form">
-                <div className="slide-title">
-                    <div className="mdi mdi-account-group" />
-                    Detalii participantii
-                </div>
-                <div>
-                    <Row>
-                        <Col span={12}>
-                            <span>Sportul:</span>
-                        </Col>
-                        <Col span={12}>
-                            <SportsSelection />
-                        </Col>
-                    </Row>
-                </div>
-
-                <div>
-                    <Row>
-                        <Col span={12}>
-                            <span>Total Locuri:</span>
-                        </Col>
-                        <Col span={12}>
-                            <input
-                                type="number"
-                                placeholder="Total Locuri"
-                                data-lpignore="true"
-                                name="TotalParticipants"
-                                value={
-                                    this.props.eventDetails.participantsDetails.TotalParticipants
-                                }
-                                onChange={e => this.handleChange(e)}
-                            />
-                        </Col>
-                    </Row>
-                </div>
-
-                <div>
-                    <Row>
-                        <Col span={12}>
-                            <span>Locuri Disponibile:</span>
-                        </Col>
-                        <Col span={12}>
-                            <input
-                                type="number"
-                                placeholder="Locuri Disponibile"
-                                data-lpignore="true"
-                                name="FreeSpots"
-                                value={this.props.eventDetails.participantsDetails.FreeSpots}
-                                onChange={e => this.handleChange(e)}
-                            />
-                        </Col>
-                    </Row>
-                </div>
-
-                <div>
-                    <Row>
-                        <Col span={12}>
-                            <span>Pret Participant:</span>
-                        </Col>
-                        <Col span={12}>
-                            <input
-                                type="number"
-                                placeholder="Pret Participant"
-                                data-lpignore="true"
-                                name="PriceForParticipant"
-                                value={
-                                    this.props.eventDetails.participantsDetails.PriceForParticipant
-                                }
-                                onChange={e => this.handleChange(e)}
-                            />
-                        </Col>
-                    </Row>
-                </div>
+            <div>
+                <label>Sportul si nivelul</label>
+                <SportsSelection />
+                <label>Numar locuri</label>
+                <Input className="padding-bottom"
+                    size="large"
+                    type="number"
+                    placeholder="Total Locuri"
+                    data-lpignore="true"
+                    name="TotalParticipants"
+                    value={this.props.eventDetails.participantsDetails.TotalParticipants}
+                    onChange={e => this.handleChange(e)}
+                />
+                <label>Locuri disponibile</label>
+                <Input className="padding-bottom"
+                    size="large"
+                    type="number"
+                    placeholder="Locuri Disponibile"
+                    data-lpignore="true"
+                    name="FreeSpots"
+                    value={this.props.eventDetails.participantsDetails.FreeSpots}
+                    onChange={e => this.handleChange(e)}
+                />
+                <label>Pret participant</label>
+                <Input className="padding-bottom"
+                    size="large"
+                    type="number"
+                    placeholder="Pret Participant"
+                    data-lpignore="true"
+                    name="PriceForParticipant"
+                    value={this.props.eventDetails.participantsDetails.PriceForParticipant}
+                    onChange={e => this.handleChange(e)}
+                />
             </div>
         );
     }

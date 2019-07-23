@@ -5,6 +5,7 @@ import { validate } from 'class-validator';
 import { EventDetailsViewModel } from '../../../contracts/models';
 import { registerSchema } from 'class-validator';
 import { Description } from './../../../contracts/schemas/description.schema';
+import TextArea from 'antd/lib/input/TextArea';
 registerSchema(Description);
 
 class DescriptionEventComponent extends Component<any, any> {
@@ -24,10 +25,8 @@ class DescriptionEventComponent extends Component<any, any> {
     public render() {
         return (
             <div>
-                <div className="slide-title">Descriere</div>
-                <textarea
-                    rows={7}
-                    cols={40}
+                <TextArea
+                    rows={5}
                     data-lpignore="true"
                     placeholder="Adauga o descriere a evenimentului"
                     value={this.props.eventDetails.description.Description}
