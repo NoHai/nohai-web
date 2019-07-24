@@ -19,6 +19,7 @@ class WrapperPage extends Component {
                     <Switch>
                         <Route exact path="/" component={SearchEventsPage} />
                         <Route path="/details" component={EventDetailsPage} />
+                        <Route path="/preview" component={EventDetailsPage} />
                         <Route path="/notification" component={NotificationPage} />
                         <Route path="/create-event" component={CreateEventPage} />
                         <Route component={PageNotFound} />

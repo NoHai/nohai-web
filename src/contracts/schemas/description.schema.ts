@@ -6,5 +6,13 @@ export let Description: ValidationSchema = { // using interface here is not requ
             type: "minLength",
             constraints: [15]
         },],
+        Date: [{
+            type: "minLength",
+            constraints: [6]
+        },],
+        Time: [{
+            type: "minLength",
+            constraints: [4]
+        },],
     }
 };

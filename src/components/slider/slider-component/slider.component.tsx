@@ -7,8 +7,8 @@ import SlideesTitleComponent from '../slides-title/slides-title.component';
 import { connect } from 'react-redux';
 import { changeCreateEventSlide } from '../../../redux/actions/event.action';
 import { SlidesEventEnum } from '../../../contracts/enums/events';
-import {} from '../description/description.component';
-import { Row, Col, Icon, Button } from 'antd';
+import history from '../../../utilities/core/history';
+import { Row, Col, Button, Icon } from 'antd';
 
 class SliderComp extends Component<any, any> {
     public getSlides() {
@@ -62,6 +62,22 @@ class SliderComp extends Component<any, any> {
         }
     }
 
+    CheckForms() {
+        if (
+            this.props.eventDetails.locationDetails.IsValid &&
+            this.props.eventDetails.participantsDetails.IsValid &&
+            this.props.eventDetails.description.IsValid &&
+            this.props.currentSlide === 2
+        ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    goToDetails() {
+        history.push('/preview')
+    }
+
     public render() {
         return (
             <div className="slider-component event-list-item full-height">
@@ -97,6 +113,16 @@ class SliderComp extends Component<any, any> {
                                     >
                                         Inainte
                                         <Icon type="right" />
+                                    </Button>
+                                )}
+                                {this.CheckForms() && (
+                                    <Button
+                                        type="primary"
+                                        onClick={() => {
+                                            this.goToDetails();
+                                        }}
+                                    >
+                                        Vizualizeaza
                                     </Button>
                                 )}
                             </Col>

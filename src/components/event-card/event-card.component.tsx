@@ -4,8 +4,30 @@ import { Row, Col, Button, Avatar } from 'antd';
 import EventTags from '../event-tags/event-tags.component';
 import EventMembers from '../event-members/event-members.component';
 import EventMap from '../event-map/event-map.component';
+import { connect } from 'react-redux';
+import { EventDetailsViewModel } from '../../contracts/models';
 
-class EventCard extends Component {
+class EventCard extends Component<any, any> {
+    public isForPreview = false;
+
+    constructor(props: any) {
+        super(props);
+
+        this.state = {
+            eventDetails: new EventDetailsViewModel(),
+        };
+    }
+
+    private IntializateState() {
+        if (this.props.eventDetails.locationDetails) {
+            this.setState({
+                eventDetails: this.props.eventDetails,
+            });
+        }
+    }
+    componentDidMount() {
+        this.IntializateState();
+    }
     render() {
         return (
             <div className="item-card event-card">
@@ -19,17 +41,23 @@ class EventCard extends Component {
                         <div className="item-card-options">
                             <div className="item-card-option">
                                 <span className="icon mdi mdi-alarm" />
-                                10/12/2019, 18:30
+                                {this.state.eventDetails.description.Date},{' '}
+                                {this.state.eventDetails.description.Time}
                             </div>
                             <div className="item-card-option">
                                 <span className="icon mdi mdi-map-marker" />
-                                General Eremia Grigorescu, no.7, Sibiu
+                                {this.state.eventDetails.locationDetails.Address}{' '}
+                                {this.state.eventDetails.locationDetails.City}
                             </div>
                         </div>
                     </Col>
                 </Row>
 
-                <EventTags />
+                <EventTags
+                    Sport="Alergat"
+                    Level="Avansat"
+                    Price={this.props.eventDetails.participantsDetails.PriceForParticipant}
+                />
 
                 <Row type="flex" align="middle">
                     <Col span={12}>
@@ -45,13 +73,7 @@ class EventCard extends Component {
 
                 <hr />
 
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione deleniti enim
-                    dolorem eum, animi impedit provident dolorum reprehenderit id qui, earum, eaque
-                    quo expedita dolore! Vitae voluptas sed, laborum est libero iste repellat
-                    tenetur quis quaerat deserunt fugiat, culpa ipsam perspiciatis quia quam tempora
-                    quidem itaque voluptate aut delectus doloribus?
-                </p>
+                <p>{this.props.eventDetails.description.Description}</p>
 
                 <div className="text-right margin-bottom">
                     <Avatar size={24} src="https://randomuser.me/api/portraits/women/44.jpg" />
@@ -66,4 +88,12 @@ class EventCard extends Component {
     }
 }
 
-export default EventCard;
+const mapStateToProps = ({ eventReducer }: any) => {
+    if (window.location.pathname === '/preview') {
+        return {
+            eventDetails: eventReducer.eventDetails,
+        };
+    } else return null;
+};
+
+export default connect(mapStateToProps)(EventCard);
