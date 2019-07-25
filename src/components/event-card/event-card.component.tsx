@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { EventDetailsViewModel } from '../../contracts/models';
 
 class EventCard extends Component<any, any> {
-    public isForPreview = false;
+    private isForPreview = false;
 
     constructor(props: any) {
         super(props);
@@ -16,10 +16,11 @@ class EventCard extends Component<any, any> {
         this.state = {
             eventDetails: new EventDetailsViewModel(),
         };
+        this.isForPreview = window.location.pathname === '/preview';
     }
 
     private IntializateState() {
-        if (this.props.eventDetails.locationDetails) {
+        if (this.isForPreview) {
             this.setState({
                 eventDetails: this.props.eventDetails,
             });
@@ -54,31 +55,35 @@ class EventCard extends Component<any, any> {
                 </Row>
 
                 <EventTags
-                    Sport="Alergat"
-                    Level="Avansat"
+                    Sport={this.props.eventDetails.participantsDetails.Sport}
+                    Level={this.props.eventDetails.participantsDetails.Level}
                     Price={this.props.eventDetails.participantsDetails.PriceForParticipant}
                 />
 
-                <Row type="flex" align="middle">
-                    <Col span={12}>
-                        <EventMembers />
-                    </Col>
-                    <Col span={12} className="text-right">
-                        <Button type="primary" size="large" block className="join-button">
-                            <span className="icon mdi mdi-hand" />
-                            Vreau si eu
-                        </Button>
-                    </Col>
-                </Row>
+                {!this.isForPreview && (
+                    <Row type="flex" align="middle">
+                        <Col span={12}>
+                            <EventMembers />
+                        </Col>
+                        <Col span={12} className="text-right">
+                            <Button type="primary" size="large" block className="join-button">
+                                <span className="icon mdi mdi-hand" />
+                                Vreau si eu
+                            </Button>
+                        </Col>
+                    </Row>
+                )}
 
                 <hr />
 
                 <p>{this.props.eventDetails.description.Description}</p>
 
-                <div className="text-right margin-bottom">
-                    <Avatar size={24} src="https://randomuser.me/api/portraits/women/44.jpg" />
-                    Andreea Stanchi
-                </div>
+                {!this.isForPreview && (
+                    <div className="text-right margin-bottom">
+                        <Avatar size={24} src="https://randomuser.me/api/portraits/women/44.jpg" />
+                        Andreea Stanchi
+                    </div>
+                )}
 
                 <div className="sub-title">Unde ne intalnim?</div>
 

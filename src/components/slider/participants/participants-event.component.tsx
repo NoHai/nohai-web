@@ -19,6 +19,14 @@ class ParticipantsEventCompnoent extends Component<any, any> {
         this.props.changeEventDetails(eventDetails);
     }
 
+    async onCloseDrawer(sport: string, level: string) {
+        let eventDetails = JSON.parse(JSON.stringify(this.props.eventDetails));
+        eventDetails.participantsDetails.Sport = sport;
+        eventDetails.participantsDetails.Level = level;
+        eventDetails.participantsDetails.IsValid = await this.chekIfIsValid(eventDetails);
+        this.props.changeEventDetails(eventDetails);
+    }
+
     async chekIfIsValid(model: EventDetailsViewModel) {
         let error = await validate('participantsDetailsSchema', model.participantsDetails);
         return error.length === 0;
@@ -28,9 +36,12 @@ class ParticipantsEventCompnoent extends Component<any, any> {
         return (
             <div>
                 <label>Sportul si nivelul</label>
-                <SportsSelection />
+                <SportsSelection sport={this.props.eventDetails.participantsDetails.Sport} level={this.props.eventDetails.participantsDetails.Level}
+                    onCloseDrawer={(sport, level) => this.onCloseDrawer(sport, level)}
+                />
                 <label>Numar locuri</label>
-                <Input className="padding-bottom"
+                <Input
+                    className="padding-bottom"
                     size="large"
                     type="number"
                     placeholder="Total Locuri"
@@ -40,7 +51,8 @@ class ParticipantsEventCompnoent extends Component<any, any> {
                     onChange={e => this.handleChange(e)}
                 />
                 <label>Locuri disponibile</label>
-                <Input className="padding-bottom"
+                <Input
+                    className="padding-bottom"
                     size="large"
                     type="number"
                     placeholder="Locuri Disponibile"
@@ -50,7 +62,8 @@ class ParticipantsEventCompnoent extends Component<any, any> {
                     onChange={e => this.handleChange(e)}
                 />
                 <label>Pret participant</label>
-                <Input className="padding-bottom"
+                <Input
+                    className="padding-bottom"
                     size="large"
                     type="number"
                     placeholder="Pret Participant"

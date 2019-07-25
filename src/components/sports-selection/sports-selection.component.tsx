@@ -1,14 +1,22 @@
 import React, { Component } from 'react';
 import './sports-selection.component.scss';
 import { Drawer, List, Button } from 'antd';
+import { SportSelectionProps } from './sports-selection.component.props';
 
-class SportsSelection extends Component {
-    state = { visible: false, childrenDrawer: false };
+class SportsSelection extends Component<SportSelectionProps> {
+    state = { visible: false, childrenDrawer: false, displayText: 'Alege Sportul si nivelul' };
 
     private sports = ['Alergat', 'Fotbal', 'Tenis', 'Handbal', 'Ping Pong', 'Sah'];
     private levels = ['Incepator', 'Intermediar', 'Avansat'];
     public selectedSport = '';
-    public inputText = 'Alege Sportul si nivelul';
+
+    componentDidMount() {
+        if (this.props.sport !== '' && this.props.sport !== '') {
+            this.setState({
+                displayText: this.props.sport + ' - ' + this.props.level,
+            });
+        }
+    }
 
     showDrawer = () => {
         this.setState({
@@ -23,26 +31,40 @@ class SportsSelection extends Component {
         });
     };
 
-    showChildrenDrawer(item: string) {
+    onCloseChildren = () => {
+        this.setState({
+            childrenDrawer: false,
+        });
+    };
+
+    showChildrenDrawer(sport: string) {
         this.setState({
             childrenDrawer: true,
         });
-        this.selectedSport = item;
+        this.selectedSport = sport;
     }
 
-    onChildrenDrawerClose(item: string) {
+    onChildrenDrawerClose(level: string) {
         this.setState({
             childrenDrawer: false,
             visible: false,
+            displayText: this.selectedSport + ' - ' + level,
         });
-        this.inputText = this.selectedSport + ' - ' + item;
+        if (this.props.onCloseDrawer) {
+            this.props.onCloseDrawer(this.selectedSport, level);
+        }
     }
 
     public render() {
         return (
             <div>
-                <Button className="full-width" type="dashed" size={'large'} onClick={this.showDrawer}>
-                    {this.inputText}
+                <Button
+                    className="full-width"
+                    type="dashed"
+                    size={'large'}
+                    onClick={this.showDrawer}
+                >
+                    {this.state.displayText}
                 </Button>
 
                 <Drawer
@@ -75,6 +97,7 @@ class SportsSelection extends Component {
                         width={320}
                         closable={false}
                         visible={this.state.childrenDrawer}
+                        onClose={this.onCloseChildren}
                         placement="bottom"
                     >
                         <List

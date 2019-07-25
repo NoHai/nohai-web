@@ -1,7 +1,15 @@
-import {ValidationSchema} from "class-validator";
+import { ValidationSchema } from "class-validator";
 export let ParticipantsDetailsSchema: ValidationSchema = { // using interface here is not required, its just for type-safety
     name: "participantsDetailsSchema",
     properties: {
+        Sport: [{
+            type: "minLength",
+            constraints: [3]
+        }],
+        Level: [{
+            type: "minLength",
+            constraints: [3]
+        }],
         TotalParticipants: [{
             type: "isInt",
         }, {

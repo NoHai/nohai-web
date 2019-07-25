@@ -16,7 +16,7 @@ class IntroSport extends Component {
                             Pe baza sporturilor selectate iti vom genera timeline-ul
                         </p>
 
-                        <SportsSelection />
+                        <SportsSelection sport={""} level={""}/>
                     </div>
 
                     <div className="page-section page-section-footer">

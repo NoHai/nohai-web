@@ -1,18 +1,20 @@
-import {ValidationSchema} from "class-validator";
+import { ValidationSchema } from "class-validator";
 export let Description: ValidationSchema = { // using interface here is not required, its just for type-safety
     name: "description",
     properties: {
-        Description: [{
-            type: "minLength",
-            constraints: [15]
-        },],
         Date: [{
+            type: "maxLength",
+            constraints: [10]
+        }, {
             type: "minLength",
-            constraints: [6]
+            constraints: [10]
         },],
         Time: [{
+            type: "maxLength",
+            constraints: [5]
+        }, {
             type: "minLength",
-            constraints: [4]
-        },],
+            constraints: [5]
+        }],
     }
 };
