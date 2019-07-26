@@ -41,17 +41,20 @@ class DescriptionEventComponent extends Component<any, any> {
     public render() {
         return (
             <div>
-                <div className="full-width">
-                    <DatePicker
-                        onChange={(date, dateString) => this.onDateChange(date, dateString)}
-                        placeholder={this.props.eventDetails.description.Date}
-                    />
-                    <TimePicker
-                        format={format}
-                        onChange={(time, timeString) => this.onTimeChange(time, timeString)}
-                        placeholder={this.props.eventDetails.description.Time}
-                    />
-                </div>
+                <label>Data Evenimentului</label>
+                <DatePicker
+                    onChange={(date, dateString) => this.onDateChange(date, dateString)}
+                    placeholder={this.props.eventDetails.description.Date}
+                    size="large"
+                />
+                <label>Ora Evenimentului</label>
+                <TimePicker
+                    format={format}
+                    onChange={(time, timeString) => this.onTimeChange(time, timeString)}
+                    placeholder={this.props.eventDetails.description.Time}
+                    size="large"
+                />
+                <label>Descrierea Evenimentului</label>
                 <TextArea
                     rows={5}
                     data-lpignore="true"

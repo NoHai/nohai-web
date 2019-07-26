@@ -22,8 +22,28 @@
     .display-inline {
         display: inline;
     }
+    .ant-calendar-picker{
+        width: 100%;
+    }
+    .ant-time-picker{
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .ant-calendar-picker-icon{
+        top: 35%;
+    }
+
+    label{
+        margin-bottom: 4px;
+        display: block;
+        font-size: 13px;
+        font-weight: 500;
+    }
+
+    .ant-input{
+        margin-bottom: 15px;
+    }
 }
 
-.padding-bottom {
-    margin-bottom: 15px;
-}
+

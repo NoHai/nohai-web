@@ -27,7 +27,7 @@ class EventItemCard extends Component {
                     </Col>
                     <Col span={10} className="text-center">
                         <span className="icon mdi mdi-alarm" />
-                        <span className="text">10/12/2019, 13:30</span>
+                        <span className="text">10/12/19, 13:30</span>
                     </Col>
                     <Col span={6} className="text-right">
                         <span className="icon mdi mdi-account-group" />

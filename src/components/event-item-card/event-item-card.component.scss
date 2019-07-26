@@ -55,3 +55,15 @@
         }
     }
 }
+
+@media (max-width: 320px) {
+    .item-card {
+        .item-card-icons {
+            font-size: 12px;
+            .icon {
+                font-size: 16px;
+            }
+        }
+    }
+}
+
