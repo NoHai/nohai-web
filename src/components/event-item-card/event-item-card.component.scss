@@ -56,8 +56,12 @@
     }
 }
 
-@media (max-width: 320px) {
+@media (max-width: 360px) {
     .item-card {
+        .item-card-picture {
+            width: 39px;
+            height: 46px;
+        }
         .item-card-icons {
             font-size: 12px;
             .icon {

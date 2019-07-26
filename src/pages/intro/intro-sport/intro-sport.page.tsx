@@ -2,8 +2,17 @@ import React, { Component } from 'react';
 import history from '../../../utilities/core/history';
 import { Row, Col, Button } from 'antd';
 import SportsSelection from '../../../components/sports-selection/sports-selection.component';
+import { connect } from 'react-redux';
+import { changeRegisterDetails } from '../../../redux/actions/register.action';
 
-class IntroSport extends Component {
+class IntroSport extends Component<any, any> {
+    async onCloseDrawer(sport: string, level: string) {
+        let registerDetails = JSON.parse(JSON.stringify(this.props.registerDetails));
+        registerDetails.details.Sport = sport;
+        registerDetails.details.Level = level;
+        this.props.changeRegisterDetails(registerDetails);
+    }
+
     render() {
         return (
             <div className="intro-step-page">
@@ -16,7 +25,11 @@ class IntroSport extends Component {
                             Pe baza sporturilor selectate iti vom genera timeline-ul
                         </p>
 
-                        <SportsSelection sport={""} level={""}/>
+                        <SportsSelection
+                            sport={this.props.registerDetails.details.Sport}
+                            level={this.props.registerDetails.details.Level}
+                            onCloseDrawer={(sport, level) => this.onCloseDrawer(sport, level)}
+                        />
                     </div>
 
                     <div className="page-section page-section-footer">
@@ -59,4 +72,17 @@ class IntroSport extends Component {
     }
 }
 
-export default IntroSport;
+const mapStateToProps = ({ registerReducer }: any) => {
+    return {
+        registerDetails: registerReducer.registerDetails,
+    };
+};
+
+const mapDispatchToProps = {
+    changeRegisterDetails,
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(IntroSport);

@@ -47,7 +47,7 @@ class ParticipantsEventCompnoent extends Component<any, any> {
                     placeholder="Total Locuri"
                     data-lpignore="true"
                     name="TotalParticipants"
-                    value={this.props.eventDetails.participantsDetails.TotalParticipants}
+                    value={this.props.eventDetails.participantsDetails.TotalParticipants|| ''}
                     onChange={e => this.handleChange(e)}
                 />
                 <label>Locuri disponibile</label>
@@ -58,7 +58,7 @@ class ParticipantsEventCompnoent extends Component<any, any> {
                     placeholder="Locuri Disponibile"
                     data-lpignore="true"
                     name="FreeSpots"
-                    value={this.props.eventDetails.participantsDetails.FreeSpots}
+                    value={this.props.eventDetails.participantsDetails.FreeSpots|| ''}
                     onChange={e => this.handleChange(e)}
                 />
                 <label>Pret participant</label>
@@ -69,7 +69,7 @@ class ParticipantsEventCompnoent extends Component<any, any> {
                     placeholder="Pret Participant"
                     data-lpignore="true"
                     name="PriceForParticipant"
-                    value={this.props.eventDetails.participantsDetails.PriceForParticipant}
+                    value={this.props.eventDetails.participantsDetails.PriceForParticipant|| ''}
                     onChange={e => this.handleChange(e)}
                 />
             </div>

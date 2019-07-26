@@ -32,7 +32,7 @@ class NotificationPage extends Component {
         var notifications = [notification, notification1];
 
         return (
-            <div>
+            <div className="notification-page">
                 {notifications.map(notification => (
                     <div
                         key={notification.Id}

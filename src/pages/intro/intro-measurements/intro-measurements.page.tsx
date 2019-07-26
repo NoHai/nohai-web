@@ -1,8 +1,17 @@
 import React, { Component } from 'react';
 import { Input, Button, Row, Col } from 'antd';
 import history from '../../../utilities/core/history';
+import { connect } from 'react-redux';
+import { changeRegisterDetails } from '../../../redux/actions/register.action';
 
-class IntroMeasurements extends Component {
+class IntroMeasurements extends Component<any, any> {
+    async handleChange(event: any) {
+        let registerDetails = JSON.parse(JSON.stringify(this.props.registerDetails));
+        const { name, value } = event.target;
+        registerDetails.details[name] = value;
+        this.props.changeRegisterDetails(registerDetails);
+    }
+
     render() {
         return (
             <div className="intro-step-page">
@@ -19,18 +28,26 @@ class IntroMeasurements extends Component {
                             <div className="form-group">
                                 <label>Greutate</label>
                                 <Input
+                                    type="number"
                                     size="large"
                                     addonAfter="kg"
                                     placeholder="Greutatea ta in kilograme"
+                                    name="Width"
+                                    value={this.props.registerDetails.details.Width || ''}
+                                    onChange={e => this.handleChange(e)}
                                 />
                             </div>
 
                             <div className="form-group">
                                 <label>Inaltime</label>
                                 <Input
+                                    type="number"
                                     size="large"
                                     addonAfter="cm"
                                     placeholder="Inaltime ta in centimetri"
+                                    name="Height"
+                                    value={this.props.registerDetails.details.Height || ''}
+                                    onChange={e => this.handleChange(e)}
                                 />
                             </div>
                         </div>
@@ -76,4 +93,17 @@ class IntroMeasurements extends Component {
     }
 }
 
-export default IntroMeasurements;
+const mapStateToProps = ({ registerReducer }: any) => {
+    return {
+        registerDetails: registerReducer.registerDetails,
+    };
+};
+
+const mapDispatchToProps = {
+    changeRegisterDetails,
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(IntroMeasurements);

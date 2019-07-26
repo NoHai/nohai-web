@@ -1,75 +1,26 @@
 @import './../../globals/styles/variables';
 @import './../../globals/styles/functions';
-.avatar {
-    background-color: #ddd;
-    background-position: center;
-    background-size: cover;
-    @include border-radius(50%);
-    display: inline-block;
-    width: 28px;
-    height: 28px;
-    margin-top: 5px;
-    cursor: pointer;
-    @include user-select-none();
-}
 
-.item-card {
-    padding: 15px;
-    background-color: $white-color;
-    box-shadow: #f1f8ff;
-    @include box-shadow(rgba(237, 237, 237, 1));
-    @include border-radius(5px);
-
-    .item-card-picture {
-        display: block;
-        width: 52px;
-        height: 68px;
-        background-image: url('/assets/run.svg');
-        background-repeat: no-repeat;
+.notification-page {
+    .ant-btn {
+        padding: 0 0;
+    }
+    .avatar {
+        background-color: #ddd;
         background-position: center;
-        background-size: contain;
+        background-size: cover;
+        @include border-radius(50%);
+        display: inline-block;
+        width: 28px;
+        height: 28px;
+        margin-top: 5px;
+        cursor: pointer;
+        @include user-select-none();
     }
 
-    .item-card-title {
-        font-size: 16px;
-        font-weight: 500;
-    }
-
-    p {
-        font-size: 14px;
-        font-weight: 300;
-        margin-bottom: 15px;
-    }
-
-    .item-card-icons {
-        position: relative;
-        display: block;
-        font-size: 14px;
-        font-weight: 400;
-
-        .icon {
-            position: relative;
-            display: inline-block;
-            color: $main-color;
-            margin-right: 4px;
-            font-size: 18px;
-
-            &:before {
-                position: absolute;
-                top: -19px;
-                left: 0;
-            }
+    .link {
+        &.red-color {
+            color: red;
         }
-
-        .text {
-            padding-left: 18px;
-            display: inline-block;
-        }
-    }
-}
-
-.link{
-    &.red-color{
-        color:red;
     }
 }

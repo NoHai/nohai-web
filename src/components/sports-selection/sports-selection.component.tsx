@@ -11,7 +11,7 @@ class SportsSelection extends Component<SportSelectionProps> {
     public selectedSport = '';
 
     componentDidMount() {
-        if (this.props.sport !== '' && this.props.sport !== '') {
+        if (this.props.sport && this.props.sport) {
             this.setState({
                 displayText: this.props.sport + ' - ' + this.props.level,
             });
@@ -64,7 +64,7 @@ class SportsSelection extends Component<SportSelectionProps> {
                     size={'large'}
                     onClick={this.showDrawer}
                 >
-                    {this.state.displayText}
+                    {this.state.displayText || ''}
                 </Button>
 
                 <Drawer

@@ -2,8 +2,17 @@ import React, { Component } from 'react';
 import history from '../../../utilities/core/history';
 import { Button } from 'antd';
 import './register.page.scss';
+import { connect } from 'react-redux';
+import { changeRegisterDetails } from '../../../redux/actions/register.action';
 
-class RegisterPage extends Component {
+class RegisterPage extends Component<any, any> {
+    async handleChange(event: any) {
+        let registerDetails = JSON.parse(JSON.stringify(this.props.registerDetails));
+        const { name, value } = event.target;
+        registerDetails.user[name] = value;
+        this.props.changeRegisterDetails(registerDetails);
+    }
+
     public render() {
         return (
             <div className="auth-page">
@@ -15,12 +24,26 @@ class RegisterPage extends Component {
                     <div className="auth-page-form-group">
                         <div className="inline-input-wrapper">
                             <span className="icon mdi mdi-email-outline" />
-                            <input type="text" placeholder="Adresa de email" data-lpignore="true" />
+                            <input
+                                type="text"
+                                placeholder="Adresa de email"
+                                data-lpignore="true"
+                                name="Email"
+                                value={this.props.registerDetails.user.Email || ''}
+                                onChange={e => this.handleChange(e)}
+                            />
                         </div>
 
                         <div className="inline-input-wrapper">
                             <span className="icon mdi mdi-key" />
-                            <input type="password" placeholder="Parola" data-lpignore="true" />
+                            <input
+                                type="password"
+                                placeholder="Parola"
+                                data-lpignore="true"
+                                name="Password"
+                                value={this.props.registerDetails.user.Password || ''}
+                                onChange={e => this.handleChange(e)}
+                            />
                         </div>
 
                         <div className="inline-input-wrapper">
@@ -74,4 +97,17 @@ class RegisterPage extends Component {
     }
 }
 
-export default RegisterPage;
+const mapStateToProps = ({ registerReducer }: any) => {
+    return {
+        registerDetails: registerReducer.registerDetails,
+    };
+};
+
+const mapDispatchToProps = {
+    changeRegisterDetails,
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(RegisterPage);

@@ -2,48 +2,35 @@ import React, { Component } from 'react';
 import { Button, Input, Row, Col, Select } from 'antd';
 import history from '../../../utilities/core/history';
 import DateHelper from '../../../helpers/date.helper';
+import { connect } from 'react-redux';
+import { changeRegisterDetails } from '../../../redux/actions/register.action';
 
-class IntroPersonPage extends Component {
-    state = {
-        firstName: '',
-        lastName: '',
-        day: 26,
-        month: 1,
-        year: 1989,
+class IntroPersonPage extends Component<any, any> {
+    async handleChange(event: any) {
+        let registerDetails = JSON.parse(JSON.stringify(this.props.registerDetails));
+        const { name, value } = event.target;
+        registerDetails.user[name] = value;
+        this.props.changeRegisterDetails(registerDetails);
+    }
+    handleDayChange = (value: any) => {
+        let registerDetails = JSON.parse(JSON.stringify(this.props.registerDetails));
+        registerDetails.details.Day = value;
+        this.props.changeRegisterDetails(registerDetails);
     };
 
-    onFirstNameChange = (value: any) => {
-        this.setState({
-            firstName: value,
-        });
+    handleMonthChange = (value: any) => {
+        let registerDetails = JSON.parse(JSON.stringify(this.props.registerDetails));
+        registerDetails.details.Month = value;
+        this.props.changeRegisterDetails(registerDetails);
     };
 
-    onLastNameChange = (value: any) => {
-        this.setState({
-            lastName: value,
-        });
-    };
-
-    onDayChange = (value: any) => {
-        this.setState({
-            day: value,
-        });
-    };
-
-    onMonthChange = (value: any) => {
-        this.setState({
-            month: value,
-        });
-    };
-
-    onYearChange = (value: any) => {
-        this.setState({
-            year: value,
-        });
+    handleYearChange = (value: any) => {
+        let registerDetails = JSON.parse(JSON.stringify(this.props.registerDetails));
+        registerDetails.details.Year = value;
+        this.props.changeRegisterDetails(registerDetails);
     };
 
     render() {
-        const { firstName, lastName, day, month, year } = this.state;
         const months = this.GetMonths();
         const years = this.GetYears();
         const days = this.GetDays();
@@ -65,9 +52,10 @@ class IntroPersonPage extends Component {
                                 <label>Prenume</label>
                                 <Input
                                     size="large"
-                                    defaultValue={firstName}
                                     placeholder="Prenumele tau"
-                                    onChange={this.onFirstNameChange}
+                                    name="FirstName"
+                                    value={this.props.registerDetails.user.FirstName || ''}
+                                    onChange={e => this.handleChange(e)}
                                 />
                             </div>
 
@@ -75,9 +63,10 @@ class IntroPersonPage extends Component {
                                 <label>Nume</label>
                                 <Input
                                     size="large"
-                                    defaultValue={lastName}
                                     placeholder="Numele tau"
-                                    onChange={this.onLastNameChange}
+                                    name="LastName"
+                                    value={this.props.registerDetails.user.LastName || ''}
+                                    onChange={e => this.handleChange(e)}
                                 />
                             </div>
 
@@ -88,9 +77,9 @@ class IntroPersonPage extends Component {
                                     <Col span={7}>
                                         <Select
                                             size="large"
-                                            defaultValue={day}
                                             style={{ width: '100%' }}
-                                            onChange={this.onDayChange}
+                                            value={this.props.registerDetails.details.Day || ''}
+                                            onChange={(e: any) => this.handleDayChange(e)}
                                         >
                                             {days}
                                         </Select>
@@ -99,9 +88,9 @@ class IntroPersonPage extends Component {
                                     <Col span={10}>
                                         <Select
                                             size="large"
-                                            defaultValue={month}
                                             style={{ width: '100%' }}
-                                            onChange={this.onMonthChange}
+                                            value={this.props.registerDetails.details.Month || ''}
+                                            onChange={(e: any) => this.handleMonthChange(e)}
                                         >
                                             {months}
                                         </Select>
@@ -110,9 +99,9 @@ class IntroPersonPage extends Component {
                                     <Col span={7}>
                                         <Select
                                             size="large"
-                                            defaultValue={year}
                                             style={{ width: '100%' }}
-                                            onChange={this.onYearChange}
+                                            value={this.props.registerDetails.details.Year || ''}
+                                            onChange={(e: any) => this.handleYearChange(e)}
                                         >
                                             {years}
                                         </Select>
@@ -149,7 +138,11 @@ class IntroPersonPage extends Component {
         const months = DateHelper.GetMonths();
 
         for (let i = 0; i < months.length; i++) {
-            options.push(<Option key={i} value={i + 1}>{months[i]}</Option>);
+            options.push(
+                <Option key={i} value={i + 1}>
+                    {months[i]}
+                </Option>
+            );
         }
 
         return options;
@@ -163,7 +156,11 @@ class IntroPersonPage extends Component {
         const endYear = new Date().getFullYear() - 17;
 
         for (let i = startYear; i <= endYear; i++) {
-            options.push(<Option key={i} value={i}>{i}</Option>);
+            options.push(
+                <Option key={i} value={i}>
+                    {i}
+                </Option>
+            );
         }
 
         return options;
@@ -177,11 +174,28 @@ class IntroPersonPage extends Component {
         const endDay = 31;
 
         for (let i = startDay; i <= endDay; i++) {
-            options.push(<Option key={i} value={i}>{i}</Option>);
+            options.push(
+                <Option key={i} value={i}>
+                    {i}
+                </Option>
+            );
         }
 
         return options;
     }
 }
 
-export default IntroPersonPage;
+const mapStateToProps = ({ registerReducer }: any) => {
+    return {
+        registerDetails: registerReducer.registerDetails,
+    };
+};
+
+const mapDispatchToProps = {
+    changeRegisterDetails,
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(IntroPersonPage);

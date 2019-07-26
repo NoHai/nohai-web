@@ -44,14 +44,14 @@ class DescriptionEventComponent extends Component<any, any> {
                 <label>Data Evenimentului</label>
                 <DatePicker
                     onChange={(date, dateString) => this.onDateChange(date, dateString)}
-                    placeholder={this.props.eventDetails.description.Date}
+                    placeholder={this.props.eventDetails.description.Date || ''}
                     size="large"
                 />
                 <label>Ora Evenimentului</label>
                 <TimePicker
                     format={format}
                     onChange={(time, timeString) => this.onTimeChange(time, timeString)}
-                    placeholder={this.props.eventDetails.description.Time}
+                    placeholder={this.props.eventDetails.description.Time || ''}
                     size="large"
                 />
                 <label>Descrierea Evenimentului</label>
@@ -59,7 +59,7 @@ class DescriptionEventComponent extends Component<any, any> {
                     rows={5}
                     data-lpignore="true"
                     placeholder="Adauga o descriere a evenimentului"
-                    value={this.props.eventDetails.description.Description}
+                    value={this.props.eventDetails.description.Description || ''}
                     onChange={e => this.handleChange(e)}
                 />
             </div>

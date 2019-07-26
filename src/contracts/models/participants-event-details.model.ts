@@ -1,8 +1,8 @@
 export class ParticipantsEventDetailsModel {
-    Sport:string='';
-    Level:string='';
-    TotalParticipants: number=0;
-    FreeSpots: number=0;
-    PriceForParticipant: number=0;
+    Sport!:string;
+    Level!:string;
+    TotalParticipants!: number;
+    FreeSpots!: number;
+    PriceForParticipant!: number;
     IsValid: boolean = false;
 }
