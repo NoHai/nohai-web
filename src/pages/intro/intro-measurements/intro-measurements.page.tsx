@@ -67,14 +67,17 @@ class IntroMeasurements extends Component<any, any> {
                                     </Button>
                                 </Col>
                                 <Col span={12} className="text-right">
-                                    <Button
-                                        type="primary"
-                                        onClick={() => {
-                                            this.GoForward();
-                                        }}
-                                    >
-                                        Urmatorul pas
-                                    </Button>
+                                    {this.props.registerDetails.details.Width &&
+                                        this.props.registerDetails.details.Height && (
+                                            <Button
+                                                type="primary"
+                                                onClick={() => {
+                                                    this.GoForward();
+                                                }}
+                                            >
+                                                Urmatorul pas
+                                            </Button>
+                                        )}
                                 </Col>
                             </Row>
                         </div>

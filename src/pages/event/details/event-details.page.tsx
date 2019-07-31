@@ -7,7 +7,7 @@ class EventDetailsPage extends Component {
     render() {
         return (
             <div className="event-list-item">
-                <EventCard eventDetails={new EventDetailsViewModel} />
+                <EventCard eventDetails={new EventDetailsViewModel()} />
             </div>
         );
     }

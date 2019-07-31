@@ -1,5 +1,8 @@
 @import './../login/login.page';
 
+.errors{
+    color:$error-color;
+}
 .back-button {
     position: relative;
     display: block;

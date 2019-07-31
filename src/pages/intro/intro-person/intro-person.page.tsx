@@ -113,18 +113,30 @@ class IntroPersonPage extends Component<any, any> {
 
                     <div className="page-section page-section-footer">
                         <div className="intro-footer text-right">
-                            <Button
-                                type="primary"
-                                onClick={() => {
-                                    this.GoForward();
-                                }}
-                            >
-                                Urmatorul pas
-                            </Button>
+                            {this.checkForm() && (
+                                <Button
+                                    type="primary"
+                                    onClick={() => {
+                                        this.GoForward();
+                                    }}
+                                >
+                                    Urmatorul pas
+                                </Button>
+                            )}
                         </div>
                     </div>
                 </div>
             </div>
+        );
+    }
+
+    checkForm() {
+        return (
+            this.props.registerDetails.user.FirstName &&
+            this.props.registerDetails.user.LastName &&
+            this.props.registerDetails.details.Day &&
+            this.props.registerDetails.details.Month &&
+            this.props.registerDetails.details.Year
         );
     }
 

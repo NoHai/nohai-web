@@ -46,14 +46,16 @@ class IntroSport extends Component<any, any> {
                                     </Button>
                                 </Col>
                                 <Col span={12} className="text-right">
-                                    <Button
-                                        type="primary"
-                                        onClick={() => {
-                                            this.GoForward();
-                                        }}
-                                    >
-                                        Finish
-                                    </Button>
+                                    {this.props.registerDetails.details.Level && (
+                                        <Button
+                                            type="primary"
+                                            onClick={() => {
+                                                this.GoForward();
+                                            }}
+                                        >
+                                            Finish
+                                        </Button>
+                                    )}
                                 </Col>
                             </Row>
                         </div>
