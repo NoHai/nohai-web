@@ -29,7 +29,7 @@ class AuthServiceController {
         return false;
     }
 
-    public async register(model: RegisterViewModel): Promise<boolean> {
+    public async register(model: RegisterViewModel): Promise<string> {
         const result = await RegisterCommand.execute(model);
         return result;
     }

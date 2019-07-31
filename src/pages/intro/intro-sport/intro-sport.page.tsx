@@ -4,6 +4,7 @@ import { Row, Col, Button } from 'antd';
 import SportsSelection from '../../../components/sports-selection/sports-selection.component';
 import { connect } from 'react-redux';
 import { changeRegisterDetails } from '../../../redux/actions/register.action';
+import { UserService } from '../../../business/services/user.service';
 
 class IntroSport extends Component<any, any> {
     async onCloseDrawer(sport: string, level: string) {
@@ -65,8 +66,11 @@ class IntroSport extends Component<any, any> {
         );
     }
 
-    private GoForward() {
-        history.push('/');
+    private async GoForward() {
+        const result = await UserService.Update(this.props.registerDetails)
+        if(result.Id){
+            history.push('/');
+        }
     }
 
     private GoBack() {

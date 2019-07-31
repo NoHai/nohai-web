@@ -24,7 +24,7 @@ class EventCard extends Component<any, any> {
             this.setState({
                 eventDetails: this.props.eventDetails,
             });
-        }
+        }else{}
     }
     componentDidMount() {
         this.IntializateState();

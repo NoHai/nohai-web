@@ -2,6 +2,7 @@ import { IUserRepository } from '../../contracts/repositories/user-repository.in
 import { UserModel, ResultModel } from '../../contracts/models';
 import gql from 'graphql-tag';
 import GraphqlClient from '../request/graphql-client';
+import { UserViewModel } from '../../contracts/models/user-view.model';
 
 class UserRepositoryController implements IUserRepository {
     public async Get(id: any): Promise<UserModel> {
@@ -23,8 +24,26 @@ class UserRepositoryController implements IUserRepository {
         throw new Error('Method not implemented.');
     }
 
-    public Update(data: UserModel): Promise<UserModel> {
-        throw new Error('Method not implemented.');
+    public async Update(userDetails: UserViewModel): Promise<UserModel> {
+        let input: any =  { details: 
+            {
+                id: userDetails.user.Id,
+                firstName: userDetails.user.FirstName,
+                lastName: userDetails.user.LastName,
+                dateOfBirth: userDetails.details.Day + "/" + userDetails.details.Month + "/" + userDetails.details.Year,
+                height: +userDetails.details.Height,
+                weight: +userDetails.details.Weight
+            }
+        };
+
+        const updateMutation = gql`
+            mutation userUpdateMutation($details: UpdateUserInput!) {
+                updateUser(input: $details) {
+                    id
+            }}`;
+
+        const result: UserModel = await GraphqlClient.mutate(updateMutation, input);
+        return result;
     }
 
     public Delete(data: any): Promise<ResultModel<boolean>> {

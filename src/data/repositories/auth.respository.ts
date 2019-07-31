@@ -1,19 +1,46 @@
 import { RegisterViewModel, LoginViewModel } from '../../contracts/view-models';
 import { Token } from '../../contracts/models/auth';
+import { gql } from 'apollo-boost';
+import GraphqlClient from '../request/graphql-client';
 
 class AuthRepositoryController {
     public async login(model: LoginViewModel): Promise<Token> {
-        // TODO: HTTP call
-        const token = new Token();
-        token.AccessToken = 'access_token';
-        token.RefreshToken = 'refresh_token';
-        token.ExpireIn = 3600;
-        token.ExpireDate = new Date(2019, 6, 12);
-        return token;
+        let input: any = {
+            credentials:
+            {
+                login: model.Email,
+                password: model.Password
+            }
+        };
+
+        const authMutation = gql`
+            mutation authMutation($credentials: CredentialsInput!) {
+                auth(input: $credentials) {
+                    accessToken,
+                    refreshToken,
+            }}`;
+
+        const authToken: Token = await GraphqlClient.mutate(authMutation, input);
+        return authToken;
     }
 
-    public async register(register: RegisterViewModel): Promise<boolean> {
-        return false;
+    public async register(register: RegisterViewModel): Promise<string> {
+        let input: any = {
+            credentials:
+            {
+                login: register.Email,
+                password: register.Password
+            }
+        };
+
+        const registerMutation = gql`
+            mutation registerMutation($credentials: CredentialsInput!) {
+                createUser(input: $credentials) {
+                    id
+            }}`;
+
+        const result: any = await GraphqlClient.mutate(registerMutation, input);
+        return result.createUser.id;
     }
 }
 

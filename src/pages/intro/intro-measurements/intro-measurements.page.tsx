@@ -32,8 +32,8 @@ class IntroMeasurements extends Component<any, any> {
                                     size="large"
                                     addonAfter="kg"
                                     placeholder="Greutatea ta in kilograme"
-                                    name="Width"
-                                    value={this.props.registerDetails.details.Width || ''}
+                                    name="Weight"
+                                    value={this.props.registerDetails.details.Weight || ''}
                                     onChange={e => this.handleChange(e)}
                                 />
                             </div>
@@ -67,7 +67,7 @@ class IntroMeasurements extends Component<any, any> {
                                     </Button>
                                 </Col>
                                 <Col span={12} className="text-right">
-                                    {this.props.registerDetails.details.Width &&
+                                    {this.props.registerDetails.details.Weight &&
                                         this.props.registerDetails.details.Height && (
                                             <Button
                                                 type="primary"

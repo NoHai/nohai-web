@@ -6,7 +6,7 @@ class GraphqlClientController {
 
     private constructor() {
         this.client = new ApolloClient({
-            uri: 'https://48p1r2roz4.sse.codesandbox.io',
+            uri: 'http://localhost:5000/graphql/'
         });
     }
 
@@ -21,6 +21,16 @@ class GraphqlClientController {
     public async query<T>(query: any) {
         const response: any = await this.client.query({
             query: query,
+        });
+
+        const result: T = response.data;
+        return result;
+    }
+
+    public async mutate<T>(mutation: any, variables: any){
+        const response: any = await this.client.mutate({
+            variables,
+            mutation
         });
 
         const result: T = response.data;

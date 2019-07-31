@@ -7,10 +7,18 @@ import history from '../../../utilities/core/history';
 import FacebookHelper from '../../../helpers/facebook.helper';
 import { initialAuthState } from '../../../redux/reducers/auth.reducer';
 import { login } from './../../../redux/actions/auth.action';
+import AuthService from '../../../business/services/auth.service';
 
 declare var FB: any;
 
 class LoginPage extends Component<any, any> {
+    state = { email: '', password: '' }
+
+    async handleChange(event: any) {
+        const { name, value } = event.target;
+        this.setState({ [name]: value })
+    }
+
     componentDidMount() {
         FacebookHelper.Init();
     }
@@ -26,12 +34,12 @@ class LoginPage extends Component<any, any> {
                     <div className="auth-page-form-group">
                         <div className="inline-input-wrapper">
                             <span className="icon mdi mdi-email-outline" />
-                            <input type="text" placeholder="Adresa de email" data-lpignore="true" />
+                            <input name="email" value={this.state.email} type="text" placeholder="Adresa de email" data-lpignore="true" onChange={e => this.handleChange(e)} />
                         </div>
 
                         <div className="inline-input-wrapper">
                             <span className="icon mdi mdi-key" />
-                            <input type="password" placeholder="Parola" data-lpignore="true" />
+                            <input name="password" value={this.state.password} type="password" placeholder="Parola" data-lpignore="true" onChange={e => this.handleChange(e)} />
                         </div>
                     </div>
 
@@ -93,7 +101,8 @@ class LoginPage extends Component<any, any> {
     }
 
     public async doLogin() {
-        this.props.login('', '');
+        //this.props.login('', '');
+        await AuthService.login(this.state.email, this.state.password)
     }
 
 
@@ -125,7 +134,7 @@ class LoginPage extends Component<any, any> {
 }
 
 const mapStateToProps = (state: any) => {
-    if (state.authReducer && state.authReducer.isAuthorized) {        
+    if (state.authReducer && state.authReducer.isAuthorized) {
         return {
             isLoaded: state.authReducer.isLoaded,
             isAuthorized: state.authReducer.isAuthorized,

@@ -5,6 +5,7 @@ import './register.page.scss';
 import { connect } from 'react-redux';
 import { changeRegisterDetails } from '../../../redux/actions/register.action';
 import { FormValidators } from '../../../contracts/validators/forms-validators';
+import AuthService from '../../../business/services/auth.service';
 
 class RegisterPage extends Component<any, any> {
     state = {
@@ -135,7 +136,11 @@ class RegisterPage extends Component<any, any> {
             };
             error();
         }else{
-            history.push('/login');
+           const id =  await AuthService.register(this.props.registerDetails.user)
+           let registerDetails = JSON.parse(JSON.stringify(this.props.registerDetails));
+           registerDetails.user.Id = id;
+           await this.props.changeRegisterDetails(registerDetails);
+           history.push('/intro');
         }
     }
 
