@@ -1,9 +1,9 @@
 import { ICommand } from '../command.interface';
-import { EventModel } from '../../../contracts/models';
+import { EventDetailsViewModel } from '../../../contracts/models';
 import { EventRepository } from '../../../data/repositories/event.respository';
 
-class GetEventCommandController implements ICommand<any, Promise<EventModel>> {
-    public async execute(id: any): Promise<EventModel> {
+class GetEventCommandController implements ICommand<any, Promise<EventDetailsViewModel>> {
+    public async execute(id: any): Promise<EventDetailsViewModel> {
         return await EventRepository.Get(id);
     }
 }

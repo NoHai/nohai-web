@@ -1,6 +1,6 @@
 import { IEventService } from '../../contracts/services/event-service.interface';
 import { FindEventRequest } from '../../contracts/requests/find-event.request';
-import { ListModel, EventModel, ResultModel } from '../../contracts/models';
+import { ListModel, ResultModel, EventDetailsViewModel } from '../../contracts/models';
 import {
     FindEventCommand,
     GetEventCommand,
@@ -10,19 +10,20 @@ import {
 } from '../commands/event';
 
 class EventServiceController implements IEventService {
-    public async Find(request: FindEventRequest): Promise<ListModel<EventModel>> {
+    public async Find(request: FindEventRequest): Promise<ListModel<EventDetailsViewModel>> {
         return await FindEventCommand.execute(request);
     }
 
-    public async Get(id: any): Promise<EventModel> {
+    public async Get(id: any): Promise<EventDetailsViewModel> {
         return await GetEventCommand.execute(id);
     }
 
-    public async Create(event: EventModel): Promise<EventModel> {
-        return await CreateEventCommand.execute(event);
+    public async Create(model: EventDetailsViewModel): Promise<EventDetailsViewModel> {
+        const result = await CreateEventCommand.execute(model);
+        return result;
     }
 
-    public async Update(event: EventModel): Promise<EventModel> {
+    public async Update(event: EventDetailsViewModel): Promise<EventDetailsViewModel> {
         return await UpdateEventCommand.execute(event);
     }
 
