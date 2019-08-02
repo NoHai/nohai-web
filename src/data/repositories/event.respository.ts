@@ -1,4 +1,4 @@
-import { EventModel, ResultModel, ListModel, EventDetailsViewModel } from '../../contracts/models';
+import { ResultModel, ListModel, EventDetailsViewModel } from '../../contracts/models';
 import { IEventRepository } from '../../contracts/repositories/event-repository.interface';
 import { FindEventRequest } from '../../contracts/requests/find-event.request';
 import GraphqlClient from '../request/graphql-client';
@@ -10,9 +10,12 @@ class EventRepositoryController implements IEventRepository {
     }
 
     public async Get(id: any): Promise<EventDetailsViewModel> {
+        let input:any={
+            id:id
+        }
         const query = gql`
         {
-            event(id: ${id}) {
+            eventById(id: ${input}) {
                 title,
                 description
             }
@@ -27,14 +30,16 @@ class EventRepositoryController implements IEventRepository {
         let input: any = {
             event:
             {
-                owner: eventDetails.event.Name,
+                owner: "eventDetails.event.Name",
+                title: "title",
                 description: eventDetails.description.Description,
                 location: eventDetails.locationDetails.Address + ', ' + eventDetails.locationDetails.City,
-                sport: eventDetails.participantsDetails.Sport + ', ' + eventDetails.participantsDetails.Level,
+                sport: eventDetails.participantsDetails.Sport + '   - ' + eventDetails.participantsDetails.Level,
                 participantsNumber: eventDetails.participantsDetails.FreeSpots,
                 cost: eventDetails.participantsDetails.PriceForParticipant,
                 date: eventDetails.description.Date,
                 hour: eventDetails.description.Time,
+                duration: eventDetails.description.Duration,
             }
         };
 
@@ -45,7 +50,7 @@ class EventRepositoryController implements IEventRepository {
             }}`;
 
         const result: any = await GraphqlClient.mutate(crateEventMutation, input);
-        return result.createUser.id;
+        return result.createEvent.id;
     }
 
     public Update(data: EventDetailsViewModel): Promise<EventDetailsViewModel> {

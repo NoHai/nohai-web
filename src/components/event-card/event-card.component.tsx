@@ -6,6 +6,8 @@ import EventMembers from '../event-members/event-members.component';
 import EventMap from '../event-map/event-map.component';
 import { connect } from 'react-redux';
 import { EventDetailsViewModel } from '../../contracts/models';
+import { EventService } from '../../business/services';
+import history from '../../utilities/core/history';
 
 class EventCard extends Component<any, any> {
     private isForPreview = false;
@@ -19,12 +21,17 @@ class EventCard extends Component<any, any> {
         this.isForPreview = window.location.pathname === '/preview';
     }
 
-    private IntializateState() {
+    private async IntializateState() {
         if (this.isForPreview) {
             this.setState({
                 eventDetails: this.props.eventDetails,
             });
-        }else{}
+        } else {
+            const eventDetails = await EventService.Get("21e461a7-9073-430e-b00b-9abd6e0cafd6");
+            this.setState({
+                eventDetails: eventDetails,
+            });
+        }
     }
     componentDidMount() {
         this.IntializateState();
@@ -88,17 +95,33 @@ class EventCard extends Component<any, any> {
                 <div className="sub-title">Unde ne intalnim?</div>
 
                 <EventMap />
+
+                {!this.isForPreview && (
+                    <div>
+                        <Button
+                            type="primary"
+                            onClick={() => {
+                                this.createEvent();
+                            }}
+                        >
+                            Vizualizeaza
+                        </Button>
+                    </div>
+                )}
             </div>
         );
+    }
+    private async createEvent() {
+        const id = await EventService.Create(this.props.eventDetails);
+        alert(id);
+        history.push('/');
     }
 }
 
 const mapStateToProps = ({ eventReducer }: any) => {
-    if (window.location.pathname === '/preview') {
-        return {
-            eventDetails: eventReducer.eventDetails,
-        };
-    } else return null;
+    return {
+        eventDetails: eventReducer.eventDetails,
+    };
 };
 
 export default connect(mapStateToProps)(EventCard);

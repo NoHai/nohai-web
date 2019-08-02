@@ -1,5 +1,5 @@
 import { ICommand } from '../command.interface';
-import { EventModel, EventDetailsViewModel } from '../../../contracts/models';
+import { EventDetailsViewModel } from '../../../contracts/models';
 import { EventRepository } from '../../../data/repositories/event.respository';
 
 class UpdateEventCommandController implements ICommand<EventDetailsViewModel, Promise<EventDetailsViewModel>> {

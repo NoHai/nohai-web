@@ -6,7 +6,7 @@ import { EventDetailsViewModel } from '../../../contracts/models';
 import { registerSchema } from 'class-validator';
 import { Description } from './../../../contracts/schemas/description.schema';
 import TextArea from 'antd/lib/input/TextArea';
-import { DatePicker, TimePicker } from 'antd';
+import { DatePicker, TimePicker, Input } from 'antd';
 registerSchema(Description);
 
 const format = 'HH:mm';
@@ -14,8 +14,10 @@ const format = 'HH:mm';
 class DescriptionEventComponent extends Component<any, any> {
     async handleChange(event: any) {
         let eventDetails = JSON.parse(JSON.stringify(this.props.eventDetails));
-        const { value } = event.target;
-        eventDetails.description.Description = value;
+        const { name, value } = event.target;
+        name === 'Duration'
+            ? (eventDetails.description[name] = parseInt(value, 10))
+            : (eventDetails.description[name] = value);
         eventDetails.description.IsValid = await this.chekIfIsValid(eventDetails);
         this.props.changeEventDetails(eventDetails);
     }
@@ -54,10 +56,26 @@ class DescriptionEventComponent extends Component<any, any> {
                     placeholder={this.props.eventDetails.description.Time || ''}
                     size="large"
                 />
+
+                <label>Durata Evenimentului</label>
+                <span className="position-relative">
+                    <Input
+                        className="padding-bottom"
+                        size="large"
+                        type="number"
+                        placeholder="Durata"
+                        data-lpignore="true"
+                        name="Duration"
+                        value={this.props.eventDetails.description.Duration}
+                        onChange={e => this.handleChange(e)}
+                    />
+                    <span className="constant-palcholder">min</span>
+                </span>
                 <label>Descrierea Evenimentului</label>
                 <TextArea
-                    rows={5}
+                    rows={3}
                     data-lpignore="true"
+                    name="Description"
                     placeholder="Adauga o descriere a evenimentului"
                     value={this.props.eventDetails.description.Description || ''}
                     onChange={e => this.handleChange(e)}

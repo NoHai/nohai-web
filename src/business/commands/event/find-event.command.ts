@@ -1,6 +1,6 @@
 import { ICommand } from '../command.interface';
 import { FindEventRequest } from '../../../contracts/requests/find-event.request';
-import { EventModel, ListModel, EventDetailsViewModel } from '../../../contracts/models';
+import { ListModel, EventDetailsViewModel } from '../../../contracts/models';
 import { EventRepository } from '../../../data/repositories/event.respository';
 
 class FindEventCommandController

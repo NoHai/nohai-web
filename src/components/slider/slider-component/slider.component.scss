@@ -3,7 +3,6 @@
 
 .slider-component {
     .slider-buttons {
-
         .arrow-button {
             font-size: 15px;
             cursor: pointer;
@@ -22,28 +21,48 @@
     .display-inline {
         display: inline;
     }
-    .ant-calendar-picker{
+    .ant-calendar-picker {
         width: 100%;
     }
-    .ant-time-picker{
+    .ant-time-picker {
         width: 100%;
         margin-bottom: 15px;
     }
 
-    .ant-calendar-picker-icon{
+    .ant-calendar-picker-icon {
         top: 35%;
     }
 
-    label{
+    label {
         margin-bottom: 4px;
         display: block;
         font-size: 13px;
         font-weight: 500;
     }
 
-    .ant-input{
+    .ant-input {
         margin-bottom: 15px;
     }
+
+    .constant-palcholder {
+        position: absolute;
+        top: 50%;
+        right: 20px;
+        z-index: 1;
+        width: 14px;
+        height: 14px;
+        margin-top: -7px;
+        color: rgba(0, 0, 0, 0.25);
+        line-height: 14px;
+        -webkit-transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+        transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    .position-relative {
+        position: relative;
+    }
 }
-
-
