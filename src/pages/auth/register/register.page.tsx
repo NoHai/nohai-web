@@ -114,10 +114,26 @@ class RegisterPage extends Component<any, any> {
     }
 
     private async Register() {
-        await this.getErrorMessage();
+        await this.getFildsValidation();
+        let errors = this.getErrorMessage();
 
+        if (errors !== '') {
+            const error = () => {
+                message.error(errors);
+            };
+            error();
+        } else {
+            const id = await AuthService.register(this.props.registerDetails.user);
+            let registerDetails = JSON.parse(JSON.stringify(this.props.registerDetails));
+            registerDetails.user.Id = id;
+            await this.props.changeRegisterDetails(registerDetails);
+            history.push('/intro');
+        }
+    }
+
+    private getErrorMessage() {
         let errors = '';
-        if (this.chekForm()) {
+        if (this.checkForm()) {
             errors =
                 this.state.emailError !== ''
                     ? this.state.emailError
@@ -129,22 +145,10 @@ class RegisterPage extends Component<any, any> {
         } else {
             errors = 'toate campurile sunt obligatorii';
         }
-
-        if (errors !== '') {
-            const error = () => {
-                message.error(errors);
-            };
-            error();
-        }else{
-           const id =  await AuthService.register(this.props.registerDetails.user)
-           let registerDetails = JSON.parse(JSON.stringify(this.props.registerDetails));
-           registerDetails.user.Id = id;
-           await this.props.changeRegisterDetails(registerDetails);
-           history.push('/intro');
-        }
+        return errors;
     }
 
-    private getErrorMessage() {
+    private getFildsValidation() {
         this.setState({
             emailError: FormValidators.emailValidation(this.props.registerDetails.user.Email),
             confirmationPasswordError: FormValidators.matchPasswordsValidation(
@@ -158,7 +162,7 @@ class RegisterPage extends Component<any, any> {
         });
     }
 
-    private chekForm() {
+    private checkForm() {
         return (
             this.props.registerDetails.user.Email !== '' &&
             this.props.registerDetails.user.Password !== '' &&

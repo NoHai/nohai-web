@@ -1,13 +1,30 @@
 import React, { Component } from 'react';
 import './create-event.page.scss';
-import SliderComp from '../../../components/slider/slider-component/slider.component';
+import { Switch, Route } from 'react-router';
+import patricipantsDetailsPage from './participants/patricipants-details.page';
+import PageNotFound from '../../common/not-found/not-found.page';
+import locationDetailsPage from './location/location-details.page';
+import descriptionPage from './description/description.page';
 //import SportsSelection from '../../../components/sports-selection/sports-selection.component';
 //import { Input, Carousel } from 'antd';
 
 class CreateEventPage extends Component {
     public render()
     {
-        return(<SliderComp></SliderComp>);
+
+        
+        return(
+            <div className="create-event-page">
+            <Switch>
+                <Route exact path="/create-event" component={patricipantsDetailsPage} />
+                <Route path="/create-event/participants-details" component={patricipantsDetailsPage} />
+                <Route path="/create-event/location-details" component={locationDetailsPage} />
+                <Route path="/create-event/description" component={descriptionPage} />
+           
+                <Route component={PageNotFound} />
+            </Switch>
+        </div>
+        );
     }
 }
 
