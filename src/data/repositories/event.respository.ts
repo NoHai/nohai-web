@@ -3,15 +3,37 @@ import { IEventRepository } from '../../contracts/repositories/event-repository.
 import { FindEventRequest } from '../../contracts/requests/find-event.request';
 import GraphqlClient from '../request/graphql-client';
 import gql from 'graphql-tag';
+import MapModelHelper from '../../helpers/map-model.helper';
 
 class EventRepositoryController implements IEventRepository {
-    public Find(data: FindEventRequest): Promise<ListModel<EventDetailsViewModel>> {
-        throw new Error('Method not implemented.');
+    public async Find(data: FindEventRequest): Promise<ListModel<EventDetailsViewModel>> {
+
+        const query = gql`
+            query {events(parameter: {title: "", pagination: {pageSize:${data.pageSize} , pageIndex: ${data.pageIndex}}}) {
+                items {
+                    id
+                    title
+                    description
+                    location
+                    sport
+                    participantsNumber
+                    cost
+                    owner
+                    date
+                    hour
+                    duration
+                    }
+                }
+            }`;
+
+        const response: any = await GraphqlClient.query(query);
+        let results = await this.GetEventsMap(response.events.items);
+        return results;
     }
 
     public async Get(id: any): Promise<EventDetailsViewModel> {
-        let input:any={
-            id:id
+        let input: any = {
+            id: id
         }
         const query = gql`
         {
@@ -30,7 +52,7 @@ class EventRepositoryController implements IEventRepository {
         let input: any = {
             event:
             {
-                owner: "eventDetails.event.Name",
+                owner: "owner event",
                 title: "title",
                 description: eventDetails.description.Description,
                 location: eventDetails.locationDetails.Address + ', ' + eventDetails.locationDetails.City,
@@ -60,6 +82,19 @@ class EventRepositoryController implements IEventRepository {
     public Delete(data: any): Promise<ResultModel<boolean>> {
         throw new Error('Method not implemented.');
     }
-}
 
+    private async GetEventsMap(model: any) {
+        let result = new ListModel<EventDetailsViewModel>();
+        result.Total = model.length;
+        model.forEach((element:any) => {
+            let event = MapModelHelper.MapEvent(element);
+            result.Data.push(event);
+        });
+
+
+        return result;
+    }
+
+    
+}
 export const EventRepository = new EventRepositoryController();

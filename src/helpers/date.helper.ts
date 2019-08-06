@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export default class DateHelper {
     public static GetMonths() {
         const months = [
@@ -16,5 +18,10 @@ export default class DateHelper {
         ];
 
         return months;
+    }
+
+    public static GetDateFormat(date: string, format: string="DD/MM/YY")
+    {
+        return moment(date).format(format);
     }
 }

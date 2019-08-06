@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import './event-list-item.component.scss';
 import history from '../../utilities/core/history';
 import EventItemCard from '../event-item-card/event-item-card.component';
+import { EventListItemProps } from './event-list-item.props';
 
-class EventListItem extends Component {
+class EventListItem extends Component<EventListItemProps, any> {
     render() {
         return (
             <div
@@ -13,7 +14,7 @@ class EventListItem extends Component {
                     this.NavigateToEventDetails();
                 }}
             >
-                <EventItemCard />
+                <EventItemCard eventDetails={this.props.eventDetails}/>
             </div>
         );
     }

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import './event-item-card.component.scss';
 import { Row, Col } from 'antd';
+import { EventItemCardProps } from './event-item-card.props';
+import DateHelper from '../../helpers/date.helper';
 
-class EventItemCard extends Component {
+class EventItemCard extends Component<EventItemCardProps, any> {
     render() {
         return (
             <div className="item-card">
@@ -11,27 +13,31 @@ class EventItemCard extends Component {
                         <div className="item-card-picture" />
                     </Col>
                     <Col span={19}>
-                        <div className="item-card-title">Sergiu cauta colegi pentru alergat</div>
+                        <div className="item-card-title">{this.props.eventDetails.event.Name}</div>
 
-                        <p>
-                            Vivamus pellentesque orci et gravida laoreet. Phasellus gravida
-                            efficitur elit sed rutrum.
-                        </p>
+                        <p>{this.props.eventDetails.description.Description}</p>
                     </Col>
                 </Row>
 
                 <Row className="item-card-icons">
                     <Col span={8}>
                         <span className="icon mdi mdi-map-marker" />
-                        <span className="text">Constanta</span>
+                        <span className="text">{this.props.eventDetails.locationDetails.City}</span>
                     </Col>
                     <Col span={10} className="text-center">
                         <span className="icon mdi mdi-alarm" />
-                        <span className="text">10/12/19, 13:30</span>
+                        <span className="text">
+                            {DateHelper.GetDateFormat(this.props.eventDetails.description.Date)}
+                            {this.props.eventDetails.description.Time}
+                        </span>
                     </Col>
                     <Col span={6} className="text-right">
                         <span className="icon mdi mdi-account-group" />
-                        <span className="text">7/12</span>
+                        <span className="text">
+                            {this.props.eventDetails.participantsDetails.TotalParticipants -
+                                this.props.eventDetails.participantsDetails.FreeSpots}
+                            /{this.props.eventDetails.participantsDetails.TotalParticipants}
+                        </span>
                     </Col>
                 </Row>
             </div>

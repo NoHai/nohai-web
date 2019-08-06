@@ -5,7 +5,7 @@ import EventList from '../../../components/event-list/event-list.component';
 class SearchEventsPage extends Component {
     public render() {
         return (
-            <div>
+            <div className="full-height">
                 <EventList />
             </div>
         );

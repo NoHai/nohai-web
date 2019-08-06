@@ -96,7 +96,7 @@ class EventCard extends Component<any, any> {
 
                 <EventMap />
 
-                {!this.isForPreview && (
+                {this.isForPreview && (
                     <div>
                         <Button
                             type="primary"
@@ -104,7 +104,7 @@ class EventCard extends Component<any, any> {
                                 this.createEvent();
                             }}
                         >
-                            Vizualizeaza
+                            Creaza evenimentul
                         </Button>
                     </div>
                 )}
