@@ -6,7 +6,7 @@ import {
     UpdateUserCommand,
     DeleteUserCommand,
 } from '../commands/user';
-import { UserViewModel } from '../../contracts/models/user-view.model';
+import { UserViewModel } from '../../contracts/view-models/user-view.model';
 
 class UserServiceController implements IUserService {
     public async Get(id: any): Promise<UserModel> {

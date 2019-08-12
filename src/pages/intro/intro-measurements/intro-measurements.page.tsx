@@ -1,15 +1,29 @@
 import React, { Component } from 'react';
 import { Input, Button, Row, Col } from 'antd';
 import history from '../../../utilities/core/history';
-import { connect } from 'react-redux';
-import { changeRegisterDetails } from '../../../redux/actions/register.action';
+import { UserViewModel } from '../../../contracts/view-models/user-view.model';
+import { LocalStorage } from '../../../contracts/enums/localStorage/local-storage';
+import LocalStorageHelper from '../../../helpers/local-storage.helper';
 
 class IntroMeasurements extends Component<any, any> {
+    state = {
+        registerDetails: new UserViewModel(),
+    };
+    componentDidMount() {
+        this.setState({
+            registerDetails: LocalStorageHelper.GetItemFromLocalStorage(
+                LocalStorage.IntroInfo,
+                this.state.registerDetails
+            ),
+        });
+    }
     async handleChange(event: any) {
-        let registerDetails = JSON.parse(JSON.stringify(this.props.registerDetails));
+        let registerDetails = JSON.parse(JSON.stringify(this.state.registerDetails));
         const { name, value } = event.target;
         registerDetails.details[name] = value;
-        this.props.changeRegisterDetails(registerDetails);
+        this.setState({
+            registerDetails: registerDetails,
+        });
     }
 
     render() {
@@ -33,7 +47,7 @@ class IntroMeasurements extends Component<any, any> {
                                     addonAfter="kg"
                                     placeholder="Greutatea ta in kilograme"
                                     name="Weight"
-                                    value={this.props.registerDetails.details.Weight || ''}
+                                    value={this.state.registerDetails.details.Weight || ''}
                                     onChange={e => this.handleChange(e)}
                                 />
                             </div>
@@ -46,7 +60,7 @@ class IntroMeasurements extends Component<any, any> {
                                     addonAfter="cm"
                                     placeholder="Inaltime ta in centimetri"
                                     name="Height"
-                                    value={this.props.registerDetails.details.Height || ''}
+                                    value={this.state.registerDetails.details.Height || ''}
                                     onChange={e => this.handleChange(e)}
                                 />
                             </div>
@@ -67,8 +81,8 @@ class IntroMeasurements extends Component<any, any> {
                                     </Button>
                                 </Col>
                                 <Col span={12} className="text-right">
-                                    {this.props.registerDetails.details.Weight &&
-                                        this.props.registerDetails.details.Height && (
+                                    {this.state.registerDetails.details.Weight &&
+                                        this.state.registerDetails.details.Height && (
                                             <Button
                                                 type="primary"
                                                 onClick={() => {
@@ -88,25 +102,20 @@ class IntroMeasurements extends Component<any, any> {
     }
 
     private GoForward() {
+        LocalStorageHelper.SaveItemToLocalStorage(
+            LocalStorage.IntroInfo,
+            this.state.registerDetails
+        )
         history.push('/intro/step-three');
     }
 
     private GoBack() {
+        LocalStorageHelper.SaveItemToLocalStorage(
+            LocalStorage.IntroInfo,
+            this.state.registerDetails
+        )
         history.push('/intro/step-one');
     }
 }
 
-const mapStateToProps = ({ registerReducer }: any) => {
-    return {
-        registerDetails: registerReducer.registerDetails,
-    };
-};
-
-const mapDispatchToProps = {
-    changeRegisterDetails,
-};
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(IntroMeasurements);
+export default IntroMeasurements;

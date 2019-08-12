@@ -2,32 +2,57 @@ import React, { Component } from 'react';
 import { Button, Input, Row, Col, Select } from 'antd';
 import history from '../../../utilities/core/history';
 import DateHelper from '../../../helpers/date.helper';
-import { connect } from 'react-redux';
-import { changeRegisterDetails } from '../../../redux/actions/register.action';
+import { LocalStorage } from '../../../contracts/enums/localStorage/local-storage';
+import { UserViewModel } from '../../../contracts/view-models/user-view.model';
+import LocalStorageHelper from '../../../helpers/local-storage.helper';
 
 class IntroPersonPage extends Component<any, any> {
+    state = {
+        registerDetails: new UserViewModel(),
+    };
+    componentDidMount() {
+        this.setState({
+            registerDetails: LocalStorageHelper.GetItemFromLocalStorage(
+                LocalStorage.IntroInfo,
+                this.state.registerDetails
+            ),
+        });
+    }
     async handleChange(event: any) {
-        let registerDetails = JSON.parse(JSON.stringify(this.props.registerDetails));
         const { name, value } = event.target;
-        registerDetails.user[name] = value;
-        this.props.changeRegisterDetails(registerDetails);
+
+        this.setState((prevState: any) => ({
+            registerDetails: {
+                ...prevState.registerDetails,
+                user: {
+                    ...prevState.registerDetails.user,
+                    [name]: value,
+                },
+            },
+        }));
     }
     handleDayChange = (value: any) => {
-        let registerDetails = JSON.parse(JSON.stringify(this.props.registerDetails));
+        let registerDetails = JSON.parse(JSON.stringify(this.state.registerDetails));
         registerDetails.details.Day = value;
-        this.props.changeRegisterDetails(registerDetails);
+        this.setState({
+            registerDetails: registerDetails,
+        });
     };
 
     handleMonthChange = (value: any) => {
-        let registerDetails = JSON.parse(JSON.stringify(this.props.registerDetails));
+        let registerDetails = JSON.parse(JSON.stringify(this.state.registerDetails));
         registerDetails.details.Month = value;
-        this.props.changeRegisterDetails(registerDetails);
+        this.setState({
+            registerDetails: registerDetails,
+        });
     };
 
     handleYearChange = (value: any) => {
-        let registerDetails = JSON.parse(JSON.stringify(this.props.registerDetails));
+        let registerDetails = JSON.parse(JSON.stringify(this.state.registerDetails));
         registerDetails.details.Year = value;
-        this.props.changeRegisterDetails(registerDetails);
+        this.setState({
+            registerDetails: registerDetails,
+        });
     };
 
     render() {
@@ -54,7 +79,7 @@ class IntroPersonPage extends Component<any, any> {
                                     size="large"
                                     placeholder="Prenumele tau"
                                     name="FirstName"
-                                    value={this.props.registerDetails.user.FirstName || ''}
+                                    value={this.state.registerDetails.user.FirstName || ''}
                                     onChange={e => this.handleChange(e)}
                                 />
                             </div>
@@ -65,7 +90,7 @@ class IntroPersonPage extends Component<any, any> {
                                     size="large"
                                     placeholder="Numele tau"
                                     name="LastName"
-                                    value={this.props.registerDetails.user.LastName || ''}
+                                    value={this.state.registerDetails.user.LastName || ''}
                                     onChange={e => this.handleChange(e)}
                                 />
                             </div>
@@ -78,7 +103,7 @@ class IntroPersonPage extends Component<any, any> {
                                         <Select
                                             size="large"
                                             style={{ width: '100%' }}
-                                            value={this.props.registerDetails.details.Day || ''}
+                                            value={this.state.registerDetails.details.Day || ''}
                                             onChange={(e: any) => this.handleDayChange(e)}
                                         >
                                             {days}
@@ -89,7 +114,7 @@ class IntroPersonPage extends Component<any, any> {
                                         <Select
                                             size="large"
                                             style={{ width: '100%' }}
-                                            value={this.props.registerDetails.details.Month || ''}
+                                            value={this.state.registerDetails.details.Month || ''}
                                             onChange={(e: any) => this.handleMonthChange(e)}
                                         >
                                             {months}
@@ -100,7 +125,7 @@ class IntroPersonPage extends Component<any, any> {
                                         <Select
                                             size="large"
                                             style={{ width: '100%' }}
-                                            value={this.props.registerDetails.details.Year || ''}
+                                            value={this.state.registerDetails.details.Year || ''}
                                             onChange={(e: any) => this.handleYearChange(e)}
                                         >
                                             {years}
@@ -132,15 +157,19 @@ class IntroPersonPage extends Component<any, any> {
 
     checkForm() {
         return (
-            this.props.registerDetails.user.FirstName &&
-            this.props.registerDetails.user.LastName &&
-            this.props.registerDetails.details.Day &&
-            this.props.registerDetails.details.Month &&
-            this.props.registerDetails.details.Year
+            this.state.registerDetails.user.FirstName &&
+            this.state.registerDetails.user.LastName &&
+            this.state.registerDetails.details.Day &&
+            this.state.registerDetails.details.Month &&
+            this.state.registerDetails.details.Year
         );
     }
 
     private GoForward() {
+        LocalStorageHelper.SaveItemToLocalStorage(
+            LocalStorage.IntroInfo,
+            this.state.registerDetails
+        );
         history.push('/intro/step-two');
     }
 
@@ -197,17 +226,4 @@ class IntroPersonPage extends Component<any, any> {
     }
 }
 
-const mapStateToProps = ({ registerReducer }: any) => {
-    return {
-        registerDetails: registerReducer.registerDetails,
-    };
-};
-
-const mapDispatchToProps = {
-    changeRegisterDetails,
-};
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(IntroPersonPage);
+export default IntroPersonPage;

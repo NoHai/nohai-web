@@ -1,4 +1,4 @@
-import { UserViewModel } from '../../contracts/models/user-view.model';
+import { UserViewModel } from '../../contracts/view-models/user-view.model';
 import { ReduxRegisterActionType } from '../../contracts/enums/actions';
 
 export const initialRegisterReducerState = {

@@ -1,29 +1,59 @@
 import React, { Component } from 'react';
 import { Input, Button, Icon, Col, Row } from 'antd';
-import { connect } from 'react-redux';
-import { changeEventDetails } from './../../../../redux/actions/event.action';
-import { validate } from 'class-validator';
 import { registerSchema } from 'class-validator';
 import { LocationDetailsSchema } from '../../../../contracts/schemas/location-details.schema';
 import { EventDetailsViewModel } from '../../../../contracts/models';
 import history from '../../../../utilities/core/history';
 import CreateEventHeaderComponent from '../../../../components/create-event-header/create-event-header';
+import { LocalStorage } from '../../../../contracts/enums/localStorage/local-storage';
+import LocalStorageHelper from '../../../../helpers/local-storage.helper';
+import { FormValidators } from '../../../../contracts/validators/forms-validators';
 
 registerSchema(LocationDetailsSchema);
 
 class LocationDetailsEventPage extends Component<any, any> {
-    public eventDetails = new EventDetailsViewModel();
+    state = {
+        eventDetails: new EventDetailsViewModel(),
+    };
+
+    componentDidMount() {
+        this.setState({
+            eventDetails: LocalStorageHelper.GetItemFromLocalStorage(
+                LocalStorage.CreateEvent,
+                this.state.eventDetails
+            ),
+        });
+    }
     async handleChange(event: any) {
-        const eventDetails = JSON.parse(JSON.stringify(this.props.eventDetails));
         const { name, value } = event.target;
-        eventDetails.locationDetails[name] = value;
-        eventDetails.locationDetails.IsValid = await this.chekIfIsValid(eventDetails);
-        this.props.changeEventDetails(eventDetails);
+
+        await this.setState((prevState: any) => ({
+            eventDetails: {
+                ...prevState.eventDetails,
+                locationDetails: {
+                    ...prevState.eventDetails.locationDetails,
+                    [name]: value,
+                },
+            },
+        }));
+        await this.chekIfIsValid()
     }
 
-    async chekIfIsValid(model: EventDetailsViewModel) {
-        let error = await validate('locationDetailsSchema', model.locationDetails);
-        return error.length === 0;
+    async chekIfIsValid() {
+        let isValid = await FormValidators.checkSchema(
+            this.state.eventDetails.locationDetails,
+            'locationDetailsSchema'
+        );
+
+        this.setState((prevState: any) => ({
+            eventDetails: {
+                ...prevState.eventDetails,
+                locationDetails: {
+                    ...prevState.eventDetails.locationDetails,
+                    IsValid: isValid,
+                },
+            },
+        }));
     }
 
     public render() {
@@ -37,13 +67,14 @@ class LocationDetailsEventPage extends Component<any, any> {
                         />
                         <label>Alege Judetul</label>
                         <Input
+                            readOnly
                             className="padding-bottom"
                             size="large"
                             type="text"
                             placeholder="Judet"
                             data-lpignore="true"
                             name="County"
-                            value={this.props.eventDetails.locationDetails.County}
+                            value={this.state.eventDetails.locationDetails.County}
                             onChange={e => this.handleChange(e)}
                         />
                         <label>Alege Orasul</label>
@@ -54,7 +85,7 @@ class LocationDetailsEventPage extends Component<any, any> {
                             placeholder="Oras"
                             data-lpignore="true"
                             name="City"
-                            value={this.props.eventDetails.locationDetails.City}
+                            value={this.state.eventDetails.locationDetails.City}
                             onChange={e => this.handleChange(e)}
                         />
                         <label>Alege Adresa</label>
@@ -65,7 +96,7 @@ class LocationDetailsEventPage extends Component<any, any> {
                             placeholder="Adresa"
                             data-lpignore="true"
                             name="Address"
-                            value={this.props.eventDetails.locationDetails.Address}
+                            value={this.state.eventDetails.locationDetails.Address}
                             onChange={e => this.handleChange(e)}
                         />
                     </div>
@@ -83,7 +114,7 @@ class LocationDetailsEventPage extends Component<any, any> {
                             </Button>
                         </Col>
                         <Col span={12} className="text-right">
-                            {this.props.eventDetails.locationDetails.IsValid && (
+                            {this.state.eventDetails.locationDetails.IsValid && (
                                 <Button
                                     className="arrow-button"
                                     type="link"
@@ -102,24 +133,14 @@ class LocationDetailsEventPage extends Component<any, any> {
         );
     }
     goToDescription() {
+        LocalStorageHelper.SaveItemToLocalStorage(LocalStorage.CreateEvent,this.state.eventDetails)
         history.push('/create-event/description');
     }
 
     goToParticipantsDetails() {
+        LocalStorageHelper.SaveItemToLocalStorage(LocalStorage.CreateEvent,this.state.eventDetails)
         history.push('/create-event/participants-details');
     }
 }
-const mapStateToProps = ({ eventReducer }: any) => {
-    return {
-        eventDetails: eventReducer.eventDetails,
-    };
-};
 
-const mapDispatchToProps = {
-    changeEventDetails,
-};
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(LocationDetailsEventPage);
+export default LocationDetailsEventPage;

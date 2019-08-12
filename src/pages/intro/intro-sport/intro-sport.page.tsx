@@ -2,16 +2,35 @@ import React, { Component } from 'react';
 import history from '../../../utilities/core/history';
 import { Row, Col, Button } from 'antd';
 import SportsSelection from '../../../components/sports-selection/sports-selection.component';
-import { connect } from 'react-redux';
-import { changeRegisterDetails } from '../../../redux/actions/register.action';
 import { UserService } from '../../../business/services/user.service';
+import { UserViewModel } from '../../../contracts/view-models/user-view.model';
+import { LocalStorage } from '../../../contracts/enums/localStorage/local-storage';
+import LocalStorageHelper from '../../../helpers/local-storage.helper';
 
 class IntroSport extends Component<any, any> {
+    state = {
+        registerDetails: new UserViewModel(),
+    };
+    componentDidMount() {
+        this.setState({
+            registerDetails: LocalStorageHelper.GetItemFromLocalStorage(
+                LocalStorage.IntroInfo,
+                this.state.registerDetails
+            ),
+        });
+    }
+
     async onCloseDrawer(sport: string, level: string) {
-        let registerDetails = JSON.parse(JSON.stringify(this.props.registerDetails));
-        registerDetails.details.Sport = sport;
-        registerDetails.details.Level = level;
-        this.props.changeRegisterDetails(registerDetails);
+        this.setState((prevState: any) => ({
+            registerDetails: {
+                ...prevState.registerDetails,
+                details: {
+                    ...prevState.registerDetails.details,
+                    Level: level,
+                    Sport: sport,
+                },
+            },
+        }));
     }
 
     render() {
@@ -27,8 +46,8 @@ class IntroSport extends Component<any, any> {
                         </p>
 
                         <SportsSelection
-                            sport={this.props.registerDetails.details.Sport}
-                            level={this.props.registerDetails.details.Level}
+                            sport={this.state.registerDetails.details.Sport}
+                            level={this.state.registerDetails.details.Level}
                             onCloseDrawer={(sport, level) => this.onCloseDrawer(sport, level)}
                         />
                     </div>
@@ -47,7 +66,7 @@ class IntroSport extends Component<any, any> {
                                     </Button>
                                 </Col>
                                 <Col span={12} className="text-right">
-                                    {this.props.registerDetails.details.Level && (
+                                    {this.state.registerDetails.details.Level && (
                                         <Button
                                             type="primary"
                                             onClick={() => {
@@ -67,28 +86,20 @@ class IntroSport extends Component<any, any> {
     }
 
     private async GoForward() {
-        const result = await UserService.Update(this.props.registerDetails)
-        if(result.Id){
+        const result = await UserService.Update(this.state.registerDetails);
+        if (result.Id) {
+            LocalStorageHelper.DeleteItemFromLocalStorage(LocalStorage.IntroInfo);
             history.push('/');
         }
     }
 
     private GoBack() {
+        LocalStorageHelper.SaveItemToLocalStorage(
+            LocalStorage.IntroInfo,
+            this.state.registerDetails
+        );
         history.push('/intro/step-two');
     }
 }
 
-const mapStateToProps = ({ registerReducer }: any) => {
-    return {
-        registerDetails: registerReducer.registerDetails,
-    };
-};
-
-const mapDispatchToProps = {
-    changeRegisterDetails,
-};
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(IntroSport);
+export default IntroSport;

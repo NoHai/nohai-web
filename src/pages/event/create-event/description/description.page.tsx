@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { changeEventDetails } from './../../../../redux/actions/event.action';
-import { validate } from 'class-validator';
 import { EventDetailsViewModel } from '../../../../contracts/models';
 import { registerSchema } from 'class-validator';
 import { Description } from './../../../../contracts/schemas/description.schema';
@@ -9,39 +6,87 @@ import TextArea from 'antd/lib/input/TextArea';
 import { DatePicker, TimePicker, Input, Row, Col, Button, Icon } from 'antd';
 import history from '../../../../utilities/core/history';
 import CreateEventHeaderComponent from '../../../../components/create-event-header/create-event-header';
+import { LocalStorage } from '../../../../contracts/enums/localStorage/local-storage';
+import LocalStorageHelper from '../../../../helpers/local-storage.helper';
+import { FormValidators } from '../../../../contracts/validators/forms-validators';
 registerSchema(Description);
 
 const format = 'HH:mm';
 
 class DescriptionEventPage extends Component<any, any> {
+    state = {
+        eventDetails: new EventDetailsViewModel(),
+    };
+
+    componentDidMount() {
+        this.setState({
+            eventDetails: LocalStorageHelper.GetItemFromLocalStorage(
+                LocalStorage.CreateEvent,
+                this.state.eventDetails
+            ),
+        });
+    }
+
     async handleChange(event: any) {
-        let eventDetails = JSON.parse(JSON.stringify(this.props.eventDetails));
         const { name, value } = event.target;
-        name === 'Duration'
-            ? (eventDetails.description[name] = parseInt(value, 10))
-            : (eventDetails.description[name] = value);
-        eventDetails.description.IsValid = await this.chekIfIsValid(eventDetails);
-        this.props.changeEventDetails(eventDetails);
+
+        let val = name === 'Duration' ? parseInt(value, 10) : value;
+        this.setState((prevState: any) => ({
+            eventDetails: {
+                ...prevState.eventDetails,
+                description: {
+                    ...prevState.eventDetails.description,
+                    [name]: val,
+                },
+            },
+        }));
+        await this.chekIfIsValid();
     }
 
     async onDateChange(date: any, dateString: string) {
-        let eventDetails = JSON.parse(JSON.stringify(this.props.eventDetails));
-        eventDetails.description.Date = dateString;
-        eventDetails.description.IsValid = await this.chekIfIsValid(eventDetails);
-        this.props.changeEventDetails(eventDetails);
+        this.setState((prevState: any) => ({
+            eventDetails: {
+                ...prevState.eventDetails,
+                description: {
+                    ...prevState.eventDetails.description,
+                    Date: dateString,
+                },
+            },
+        }));
+        await this.chekIfIsValid();
     }
 
     async onTimeChange(date: any, timeString: string) {
-        let eventDetails = JSON.parse(JSON.stringify(this.props.eventDetails));
-        eventDetails.description.Time = timeString;
-        eventDetails.description.IsValid = await this.chekIfIsValid(eventDetails);
-        this.props.changeEventDetails(eventDetails);
+        this.setState((prevState: any) => ({
+            eventDetails: {
+                ...prevState.eventDetails,
+                description: {
+                    ...prevState.eventDetails.description,
+                    Time: timeString,
+                },
+            },
+        }));
+
+        await this.chekIfIsValid();
     }
 
-    async chekIfIsValid(model: EventDetailsViewModel) {
-        let error = await validate('description', model.description);
-        return error.length === 0;
+    async chekIfIsValid() {
+        let isValid = await FormValidators.checkSchema(
+            this.state.eventDetails.description,
+            'description'
+        );
+
+        this.setState((prevState: any) => ({
+            eventDetails: {
+                ...prevState.eventDetails,
+                description: {
+                    ...prevState.eventDetails.description,
+                    IsValid: isValid,
+                },
+            },
+        }));
     }
+
     public render() {
         return (
             <div className="create-event-page event-list-item full-height">
@@ -54,14 +99,14 @@ class DescriptionEventPage extends Component<any, any> {
                         <label>Data Evenimentului</label>
                         <DatePicker
                             onChange={(date, dateString) => this.onDateChange(date, dateString)}
-                            placeholder={this.props.eventDetails.description.Date || ''}
+                            placeholder={this.state.eventDetails.description.Date || ''}
                             size="large"
                         />
                         <label>Ora Evenimentului</label>
                         <TimePicker
                             format={format}
                             onChange={(time, timeString) => this.onTimeChange(time, timeString)}
-                            placeholder={this.props.eventDetails.description.Time || ''}
+                            placeholder={this.state.eventDetails.description.Time || ''}
                             size="large"
                         />
 
@@ -74,7 +119,7 @@ class DescriptionEventPage extends Component<any, any> {
                                 placeholder="Durata"
                                 data-lpignore="true"
                                 name="Duration"
-                                value={this.props.eventDetails.description.Duration}
+                                value={this.state.eventDetails.description.Duration}
                                 onChange={e => this.handleChange(e)}
                             />
                             <span className="constant-palcholder">min</span>
@@ -85,28 +130,26 @@ class DescriptionEventPage extends Component<any, any> {
                             data-lpignore="true"
                             name="Description"
                             placeholder="Adauga o descriere a evenimentului"
-                            value={this.props.eventDetails.description.Description || ''}
+                            value={this.state.eventDetails.description.Description || ''}
                             onChange={e => this.handleChange(e)}
                         />
                     </div>
 
                     <Row>
                         <Col span={12}>
-                            {this.props.currentSlide !== 0 && (
-                                <Button
-                                    className="arrow-button"
-                                    type="link"
-                                    onClick={() => {
-                                        this.goToLocationDetails();
-                                    }}
-                                >
-                                    <Icon type="left" />
-                                    Inapoi
-                                </Button>
-                            )}
+                            <Button
+                                className="arrow-button"
+                                type="link"
+                                onClick={() => {
+                                    this.goToLocationDetails();
+                                }}
+                            >
+                                <Icon type="left" />
+                                Inapoi
+                            </Button>
                         </Col>
                         <Col span={12} className="text-right">
-                            {this.props.eventDetails.description.IsValid && (
+                            {this.state.eventDetails.description.IsValid && (
                                 <Button
                                     type="primary"
                                     onClick={() => {
@@ -124,23 +167,19 @@ class DescriptionEventPage extends Component<any, any> {
     }
 
     goToLocationDetails() {
+        LocalStorageHelper.SaveItemToLocalStorage(
+            LocalStorage.CreateEvent,
+            this.state.eventDetails
+        );
         history.push('/create-event/location-details');
     }
     goToDetails() {
+        LocalStorageHelper.SaveItemToLocalStorage(
+            LocalStorage.CreateEvent,
+            this.state.eventDetails
+        );
         history.push('/preview');
     }
 }
-const mapStateToProps = ({ eventReducer }: any) => {
-    return {
-        eventDetails: eventReducer.eventDetails,
-    };
-};
 
-const mapDispatchToProps = {
-    changeEventDetails,
-};
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(DescriptionEventPage);
+export default DescriptionEventPage;

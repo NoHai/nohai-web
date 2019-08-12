@@ -1,3 +1,5 @@
+import { validate } from "class-validator";
+
 export class FormValidators {
     static emailValidation(email: string): string {
         const regexp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -32,5 +34,10 @@ export class FormValidators {
         return !value || value === '' ?
             "*acest camp este obligatoriu"
             : ''
+    }
+
+    static async checkSchema(model: any, schema: string) {
+        let error = await validate(schema, model);
+        return error.length === 0;
     }
 }

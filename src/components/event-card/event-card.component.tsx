@@ -4,38 +4,22 @@ import { Row, Col, Button, Avatar } from 'antd';
 import EventTags from '../event-tags/event-tags.component';
 import EventMembers from '../event-members/event-members.component';
 import EventMap from '../event-map/event-map.component';
-import { connect } from 'react-redux';
-import { EventDetailsViewModel } from '../../contracts/models';
 import { EventService } from '../../business/services';
 import history from '../../utilities/core/history';
+import LocalStorageHelper from '../../helpers/local-storage.helper';
+import { LocalStorage } from '../../contracts/enums/localStorage/local-storage';
 
 class EventCard extends Component<any, any> {
     private isForPreview = false;
-
     constructor(props: any) {
         super(props);
 
         this.state = {
-            eventDetails: new EventDetailsViewModel(),
+            eventDetails: this.props.eventDetails,
         };
         this.isForPreview = window.location.pathname === '/preview';
     }
 
-    private async IntializateState() {
-        if (this.isForPreview) {
-            this.setState({
-                eventDetails: this.props.eventDetails,
-            });
-        } else {
-            const eventDetails = await EventService.Get("21e461a7-9073-430e-b00b-9abd6e0cafd6");
-            this.setState({
-                eventDetails: eventDetails,
-            });
-        }
-    }
-    componentDidMount() {
-        this.IntializateState();
-    }
     render() {
         return (
             <div className="item-card event-card">
@@ -44,18 +28,18 @@ class EventCard extends Component<any, any> {
                         <div className="item-card-picture" />
                     </Col>
                     <Col span={19}>
-                        <div className="item-card-title">Sergiu cauta colegi pentru alergat</div>
+                        <div className="item-card-title">{this.props.eventDetails.event.Name}</div>
 
                         <div className="item-card-options">
                             <div className="item-card-option">
                                 <span className="icon mdi mdi-alarm" />
-                                {this.state.eventDetails.description.Date},{' '}
-                                {this.state.eventDetails.description.Time}
+                                {this.props.eventDetails.description.Date},{' '}
+                                {this.props.eventDetails.description.Time}
                             </div>
                             <div className="item-card-option">
                                 <span className="icon mdi mdi-map-marker" />
-                                {this.state.eventDetails.locationDetails.Address}{' '}
-                                {this.state.eventDetails.locationDetails.City}
+                                {this.props.eventDetails.locationDetails.Address}{' '}
+                                {this.props.eventDetails.locationDetails.City}
                             </div>
                         </div>
                     </Col>
@@ -113,15 +97,12 @@ class EventCard extends Component<any, any> {
     }
     private async createEvent() {
         const id = await EventService.Create(this.props.eventDetails);
-        alert(id);
-        history.push('/');
+        if (id) {
+            LocalStorageHelper.DeleteItemFromLocalStorage(LocalStorage.CreateEvent);
+            alert(id);
+            history.push('/');
+        }
     }
 }
 
-const mapStateToProps = ({ eventReducer }: any) => {
-    return {
-        eventDetails: eventReducer.eventDetails,
-    };
-};
-
-export default connect(mapStateToProps)(EventCard);
+export default EventCard;

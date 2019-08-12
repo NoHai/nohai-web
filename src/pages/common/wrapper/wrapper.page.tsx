@@ -18,7 +18,8 @@ class WrapperPage extends Component {
                 <div className="page-wrapper-content page-section page-section-large">
                     <Switch>
                         <Route exact path="/" component={SearchEventsPage} />
-                        <Route path="/details" component={EventDetailsPage} />
+                        <Route exact={true} path="/details" component={EventDetailsPage} />
+                        <Route path="/details/:id" component={EventDetailsPage} />
                         <Route path="/preview" component={EventDetailsPage} />
                         <Route path="/notification" component={NotificationPage} />
                         <Route path="/create-event" component={CreateEventPage} />

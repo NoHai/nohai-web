@@ -1,5 +1,5 @@
-import { UserModel } from "./user.model";
-import { UserDetailsModel } from "./user-details.model";
+import { UserModel } from "../models/user.model";
+import { UserDetailsModel } from "../models/user-details.model";
 
 export class UserViewModel {
     user!: UserModel;

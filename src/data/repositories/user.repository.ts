@@ -2,7 +2,7 @@ import { IUserRepository } from '../../contracts/repositories/user-repository.in
 import { UserModel, ResultModel } from '../../contracts/models';
 import gql from 'graphql-tag';
 import GraphqlClient from '../request/graphql-client';
-import { UserViewModel } from '../../contracts/models/user-view.model';
+import { UserViewModel } from '../../contracts/view-models/user-view.model';
 
 class UserRepositoryController implements IUserRepository {
     public async Get(id: any): Promise<UserModel> {
