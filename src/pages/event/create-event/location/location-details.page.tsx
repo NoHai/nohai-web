@@ -36,7 +36,7 @@ class LocationDetailsEventPage extends Component<any, any> {
                 },
             },
         }));
-        await this.chekIfIsValid()
+        await this.chekIfIsValid();
     }
 
     async chekIfIsValid() {
@@ -114,18 +114,17 @@ class LocationDetailsEventPage extends Component<any, any> {
                             </Button>
                         </Col>
                         <Col span={12} className="text-right">
-                            {this.state.eventDetails.locationDetails.IsValid && (
-                                <Button
-                                    className="arrow-button"
-                                    type="link"
-                                    onClick={() => {
-                                        this.goToDescription();
-                                    }}
-                                >
-                                    Inainte
-                                    <Icon type="right" />
-                                </Button>
-                            )}
+                            <Button
+                                disabled={!this.state.eventDetails.locationDetails.IsValid}
+                                className="arrow-button"
+                                type="link"
+                                onClick={() => {
+                                    this.goToDescription();
+                                }}
+                            >
+                                Inainte
+                                <Icon type="right" />
+                            </Button>
                         </Col>
                     </Row>
                 </div>
@@ -133,12 +132,18 @@ class LocationDetailsEventPage extends Component<any, any> {
         );
     }
     goToDescription() {
-        LocalStorageHelper.SaveItemToLocalStorage(LocalStorage.CreateEvent,this.state.eventDetails)
+        LocalStorageHelper.SaveItemToLocalStorage(
+            LocalStorage.CreateEvent,
+            this.state.eventDetails
+        );
         history.push('/create-event/description');
     }
 
     goToParticipantsDetails() {
-        LocalStorageHelper.SaveItemToLocalStorage(LocalStorage.CreateEvent,this.state.eventDetails)
+        LocalStorageHelper.SaveItemToLocalStorage(
+            LocalStorage.CreateEvent,
+            this.state.eventDetails
+        );
         history.push('/create-event/participants-details');
     }
 }

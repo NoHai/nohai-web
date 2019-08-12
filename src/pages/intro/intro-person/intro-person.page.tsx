@@ -140,6 +140,7 @@ class IntroPersonPage extends Component<any, any> {
                         <div className="intro-footer text-right">
                             {this.checkForm() && (
                                 <Button
+                                    disabled={!this.checkForm()}
                                     type="primary"
                                     onClick={() => {
                                         this.GoForward();
@@ -155,14 +156,16 @@ class IntroPersonPage extends Component<any, any> {
         );
     }
 
-    checkForm() {
-        return (
+    checkForm(): boolean {
+        if (
             this.state.registerDetails.user.FirstName &&
             this.state.registerDetails.user.LastName &&
             this.state.registerDetails.details.Day &&
             this.state.registerDetails.details.Month &&
             this.state.registerDetails.details.Year
-        );
+        ) {
+            return true;
+        } else return false;
     }
 
     private GoForward() {

@@ -128,8 +128,8 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
                             onChange={e => this.handleChange(e)}
                         />
                     </div>
-                    {this.state.eventDetails.participantsDetails.IsValid && (
                         <Button
+                        disabled={!this.state.eventDetails.participantsDetails.IsValid}
                             className="arrow-button align-right"
                             type="link"
                             onClick={() => {
@@ -139,7 +139,6 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
                             Inainte
                             <Icon type="right" />
                         </Button>
-                    )}
                 </div>
             </div>
         );

@@ -66,8 +66,8 @@ class IntroSport extends Component<any, any> {
                                     </Button>
                                 </Col>
                                 <Col span={12} className="text-right">
-                                    {this.state.registerDetails.details.Level && (
                                         <Button
+                                        disabled={this.state.registerDetails.details.Level===undefined}
                                             type="primary"
                                             onClick={() => {
                                                 this.GoForward();
@@ -75,7 +75,6 @@ class IntroSport extends Component<any, any> {
                                         >
                                             Finish
                                         </Button>
-                                    )}
                                 </Col>
                             </Row>
                         </div>

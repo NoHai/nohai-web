@@ -149,16 +149,15 @@ class DescriptionEventPage extends Component<any, any> {
                             </Button>
                         </Col>
                         <Col span={12} className="text-right">
-                            {this.state.eventDetails.description.IsValid && (
-                                <Button
-                                    type="primary"
-                                    onClick={() => {
-                                        this.goToDetails();
-                                    }}
-                                >
-                                    Vizualizeaza
-                                </Button>
-                            )}
+                            <Button
+                                disabled={!this.state.eventDetails.description.IsValid}
+                                type="primary"
+                                onClick={() => {
+                                    this.goToDetails();
+                                }}
+                            >
+                                Vizualizeaza
+                            </Button>
                         </Col>
                     </Row>
                 </div>

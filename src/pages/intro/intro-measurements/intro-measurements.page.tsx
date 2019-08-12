@@ -81,17 +81,21 @@ class IntroMeasurements extends Component<any, any> {
                                     </Button>
                                 </Col>
                                 <Col span={12} className="text-right">
-                                    {this.state.registerDetails.details.Weight &&
-                                        this.state.registerDetails.details.Height && (
-                                            <Button
-                                                type="primary"
-                                                onClick={() => {
-                                                    this.GoForward();
-                                                }}
-                                            >
-                                                Urmatorul pas
-                                            </Button>
-                                        )}
+                                    <Button
+                                        disabled={
+                                            !this.state.registerDetails.details.Weight ||
+                                            this.state.registerDetails.details.Weight<1 ||
+                                            !this.state.registerDetails.details.Height ||
+                                            this.state.registerDetails.details.Height<1 
+
+                                        }
+                                        type="primary"
+                                        onClick={() => {
+                                            this.GoForward();
+                                        }}
+                                    >
+                                        Urmatorul pas
+                                    </Button>
                                 </Col>
                             </Row>
                         </div>
@@ -105,7 +109,7 @@ class IntroMeasurements extends Component<any, any> {
         LocalStorageHelper.SaveItemToLocalStorage(
             LocalStorage.IntroInfo,
             this.state.registerDetails
-        )
+        );
         history.push('/intro/step-three');
     }
 
@@ -113,7 +117,7 @@ class IntroMeasurements extends Component<any, any> {
         LocalStorageHelper.SaveItemToLocalStorage(
             LocalStorage.IntroInfo,
             this.state.registerDetails
-        )
+        );
         history.push('/intro/step-one');
     }
 }
