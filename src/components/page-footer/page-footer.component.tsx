@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import './page-footer.component.scss';
 import { Row, Col } from 'antd';
 import history from '../../utilities/core/history';
+import LocalStorageHelper from '../../helpers/local-storage.helper';
+import { LocalStorage } from '../../contracts/enums/localStorage/local-storage';
 
 
 class PageFooter extends Component {
@@ -29,6 +31,7 @@ class PageFooter extends Component {
     }
 
     private NavigateToNotification() {
+        LocalStorageHelper.DeleteItemFromLocalStorage(LocalStorage.CreateEvent);
         history.push('/create-event');
     }
 }

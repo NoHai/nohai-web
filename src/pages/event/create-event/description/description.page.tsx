@@ -9,6 +9,8 @@ import CreateEventHeaderComponent from '../../../../components/create-event-head
 import { LocalStorage } from '../../../../contracts/enums/localStorage/local-storage';
 import LocalStorageHelper from '../../../../helpers/local-storage.helper';
 import { FormValidators } from '../../../../contracts/validators/forms-validators';
+import moment from 'moment';
+import 'moment/locale/ro';
 registerSchema(Description);
 
 const format = 'HH:mm';
@@ -172,7 +174,24 @@ class DescriptionEventPage extends Component<any, any> {
         );
         history.push('/create-event/location-details');
     }
-    goToDetails() {
+    async goToDetails() {
+        await this.setState((prevState: any) => ({
+            eventDetails: {
+                ...prevState.eventDetails,
+                event: {
+                    ...prevState.eventDetails.event,
+                    Name: `${this.state.eventDetails.participantsDetails.Sport}: ${moment(
+                        this.state.eventDetails.description.Date
+                    )
+                        .locale('ro')
+                        .format('dddd')}  ${moment(this.state.eventDetails.description.Date).format(
+                        'DD'
+                    )} ${moment(this.state.eventDetails.description.Date).format('MMMM')}, ora ${
+                        this.state.eventDetails.description.Time
+                    }`,
+                },
+            },
+        }));
         LocalStorageHelper.SaveItemToLocalStorage(
             LocalStorage.CreateEvent,
             this.state.eventDetails

@@ -17,8 +17,8 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
         eventDetails: new EventDetailsViewModel(),
     };
 
-    componentDidMount() {
-        this.setState({
+    async componentDidMount() {
+        await this.setState({
             eventDetails: LocalStorageHelper.GetItemFromLocalStorage(
                 LocalStorage.CreateEvent,
                 this.state.eventDetails
@@ -128,17 +128,17 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
                             onChange={e => this.handleChange(e)}
                         />
                     </div>
-                        <Button
+                    <Button
                         disabled={!this.state.eventDetails.participantsDetails.IsValid}
-                            className="arrow-button align-right"
-                            type="link"
-                            onClick={() => {
-                                this.goToLocationDetails();
-                            }}
-                        >
-                            Inainte
-                            <Icon type="right" />
-                        </Button>
+                        className="arrow-button align-right"
+                        type="link"
+                        onClick={() => {
+                            this.goToLocationDetails();
+                        }}
+                    >
+                        Inainte
+                        <Icon type="right" />
+                    </Button>
                 </div>
             </div>
         );

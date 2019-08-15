@@ -15,7 +15,7 @@ class EventItemCard extends Component<EventItemCardProps, any> {
                     <Col span={19}>
                         <div className="item-card-title">{this.props.eventDetails.event.Name}</div>
 
-                        <p>{this.props.eventDetails.description.Description}</p>
+                        <p>{ this.props.eventDetails.description.Description.substring(0, Math.min(this.props.eventDetails.description.Description.length, 140))}</p>
                     </Col>
                 </Row>
 

@@ -1,6 +1,6 @@
 export class LocationEventDetailsModel {
     County: string="Sibiu";
     City!: string;
-    Address!: string;
+    StreetName!: string;
     IsValid: boolean = false;
 }

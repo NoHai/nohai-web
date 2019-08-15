@@ -12,9 +12,10 @@ export default class MapModelHelper {
         result.event.Owner = model.owner;
         result.event.Id = model.id;
 
-        result.locationDetails.Address = model.location;
-        result.locationDetails.City = "Sibiu";
-        result.participantsDetails.FreeSpots = model.participantsNumber;
+        result.locationDetails.StreetName = model.address.streetName;
+        result.locationDetails.City = model.address.city;
+        result.locationDetails.County = model.address.county;
+        result.participantsDetails.FreeSpots = model.freeSpots;
         result.participantsDetails.TotalParticipants =10;
         result.participantsDetails.PriceForParticipant = model.cost;
         result.participantsDetails.Sport = model.sport;

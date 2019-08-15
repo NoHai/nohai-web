@@ -10,7 +10,7 @@ export let LocationDetailsSchema: ValidationSchema = { // using interface here i
             type: "minLength",
             constraints: [3]
         },],
-        Address: [{
+        StreetName: [{
             type: "minLength",
             constraints: [3]
         },],

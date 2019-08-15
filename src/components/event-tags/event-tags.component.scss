@@ -11,7 +11,6 @@
         margin-right: 3px;
         padding: 4px 12px;
         @include border-radius(15px);
-        text-transform: uppercase;
         font-size: 12px;
         font-weight: 500;
         margin-bottom: 5px;
@@ -24,6 +23,14 @@
         &.outline {
             background-color: transparent;
             border: 1px solid $gray-medium-color;
+        }
+    }
+}
+
+@media (max-width: 320px) {
+    .event-tags{
+        .event-tag{
+            padding: 4px 8px;
         }
     }
 }

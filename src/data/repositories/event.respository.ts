@@ -12,16 +12,21 @@ class EventRepositoryController implements IEventRepository {
             query {events(parameter: {title: "", pagination: {pageSize:${data.pageSize} , pageIndex: ${data.pageIndex}}}) {
                 items {
                     id
+                    owner
                     title
                     description
-                    location
+                    address{
+                        streetName
+                        city
+                        county
+                    }
                     sport
-                    participantsNumber
+                    freeSpots
                     cost
-                    owner
                     date
                     hour
                     duration
+                    level
                     }
                 }
             }`;
@@ -53,9 +58,9 @@ class EventRepositoryController implements IEventRepository {
             event:
             {
                 owner: "owner event",
-                title: "title",
+                title: eventDetails.event.Name,
                 description: eventDetails.description.Description,
-                location: eventDetails.locationDetails.Address + ', ' + eventDetails.locationDetails.City,
+                address: { streetName: eventDetails.locationDetails.StreetName, city: eventDetails.locationDetails.City, county: eventDetails.locationDetails.County },
                 sport: eventDetails.participantsDetails.Sport + '   - ' + eventDetails.participantsDetails.Level,
                 participantsNumber: eventDetails.participantsDetails.FreeSpots,
                 cost: eventDetails.participantsDetails.PriceForParticipant,
@@ -86,7 +91,7 @@ class EventRepositoryController implements IEventRepository {
     private async GetEventsMap(model: any) {
         let result = new ListModel<EventDetailsViewModel>();
         result.Total = model.length;
-        model.forEach((element:any) => {
+        model.forEach((element: any) => {
             let event = MapModelHelper.MapEvent(element);
             result.Data.push(event);
         });
@@ -95,6 +100,6 @@ class EventRepositoryController implements IEventRepository {
         return result;
     }
 
-    
+
 }
 export const EventRepository = new EventRepositoryController();

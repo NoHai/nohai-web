@@ -5,10 +5,14 @@ import DateHelper from '../../../helpers/date.helper';
 import { LocalStorage } from '../../../contracts/enums/localStorage/local-storage';
 import { UserViewModel } from '../../../contracts/view-models/user-view.model';
 import LocalStorageHelper from '../../../helpers/local-storage.helper';
+import moment from 'moment';
 
 class IntroPersonPage extends Component<any, any> {
     state = {
         registerDetails: new UserViewModel(),
+        days: [],
+        months: [],
+        years: [],
     };
     componentDidMount() {
         this.setState({
@@ -17,6 +21,8 @@ class IntroPersonPage extends Component<any, any> {
                 this.state.registerDetails
             ),
         });
+        this.GetYears();
+        this.GetMonths();
     }
     async handleChange(event: any) {
         const { name, value } = event.target;
@@ -31,35 +37,45 @@ class IntroPersonPage extends Component<any, any> {
             },
         }));
     }
-    handleDayChange = (value: any) => {
-        let registerDetails = JSON.parse(JSON.stringify(this.state.registerDetails));
-        registerDetails.details.Day = value;
-        this.setState({
-            registerDetails: registerDetails,
-        });
-    };
+    handleDayChange(value: any) {
+        this.setState((prevState: any) => ({
+            registerDetails: {
+                ...prevState.registerDetails,
+                details: {
+                    ...prevState.registerDetails.details,
+                    Day: value,
+                },
+            },
+        }));
+    }
 
-    handleMonthChange = (value: any) => {
-        let registerDetails = JSON.parse(JSON.stringify(this.state.registerDetails));
-        registerDetails.details.Month = value;
-        this.setState({
-            registerDetails: registerDetails,
-        });
-    };
+    async handleMonthChange(value: any) {
+        await this.setState((prevState: any) => ({
+            registerDetails: {
+                ...prevState.registerDetails,
+                details: {
+                    ...prevState.registerDetails.details,
+                    Month: value,
+                },
+            },
+        }));
+        await this.GetDays();
+    }
 
-    handleYearChange = (value: any) => {
-        let registerDetails = JSON.parse(JSON.stringify(this.state.registerDetails));
-        registerDetails.details.Year = value;
-        this.setState({
-            registerDetails: registerDetails,
-        });
-    };
+    async handleYearChange(value: any) {
+        await this.setState((prevState: any) => ({
+            registerDetails: {
+                ...prevState.registerDetails,
+                details: {
+                    ...prevState.registerDetails.details,
+                    Year: value,
+                },
+            },
+        }));
+        await this.GetDays();
+    }
 
     render() {
-        const months = this.GetMonths();
-        const years = this.GetYears();
-        const days = this.GetDays();
-
         return (
             <div className="intro-step-page">
                 <div className="page-sections">
@@ -103,10 +119,10 @@ class IntroPersonPage extends Component<any, any> {
                                         <Select
                                             size="large"
                                             style={{ width: '100%' }}
-                                            value={this.state.registerDetails.details.Day || ''}
-                                            onChange={(e: any) => this.handleDayChange(e)}
+                                            value={this.state.registerDetails.details.Year || ''}
+                                            onChange={(e: any) => this.handleYearChange(e)}
                                         >
-                                            {days}
+                                            {this.state.years}
                                         </Select>
                                     </Col>
 
@@ -117,18 +133,24 @@ class IntroPersonPage extends Component<any, any> {
                                             value={this.state.registerDetails.details.Month || ''}
                                             onChange={(e: any) => this.handleMonthChange(e)}
                                         >
-                                            {months}
+                                            {this.state.months}
                                         </Select>
                                     </Col>
 
                                     <Col span={7}>
                                         <Select
+                                            disabled={
+                                                this.state.registerDetails.details.Month ===
+                                                    undefined ||
+                                                this.state.registerDetails.details.Year ===
+                                                    undefined
+                                            }
                                             size="large"
                                             style={{ width: '100%' }}
-                                            value={this.state.registerDetails.details.Year || ''}
-                                            onChange={(e: any) => this.handleYearChange(e)}
+                                            value={this.state.registerDetails.details.Day || ''}
+                                            onChange={(e: any) => this.handleDayChange(e)}
                                         >
-                                            {years}
+                                            {this.state.days}
                                         </Select>
                                     </Col>
                                 </Row>
@@ -138,17 +160,15 @@ class IntroPersonPage extends Component<any, any> {
 
                     <div className="page-section page-section-footer">
                         <div className="intro-footer text-right">
-                            {this.checkForm() && (
-                                <Button
-                                    disabled={!this.checkForm()}
-                                    type="primary"
-                                    onClick={() => {
-                                        this.GoForward();
-                                    }}
-                                >
-                                    Urmatorul pas
-                                </Button>
-                            )}
+                            <Button
+                                disabled={!this.checkForm()}
+                                type="primary"
+                                onClick={() => {
+                                    this.GoForward();
+                                }}
+                            >
+                                Urmatorul pas
+                            </Button>
                         </div>
                     </div>
                 </div>
@@ -189,7 +209,9 @@ class IntroPersonPage extends Component<any, any> {
             );
         }
 
-        return options;
+        this.setState({
+            months: options,
+        });
     }
 
     private GetYears() {
@@ -207,15 +229,20 @@ class IntroPersonPage extends Component<any, any> {
             );
         }
 
-        return options;
+        this.setState({
+            years: options,
+        });
     }
 
-    private GetDays() {
+    private async GetDays() {
         const Option = Select.Option;
         let options = [];
-
+        let selectedDate =
+            this.state.registerDetails.details.Year +
+            '-' +
+            this.state.registerDetails.details.Month;
         const startDay = 1;
-        const endDay = 31;
+        const endDay = moment(selectedDate, 'YYYY-MM').daysInMonth();
 
         for (let i = startDay; i <= endDay; i++) {
             options.push(
@@ -225,7 +252,9 @@ class IntroPersonPage extends Component<any, any> {
             );
         }
 
-        return options;
+        await this.setState({
+            days: options,
+        });
     }
 }
 

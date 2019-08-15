@@ -39,6 +39,7 @@ class LocationDetailsEventPage extends Component<any, any> {
         await this.chekIfIsValid();
     }
 
+    
     async chekIfIsValid() {
         let isValid = await FormValidators.checkSchema(
             this.state.eventDetails.locationDetails,
@@ -95,8 +96,8 @@ class LocationDetailsEventPage extends Component<any, any> {
                             type="text"
                             placeholder="Adresa"
                             data-lpignore="true"
-                            name="Address"
-                            value={this.state.eventDetails.locationDetails.Address}
+                            name="StreetName"
+                            value={this.state.eventDetails.locationDetails.StreetName}
                             onChange={e => this.handleChange(e)}
                         />
                     </div>

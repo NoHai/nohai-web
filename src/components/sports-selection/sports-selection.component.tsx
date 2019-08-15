@@ -10,14 +10,6 @@ class SportsSelection extends Component<SportSelectionProps> {
     private levels = ['Incepator', 'Intermediar', 'Avansat'];
     public selectedSport = '';
 
-    componentDidMount() {
-        if (this.props.sport && this.props.sport) {
-            this.setState({
-                displayText: this.props.sport + ' - ' + this.props.level,
-            });
-        }
-    }
-
     showDrawer = () => {
         this.setState({
             visible: true,
@@ -64,7 +56,7 @@ class SportsSelection extends Component<SportSelectionProps> {
                     size={'large'}
                     onClick={this.showDrawer}
                 >
-                    {this.state.displayText || ''}
+                    {this.getDisplay()}
                 </Button>
 
                 <Drawer
@@ -118,7 +110,10 @@ class SportsSelection extends Component<SportSelectionProps> {
         );
     }
 
-    private OpenModal() {}
+    private getDisplay() {
+        const hasValue = this.props.sport;
+        return hasValue ? `${this.props.sport} - ${this.props.level}` : 'Alege sportul';
+    }
 }
 
 export default SportsSelection;
