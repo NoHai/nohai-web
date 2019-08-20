@@ -70,13 +70,13 @@ class EventRepositoryController implements IEventRepository {
             }
         };
 
-        const crateEventMutation = gql`
+        const createEventMutation = gql`
             mutation crateEventMutation($event: EventInput!) {
                 createEvent(input: $event) {
                     id
             }}`;
 
-        const result: any = await GraphqlClient.mutate(crateEventMutation, input);
+        const result: any = await GraphqlClient.mutate(createEventMutation, input);
         return result.createEvent.id;
     }
 
