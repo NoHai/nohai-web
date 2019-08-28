@@ -10,7 +10,7 @@
         "eject": "react-scripts eject"
     },
     "dependencies": {
-        "antd": "3.20.1",
+        "antd": "3.22.2",
         "apollo-boost": "^0.4.3",
         "class-validator": "^0.9.1",
         "firebase": "^6.3.5",
