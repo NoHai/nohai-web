@@ -17,8 +17,14 @@ class EventRepositoryController implements IEventRepository {
                     description
                     address{
                         streetName
-                        city
-                        county
+                        city{
+                            id
+                            name
+                        }
+                        county{
+                            id
+                            name
+                        }
                     }
                     sport
                     freeSpots
@@ -60,13 +66,14 @@ class EventRepositoryController implements IEventRepository {
                 owner: "owner event",
                 title: eventDetails.event.Name,
                 description: eventDetails.description.Description,
-                address: { streetName: eventDetails.locationDetails.StreetName, city: eventDetails.locationDetails.City, county: eventDetails.locationDetails.County },
-                sport: eventDetails.participantsDetails.Sport + '   - ' + eventDetails.participantsDetails.Level,
-                participantsNumber: eventDetails.participantsDetails.FreeSpots,
+                address: { streetName: eventDetails.locationDetails.StreetName, city: { id: eventDetails.locationDetails.City }, county: { id: "76rqy3nt07aydbwt" } },
+                sport: eventDetails.participantsDetails.Sport,
+                freeSpots: eventDetails.participantsDetails.FreeSpots,
                 cost: eventDetails.participantsDetails.PriceForParticipant,
                 date: eventDetails.description.Date,
                 hour: eventDetails.description.Time,
                 duration: eventDetails.description.Duration,
+                level:1,
             }
         };
 

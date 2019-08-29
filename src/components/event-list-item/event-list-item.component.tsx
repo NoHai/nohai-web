@@ -27,7 +27,7 @@ class EventListItem extends Component<EventListItemProps, any> {
     }
 
     private NavigateToEventDetails() {
-        history.push('/details/:'+this.props.eventDetails.event.Id);
+        history.push('/details/'+this.props.eventDetails.event.Id);
     }
 }
 

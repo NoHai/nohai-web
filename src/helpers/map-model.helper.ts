@@ -13,8 +13,8 @@ export default class MapModelHelper {
         result.event.Id = model.id;
 
         result.locationDetails.StreetName = model.address.streetName;
-        result.locationDetails.City = model.address.city;
-        result.locationDetails.County = model.address.county;
+        result.locationDetails.City = model.address.city.name;
+        result.locationDetails.County = model.address.county.name;
         result.participantsDetails.FreeSpots = model.freeSpots;
         result.participantsDetails.TotalParticipants =10;
         result.participantsDetails.PriceForParticipant = model.cost;

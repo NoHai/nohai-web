@@ -26,6 +26,15 @@ class GraphqlClientController {
         const result: T = response.data;
         return result;
     }
+    
+    public async queryWithVariables<T>(query:any, variables:any){
+        const response: any = await this.client.query({
+            query: query,
+            variables:variables
+        });
+        const result: T = response.data;
+        return result;
+    }
 
     public async mutate<T>(mutation: any, variables: any){
         const response: any = await this.client.mutate({
