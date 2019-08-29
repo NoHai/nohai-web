@@ -43,19 +43,17 @@ class EventRepositoryController implements IEventRepository {
     }
 
     public async Get(id: any): Promise<EventDetailsViewModel> {
-        let input: any = {
-            id: id
-        }
+        const variables: any = {id: id};
         const query = gql`
-        {
-            eventById(id: ${input}) {
-                title,
-                description
+            query eventDetails($id: String){
+             eventById(id: $id) {
+                    title,
+                    description
+                }
             }
-        }
-    `;
+        `;
 
-        const results: any = await GraphqlClient.query(query);
+        const results: any = await GraphqlClient.queryWithVariables(query, variables);
         return results.event;
     }
 
