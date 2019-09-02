@@ -5,5 +5,5 @@ export class UserDetailsModel {
     public Weight!: number;
     public Height!: number;
     public Sport!: string;
-    public Level!:string;
+    public Level!:number;
 }

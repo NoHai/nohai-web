@@ -42,7 +42,7 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
         await this.chekIfIsValid();
     }
 
-    async onCloseDrawer(sport: string, level: string) {
+    async onCloseDrawer(sport: string, level: number) {
         await this.setState((prevState: any) => ({
             eventDetails: {
                 ...prevState.eventDetails,
@@ -86,7 +86,7 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
                         <label>Sportul si nivelul</label>
                         <SportsSelection
                             sport={this.state.eventDetails.participantsDetails.Sport || ''}
-                            level={this.state.eventDetails.participantsDetails.Level || ''}
+                            level={this.state.eventDetails.participantsDetails.Level || 0}
                             onCloseDrawer={(sport, level) => this.onCloseDrawer(sport, level)}
                         />
                         <label>Numar locuri</label>

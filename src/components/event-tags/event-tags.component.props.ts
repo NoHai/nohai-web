@@ -1,5 +1,5 @@
 export interface EventTagsProps {
     Sport:string;
-    Level:string;
+    Level:number;
     Price:number;
 }

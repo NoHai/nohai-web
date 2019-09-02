@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import './sports-selection.component.scss';
 import { Drawer, List, Button } from 'antd';
 import { SportSelectionProps } from './sports-selection.component.props';
+import { SportLevelType } from '../../contracts/enums/common/sport-level.type';
 
 class SportsSelection extends Component<SportSelectionProps> {
-    state = { visible: false, childrenDrawer: false, displayText: 'Alege Sportul si nivelul' };
+    state = { visible: false, childrenDrawer: false };
 
     private sports = ['Alergat', 'Fotbal', 'Tenis', 'Handbal', 'Ping Pong', 'Sah'];
-    private levels = ['Incepator', 'Intermediar', 'Avansat'];
+    private levels = [1, 2, 3];
     public selectedSport = '';
 
     showDrawer = () => {
@@ -36,11 +37,10 @@ class SportsSelection extends Component<SportSelectionProps> {
         this.selectedSport = sport;
     }
 
-    onChildrenDrawerClose(level: string) {
+    onChildrenDrawerClose(level: number) {
         this.setState({
             childrenDrawer: false,
             visible: false,
-            displayText: this.selectedSport + ' - ' + level,
         });
         if (this.props.onCloseDrawer) {
             this.props.onCloseDrawer(this.selectedSport, level);
@@ -100,7 +100,7 @@ class SportsSelection extends Component<SportSelectionProps> {
                                         this.onChildrenDrawerClose(item);
                                     }}
                                 >
-                                    {item}
+                                    {SportLevelType[item]}
                                 </List.Item>
                             )}
                         />
@@ -112,7 +112,9 @@ class SportsSelection extends Component<SportSelectionProps> {
 
     private getDisplay() {
         const hasValue = this.props.sport;
-        return hasValue ? `${this.props.sport} - ${this.props.level}` : 'Alege sportul';
+        return hasValue
+            ? `${this.props.sport} - ${SportLevelType[this.props.level]}`
+            : 'Alege sportul';
     }
 }
 

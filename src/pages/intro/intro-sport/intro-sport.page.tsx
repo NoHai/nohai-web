@@ -20,7 +20,7 @@ class IntroSport extends Component<any, any> {
         });
     }
 
-    async onCloseDrawer(sport: string, level: string) {
+    async onCloseDrawer(sport: string, level: number) {
         this.setState((prevState: any) => ({
             registerDetails: {
                 ...prevState.registerDetails,

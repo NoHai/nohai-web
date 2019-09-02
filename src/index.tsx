@@ -11,8 +11,10 @@ const store = configureStore();
 
 ReactDOM.render(
     <Provider store={store}>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBGM0DeAzD2CFJZe4V2KEkRAUNLO2Jq9mU&libraries=places"></script>
         <App />
     </Provider>,
+    
     document.getElementById('root')
 );
 

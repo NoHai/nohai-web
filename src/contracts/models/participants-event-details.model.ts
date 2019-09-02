@@ -1,6 +1,6 @@
 export class ParticipantsEventDetailsModel {
     Sport!:string;
-    Level!:string;
+    Level!:number;
     TotalParticipants!: number;
     FreeSpots!: number;
     PriceForParticipant!: number;

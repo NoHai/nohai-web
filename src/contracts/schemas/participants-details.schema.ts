@@ -7,8 +7,10 @@ export let ParticipantsDetailsSchema: ValidationSchema = { // using interface he
             constraints: [3]
         }],
         Level: [{
-            type: "minLength",
-            constraints: [3]
+            type: "isInt",
+        }, {
+            type: "min",
+            constraints: [1]
         }],
         TotalParticipants: [{
             type: "isInt",

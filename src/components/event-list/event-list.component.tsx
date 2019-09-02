@@ -55,7 +55,7 @@ class EventList extends Component {
         result.Data.forEach(element => {
             this.eventDetilsContainer.push(element);
         });
-        if (this.eventRequest.pageIndex === 1) {
+        if (this.eventDetilsContainer.length >= result.Total) {
             this.setState({
                 hasMoreItems: false,
             });

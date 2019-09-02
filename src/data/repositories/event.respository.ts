@@ -4,6 +4,7 @@ import { FindEventRequest } from '../../contracts/requests/find-event.request';
 import GraphqlClient from '../request/graphql-client';
 import gql from 'graphql-tag';
 import MapModelHelper from '../../helpers/map-model.helper';
+import { SportLevelType } from '../../contracts/enums/common/sport-level.type';
 
 class EventRepositoryController implements IEventRepository {
     public async Find(data: FindEventRequest): Promise<ListModel<EventDetailsViewModel>> {
@@ -33,28 +34,49 @@ class EventRepositoryController implements IEventRepository {
                     hour
                     duration
                     level
-                    }
+                },
+                totalCount
                 }
             }`;
 
         const response: any = await GraphqlClient.query(query);
-        let results = await this.GetEventsMap(response.events.items);
+        let results = await this.GetEventsMap(response.events);
         return results;
     }
 
     public async Get(id: any): Promise<EventDetailsViewModel> {
         const variables: any = {id: id};
         const query = gql`
-            query eventDetails($id: String){
+            query eventDetails($id: String!){
              eventById(id: $id) {
-                    title,
-                    description
+                id
+                owner
+                title
+                description
+                address{
+                    streetName
+                    city{
+                        id
+                        name
+                    }
+                    county{
+                        id
+                        name
+                    }
+                }
+                sport
+                freeSpots
+                cost
+                date
+                hour
+                duration
+                level
                 }
             }
         `;
 
         const results: any = await GraphqlClient.queryWithVariables(query, variables);
-        return results.event;
+        return MapModelHelper.MapEvent(results.eventById) ;
     }
 
     public async Create(eventDetails: EventDetailsViewModel): Promise<EventDetailsViewModel> {
@@ -71,7 +93,7 @@ class EventRepositoryController implements IEventRepository {
                 date: eventDetails.description.Date,
                 hour: eventDetails.description.Time,
                 duration: eventDetails.description.Duration,
-                level:1,
+                level: eventDetails.participantsDetails.Level,
             }
         };
 
@@ -95,8 +117,8 @@ class EventRepositoryController implements IEventRepository {
 
     private async GetEventsMap(model: any) {
         let result = new ListModel<EventDetailsViewModel>();
-        result.Total = model.length;
-        model.forEach((element: any) => {
+        result.Total = model.totalCount;
+        model.items.forEach((element: any) => {
             let event = MapModelHelper.MapEvent(element);
             result.Data.push(event);
         });

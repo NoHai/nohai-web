@@ -15,8 +15,12 @@ import { checkLogin } from './redux/actions/auth.action';
 import { initialAuthState } from './redux/reducers/auth.reducer';
 
 class App extends Component<any, any> {
-    componentDidMount() {
+    async componentDidMount() {
         this.checkLogin();
+        const script = document.createElement('script');
+        script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDx4lOromkMykLetHX78GQvWrMWrO7mmtM&libraries=places';
+        script.async = true;
+        await document.body.appendChild(script);
     }
 
     render() {

@@ -19,6 +19,7 @@ export default class MapModelHelper {
         result.participantsDetails.TotalParticipants =10;
         result.participantsDetails.PriceForParticipant = model.cost;
         result.participantsDetails.Sport = model.sport;
+        result.participantsDetails.Level = model.level;
 
         return result;
     }
