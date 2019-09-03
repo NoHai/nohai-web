@@ -14,35 +14,18 @@ export const initializeFirebase = () => {
     appId: "1:44767533362:web:522cde2738eae6fa"
   };
   firebase.initializeApp(firebaseConfig);
+}
 
-  const messaging = firebase.messaging();
-  messaging.requestPermission()
-    .then(function () {
-      console.log("Have permission");
-      return messaging.getToken();
-    }).then(function (token) {
-      console.log(token)
-    })
-    .catch(function () {
-      console.log("Dont have permission");
-    })
-
-  messaging.onMessage(function (payload) {
-    console.log('onMessage: ', payload);
-  });
-
-
-  messaging.onTokenRefresh(() => {
-    messaging.getToken().then((refreshedToken) => {
-      console.log('Token refreshed.', refreshedToken);
-      // Indicate that the new Instance ID token has not yet been sent to the
-      // app server.
-      // Send Instance ID token to app server.
-      // ...
-    }).catch((err) => {
-      console.log('Unable to retrieve refreshed token ', err);
-    });
-  });
-
+export const askForPermissioToReceiveNotifications = async () => {
+  try {
+    const messaging = firebase.messaging();
+    await messaging.requestPermission();
+    const token = await messaging.getToken();
+    console.log('token do usuário:', token);
+    
+    return token;
+  } catch (error) {
+    console.error(error);
+  }
 }
 

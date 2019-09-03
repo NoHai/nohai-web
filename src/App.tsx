@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Router, Redirect, RouteProps } from 'react-router';
+import { Router, RouteProps } from 'react-router';
 import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import history from './utilities/core/history';

@@ -9,7 +9,6 @@ import { LocalStorage } from '../../../../contracts/enums/localStorage/local-sto
 import LocalStorageHelper from '../../../../helpers/local-storage.helper';
 import { FormValidators } from '../../../../contracts/validators/forms-validators';
 import PlacesAutocomplete from 'react-places-autocomplete';
-import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 
 registerSchema(LocationDetailsSchema);
 

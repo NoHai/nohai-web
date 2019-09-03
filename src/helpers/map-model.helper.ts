@@ -16,9 +16,9 @@ export default class MapModelHelper {
         result.locationDetails.City = model.address.city.name;
         result.locationDetails.County = model.address.county.name;
         result.participantsDetails.FreeSpots = model.freeSpots;
-        result.participantsDetails.TotalParticipants =10;
+        result.participantsDetails.TotalParticipants =model.sport.defaultParticipantsNumber;
         result.participantsDetails.PriceForParticipant = model.cost;
-        result.participantsDetails.Sport = model.sport;
+        result.participantsDetails.Sport = model.sport.name;
         result.participantsDetails.Level = model.level;
 
         return result;

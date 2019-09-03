@@ -4,7 +4,6 @@ import { FindEventRequest } from '../../contracts/requests/find-event.request';
 import GraphqlClient from '../request/graphql-client';
 import gql from 'graphql-tag';
 import MapModelHelper from '../../helpers/map-model.helper';
-import { SportLevelType } from '../../contracts/enums/common/sport-level.type';
 
 class EventRepositoryController implements IEventRepository {
     public async Find(data: FindEventRequest): Promise<ListModel<EventDetailsViewModel>> {
@@ -27,7 +26,10 @@ class EventRepositoryController implements IEventRepository {
                             name
                         }
                     }
-                    sport
+                    sport{
+                        name,
+                        defaultParticipantsNumber
+                      }
                     freeSpots
                     cost
                     date
@@ -64,7 +66,10 @@ class EventRepositoryController implements IEventRepository {
                         name
                     }
                 }
-                sport
+                sport{
+                    name,
+                    defaultParticipantsNumber
+                  }
                 freeSpots
                 cost
                 date
