@@ -1,8 +1,9 @@
 import { EventDetailsViewModel } from "../contracts/models";
 import { UserViewModel } from "../contracts/view-models/user-view.model";
+import { NotificationModel } from "../contracts/models/notification.model";
 
 export default class MapModelHelper {
-    public static MapEvent(model: any): EventDetailsViewModel{
+    public static MapEvent(model: any): EventDetailsViewModel {
         let result = new EventDetailsViewModel();
         result.description.Description = model.description;
         result.description.Date = model.date;
@@ -17,7 +18,7 @@ export default class MapModelHelper {
         result.locationDetails.City = model.address.city.name;
         result.locationDetails.County = model.address.county.name;
         result.participantsDetails.FreeSpots = model.freeSpots;
-        result.participantsDetails.TotalParticipants =model.sport.defaultParticipantsNumber;
+        result.participantsDetails.TotalParticipants = model.sport.defaultParticipantsNumber;
         result.participantsDetails.PriceForParticipant = model.cost;
         result.participantsDetails.Sport = model.sport.name;
         result.participantsDetails.Level = model.level;
@@ -25,7 +26,7 @@ export default class MapModelHelper {
         return result;
     }
 
-    public static MapUser(model: any): UserViewModel{
+    public static MapUser(model: any): UserViewModel {
         let result = new UserViewModel();
         result.user.Id = model.id;
         result.user.FirstName = model.firstName;
@@ -34,6 +35,22 @@ export default class MapModelHelper {
         result.details.Day = model.dateOfBirth;
         result.details.Weight = model.weight;
         result.details.Height = model.height;
+        return result;
+    }
+
+    public static MapNotification(model: any): NotificationModel {
+        let result = new NotificationModel();
+        if (model) {
+            result.AvatarUrl = model.avatarUrl;
+            result.Body = model.body;
+            result.CreatedBy = model.createdUser;
+            result.EventId = model.eventId;
+            result.Id = model.id;
+            result.NotificationType = model.type;
+            result.Status = model.status;
+            result.Title = model.title;
+            result.UserId = model.userId;
+        }
         return result;
     }
 }
