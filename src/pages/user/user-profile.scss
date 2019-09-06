@@ -1,0 +1,48 @@
+@import './../../globals/styles/variables';
+
+.user-profile {
+    .text-align {
+        text-align: center;
+        margin-top: 30px;
+    }
+    .dot {
+        border: solid;
+        border-width: 1px;
+        height: 100px;
+        width: 100px;
+        border-color: #bbb;
+        border-radius: 50%;
+        display: inline-block;
+        margin-bottom: 15px;
+    }
+
+    label {
+        padding: 1px 30px;
+        display: block;
+    }
+
+    input {
+        border: 0;
+        outline: 0;
+        margin-left: 90px;
+    }
+
+    .inline-input-wrapper {
+        position: relative;
+        display: inline-block;
+        padding-left: 65px;
+        span {
+            display: block;
+            position: absolute;
+            left: 67px;
+            top: 5px;
+        }
+    }
+
+    .name{
+        font-size: 17px;
+        text-align: center;
+        font-weight: bold;
+        margin-bottom: 28px;
+    }
+}

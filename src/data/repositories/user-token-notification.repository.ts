@@ -20,9 +20,26 @@ class UserTokenNotificationRepositoryController implements IUserTokenNotificatio
         return results.users;
     }
 
-    public Create(userToken: TokenNotificationModel): Promise<TokenNotificationModel> {
-        throw new Error('Method not implemented.');
+    public async Create(userToken: TokenNotificationModel): Promise<TokenNotificationModel> {
+        let input: any = {
+            notificationToken:
+            {
+                userId:'7c2bac31-896e-481b-9c45-eb32e80f712e',
+                token:userToken.Token
+            }
+        };
+
+        const createNotificationTokenMutation = gql`
+            mutation createNotificationTokenMutation($notificationToken: NotificationTokenInput!) {
+                createNotificationToken(input: $notificationToken) {
+                    id
+            }}`;
+
+        const result: any = await GraphqlClient.mutate(createNotificationTokenMutation, input);
+        return result.createNotificationToken.id;
+          
     }
+    
 
     public async Update(userToken: TokenNotificationModel): Promise<TokenNotificationModel> {
         throw new Error('Method not implemented.');

@@ -3,12 +3,14 @@ import { Menu, Dropdown } from 'antd';
 import { connect } from 'react-redux';
 import { logout } from './../../redux/actions/auth.action';
 import { initialAuthState } from '../../redux/reducers/auth.reducer';
+import history from '../../utilities/core/history';
+
 
 class UserIconButton extends Component<any, any> {
     render() {
         const menu = (
             <Menu>
-                <Menu.Item key="0">Profil</Menu.Item>
+                <Menu.Item key="0"  onClick={() => this.NavigateToProfile()}>Profil</Menu.Item>
                 <Menu.Item key="1" onClick={() => this.props.logout()}>
                     Deconectare
                 </Menu.Item>
@@ -27,6 +29,9 @@ class UserIconButton extends Component<any, any> {
                 </Dropdown>
             </div>
         );
+    }
+    private NavigateToProfile() {
+        history.push('/profile');
     }
 }
 

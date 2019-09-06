@@ -8,6 +8,7 @@ import {
     UpdateEventCommand,
     DeleteEventCommand,
 } from '../commands/event';
+import { JoinEventCommand } from '../commands/event/join-event.command';
 
 class EventServiceController implements IEventService {
     public async Find(request: FindEventRequest): Promise<ListModel<EventDetailsViewModel>> {
@@ -29,6 +30,10 @@ class EventServiceController implements IEventService {
 
     public async Delete(id: any): Promise<ResultModel<boolean>> {
         return await DeleteEventCommand.execute(id);
+    }
+
+    public async Join(id: any): Promise<ResultModel<boolean>> {
+        return await JoinEventCommand.execute(id);
     }
 }
 

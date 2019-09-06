@@ -1,4 +1,5 @@
 import { EventDetailsViewModel } from "../contracts/models";
+import { UserViewModel } from "../contracts/view-models/user-view.model";
 
 export default class MapModelHelper {
     public static MapEvent(model: any): EventDetailsViewModel{
@@ -21,6 +22,18 @@ export default class MapModelHelper {
         result.participantsDetails.Sport = model.sport.name;
         result.participantsDetails.Level = model.level;
 
+        return result;
+    }
+
+    public static MapUser(model: any): UserViewModel{
+        let result = new UserViewModel();
+        result.user.Id = model.id;
+        result.user.FirstName = model.firstName;
+        result.user.LastName = model.lastName;
+
+        result.details.Day = model.dateOfBirth;
+        result.details.Weight = model.weight;
+        result.details.Height = model.height;
         return result;
     }
 }

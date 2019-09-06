@@ -1,4 +1,4 @@
 import { IService } from './service.interface';
-import { UserModel } from '../models';
+import { UserViewModel } from '../view-models/user-view.model';
 
-export interface IUserService extends IService<UserModel> {}
+export interface IUserService extends IService<UserViewModel> {}

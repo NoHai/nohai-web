@@ -86,7 +86,7 @@ class IntroSport extends Component<any, any> {
 
     private async GoForward() {
         const result = await UserService.Update(this.state.registerDetails);
-        if (result.Id) {
+        if (result.user.Id) {
             LocalStorageHelper.DeleteItemFromLocalStorage(LocalStorage.IntroInfo);
             history.push('/');
         }

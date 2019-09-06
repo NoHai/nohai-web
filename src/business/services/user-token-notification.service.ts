@@ -5,7 +5,7 @@ import { IUserTokenNotificationService } from '../../contracts/services/user-tok
 import { GetUserTokenNotificationCommand, CreateUserTokenNotificationCommand, UpdateUserTokenNotificationCommand, DeleteUserTokenNotificationCommand } from '../commands/user-token-notification';
 
 
-class NotificationServiceController implements IUserTokenNotificationService {
+class UserTokenNotificationServiceController implements IUserTokenNotificationService {
     public async Get(id: any): Promise<TokenNotificationModel> {
         return await GetUserTokenNotificationCommand.execute(id);
     }
@@ -23,4 +23,4 @@ class NotificationServiceController implements IUserTokenNotificationService {
     }
 }
 
-export const UserService = new NotificationServiceController();
+export const UserTokenNotificationService = new UserTokenNotificationServiceController();

@@ -1,5 +1,5 @@
 import { IUserService } from '../../contracts/services/user-service.interface';
-import { UserModel, ResultModel } from '../../contracts/models';
+import { ResultModel } from '../../contracts/models';
 import {
     GetUserCommand,
     CreateUserCommand,
@@ -9,15 +9,15 @@ import {
 import { UserViewModel } from '../../contracts/view-models/user-view.model';
 
 class UserServiceController implements IUserService {
-    public async Get(id: any): Promise<UserModel> {
+    public async Get(id: any): Promise<UserViewModel> {
         return await GetUserCommand.execute(id);
     }
 
-    public async Create(user: UserModel): Promise<UserModel> {
+    public async Create(user: UserViewModel): Promise<UserViewModel> {
         return await CreateUserCommand.execute(user);
     }
 
-    public async Update(user: UserViewModel): Promise<UserModel> {
+    public async Update(user: UserViewModel): Promise<UserViewModel> {
         return await UpdateUserCommand.execute(user);
     }
 

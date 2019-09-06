@@ -8,6 +8,7 @@ import PageFooter from '../../../components/page-footer/page-footer.component';
 import EventDetailsPage from '../../event/details/event-details.page';
 import NotificationPage from '../../notification/notification.page';
 import CreateEventPage from '../../event/create-event/create-event.page';
+import UserProfilePage from '../../user/user-profile';
 
 class WrapperPage extends Component {
     public render() {
@@ -23,6 +24,7 @@ class WrapperPage extends Component {
                         <Route path="/preview" component={EventDetailsPage} />
                         <Route path="/notification" component={NotificationPage} />
                         <Route path="/create-event" component={CreateEventPage} />
+                        <Route path="/profile" component={UserProfilePage} />
                         <Route component={PageNotFound} />
                     </Switch>
                 </div>

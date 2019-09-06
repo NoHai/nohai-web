@@ -34,8 +34,6 @@ class EventDetailsPage extends Component<DetailsProps> {
         }
     }
     render() {
-        console.log(this.props);
-
         return (
             <div className="event-list-item">
                 <EventCard eventDetails={this.state.eventDetails} />

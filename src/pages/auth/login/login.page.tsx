@@ -8,7 +8,8 @@ import FacebookHelper from '../../../helpers/facebook.helper';
 import { initialAuthState } from '../../../redux/reducers/auth.reducer';
 import { login } from './../../../redux/actions/auth.action';
 import AuthService from '../../../business/services/auth.service';
-import { askForPermissioToReceiveNotifications } from '../../../push-notification';
+import { UserTokenNotificationService } from '../../../business/services/user-token-notification.service';
+import { TokenNotificationModel } from '../../../contracts/models/token-notification.model';
 
 declare var FB: any;
 
@@ -104,7 +105,10 @@ class LoginPage extends Component<any, any> {
     public async doLogin() {
         //this.props.login('', '');
         await AuthService.login(this.state.email, this.state.password)
-        let token=askForPermissioToReceiveNotifications();
+       // let token=await askForPermissioToReceiveNotifications();
+        let userToken= new TokenNotificationModel();
+        userToken.Token = 'scfgsdfgbdfgd';
+        await UserTokenNotificationService.Create(userToken);
     }
 
 

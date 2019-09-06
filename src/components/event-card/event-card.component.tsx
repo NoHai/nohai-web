@@ -57,7 +57,15 @@ class EventCard extends Component<any, any> {
                             <EventMembers />
                         </Col>
                         <Col span={12} className="text-right">
-                            <Button type="primary" size="large" block className="join-button">
+                            <Button
+                                type="primary"
+                                size="large"
+                                block
+                                className="join-button"
+                                onClick={() => {
+                                    this.joinEvent();
+                                }}
+                            >
                                 <span className="icon mdi mdi-hand" />
                                 Vreau si eu
                             </Button>
@@ -97,6 +105,15 @@ class EventCard extends Component<any, any> {
     }
     private async createEvent() {
         const id = await EventService.Create(this.props.eventDetails);
+        if (id) {
+            LocalStorageHelper.DeleteItemFromLocalStorage(LocalStorage.CreateEvent);
+            alert(id);
+            history.push('/');
+        }
+    }
+
+    private async joinEvent() {
+        const id = await EventService.Join(this.props.eventDetails.event.Id);
         if (id) {
             LocalStorageHelper.DeleteItemFromLocalStorage(LocalStorage.CreateEvent);
             alert(id);

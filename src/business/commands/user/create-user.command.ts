@@ -1,9 +1,9 @@
 import { ICommand } from '../command.interface';
-import { UserModel } from '../../../contracts/models';
 import { UserRepository } from '../../../data/repositories';
+import { UserViewModel } from '../../../contracts/view-models/user-view.model';
 
-class CreateUserCommandController implements ICommand<UserModel, Promise<UserModel>> {
-    public async execute(user: UserModel): Promise<UserModel> {
+class CreateUserCommandController implements ICommand<UserViewModel, Promise<UserViewModel>> {
+    public async execute(user: UserViewModel): Promise<UserViewModel> {
         return await UserRepository.Create(user);
     }
 }

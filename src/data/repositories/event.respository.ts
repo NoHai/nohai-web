@@ -120,6 +120,26 @@ class EventRepositoryController implements IEventRepository {
         throw new Error('Method not implemented.');
     }
 
+    public async Join(eventId: any): Promise<ResultModel<boolean>> {
+        let input: any = {
+            userEvent:
+            {
+                userId:'7c2bac31-896e-481b-9c45-eb32e80f712e',
+                eventId:eventId,
+                status:1
+            }
+        };
+
+        const createUserEventsMutation = gql`
+            mutation createUserEventsMutation($userEvent: UserEventsInput!) {
+                createUserEvents(input: $userEvent) {
+                    id
+            }}`;
+
+        const result: any = await GraphqlClient.mutate(createUserEventsMutation, input);
+        return result.createUserEvents.id;
+    }
+
     private async GetEventsMap(model: any) {
         let result = new ListModel<EventDetailsViewModel>();
         result.Total = model.totalCount;

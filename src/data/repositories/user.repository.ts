@@ -1,30 +1,37 @@
 import { IUserRepository } from '../../contracts/repositories/user-repository.interface';
-import { UserModel, ResultModel } from '../../contracts/models';
+import { ResultModel } from '../../contracts/models';
 import gql from 'graphql-tag';
 import GraphqlClient from '../request/graphql-client';
 import { UserViewModel } from '../../contracts/view-models/user-view.model';
+import MapModelHelper from '../../helpers/map-model.helper';
 
 class UserRepositoryController implements IUserRepository {
-    public async Get(id: any): Promise<UserModel> {
+    public async Get(id: any): Promise<UserViewModel> {
+
+        const variables: any = {id: id};
         const query = gql`
-            {
-                users(id: ${id}) {
-                    id,
-                    firstName,
+            query usersDetails($id: String!){
+             getUserById(id: $id) {
+                    id
+                    firstName
                     lastName
+                    dateOfBirth
+                    height
+                    weight
+                    picture
                 }
             }
         `;
 
-        const results: any = await GraphqlClient.query(query);
-        return results.users;
+        const results: any = await GraphqlClient.queryWithVariables(query, variables);
+        return MapModelHelper.MapUser(results.getUserById) ;
     }
 
-    public Create(data: UserModel): Promise<UserModel> {
+    public Create(data: UserViewModel): Promise<UserViewModel> {
         throw new Error('Method not implemented.');
     }
 
-    public async Update(userDetails: UserViewModel): Promise<UserModel> {
+    public async Update(userDetails: UserViewModel): Promise<UserViewModel> {
         let input: any =  { details: 
             {
                 id: userDetails.user.Id,
@@ -43,8 +50,8 @@ class UserRepositoryController implements IUserRepository {
             }}`;
 
         const result: any = await GraphqlClient.mutate(updateMutation, input);
-        const user = new UserModel();
-        user.Id = result.updateUser.id;
+        const user = new UserViewModel();
+        user.user.Id = result.updateUser.id;
         return user;
     }
 
