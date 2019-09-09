@@ -105,15 +105,20 @@ class LoginPage extends Component<any, any> {
     public async doLogin() {
         //this.props.login('', '');
         await AuthService.login(this.state.email, this.state.password)
+        this.navigateToEvents();
        // let token=await askForPermissioToReceiveNotifications();
-        let userToken= new TokenNotificationModel();
-        userToken.Token = 'scfgsdfgbdfgd';
-        await UserTokenNotificationService.Create(userToken);
+        // let userToken= new TokenNotificationModel();
+        // userToken.Token = 'scfgsdfgbdfgd';
+        // await UserTokenNotificationService.Create(userToken);
     }
 
 
     private navigateToRegister() {
         history.push('/register');
+    }
+
+    private navigateToEvents(){
+        history.push('/');
     }
 
     private fbLogin() {

@@ -34,7 +34,7 @@ class TokenProviderController {
     }
 
     public async removeToken() {
-        StorageProvider.remove(AuthKey.SessionId);
+       await StorageProvider.remove(AuthKey.SessionId);
     }
 
     public async isValid(): Promise<boolean> {
