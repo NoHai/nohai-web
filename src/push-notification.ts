@@ -16,17 +16,7 @@ export const initializeFirebase = () => {
   firebase.initializeApp(firebaseConfig);
 
   const messaging = firebase.messaging();
-  messaging.requestPermission()
-    .then(function () {
-      console.log("Have permission");
-      return messaging.getToken();
-    }).then(function (token) {
-      console.log(token)
-    })
-    .catch(function () {
-      console.log("Dont have permission");
-    })
-
+  
   messaging.onMessage(function (payload) {
     console.log('onMessage: ', payload);
   });
@@ -45,4 +35,16 @@ export const initializeFirebase = () => {
   });
 
 }
+
+export const askForPermissioToReceiveNotifications = async () => {
+  try {
+    const messaging = firebase.messaging();
+    await messaging.requestPermission();
+    const token = await messaging.getToken();
+    console.log('token do usuário:', token);
+    return token;
+  } catch (error) {
+    console.error(error);
+  }
+ }
 

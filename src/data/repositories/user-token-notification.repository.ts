@@ -5,6 +5,7 @@ import { TokenNotificationModel } from '../../contracts/models/token-notificatio
 import { IUserTokenNotificationRepository } from '../../contracts/repositories/user-token-notification.repository.interface';
 
 class UserTokenNotificationRepositoryController implements IUserTokenNotificationRepository {
+  
     public async Get(userId: any): Promise<TokenNotificationModel> {
         const query = gql`
             {
@@ -20,26 +21,18 @@ class UserTokenNotificationRepositoryController implements IUserTokenNotificatio
         return results.users;
     }
 
-    public async Create(userToken: TokenNotificationModel): Promise<TokenNotificationModel> {
-        let input: any = {
-            notificationToken:
-            {
-                userId:'7c2bac31-896e-481b-9c45-eb32e80f712e',
-                token:userToken.Token
-            }
-        };
+    public async CreateToken(token: any): Promise<TokenNotificationModel> {
+        let notificationToken: any = {token:token};
 
         const createNotificationTokenMutation = gql`
-            mutation createNotificationTokenMutation($notificationToken: NotificationTokenInput!) {
-                createNotificationToken(input: $notificationToken) {
+            mutation createNotificationTokenMutation($token: String!) {
+                createNotificationToken(token: $token) {
                     id
             }}`;
 
-        const result: any = await GraphqlClient.mutate(createNotificationTokenMutation, input);
+        const result: any = await GraphqlClient.mutate(createNotificationTokenMutation, notificationToken);
         return result.createNotificationToken.id;
-          
     }
-    
 
     public async Update(userToken: TokenNotificationModel): Promise<TokenNotificationModel> {
         throw new Error('Method not implemented.');
@@ -47,6 +40,10 @@ class UserTokenNotificationRepositoryController implements IUserTokenNotificatio
 
     public Delete(data: any): Promise<ResultModel<boolean>> {
         throw new Error('Method not implemented.');
+    }
+
+      Create(data: TokenNotificationModel): Promise<TokenNotificationModel> {
+        throw new Error("Method not implemented.");
     }
 }
 

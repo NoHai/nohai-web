@@ -5,7 +5,7 @@ import { UserTokenNotificationRepository } from '../../../data/repositories/user
 
 class CreateUserTokenNotificationCommandController implements ICommand<UserModel, Promise<TokenNotificationModel>> {
     public async execute(userToken: any): Promise<TokenNotificationModel> {
-        return await UserTokenNotificationRepository.Create(userToken);
+        return await UserTokenNotificationRepository.CreateToken(userToken);
     }
 }
 
