@@ -2,6 +2,14 @@
 @import './../../globals/styles/functions';
 
 .notification-page {
+    .font-style{
+        text-align: center;
+        font-weight: bold;
+    }
+    .position{
+        text-align: center;
+        margin-top: 40px;
+    }
     .ant-btn {
         padding: 0 0;
     }

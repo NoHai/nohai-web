@@ -16,16 +16,16 @@ class NotificationCard extends Component<NotificationCardProps> {
                         <div
                             className="avatar"
                             style={{
-                                backgroundImage: this.props.user.Url,
+                                backgroundImage: this.props.avatarUrl,
                             }}
                         />
                     </Col>
                     <Col span={21}>
                         <div className="item-card-title">
-                            {this.props.user.FirstName} {this.getNotificationType()}
+                            {this.props.title}
                         </div>
 
-                        <p>{this.props.event.Description}</p>
+                        <p>{this.props.body}</p>
                     </Col>
                 </Row>
                 {this.getCardButtons()}
@@ -33,18 +33,6 @@ class NotificationCard extends Component<NotificationCardProps> {
         );
     }
 
-    getNotificationType() {
-        switch (this.props.actionType) {
-            default:
-                return <span>ti-a trimis o cerere</span>;
-            case ActionType.Request:
-                return <span>ti-a trimis o cerere</span>;
-            case ActionType.Accept:
-                return <span>a acceptat cererea ta pentru {this.props.event.Name}</span>;
-            case ActionType.Reject:
-                return <span>a refuzat cererea ta pentru {this.props.event.Name}</span>;
-        }
-    }
 
     getCardButtons() {
         if (this.props.actionType === ActionType.Request) {
@@ -81,7 +69,7 @@ class NotificationCard extends Component<NotificationCardProps> {
 
     private onButtonClickHandler(action: ActionButtonType) {
         if (this.props.onButtonClick) {
-            this.props.onButtonClick(action, this.props.id);
+            this.props.onButtonClick(action, this.props.eventId);
         }
     }
 }

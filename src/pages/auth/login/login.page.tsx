@@ -10,22 +10,48 @@ import { login } from './../../../redux/actions/auth.action';
 import AuthService from '../../../business/services/auth.service';
 import { UserTokenNotificationService } from '../../../business/services/user-token-notification.service';
 import { askForPermissioToReceiveNotifications } from '../../../push-notification';
+import { TokenNotificationModel } from '../../../contracts/models/token-notification.model';
+import FacebookLogin from 'react-facebook-login';
 
 declare var FB: any;
 
 class LoginPage extends Component<any, any> {
-    state = { email: '', password: '' }
+    state = { email: '', password: '', isLogIn: false, userId: '', name: '' };
 
     async handleChange(event: any) {
         const { name, value } = event.target;
-        this.setState({ [name]: value })
+        this.setState({ [name]: value });
     }
 
     componentDidMount() {
         FacebookHelper.Init();
     }
 
+    async responseFacebook(response: any) {
+        await AuthService.loginWithFb(response.email, response.name);
+        console.log(response);
+    }
+
+    componentClicked = () => console.log('Clicked');
+
     public render() {
+        let fbContent;
+        if (this.state.isLogIn) {
+            fbContent = null;
+        } else {
+            fbContent = (
+                <FacebookLogin
+                    appId="517121088858472"
+                    autoLoad={true}
+                    fields="name,email,picture"
+                    onClick={this.componentClicked}
+                    callback={e => this.responseFacebook(e)}
+                    cssClass="facebook"
+                    icon="icon mdi mdi-facebook"
+                />
+            );
+        }
+
         return (
             <div className="auth-page">
                 <div className="login-logo-container">
@@ -36,12 +62,26 @@ class LoginPage extends Component<any, any> {
                     <div className="auth-page-form-group">
                         <div className="inline-input-wrapper">
                             <span className="icon mdi mdi-email-outline" />
-                            <input name="email" value={this.state.email} type="text" placeholder="Adresa de email" data-lpignore="true" onChange={e => this.handleChange(e)} />
+                            <input
+                                name="email"
+                                value={this.state.email}
+                                type="text"
+                                placeholder="Adresa de email"
+                                data-lpignore="true"
+                                onChange={e => this.handleChange(e)}
+                            />
                         </div>
 
                         <div className="inline-input-wrapper">
                             <span className="icon mdi mdi-key" />
-                            <input name="password" value={this.state.password} type="password" placeholder="Parola" data-lpignore="true" onChange={e => this.handleChange(e)} />
+                            <input
+                                name="password"
+                                value={this.state.password}
+                                type="password"
+                                placeholder="Parola"
+                                data-lpignore="true"
+                                onChange={e => this.handleChange(e)}
+                            />
                         </div>
                     </div>
 
@@ -60,19 +100,7 @@ class LoginPage extends Component<any, any> {
 
                     <p className="text-center margin-bottom">sau foloseste contul de Facebook</p>
 
-                    <Button
-                        className="margin-bottom facebook fb-login-button"
-                        block
-                        type="primary"
-                        size="large"
-                        shape="round"
-                        onClick={() => {
-                            this.fbLogin();
-                        }}
-                    >
-                        <span className="icon mdi mdi-facebook" />
-                        Login with Facebook
-                    </Button>
+                    <div className="margin-bottom facebook fb-login-button">{fbContent}</div>
 
                     <Row>
                         <Col span={12}>
@@ -119,30 +147,9 @@ class LoginPage extends Component<any, any> {
         history.push('/register');
     }
 
+
     private navigateToEvents(){
         history.push('/');
-    }
-
-    private fbLogin() {
-        FB.login(
-            (response: any) => {
-                if (response.authResponse) {
-                    this.getFbUserData();
-                }
-            },
-            { scope: 'email' }
-        );
-    }
-
-    private getFbUserData() {
-        FB.api(
-            '/me',
-            { locale: 'en_US', fields: 'id,first_name,last_name,email,link,gender,locale,picture' },
-            () => {
-                // console.log(process.env.REACT_APP_FACEBOOK_APP_ID);
-                // console.table(response);
-            }
-        );
     }
 }
 

@@ -1,49 +1,42 @@
 import React, { Component } from 'react';
 import NotificationCard from '../../components/notification-card/notification-card';
 import './notification.page.scss';
-import { UserModel, EventModel } from '../../contracts/models';
-import { ActionType, ActionButtonType } from '../../contracts/enums/common';
+import { ListModel } from '../../contracts/models';
+import { ActionButtonType } from '../../contracts/enums/common';
 import history from '../../utilities/core/history';
+import { NotificationService } from '../../business/services/notification.service';
+import { NotificationModel } from '../../contracts/models/notification.model';
 
 class NotificationPage extends Component {
+    state = {
+        notifications: new ListModel<NotificationModel>(),
+    };
+    async componentDidMount() {
+        this.setState({
+            notifications: await NotificationService.Find('782f0204-42e3-4fe1-8c96-9ee0e189a850'),
+        });
+    }
     public render() {
-        let user = new UserModel();
-        user.FirstName = 'Danut';
-        user.LastName = 'Ilie';
-        user.Url = 'url(https://randomuser.me/api/portraits/women/65.jpg)';
-
-        let event = new EventModel();
-        event.Name='alergat'
-        event.Description =
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione deleniti enim eaque';
-
-        const notification = {
-            Id: 1,
-            User: user,
-            Event: event,
-            Action: ActionType.Request,
-        };
-        const notification1 = {
-            Id: 2,
-            User: user,
-            Event: event,
-            Action: ActionType.Reject,
-        };
-        var notifications = [notification, notification1];
-
         return (
             <div className="notification-page">
-                {notifications.map(notification => (
+                {this.state.notifications.Data.length <= 0 && (
+                    <div className="position">
+                        <span className="font-style">Nu ai nici o notificare</span>
+                    </div>
+                )}
+                {this.state.notifications.Data.map(notification => (
                     <div
                         key={notification.Id}
                         className="event-list-item"
                         style={{ backgroundImage: this.GenerateGradient() }}
                     >
                         <NotificationCard
-                            id={notification.Id}
-                            user={notification.User}
-                            event={notification.Event}
-                            actionType={notification.Action}
+                            id={notification.EventId}
+                            title={notification.Title}
+                            body={notification.Body}
+                            eventId={notification.EventId}
+                            avatarUrl={notification.AvatarUrl}
+                            actionType={notification.NotificationType}
                             onButtonClick={this.onButtonClickHandler}
                         />
                     </div>
@@ -59,12 +52,12 @@ class NotificationPage extends Component {
         return `linear-gradient(rgba(${intR}, ${intG}, ${intB}, .01), rgba(${intR}, ${intG}, ${intB}, .08))`;
     }
 
-    private onButtonClickHandler(action: ActionButtonType, id: any, ...args: any[]) {
+    private onButtonClickHandler(action: ActionButtonType, eventId: any, ...args: any[]) {
         switch (action) {
             default:
                 break;
             case ActionButtonType.Info:
-                history.push('/details');
+                history.push('/details/'+eventId);
                 break;
             case ActionButtonType.Approve:
                 history.push('/login');

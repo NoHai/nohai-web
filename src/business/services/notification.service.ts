@@ -1,9 +1,14 @@
-import { ResultModel } from '../../contracts/models';
+import { ResultModel, ListModel } from '../../contracts/models';
 import { INotificationService } from '../../contracts/services/notification-service.interface';
 import { NotificationModel } from '../../contracts/models/notification.model';
 import { GetNotificationsCommand, CreateNotificationCommand, UpdateNotificationCommand, DeleteNotificationCommand } from '../commands/notification';
+import { FindNotificationsCommand } from '../commands/notification/find-notifications.command';
 
 class NotificationServiceController implements INotificationService {
+
+    public async Find(request: any): Promise<ListModel<NotificationModel>> {
+        return await FindNotificationsCommand.execute(request);
+    }
     public async Get(id: any): Promise<NotificationModel> {
         return await GetNotificationsCommand.execute(id);
     }
@@ -21,4 +26,4 @@ class NotificationServiceController implements INotificationService {
     }
 }
 
-export const UserService = new NotificationServiceController();
+export const NotificationService = new NotificationServiceController();
