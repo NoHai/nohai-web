@@ -6,19 +6,24 @@ import { GetUserTokenNotificationCommand, CreateUserTokenNotificationCommand, Up
 
 
 class UserTokenNotificationServiceController implements IUserTokenNotificationService {
-    public async Get(id: any): Promise<TokenNotificationModel> {
+   
+    async Get(id: any): Promise<TokenNotificationModel> {
         return await GetUserTokenNotificationCommand.execute(id);
     }
 
-    public async Create(userToken: TokenNotificationModel): Promise<TokenNotificationModel> {
+    async CreateToken(userToken: any): Promise<TokenNotificationModel> {
         return await CreateUserTokenNotificationCommand.execute(userToken);
     }
 
-    public async Update(user: UserViewModel): Promise<TokenNotificationModel> {
+    async Create(data: TokenNotificationModel): Promise<TokenNotificationModel> {
+        throw new Error("Method not implemented.");
+    }
+
+    async Update(user: UserViewModel): Promise<TokenNotificationModel> {
         return await UpdateUserTokenNotificationCommand.execute(user);
     }
 
-    public async Delete(id: any): Promise<ResultModel<boolean>> {
+    async Delete(id: any): Promise<ResultModel<boolean>> {
         return await DeleteUserTokenNotificationCommand.execute(id);
     }
 }

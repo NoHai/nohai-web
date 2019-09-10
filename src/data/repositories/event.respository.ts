@@ -121,23 +121,15 @@ class EventRepositoryController implements IEventRepository {
     }
 
     public async Join(eventId: any): Promise<ResultModel<boolean>> {
-        let input: any = {
-            userEvent:
-            {
-                userId:'7c2bac31-896e-481b-9c45-eb32e80f712e',
-                eventId:eventId,
-                status:1
-            }
-        };
+        let input: any = { eventId:eventId };
 
-        const createUserEventsMutation = gql`
-            mutation createUserEventsMutation($userEvent: UserEventsInput!) {
-                createUserEvents(input: $userEvent) {
-                    id
-            }}`;
+        const joinEventMutation = gql`
+            mutation joinEvent($eventId: String!) {
+                joinEvent(eventId: $eventId)
+                }`;
 
-        const result: any = await GraphqlClient.mutate(createUserEventsMutation, input);
-        return result.createUserEvents.id;
+        const result: any = await GraphqlClient.mutate(joinEventMutation, input);
+        return result.joinEvent;
     }
 
     private async GetEventsMap(model: any) {
