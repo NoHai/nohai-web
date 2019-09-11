@@ -8,7 +8,7 @@ import CreateEventHeaderComponent from '../../../../components/create-event-head
 import { LocalStorage } from '../../../../contracts/enums/localStorage/local-storage';
 import LocalStorageHelper from '../../../../helpers/local-storage.helper';
 import { FormValidators } from '../../../../contracts/validators/forms-validators';
-import PlacesAutocomplete from 'react-places-autocomplete';
+import GoogleLocationAutoComplete from '../../../../components/google-location/google-location-autocomplete';
 
 registerSchema(LocationDetailsSchema);
 
@@ -40,19 +40,6 @@ class LocationDetailsEventPage extends Component<any, any> {
         await this.chekIfIsValid();
     }
 
-    async handleAddressChange(event: any) {
-        await this.setState((prevState: any) => ({
-            eventDetails: {
-                ...prevState.eventDetails,
-                locationDetails: {
-                    ...prevState.eventDetails.locationDetails,
-                    StreetName: event,
-                },
-            },
-        }));
-        await this.chekIfIsValid();
-    }
-
     async chekIfIsValid() {
         let isValid = await FormValidators.checkSchema(
             this.state.eventDetails.locationDetails,
@@ -69,13 +56,8 @@ class LocationDetailsEventPage extends Component<any, any> {
             },
         }));
     }
-    
 
     public render() {
-        const searchOptions = {
-            componentRestrictions:{country: "RO"},
-            types:['address']
-          }
         return (
             <div className="create-event-page event-list-item full-height">
                 <div className="page-sections">
@@ -84,9 +66,13 @@ class LocationDetailsEventPage extends Component<any, any> {
                             title={'Detalii locatie'}
                             iconClass={'icon mdi mdi-map-marker-plus'}
                         />
+                        <label>Alege Adresa</label>
+                        <GoogleLocationAutoComplete
+                            streetName={this.state.eventDetails.locationDetails.StreetName}
+                            onButtonClick={e => this.setLocation(e)}
+                        ></GoogleLocationAutoComplete>
                         <label>Alege Judetul</label>
                         <Input
-                            readOnly
                             className="padding-bottom"
                             size="large"
                             type="text"
@@ -107,45 +93,6 @@ class LocationDetailsEventPage extends Component<any, any> {
                             value={this.state.eventDetails.locationDetails.City}
                             onChange={e => this.handleChange(e)}
                         />
-                        <label>Alege Adresa</label>
-                        <PlacesAutocomplete
-                            value={this.state.eventDetails.locationDetails.StreetName || ''}
-                            onChange={e => this.handleAddressChange(e)}
-                            searchOptions={searchOptions}
-                        >
-                            {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-                                <div>
-                                    <input
-                                        {...getInputProps({
-                                            placeholder: 'Adresa ...',
-                                            className: 'location-search-input',
-                                        })}
-                                    />
-                                    <div className="autocomplete-dropdown-container">
-                                        {loading && <div>Loading...</div>}
-                                        {suggestions.map(suggestion => {
-                                            const className = suggestion.active
-                                                ? 'suggestion-item--active'
-                                                : 'suggestion-item';
-                                            // inline style for demonstration purpose
-                                            const style = suggestion.active
-                                                ? { backgroundColor: '#fafafa', cursor: 'pointer' }
-                                                : { backgroundColor: '#ffffff', cursor: 'pointer' };
-                                            return (
-                                                <div
-                                                    {...getSuggestionItemProps(suggestion, {
-                                                        className,
-                                                        style,
-                                                    })}
-                                                >
-                                                    <span>{suggestion.description}</span>
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
-                                </div>
-                            )}
-                        </PlacesAutocomplete>
                     </div>
                     <Row>
                         <Col span={12}>
@@ -177,6 +124,20 @@ class LocationDetailsEventPage extends Component<any, any> {
                 </div>
             </div>
         );
+    }
+
+    async setLocation(address: any) {
+        await this.setState((prevState: any) => ({
+            eventDetails: {
+                ...prevState.eventDetails,
+                locationDetails: {
+                    County: address.county,
+                    City: address.city,
+                    StreetName: address.addressLine1,
+                },
+            },
+        }));
+        await this.chekIfIsValid();
     }
     goToDescription() {
         LocalStorageHelper.SaveItemToLocalStorage(
