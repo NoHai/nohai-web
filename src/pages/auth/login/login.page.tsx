@@ -10,7 +10,6 @@ import { login } from './../../../redux/actions/auth.action';
 import AuthService from '../../../business/services/auth.service';
 import { UserTokenNotificationService } from '../../../business/services/user-token-notification.service';
 import { askForPermissioToReceiveNotifications } from '../../../push-notification';
-import { TokenNotificationModel } from '../../../contracts/models/token-notification.model';
 import FacebookLogin from 'react-facebook-login';
 
 declare var FB: any;

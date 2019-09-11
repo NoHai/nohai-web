@@ -37,7 +37,7 @@ class AuthRepositoryController {
 
         const authMutation = gql`
             mutation authMutation($credentials: CredentialsInput!) {
-                auth(input: $credentials) {
+                loginFacebook(input: $credentials) {
                     accessToken,
                     refreshToken,
             }}`;
