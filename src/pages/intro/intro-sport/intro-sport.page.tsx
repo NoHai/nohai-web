@@ -6,6 +6,7 @@ import { UserService } from '../../../business/services/user.service';
 import { UserViewModel } from '../../../contracts/view-models/user-view.model';
 import { LocalStorage } from '../../../contracts/enums/localStorage/local-storage';
 import LocalStorageHelper from '../../../helpers/local-storage.helper';
+import { SportModel } from '../../../contracts/models/sport.model';
 
 class IntroSport extends Component<any, any> {
     state = {
@@ -20,7 +21,7 @@ class IntroSport extends Component<any, any> {
         });
     }
 
-    async onCloseDrawer(sport: string, level: number) {
+    async onCloseDrawer(sport: SportModel, level: number) {
         this.setState((prevState: any) => ({
             registerDetails: {
                 ...prevState.registerDetails,
@@ -29,6 +30,7 @@ class IntroSport extends Component<any, any> {
                     Level: level,
                     Sport: sport,
                 },
+                sport: sport
             },
         }));
     }
@@ -46,7 +48,7 @@ class IntroSport extends Component<any, any> {
                         </p>
 
                         <SportsSelection
-                            sport={this.state.registerDetails.details.Sport}
+                            sport={this.state.registerDetails.sport}
                             level={this.state.registerDetails.details.Level}
                             onCloseDrawer={(sport, level) => this.onCloseDrawer(sport, level)}
                         />

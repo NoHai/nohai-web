@@ -1,6 +1,7 @@
 import { EventDetailsViewModel } from "../contracts/models";
 import { UserViewModel } from "../contracts/view-models/user-view.model";
 import { NotificationModel } from "../contracts/models/notification.model";
+import { SportModel } from "../contracts/models/sport.model";
 
 export default class MapModelHelper {
     public static MapEvent(model: any): EventDetailsViewModel {
@@ -23,7 +24,7 @@ export default class MapModelHelper {
         result.participantsDetails.FreeSpots = model.freeSpots;
         result.participantsDetails.TotalParticipants = model.sport.defaultParticipantsNumber;
         result.participantsDetails.PriceForParticipant = model.cost;
-        result.participantsDetails.Sport = model.sport.name;
+        result.sport = model.sport;
         result.participantsDetails.Level = model.level;
 
         return result;
@@ -53,6 +54,17 @@ export default class MapModelHelper {
             result.Status = model.status;
             result.Title = model.title;
             result.UserId = model.userId;
+        }
+        return result;
+    }
+
+    public static MapSport(model: any): SportModel {
+        let result = new SportModel();
+        if (model) {
+            result.Id = model.id;
+            result.Description = model.description;
+            result.Name = model.name;
+            result.ParticipantNamber = model.participantNamber;
         }
         return result;
     }

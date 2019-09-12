@@ -9,6 +9,7 @@ import CreateEventHeaderComponent from '../../../../components/create-event-head
 import { LocalStorage } from '../../../../contracts/enums/localStorage/local-storage';
 import LocalStorageHelper from '../../../../helpers/local-storage.helper';
 import { FormValidators } from '../../../../contracts/validators/forms-validators';
+import { SportModel } from '../../../../contracts/models/sport.model';
 
 registerSchema(ParticipantsDetailsSchema);
 
@@ -42,15 +43,15 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
         await this.chekIfIsValid();
     }
 
-    async onCloseDrawer(sport: string, level: number) {
+    async onCloseDrawer(sport: SportModel, level: number) {
         await this.setState((prevState: any) => ({
             eventDetails: {
                 ...prevState.eventDetails,
                 participantsDetails: {
                     ...prevState.eventDetails.participantsDetails,
-                    Sport: sport,
                     Level: level,
                 },
+                sport: sport
             },
         }));
 
@@ -85,7 +86,7 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
                         />
                         <label>Sportul si nivelul</label>
                         <SportsSelection
-                            sport={this.state.eventDetails.participantsDetails.Sport || ''}
+                            sport={this.state.eventDetails.sport || ''}
                             level={this.state.eventDetails.participantsDetails.Level || 0}
                             onCloseDrawer={(sport, level) => this.onCloseDrawer(sport, level)}
                         />

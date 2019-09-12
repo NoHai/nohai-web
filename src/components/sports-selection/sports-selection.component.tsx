@@ -3,14 +3,19 @@ import './sports-selection.component.scss';
 import { Drawer, List, Button } from 'antd';
 import { SportSelectionProps } from './sports-selection.component.props';
 import { SportLevelType } from '../../contracts/enums/common/sport-level.type';
+import { CommonService } from '../../business/services/common.service';
+import { ListModel } from '../../contracts/models';
+import { SportModel } from '../../contracts/models/sport.model';
 
 class SportsSelection extends Component<SportSelectionProps> {
     state = { visible: false, childrenDrawer: false };
-
-    private sports = ['Alergat', 'Fotbal', 'Tenis', 'Handbal', 'Ping Pong', 'Sah'];
+    private Sports= new ListModel<SportModel>();
     private levels = [1, 2, 3];
-    public selectedSport = '';
+    public selectedSport= new SportModel();
 
+    async componentDidMount(){
+        this.Sports=await CommonService.Get()
+    }
     showDrawer = () => {
         this.setState({
             visible: true,
@@ -30,7 +35,7 @@ class SportsSelection extends Component<SportSelectionProps> {
         });
     };
 
-    showChildrenDrawer(sport: string) {
+    showChildrenDrawer(sport: SportModel) {
         this.setState({
             childrenDrawer: true,
         });
@@ -71,14 +76,14 @@ class SportsSelection extends Component<SportSelectionProps> {
                     <div className="page-sections">
                         <div className="page-section page-section-large">
                             <List
-                                dataSource={this.sports}
+                                dataSource={this.Sports.Data}
                                 renderItem={(item: any) => (
                                     <List.Item
                                         onClick={() => {
                                             this.showChildrenDrawer(item);
                                         }}
                                     >
-                                        {item}
+                                        {item.Name}
                                     </List.Item>
                                 )}
                             />
@@ -111,9 +116,9 @@ class SportsSelection extends Component<SportSelectionProps> {
     }
 
     private getDisplay() {
-        const hasValue = this.props.sport;
+        const hasValue = this.props.level;
         return hasValue
-            ? `${this.props.sport} - ${SportLevelType[this.props.level]}`
+            ? `${this.props.sport.Name} - ${SportLevelType[this.props.level]}`
             : 'Alege sportul';
     }
 }

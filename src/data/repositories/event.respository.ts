@@ -99,7 +99,7 @@ class EventRepositoryController implements IEventRepository {
                     longitude: eventDetails.locationDetails.Longitude,
                     latitude: eventDetails.locationDetails.Latitude
                 },
-                sport: eventDetails.participantsDetails.Sport,
+                sport: eventDetails.sport.Id,
                 freeSpots: eventDetails.participantsDetails.FreeSpots,
                 cost: eventDetails.participantsDetails.PriceForParticipant,
                 date: eventDetails.description.Date,

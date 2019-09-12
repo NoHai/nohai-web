@@ -1,4 +1,4 @@
-import { EventModel, ListModel, EventDetailsViewModel, ResultModel } from '../models';
+import { ListModel, EventDetailsViewModel, ResultModel } from '../models';
 import { IRepository } from './repository.interface';
 import { FindEventRequest } from '../requests/find-event.request';
 

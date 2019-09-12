@@ -1,6 +1,7 @@
+import { SportModel } from "../../contracts/models/sport.model";
 
 export interface SportSelectionProps {
-    sport:string;
+    sport:SportModel;
     level:number;
-    onCloseDrawer?: (sport: string, level: number) => void;
+    onCloseDrawer?: (sport: SportModel, level: number) => void;
 }

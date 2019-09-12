@@ -180,7 +180,7 @@ class DescriptionEventPage extends Component<any, any> {
                 ...prevState.eventDetails,
                 event: {
                     ...prevState.eventDetails.event,
-                    Name: `${this.state.eventDetails.participantsDetails.Sport}: ${moment(
+                    Name: `${this.state.eventDetails.sport.Name}: ${moment(
                         this.state.eventDetails.description.Date
                     )
                         .locale('ro')

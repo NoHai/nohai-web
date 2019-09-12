@@ -9,13 +9,16 @@ class EventMap extends Component<EventMapProps> {
                     width="100%"
                     height="250"
                     title="Google Map"
-                    //src="https://maps.google.com/maps?q='+45.795252+','+24.149961+'&hl=es;z=14&amp;output=embed"
-                    src="http://maps.google.com/maps?q=44.427881, 26.1473436&z=15&output=embed" 
+                    src={this.GetMapLink()}
                     scrolling="no"
                     style={{ border: 0 }}
                 />
             </div>
         );
+    }
+
+    private GetMapLink() {
+            return `http://maps.google.com/maps?q=${this.props.latitude}, ${this.props.longitude}&z=15&output=embed`
     }
 }
 

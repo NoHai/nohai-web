@@ -4,6 +4,5 @@ export class UserDetailsModel {
     public Year!: string;
     public Weight!: number;
     public Height!: number;
-    public Sport!: string;
     public Level!:number;
 }

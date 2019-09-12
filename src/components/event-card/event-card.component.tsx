@@ -46,7 +46,7 @@ class EventCard extends Component<any, any> {
                 </Row>
 
                 <EventTags
-                    Sport={this.props.eventDetails.participantsDetails.Sport}
+                    Sport={this.props.eventDetails.sport.Name}
                     Level={this.props.eventDetails.participantsDetails.Level}
                     Price={this.props.eventDetails.participantsDetails.PriceForParticipant}
                 />
