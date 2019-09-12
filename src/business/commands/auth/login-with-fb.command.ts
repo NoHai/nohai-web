@@ -1,5 +1,4 @@
 import { ICommand } from '../command.interface';
-import { LoginViewModel } from '../../../contracts/view-models';
 import { AuthRepository } from '../../../data/repositories';
 import { Token } from '../../../contracts/models/auth';
 import { UserModel } from '../../../contracts/models';

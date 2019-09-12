@@ -47,7 +47,7 @@ class EventRepositoryController implements IEventRepository {
     }
 
     public async Get(id: any): Promise<EventDetailsViewModel> {
-        const variables: any = {id: id};
+        const variables: any = { id: id };
         const query = gql`
             query eventDetails($id: String!){
              eventById(id: $id) {
@@ -57,6 +57,8 @@ class EventRepositoryController implements IEventRepository {
                 description
                 address{
                     streetName
+                    longitude
+                    latitude
                     city{
                         id
                         name
@@ -81,17 +83,22 @@ class EventRepositoryController implements IEventRepository {
         `;
 
         const results: any = await GraphqlClient.queryWithVariables(query, variables);
-        return MapModelHelper.MapEvent(results.eventById) ;
+        return MapModelHelper.MapEvent(results.eventById);
     }
 
     public async Create(eventDetails: EventDetailsViewModel): Promise<EventDetailsViewModel> {
         let input: any = {
             event:
             {
-                owner: "owner event",
                 title: eventDetails.event.Name,
                 description: eventDetails.description.Description,
-                address: { streetName: eventDetails.locationDetails.StreetName, city: { id: eventDetails.locationDetails.City }, county: { id: "76rqy3nt07aydbwt" } },
+                address: {
+                    streetName: eventDetails.locationDetails.StreetName,
+                    city: { id: eventDetails.locationDetails.City },
+                    county: { id: "76rqy3nt07aydbwt" },
+                    longitude: eventDetails.locationDetails.Longitude,
+                    latitude: eventDetails.locationDetails.Latitude
+                },
                 sport: eventDetails.participantsDetails.Sport,
                 freeSpots: eventDetails.participantsDetails.FreeSpots,
                 cost: eventDetails.participantsDetails.PriceForParticipant,
@@ -121,7 +128,7 @@ class EventRepositoryController implements IEventRepository {
     }
 
     public async Join(eventId: any): Promise<ResultModel<boolean>> {
-        let input: any = { eventId:eventId };
+        let input: any = { eventId: eventId };
 
         const joinEventMutation = gql`
             mutation joinEvent($eventId: String!) {

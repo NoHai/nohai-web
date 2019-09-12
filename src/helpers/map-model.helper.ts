@@ -17,6 +17,9 @@ export default class MapModelHelper {
         result.locationDetails.StreetName = model.address.streetName;
         result.locationDetails.City = model.address.city.name;
         result.locationDetails.County = model.address.county.name;
+        result.locationDetails.Longitude = model.address.longitude;
+        result.locationDetails.Latitude = model.address.latitude;
+
         result.participantsDetails.FreeSpots = model.freeSpots;
         result.participantsDetails.TotalParticipants = model.sport.defaultParticipantsNumber;
         result.participantsDetails.PriceForParticipant = model.cost;

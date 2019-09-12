@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Input, Button, Icon, Col, Row } from 'antd';
 import { registerSchema } from 'class-validator';
 import { LocationDetailsSchema } from '../../../../contracts/schemas/location-details.schema';
-import { EventDetailsViewModel } from '../../../../contracts/models';
+import { EventDetailsViewModel, LocationEventDetailsModel } from '../../../../contracts/models';
 import history from '../../../../utilities/core/history';
 import CreateEventHeaderComponent from '../../../../components/create-event-header/create-event-header';
 import { LocalStorage } from '../../../../contracts/enums/localStorage/local-storage';
@@ -34,6 +34,22 @@ class LocationDetailsEventPage extends Component<any, any> {
                 locationDetails: {
                     ...prevState.eventDetails.locationDetails,
                     [name]: value,
+                },
+            },
+        }));
+        await this.chekIfIsValid();
+    }
+
+    async setLocation(address: LocationEventDetailsModel) {
+        await this.setState((prevState: any) => ({
+            eventDetails: {
+                ...prevState.eventDetails,
+                locationDetails: {
+                    County: address.County,
+                    City: address.City,
+                    StreetName: address.StreetName,
+                    Longitude: address.Longitude,
+                    Latitude: address.Latitude,
                 },
             },
         }));
@@ -126,19 +142,6 @@ class LocationDetailsEventPage extends Component<any, any> {
         );
     }
 
-    async setLocation(address: any) {
-        await this.setState((prevState: any) => ({
-            eventDetails: {
-                ...prevState.eventDetails,
-                locationDetails: {
-                    County: address.county,
-                    City: address.city,
-                    StreetName: address.addressLine1,
-                },
-            },
-        }));
-        await this.chekIfIsValid();
-    }
     goToDescription() {
         LocalStorageHelper.SaveItemToLocalStorage(
             LocalStorage.CreateEvent,

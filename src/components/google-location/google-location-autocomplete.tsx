@@ -3,7 +3,7 @@ import { Input } from 'antd';
 import { GoogleLocationAutoCompleteProps } from './google-location-autocomplete.prop';
 import LocalStorageHelper from '../../helpers/local-storage.helper';
 import { LocalStorage } from '../../contracts/enums/localStorage/local-storage';
-import { EventDetailsViewModel } from '../../contracts/models';
+import { EventDetailsViewModel, LocationEventDetailsModel } from '../../contracts/models';
 
 class GoogleLocationAutoComplete extends Component<GoogleLocationAutoCompleteProps> {
     state = { streetName: '' };
@@ -12,11 +12,10 @@ class GoogleLocationAutoComplete extends Component<GoogleLocationAutoCompletePro
     constructor(props: any) {
         super(props);
         this.init = this.init.bind(this);
-        // this.initAutocomplete= this.initAutocomplete.bind(this);
     }
 
     async componentDidMount() {
-         this.eventDetail = await LocalStorageHelper.GetItemFromLocalStorage(
+        this.eventDetail = await LocalStorageHelper.GetItemFromLocalStorage(
             LocalStorage.CreateEvent,
             this.eventDetail
         );
@@ -64,42 +63,39 @@ class GoogleLocationAutoComplete extends Component<GoogleLocationAutoCompletePro
                 this.props.onButtonClick(address);
             }
             this.setState({
-                streetName: address.streetName,
+                streetName: address.StreetName,
             });
         });
     }
 
     private getAddress(place: any) {
-        if(place.adr_address){
-        const addressLine = this.getAddressValue(place, 'route');
-        const city = this.getAddressValue(place, 'locality');
-        const county = this.getAddressValue(place, 'administrative_area_level_1');
-        const country = this.getAddressValue(place, 'country');
-        const latitude = this.getLatitude(place);
-        const longitude = this.getLongitude(place);
-        const streetName = place.name;
+        if (place.adr_address) {
+            const city = this.getAddressValue(place, 'locality');
+            const county = this.getAddressValue(place, 'administrative_area_level_1');
+            const latitude = this.getLatitude(place);
+            const longitude = this.getLongitude(place);
+            const streetName = place.name;
 
-
-        const address: any = {
-            city: city,
-            county: county,
-            country: country,
-            latitude: latitude,
-            longitude: longitude,
-            streetName: streetName,
-        };
-        return address;
-    }else{
-        const address: any = {
-            city: '',
-            county: '',
-            country: '',
-            latitude: '',
-            longitude: '',
-            streetName: place.name,
-        };
-        return address;
-    }
+            const address: LocationEventDetailsModel = {
+                City: city,
+                County: county.substr(county.indexOf(' ') + 1),
+                Latitude: latitude,
+                Longitude: longitude,
+                StreetName: streetName,
+                IsValid: false,
+            };
+            return address;
+        } else {
+            const address: LocationEventDetailsModel = {
+                City: '',
+                County: '',
+                Latitude: '',
+                Longitude: '',
+                StreetName: place.name,
+                IsValid: false,
+            };
+            return address;
+        }
     }
 
     private getLatitude(place: any) {
@@ -117,7 +113,7 @@ class GoogleLocationAutoComplete extends Component<GoogleLocationAutoCompletePro
 
     private getAddressComponent(place: any, addressType: string) {
         return place.address_components.find((address: any) =>
-            address.types.some((t: any) => t == addressType)
+            address.types.some((t: any) => t === addressType)
         );
     }
 }

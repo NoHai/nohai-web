@@ -86,7 +86,7 @@ class EventCard extends Component<any, any> {
 
                 <div className="sub-title">Unde ne intalnim?</div>
 
-                <EventMap />
+                <EventMap latitude={this.props.eventDetails.locationDetails.Latitude} longitude={this.props.eventDetails.locationDetails.Longitude} />
 
                 {this.isForPreview && (
                     <div>
