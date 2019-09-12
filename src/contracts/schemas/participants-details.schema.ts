@@ -8,12 +8,6 @@ export let ParticipantsDetailsSchema: ValidationSchema = { // using interface he
             type: "min",
             constraints: [1]
         }],
-        TotalParticipants: [{
-            type: "isInt",
-        }, {
-            type: "min",
-            constraints: [1]
-        }],
         FreeSpots: [{
             type: "isInt",
         }, {

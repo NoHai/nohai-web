@@ -90,19 +90,6 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
                             level={this.state.eventDetails.participantsDetails.Level || 0}
                             onCloseDrawer={(sport, level) => this.onCloseDrawer(sport, level)}
                         />
-                        <label>Numar locuri</label>
-                        <Input
-                            className="padding-bottom"
-                            size="large"
-                            type="number"
-                            placeholder="Total Locuri"
-                            data-lpignore="true"
-                            name="TotalParticipants"
-                            value={
-                                this.state.eventDetails.participantsDetails.TotalParticipants || ''
-                            }
-                            onChange={e => this.handleChange(e)}
-                        />
                         <label>Locuri disponibile</label>
                         <Input
                             className="padding-bottom"

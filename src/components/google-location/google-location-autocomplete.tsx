@@ -48,9 +48,19 @@ class GoogleLocationAutoComplete extends Component<GoogleLocationAutoCompletePro
     }
 
     private init() {
+        
         var input = document.querySelector('#address');
         const google = (window as any).google;
-        this.autocomplete = new google.maps.places.Autocomplete(input);
+        var defaultBounds = new google.maps.LatLngBounds(
+            new google.maps.LatLng( 43.66667, 20.48333),
+            new google.maps.LatLng(48.18333, 28.86667));
+    
+        var options = {
+            bounds:defaultBounds,
+            strictBounds:true
+        };
+     
+        this.autocomplete = new google.maps.places.Autocomplete(input,options);
 
         this.initAutocomplete(this.autocomplete);
     }
