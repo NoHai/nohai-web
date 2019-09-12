@@ -41,7 +41,7 @@ class GoogleLocationAutoComplete extends Component<GoogleLocationAutoCompletePro
                     placeholder={'Adresa'}
                     value={this.state.streetName}
                     onChange={e => this.handleAddressChange(e)}
-                    onTouchStart={this.init}
+                    onClick={this.init}
                 />
             </div>
         );
