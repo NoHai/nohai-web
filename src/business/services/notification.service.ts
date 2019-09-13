@@ -4,6 +4,7 @@ import { NotificationModel } from '../../contracts/models/notification.model';
 import { GetNotificationsCommand, CreateNotificationCommand, UpdateNotificationCommand, DeleteNotificationCommand } from '../commands/notification';
 import { FindNotificationsCommand } from '../commands/notification/find-notifications.command';
 import { PaginationBaseRequestModel } from '../../contracts/requests/pagination.base.model.request';
+import { MarkAllAsReadCommand } from '../commands/notification/mark-all-as-read.command';
 
 class NotificationServiceController implements INotificationService {
 
@@ -24,6 +25,10 @@ class NotificationServiceController implements INotificationService {
 
     public async Delete(id: any): Promise<ResultModel<boolean>> {
         return await DeleteNotificationCommand.execute(id);
+    }
+
+    public async MarkAllAsRead(): Promise<ResultModel<boolean>> {
+        return await MarkAllAsReadCommand.execute();
     }
 }
 

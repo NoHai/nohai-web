@@ -10,13 +10,18 @@ class PageHeader extends Component {
             <div className="page-header page-section">
                 <Row>
                     <Col span={8}>
-                        <div  onClick={() => {
+                        <div
+                            onClick={() => {
                                 this.NavigateToNotification();
-                            }} className="icon mdi mdi-bell" />
+                            }}
+                            className="icon mdi mdi-bell notification"
+                        >
+                            <span className="badge">3</span>
+                        </div>
                     </Col>
                     <Col span={8} className="text-center" />
                     <Col span={8} className="text-right">
-                    <UserIconButton/>
+                        <UserIconButton />
                     </Col>
                 </Row>
             </div>
@@ -26,7 +31,6 @@ class PageHeader extends Component {
     private NavigateToNotification() {
         history.push('/notification');
     }
-    
 }
 
 export default PageHeader;

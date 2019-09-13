@@ -38,6 +38,9 @@ class NotificationRepositoryController implements INotificationRepository {
 
     }
 
+    public MarkAllAsRead():  Promise<ResultModel<boolean>> {
+        throw new Error('Method not implemented.');
+    }
     public Create(notification: NotificationModel): Promise<NotificationModel> {
         throw new Error('Method not implemented.');
     }

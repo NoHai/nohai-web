@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import NotificationCard from '../../components/notification-card/notification-card';
 import './notification.page.scss';
-import { ListModel } from '../../contracts/models';
 import { ActionButtonType } from '../../contracts/enums/common';
 import history from '../../utilities/core/history';
 import { NotificationService } from '../../business/services/notification.service';
@@ -28,43 +27,56 @@ class NotificationPage extends Component {
     }
     public render() {
         return (
-            <div id="scrollableDiv" className="full-height" style={{ overflow: 'auto' }}>
-                <InfiniteScroll
-                    dataLength={13}
-                    next={this.getNotification}
-                    hasMore={this.state.hasMoreItems}
-                    loader={<h4>Loading...</h4>}
-                    scrollableTarget="scrollableDiv"
-                    scrollThreshold={0.9}
-                >
-                    <div className="notification-page">
+            <div className="notification-page full-height">
+                <div className="page-sections">
+                    <div className="">
+                        <div className="header">
+                            <span>Notificari</span>
+                            <span className="mark-all" onClick={e => this.markAllAsRead()}>
+                                Marcheaza-le pe toate ca citite
+                            </span>
+                        </div>
                         {this.state.notifications && this.state.notifications.length <= 0 && (
                             <div className="position">
                                 <span className="font-style">Nu ai nici o notificare</span>
                             </div>
                         )}
-                        {this.state.notifications &&
-                            this.state.notifications.map(notification => (
-                                <div
-                                    key={notification.Id}
-                                    className="event-list-item"
-                                    style={{ backgroundImage: this.GenerateGradient() }}
-                                >
-                                    <NotificationCard
-                                        id={notification.EventId}
-                                        title={notification.Title}
-                                        body={notification.Body}
-                                        eventId={notification.EventId}
-                                        avatarUrl={notification.AvatarUrl}
-                                        actionType={notification.NotificationType}
-                                        onButtonClick={(action, eventId, args) =>
-                                            this.onButtonClickHandler(action, eventId, args)
-                                        }
-                                    />
-                                </div>
-                            ))}
                     </div>
-                </InfiniteScroll>
+
+                    <div className="page-section page-section-large">
+                        <div id="scrollableDiv" className="" style={{ overflow: 'auto' }}>
+                            <InfiniteScroll
+                                dataLength={13}
+                                next={this.getNotification}
+                                hasMore={this.state.hasMoreItems}
+                                loader={<h4>Loading...</h4>}
+                                scrollableTarget="scrollableDiv"
+                                scrollThreshold={0.9}
+                            >
+                                {this.state.notifications &&
+                                    this.state.notifications.map(notification => (
+                                        <div
+                                            key={notification.Id}
+                                            className="event-list-item"
+                                            style={{ backgroundImage: this.GenerateGradient() }}
+                                        >
+                                            <NotificationCard
+                                                id={notification.EventId}
+                                                title={notification.Title}
+                                                body={notification.Body}
+                                                eventId={notification.EventId}
+                                                avatarUrl={notification.AvatarUrl}
+                                                actionType={notification.NotificationType}
+                                                onButtonClick={(action, eventId, args) =>
+                                                    this.onButtonClickHandler(action, eventId, args)
+                                                }
+                                            />
+                                        </div>
+                                    ))}
+                            </InfiniteScroll>
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }
@@ -82,7 +94,7 @@ class NotificationPage extends Component {
         result.Data.forEach(element => {
             this.norificationContainer.push(element);
         });
-        
+
         if (this.norificationContainer.length >= result.Total) {
             this.setState({
                 hasMoreItems: false,
@@ -97,6 +109,10 @@ class NotificationPage extends Component {
 
     private async responseRequest(approve: boolean, eventId: any) {
         approve ? await EventService.Approve(eventId) : await EventService.Reject(eventId);
+    }
+
+    private async markAllAsRead() {
+        await NotificationService.MarkAllAsRead();
     }
 
     private onButtonClickHandler(action: ActionButtonType, eventId: any, ...args: any[]) {
