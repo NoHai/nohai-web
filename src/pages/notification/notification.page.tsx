@@ -44,7 +44,7 @@ class NotificationPage extends Component {
                     </div>
 
                     <div className="page-section page-section-large">
-                        <div id="scrollableDiv" className="" style={{ overflow: 'auto' }}>
+                        <div id="scrollableDiv" className="full-height" style={{ overflow: 'auto' }}>
                             <InfiniteScroll
                                 dataLength={13}
                                 next={this.getNotification}
@@ -67,6 +67,7 @@ class NotificationPage extends Component {
                                                 eventId={notification.EventId}
                                                 avatarUrl={notification.AvatarUrl}
                                                 actionType={notification.NotificationType}
+                                                status={notification.Status}
                                                 onButtonClick={(action, eventId, args) =>
                                                     this.onButtonClickHandler(action, eventId, args)
                                                 }

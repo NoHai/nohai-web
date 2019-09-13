@@ -5,8 +5,10 @@ import { ActionType, ActionButtonType } from '../../contracts/enums/common';
 
 class NotificationCard extends Component<NotificationCardProps> {
     render() {
+        let cssClass= this.props.status===1? "not-read item-card":"item-card";
         return (
-            <div className="item-card">
+            
+            <div className={cssClass}>
                 <Row
                     onClick={() => {
                         this.onButtonClickHandler(ActionButtonType.Info);
