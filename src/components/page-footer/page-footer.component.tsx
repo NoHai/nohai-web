@@ -5,20 +5,24 @@ import history from '../../utilities/core/history';
 import LocalStorageHelper from '../../helpers/local-storage.helper';
 import { LocalStorage } from '../../contracts/enums/localStorage/local-storage';
 
-
 class PageFooter extends Component {
     render() {
         return (
             <div className="page-footer page-section">
                 <Row type="flex" align="middle">
                     <Col span={8} className="text-center">
-                        <div className="icon mdi mdi-ticket" />
+                        <div
+                            className="icon mdi mdi-ticket"
+                            onClick={() => {
+                                this.NavigateToEvents();
+                            }}
+                        />
                     </Col>
                     <Col span={8} className="text-center">
                         <div
                             className="icon icon-large active mdi mdi-plus-circle"
                             onClick={() => {
-                                this.NavigateToNotification();
+                                this.NavigateToCreateEvent();
                             }}
                         />
                     </Col>
@@ -30,9 +34,12 @@ class PageFooter extends Component {
         );
     }
 
-    private NavigateToNotification() {
+    private NavigateToCreateEvent() {
         LocalStorageHelper.DeleteItemFromLocalStorage(LocalStorage.CreateEvent);
         history.push('/create-event');
+    }
+    private NavigateToEvents() {
+        history.push('/');
     }
 }
 

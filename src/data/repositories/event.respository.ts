@@ -119,15 +119,15 @@ class EventRepositoryController implements IEventRepository {
         return result.createEvent.id;
     }
 
-    public Update(data: EventDetailsViewModel): Promise<EventDetailsViewModel> {
+    Update(data: EventDetailsViewModel): Promise<EventDetailsViewModel> {
         throw new Error('Method not implemented.');
     }
 
-    public Delete(data: any): Promise<ResultModel<boolean>> {
+    Delete(data: any): Promise<ResultModel<boolean>> {
         throw new Error('Method not implemented.');
     }
 
-    public async Join(eventId: any): Promise<ResultModel<boolean>> {
+    async Join(eventId: any): Promise<ResultModel<boolean>> {
         let input: any = { eventId: eventId };
 
         const joinEventMutation = gql`
@@ -137,6 +137,29 @@ class EventRepositoryController implements IEventRepository {
 
         const result: any = await GraphqlClient.mutate(joinEventMutation, input);
         return result.joinEvent;
+    }
+
+    async Approve(eventId: any): Promise<ResultModel<boolean>> {
+        let input: any = { eventId: eventId };
+
+        const approveRequestMutation = gql`
+            mutation approveRequest($eventId: String!) {
+                approveRequest(eventId: $eventId)
+                }`;
+
+        const result: any = await GraphqlClient.mutate(approveRequestMutation, input);
+        return result.approveRequest;
+    }
+    async Reject(eventId: any): Promise<ResultModel<boolean>> {
+        let input: any = { eventId: eventId };
+
+        const rejectRequestMutation = gql`
+            mutation rejectRequest($eventId: String!) {
+                rejectRequest(eventId: $eventId)
+                }`;
+
+        const result: any = await GraphqlClient.mutate(rejectRequestMutation, input);
+        return result.approveRequest;
     }
 
     private async GetEventsMap(model: any) {

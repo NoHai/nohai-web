@@ -1,5 +1,5 @@
 export enum ActionType {
-    Accept = 1,
-    Reject = 2,
-    Request = 3,
+    Request = 1,
+    Accept = 2,
+    Reject = 3,
 }

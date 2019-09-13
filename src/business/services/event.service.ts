@@ -9,6 +9,8 @@ import {
     DeleteEventCommand,
 } from '../commands/event';
 import { JoinEventCommand } from '../commands/event/join-event.command';
+import { ApproveRequestCommand } from '../commands/event/approve-request.command';
+import { RejectRequestCommand } from '../commands/event/reject-request.command';
 
 class EventServiceController implements IEventService {
     public async Find(request: FindEventRequest): Promise<ListModel<EventDetailsViewModel>> {
@@ -34,6 +36,14 @@ class EventServiceController implements IEventService {
 
     public async Join(id: any): Promise<ResultModel<boolean>> {
         return await JoinEventCommand.execute(id);
+    }
+
+    public async Approve(id: any): Promise<ResultModel<boolean>> {
+        return await ApproveRequestCommand.execute(id);
+    }
+
+    public async Reject(id: any): Promise<ResultModel<boolean>> {
+        return await RejectRequestCommand.execute(id);
     }
 }
 

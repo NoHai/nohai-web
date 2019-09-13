@@ -50,7 +50,7 @@ export default class MapModelHelper {
             result.CreatedBy = model.createdUser;
             result.EventId = model.eventId;
             result.Id = model.id;
-            result.NotificationType = model.type;
+            result.NotificationType = model.notificationType;
             result.Status = model.status;
             result.Title = model.title;
             result.UserId = model.userId;

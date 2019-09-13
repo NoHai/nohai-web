@@ -24,7 +24,9 @@ class NotificationRepositoryController implements INotificationRepository {
                 avatarUrl
                 createdDate
                 status
-              }
+                notificationType
+              },
+              totalCount
             }
            }
         `;

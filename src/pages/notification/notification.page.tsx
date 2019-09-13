@@ -6,6 +6,7 @@ import { ActionButtonType } from '../../contracts/enums/common';
 import history from '../../utilities/core/history';
 import { NotificationService } from '../../business/services/notification.service';
 import { NotificationModel } from '../../contracts/models/notification.model';
+import { EventService } from '../../business/services';
 
 class NotificationPage extends Component {
     state = {
@@ -37,7 +38,7 @@ class NotificationPage extends Component {
                             eventId={notification.EventId}
                             avatarUrl={notification.AvatarUrl}
                             actionType={notification.NotificationType}
-                            onButtonClick={this.onButtonClickHandler}
+                            onButtonClick={(action, eventId, args)=> this.onButtonClickHandler(action, eventId,args)}
                         />
                     </div>
                 ))}
@@ -52,17 +53,22 @@ class NotificationPage extends Component {
         return `linear-gradient(rgba(${intR}, ${intG}, ${intB}, .01), rgba(${intR}, ${intG}, ${intB}, .08))`;
     }
 
+    private async responseRequest(approve: boolean, eventId: any) {
+        approve ? await EventService.Approve(eventId) : await EventService.Reject(eventId);
+    }
+
     private onButtonClickHandler(action: ActionButtonType, eventId: any, ...args: any[]) {
         switch (action) {
             default:
                 break;
             case ActionButtonType.Info:
-                history.push('/details/'+eventId);
+                history.push('/details/' + eventId);
                 break;
             case ActionButtonType.Approve:
-                history.push('/login');
+                this.responseRequest(true, eventId);
                 break;
             case ActionButtonType.Reject:
+                this.responseRequest(false, eventId);
                 break;
         }
     }
