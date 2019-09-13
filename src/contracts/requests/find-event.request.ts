@@ -1,6 +1,5 @@
-export class FindEventRequest {
-    title!: string;
-    pageSize: number = 10;
-    pageIndex: number = 0;
+import { PaginationBaseRequestModel } from "./pagination.base.model.request";
 
+export class FindEventRequest extends PaginationBaseRequestModel {
+    title!: string;
 }

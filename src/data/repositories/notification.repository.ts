@@ -4,6 +4,7 @@ import GraphqlClient from '../request/graphql-client';
 import { INotificationRepository } from '../../contracts/repositories/notification.repository.interface';
 import { NotificationModel } from '../../contracts/models/notification.model';
 import MapModelHelper from '../../helpers/map-model.helper';
+import { PaginationBaseRequestModel } from '../../contracts/requests/pagination.base.model.request';
 
 class NotificationRepositoryController implements INotificationRepository {
 
@@ -11,11 +12,11 @@ class NotificationRepositoryController implements INotificationRepository {
         throw new Error("Method not implemented.");
     }
 
-    public async Find(userId: any): Promise<ListModel<NotificationModel>> {
+    public async Find(request: PaginationBaseRequestModel): Promise<ListModel<NotificationModel>> {
 
         const query = gql`
         query{
-            getNotifications(parameter: {pageSize: 10, pageIndex: 0}){
+            getNotifications(parameter: {pageSize:${request.pageSize} , pageIndex: ${request.pageIndex}}){
               items{
                 id
                 title

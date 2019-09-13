@@ -7,41 +7,64 @@ import history from '../../utilities/core/history';
 import { NotificationService } from '../../business/services/notification.service';
 import { NotificationModel } from '../../contracts/models/notification.model';
 import { EventService } from '../../business/services';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { PaginationBaseRequestModel } from '../../contracts/requests/pagination.base.model.request';
 
 class NotificationPage extends Component {
+    public notificationRequest = new PaginationBaseRequestModel();
+    public norificationContainer = new Array<NotificationModel>();
     state = {
-        notifications: new ListModel<NotificationModel>(),
+        notifications: new Array<NotificationModel>(),
+        hasMoreItems: true,
+        pageIndex: 0,
     };
+
+    constructor(props: any) {
+        super(props);
+        this.getNotification = this.getNotification.bind(this);
+    }
     async componentDidMount() {
-        this.setState({
-            notifications: await NotificationService.Find('782f0204-42e3-4fe1-8c96-9ee0e189a850'),
-        });
+        await this.getNotification();
     }
     public render() {
         return (
-            <div className="notification-page">
-                {this.state.notifications.Data.length <= 0 && (
-                    <div className="position">
-                        <span className="font-style">Nu ai nici o notificare</span>
+            <div id="scrollableDiv" className="full-height" style={{ overflow: 'auto' }}>
+                <InfiniteScroll
+                    dataLength={13}
+                    next={this.getNotification}
+                    hasMore={this.state.hasMoreItems}
+                    loader={<h4>Loading...</h4>}
+                    scrollableTarget="scrollableDiv"
+                    scrollThreshold={0.9}
+                >
+                    <div className="notification-page">
+                        {this.state.notifications && this.state.notifications.length <= 0 && (
+                            <div className="position">
+                                <span className="font-style">Nu ai nici o notificare</span>
+                            </div>
+                        )}
+                        {this.state.notifications &&
+                            this.state.notifications.map(notification => (
+                                <div
+                                    key={notification.Id}
+                                    className="event-list-item"
+                                    style={{ backgroundImage: this.GenerateGradient() }}
+                                >
+                                    <NotificationCard
+                                        id={notification.EventId}
+                                        title={notification.Title}
+                                        body={notification.Body}
+                                        eventId={notification.EventId}
+                                        avatarUrl={notification.AvatarUrl}
+                                        actionType={notification.NotificationType}
+                                        onButtonClick={(action, eventId, args) =>
+                                            this.onButtonClickHandler(action, eventId, args)
+                                        }
+                                    />
+                                </div>
+                            ))}
                     </div>
-                )}
-                {this.state.notifications.Data.map(notification => (
-                    <div
-                        key={notification.Id}
-                        className="event-list-item"
-                        style={{ backgroundImage: this.GenerateGradient() }}
-                    >
-                        <NotificationCard
-                            id={notification.EventId}
-                            title={notification.Title}
-                            body={notification.Body}
-                            eventId={notification.EventId}
-                            avatarUrl={notification.AvatarUrl}
-                            actionType={notification.NotificationType}
-                            onButtonClick={(action, eventId, args)=> this.onButtonClickHandler(action, eventId,args)}
-                        />
-                    </div>
-                ))}
+                </InfiniteScroll>
             </div>
         );
     }
@@ -51,6 +74,25 @@ class NotificationPage extends Component {
         const intG = Math.floor(Math.random() * 255) + 1;
         const intB = Math.floor(Math.random() * 255) + 1;
         return `linear-gradient(rgba(${intR}, ${intG}, ${intB}, .01), rgba(${intR}, ${intG}, ${intB}, .08))`;
+    }
+
+    private async getNotification() {
+        this.notificationRequest.pageIndex = this.state.pageIndex;
+        let result = await NotificationService.Find(this.notificationRequest);
+        result.Data.forEach(element => {
+            this.norificationContainer.push(element);
+        });
+        
+        if (this.norificationContainer.length >= result.Total) {
+            this.setState({
+                hasMoreItems: false,
+            });
+        }
+
+        await this.setState({
+            notifications: this.norificationContainer,
+            pageIndex: this.notificationRequest.pageIndex + 1,
+        });
     }
 
     private async responseRequest(approve: boolean, eventId: any) {
