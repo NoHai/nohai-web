@@ -77,12 +77,13 @@ const PrivateRoute = (props: PrivateRouteProps) => {
     return (
         <Route
             {...rest}
-            render={routeProps =>
-                isAuthorized ? (
-                    <Component {...routeProps} />
-                ) : (
-                    <Redirect to={{ pathname: '/login' }} />
-                )
+            render={
+                routeProps => <Component {...routeProps} />
+                // isAuthorized ? (
+                //     <Component {...routeProps} />
+                // ) : (
+                //     <Redirect to={{ pathname: '/login' }} />
+                // )
             }
         />
     );
@@ -94,8 +95,9 @@ const AuthorizationRoute = (props: PrivateRouteProps) => {
     return (
         <Route
             {...rest}
-            render={routeProps =>
-                !isAuthorized ? <Component {...routeProps} /> : <Redirect to={{ pathname: '/' }} />
+            render={
+                routeProps => <Component {...routeProps} />
+                // !isAuthorized ? <Component {...routeProps} /> : <Redirect to={{ pathname: '/' }} />
             }
         />
     );
