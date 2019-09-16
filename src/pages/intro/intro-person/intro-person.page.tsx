@@ -218,8 +218,8 @@ class IntroPersonPage extends Component<any, any> {
         const Option = Select.Option;
         let options = [];
 
-        const startYear = 1920;
-        const endYear = new Date().getFullYear() - 17;
+        const startYear = 1950;
+        const endYear = new Date().getFullYear() - 9;
 
         for (let i = startYear; i <= endYear; i++) {
             options.push(

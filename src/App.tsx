@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Router, RouteProps } from 'react-router';
+import { Router, RouteProps, Redirect } from 'react-router';
 import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import history from './utilities/core/history';
@@ -18,7 +18,8 @@ class App extends Component<any, any> {
     async componentDidMount() {
         this.checkLogin();
         const script = document.createElement('script');
-        script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDx4lOromkMykLetHX78GQvWrMWrO7mmtM&libraries=places';
+        script.src =
+            'https://maps.googleapis.com/maps/api/js?key=AIzaSyDx4lOromkMykLetHX78GQvWrMWrO7mmtM&libraries=places';
         script.async = true;
         await document.body.appendChild(script);
     }
@@ -76,13 +77,12 @@ const PrivateRoute = (props: PrivateRouteProps) => {
     return (
         <Route
             {...rest}
-            render={
-                routeProps => <Component {...routeProps} />
-                // isAuthorized ? (
-                //     <Component {...routeProps} />
-                // ) : (
-                //     <Redirect to={{ pathname: '/login' }} />
-                // )
+            render={routeProps =>
+                isAuthorized ? (
+                    <Component {...routeProps} />
+                ) : (
+                    <Redirect to={{ pathname: '/login' }} />
+                )
             }
         />
     );
@@ -94,9 +94,8 @@ const AuthorizationRoute = (props: PrivateRouteProps) => {
     return (
         <Route
             {...rest}
-            render={
-                routeProps => <Component {...routeProps} />
-                // !isAuthorized ? <Component {...routeProps} /> : <Redirect to={{ pathname: '/' }} />
+            render={routeProps =>
+                !isAuthorized ? <Component {...routeProps} /> : <Redirect to={{ pathname: '/' }} />
             }
         />
     );

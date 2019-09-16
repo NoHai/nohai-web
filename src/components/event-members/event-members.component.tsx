@@ -8,7 +8,7 @@ class EventMembers extends Component {
     render() {
         return (
             <div className="event-members">
-                <Avatar size={this._size} src="https://randomuser.me/api/portraits/women/65.jpg" />
+                <Avatar size={this._size} src="https://s.gravatar.com/avatar/164726d33219641af544edf1d2f38ada?s=80" />
                 <Avatar size={this._size} src="https://randomuser.me/api/portraits/women/44.jpg" />
                 <Avatar size={this._size} src="https://randomuser.me/api/portraits/men/85.jpg" />
                 <Avatar size={this._size}>+2</Avatar>

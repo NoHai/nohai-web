@@ -23,7 +23,7 @@ class UserIconButton extends Component<any, any> {
                         className="avatar"
                         style={{
                             backgroundImage:
-                                'url(https://randomuser.me/api/portraits/women/65.jpg)',
+                                'url(https://s.gravatar.com/avatar/164726d33219641af544edf1d2f38ada?s=80)',
                         }}
                     />
                 </Dropdown>
