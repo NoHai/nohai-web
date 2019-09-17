@@ -6,6 +6,8 @@ import HttpClient from '../../utilities/core/http-client';
 import { UserModel } from '../../contracts/models';
 import { LoginWithFbCommand } from '../commands/auth/login-with-fb.command';
 import { UserService } from './user.service';
+import { RefreshTokenCommand } from '../commands/auth/refresh-token.command';
+import { Token } from '../../contracts/models/auth';
 
 class AuthServiceController {
     private static instance: AuthServiceController;
@@ -48,13 +50,17 @@ class AuthServiceController {
     }
 
     public async register(model: RegisterViewModel): Promise<boolean> {
-        const token = await RegisterCommand.execute(model);
-        if (!!token) {
-            await TokenProvider.saveToken(token);
+        const logedId = await RegisterCommand.execute(model);
+        if (logedId) {
+            //await TokenProvider.saveToken(token);
             return true;
         }
 
         return false;
+    }
+
+    public async refreshToken(newToken: string): Promise<Token> {
+        return  await RefreshTokenCommand.execute(newToken);
     }
 
     public async isAuthorized(): Promise<boolean> {
@@ -62,8 +68,8 @@ class AuthServiceController {
     }
 
     public async isCompleted(): Promise<boolean> {
-        let user = await UserService.Get("  ");
-        return user.details ? true : false;
+        let user = await UserService.Get();
+        return user.details.Height ? true : false;
 
     }
 }

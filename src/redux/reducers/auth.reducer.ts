@@ -9,12 +9,12 @@ export const initialAuthState = {
 const authReducer = (state: any = initialAuthState, action: any) => {
     switch (action.type) {
         case ReduxAuthActionType.CheckLoginResult:
-        case ReduxAuthActionType.CheckUserDetailsResult:
         case ReduxAuthActionType.LoginResult:
         case ReduxAuthActionType.Logout:
             return action.result;
         case ReduxAuthActionType.CheckLogin:
         case ReduxAuthActionType.Login:
+        case ReduxAuthActionType.RegisterComplete:
         default:
             return state;
     }

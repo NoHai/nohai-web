@@ -7,6 +7,9 @@ import { UserViewModel } from '../../../contracts/view-models/user-view.model';
 import { LocalStorage } from '../../../contracts/enums/localStorage/local-storage';
 import LocalStorageHelper from '../../../helpers/local-storage.helper';
 import { SportModel } from '../../../contracts/models/sport.model';
+import { connect } from 'react-redux';
+import { registerComplete } from './../../../redux/actions/auth.action';
+import { initialAuthState } from '../../../redux/reducers/auth.reducer';
 
 class IntroSport extends Component<any, any> {
     state = {
@@ -89,6 +92,7 @@ class IntroSport extends Component<any, any> {
     private async GoForward() {
         const result = await UserService.Update(this.state.registerDetails);
         if (result.user.Id) {
+            this.props.registerComplete();
             LocalStorageHelper.DeleteItemFromLocalStorage(LocalStorage.IntroInfo);
             history.push('/');
         }
@@ -103,4 +107,23 @@ class IntroSport extends Component<any, any> {
     }
 }
 
-export default IntroSport;
+const mapStateToProps = (state: any) => {
+    if (state.authReducer && state.authReducer.isAuthorized) {
+        return {
+            isLoaded: state.authReducer.isLoaded,
+            isAuthorized: state.authReducer.isAuthorized,
+        };
+    }
+
+    return initialAuthState;
+};
+
+const mapDispatchToProps = {
+    registerComplete,
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(IntroSport);
+

@@ -1,6 +1,7 @@
 import StorageProvider from './storage.provider';
 import { Token } from '../../contracts/models/auth';
 import { AuthKey } from '../../contracts/enums/common';
+import moment from 'moment';
 
 class TokenProviderController {
     private static instance: TokenProviderController;
@@ -50,7 +51,7 @@ class TokenProviderController {
     private tokenIsNotExpired(token: Token): boolean {
         const currentDate = new Date();
         const calculatedDate = new Date(currentDate.getTime() - 2 * 60000); // - 2 minutes
-        return token.expireDate > calculatedDate;
+        return moment(token.expireDate).toDate() > calculatedDate;
     }
 }
 

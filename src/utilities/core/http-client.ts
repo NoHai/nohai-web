@@ -1,7 +1,7 @@
 import TokenProvider from '../providers/token.provider';
 import { Token } from '../../contracts/models/auth';
-import { AuthEndpoint } from '../endpoints';
 import { HttpMethod } from '../../contracts/enums/common';
+import AuthService from '../../business/services/auth.service';
 
 class HttpClientController {
     private static instance: HttpClientController;
@@ -45,14 +45,13 @@ class HttpClientController {
             return await this.refreshToken(token);
         }
 
-        return false;
+        return true;
     }
 
     private async refreshToken(token: Token | null): Promise<boolean> {
         if (!!token) {
             try {
-                const data = { RefreshToken: token.refreshToken };
-                const result = await this.post(AuthEndpoint.Refresh, data, false);
+                const result = await AuthService.refreshToken(token.refreshToken) // this.post(AuthEndpoint.Refresh, data, false);
 
                 if (!!result) {
                     await TokenProvider.saveToken(result);

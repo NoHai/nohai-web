@@ -19,11 +19,31 @@ class AuthRepositoryController {
                 auth(input: $credentials) {
                     accessToken,
                     refreshToken,
+                    expireIn,
             }}`;
 
         const result: any = await GraphqlClient.mutate(authMutation, input);
         const authToken: Token = result.auth;
-        
+
+        return authToken;
+    }
+
+    public async refreshToken(input: string): Promise<Token> {
+        let refreshToken: any = {
+            input
+        };
+
+        const refreshTokenMutation = gql`
+            mutation refreshTokenMutation($input: String!) {
+                refreshToken(input: $input) {
+                    accessToken,
+                    refreshToken,
+                    expireIn,
+            }}`;
+
+        const result: any = await GraphqlClient.mutate(refreshTokenMutation, refreshToken);
+        const authToken: Token = result.auth;
+
         return authToken;
     }
 
@@ -42,6 +62,7 @@ class AuthRepositoryController {
                 loginFacebook(input: $credentials) {
                     accessToken,
                     refreshToken,
+                    expireIn,
             }}`;
 
         const result: any = await GraphqlClient.mutate(authMutation, input);
@@ -50,7 +71,7 @@ class AuthRepositoryController {
         return authToken;
     }
 
-    public async register(register: RegisterViewModel): Promise<Token> {
+    public async register(register: RegisterViewModel): Promise<string> {
         let input: any = {
             credentials:
             {
@@ -65,20 +86,10 @@ class AuthRepositoryController {
                     id
             }}`;
 
-       const userId =   await GraphqlClient.mutate(registerMutation, input);
-       console.log(userId);
+        const response: any = await GraphqlClient.mutate(registerMutation, input);
+        const result: string = response.createUser.id
 
-        const authMutation = gql`
-        mutation authMutation($credentials: CredentialsInput!) {
-            auth(input: $credentials) {
-                accessToken,
-                refreshToken,
-        }}`;
-
-        const result : any = await GraphqlClient.mutate(authMutation, input);
-        const authToken: Token = result.auth;
-
-        return authToken;
+        return result;
     }
 }
 

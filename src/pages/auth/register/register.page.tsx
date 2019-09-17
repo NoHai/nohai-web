@@ -9,6 +9,9 @@ import { LocalStorage } from '../../../contracts/enums/localStorage/local-storag
 import LocalStorageHelper from '../../../helpers/local-storage.helper';
 import { UserTokenNotificationService } from '../../../business/services/user-token-notification.service';
 import { askForPermissioToReceiveNotifications } from '../../../push-notification';
+import { connect } from 'react-redux';
+import { login } from './../../../redux/actions/auth.action';
+import { initialAuthState } from '../../../redux/reducers/auth.reducer';
 
 class RegisterPage extends Component<any, any> {
     state = {
@@ -137,23 +140,28 @@ class RegisterPage extends Component<any, any> {
             };
             error();
         } else {
-            const hasLoggedId = await AuthService.register(this.state.registerDetails.user);
-            let registerDetails = JSON.parse(JSON.stringify(this.state.registerDetails));
-            if(hasLoggedId){
+            const LogId = await AuthService.register(this.state.registerDetails.user);
+            if (LogId) {
+                this.props.login(
+                    this.state.registerDetails.user.Email,
+                    this.state.registerDetails.user.Password
+                );
+
+                let registerDetails = JSON.parse(JSON.stringify(this.state.registerDetails));
                 let token = await askForPermissioToReceiveNotifications();
-                if(token){
+                if (token) {
                     await UserTokenNotificationService.CreateToken(token);
                 }
+
+                this.setState({
+                    registerDetails: registerDetails,
+                });
+                LocalStorageHelper.SaveItemToLocalStorage(
+                    LocalStorage.IntroInfo,
+                    this.state.registerDetails
+                );
+                history.push('/intro');
             }
-         
-            this.setState({
-                registerDetails: registerDetails,
-            });
-            LocalStorageHelper.SaveItemToLocalStorage(
-                LocalStorage.IntroInfo,
-                this.state.registerDetails
-            );
-            history.push('/intro');
         }
     }
 
@@ -197,4 +205,22 @@ class RegisterPage extends Component<any, any> {
     }
 }
 
-export default RegisterPage;
+const mapStateToProps = (state: any) => {
+    if (state.authReducer && state.authReducer.isAuthorized) {
+        return {
+            isLoaded: state.authReducer.isLoaded,
+            isAuthorized: state.authReducer.isAuthorized,
+        };
+    }
+
+    return initialAuthState;
+};
+
+const mapDispatchToProps = {
+    login,
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(RegisterPage);

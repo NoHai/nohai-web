@@ -129,16 +129,16 @@ class LoginPage extends Component<any, any> {
     }
 
     public async doLogin() {
-        //this.props.login('', '');
-        const hasLoggedId = await AuthService.login(this.state.email, this.state.password);
-        if(hasLoggedId){
+        this.props.login(this.state.email, this.state.password);
+        //const hasLoggedId = await AuthService.login(this.state.email, this.state.password);
+        //if(hasLoggedId){
             let token = await askForPermissioToReceiveNotifications();
             if(token){
                 await UserTokenNotificationService.CreateToken(token);
             }
     
             this.navigateToEvents();
-        }
+        //}
     }
 
     private navigateToRegister() {

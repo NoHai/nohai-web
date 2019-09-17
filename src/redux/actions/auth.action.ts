@@ -7,33 +7,24 @@ export const checkLoginResult = (model: any) => ({
     result: model,
 });
 
-export const checkUserDetailsResult = (model: any) => ({
-    type: ReduxAuthActionType.CheckUserDetailsResult,
-    result: model,
-});
-
 export const checkLogin = () => {
-    return (dispatch: any) =>
+    const result = {
+        isLoaded: true,
+        isAuthorized: false,
+        isCompleted: false,
+    };
+    return (dispatch: any) => {
         AuthService.isAuthorized().then(isAuthorized => {
-            const result = {
-                isLoaded: true,
-                isAuthorized: isAuthorized,
-            };
+            result.isAuthorized = isAuthorized;
+        });
+        AuthService.isCompleted().then(isCompleted => {
+            result.isCompleted = isCompleted;
             dispatch(checkLoginResult(result));
             return result;
         });
-};
 
-export const checkUserDetails = () => {
-    return (dispatch: any) =>
-        AuthService.isCompleted().then(isCompleted => {
-            const result = {
-                isLoaded: true,
-                isCompleted: isCompleted,
-            };
-            dispatch(checkUserDetailsResult(result));
-            return result;
-        });
+
+    }
 };
 
 export const loginResult = (result: any) => ({
@@ -52,6 +43,20 @@ export const login = (username: string, password: string) => {
             return result;
         });
     };
+};
+
+export const registerComplete = () => {
+    return (dispatch: any) => {
+        
+            const result = {
+                isLoaded: true,
+                isAuthorized: true,
+                isCompleted: true,
+            }
+            dispatch(loginResult(result));
+            return result;
+        };
+    
 };
 
 export const logout = () => {
