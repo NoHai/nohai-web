@@ -12,7 +12,6 @@ import { UserTokenNotificationService } from '../../../business/services/user-to
 import { askForPermissioToReceiveNotifications } from '../../../push-notification';
 import FacebookLogin from 'react-facebook-login';
 
-declare var FB: any;
 
 class LoginPage extends Component<any, any> {
     state = { email: '', password: '', isLogIn: false, userId: '', name: '' };
@@ -43,7 +42,7 @@ class LoginPage extends Component<any, any> {
                     appId="517121088858472"
                     autoLoad={true}
                     fields="name,email,picture"
-                    onClick={this.componentClicked}
+                    onClick={e => this.componentClicked}
                     callback={e => this.responseFacebook(e)}
                     cssClass="facebook"
                     icon="icon mdi mdi-facebook"
