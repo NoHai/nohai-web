@@ -9,7 +9,7 @@ class UserRepositoryController implements IUserRepository {
     public async Get(): Promise<UserViewModel> {
 
         const query = gql`
-            query usersDetails($id: String!){
+            query usersDetails{
              getUserById {
                     id
                     firstName
