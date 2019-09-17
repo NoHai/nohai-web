@@ -7,6 +7,8 @@ import AuthService from '../../../business/services/auth.service';
 import { UserViewModel } from '../../../contracts/view-models/user-view.model';
 import { LocalStorage } from '../../../contracts/enums/localStorage/local-storage';
 import LocalStorageHelper from '../../../helpers/local-storage.helper';
+import { UserTokenNotificationService } from '../../../business/services/user-token-notification.service';
+import { askForPermissioToReceiveNotifications } from '../../../push-notification';
 
 class RegisterPage extends Component<any, any> {
     state = {
@@ -135,9 +137,15 @@ class RegisterPage extends Component<any, any> {
             };
             error();
         } else {
-            const id = await AuthService.register(this.state.registerDetails.user);
+            const hasLoggedId = await AuthService.register(this.state.registerDetails.user);
             let registerDetails = JSON.parse(JSON.stringify(this.state.registerDetails));
-            registerDetails.user.Id = id;
+            if(hasLoggedId){
+                let token = await askForPermissioToReceiveNotifications();
+                if(token){
+                    await UserTokenNotificationService.CreateToken(token);
+                }
+            }
+         
             this.setState({
                 registerDetails: registerDetails,
             });

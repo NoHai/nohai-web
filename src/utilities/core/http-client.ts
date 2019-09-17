@@ -51,7 +51,7 @@ class HttpClientController {
     private async refreshToken(token: Token | null): Promise<boolean> {
         if (!!token) {
             try {
-                const data = { RefreshToken: token.RefreshToken };
+                const data = { RefreshToken: token.refreshToken };
                 const result = await this.post(AuthEndpoint.Refresh, data, false);
 
                 if (!!result) {
@@ -69,7 +69,7 @@ class HttpClientController {
     private async getAccessToken(): Promise<string> {
         const token = await TokenProvider.getToken();
         if (!!token) {
-            return token.AccessToken;
+            return token.accessToken;
         }
 
         return '';

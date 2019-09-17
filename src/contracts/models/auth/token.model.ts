@@ -1,6 +1,6 @@
 export class Token {
-    AccessToken!: string;
-    RefreshToken!: string;
-    ExpireIn!: number;
-    ExpireDate!: Date;
+    accessToken!: string;
+    refreshToken!: string;
+    expireIn!: number;
+    expireDate!: Date;
 }

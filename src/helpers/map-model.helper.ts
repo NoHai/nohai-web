@@ -35,6 +35,7 @@ export default class MapModelHelper {
         result.user.Id = model.id;
         result.user.FirstName = model.firstName;
         result.user.LastName = model.lastName;
+        result.user.Email = model.login;
 
         result.details.Day = model.dateOfBirth;
         result.details.Weight = model.weight;

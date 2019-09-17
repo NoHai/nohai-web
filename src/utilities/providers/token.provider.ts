@@ -17,9 +17,10 @@ class TokenProviderController {
 
     public async saveToken(token: Token) {
         const currentDate = new Date();
-        const calculatedDate = new Date(currentDate.getTime() + token.ExpireIn * 1000); // - seconds to milliseconds
-        token.ExpireDate = calculatedDate;
+        const calculatedDate = new Date(currentDate.getTime() + token.expireIn * 1000); // - seconds to milliseconds
+        token.expireDate = calculatedDate;
         const tokenValue = JSON.stringify(token);
+        await StorageProvider.remove(AuthKey.SessionId);
         await StorageProvider.set(AuthKey.SessionId, tokenValue);
     }
 
@@ -49,7 +50,7 @@ class TokenProviderController {
     private tokenIsNotExpired(token: Token): boolean {
         const currentDate = new Date();
         const calculatedDate = new Date(currentDate.getTime() - 2 * 60000); // - 2 minutes
-        return token.ExpireDate > calculatedDate;
+        return token.expireDate > calculatedDate;
     }
 }
 
