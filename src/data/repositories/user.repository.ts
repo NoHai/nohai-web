@@ -6,12 +6,11 @@ import { UserViewModel } from '../../contracts/view-models/user-view.model';
 import MapModelHelper from '../../helpers/map-model.helper';
 
 class UserRepositoryController implements IUserRepository {
-    public async Get(id: any): Promise<UserViewModel> {
+    public async Get(): Promise<UserViewModel> {
 
-        const variables: any = {id: id};
         const query = gql`
             query usersDetails($id: String!){
-             getUserById(id: $id) {
+             getUserById {
                     id
                     firstName
                     lastName
@@ -23,7 +22,7 @@ class UserRepositoryController implements IUserRepository {
             }
         `;
 
-        const results: any = await GraphqlClient.queryWithVariables(query, variables);
+        const results: any = await GraphqlClient.query(query);
         return MapModelHelper.MapUser(results.getUserById) ;
     }
 
@@ -37,8 +36,8 @@ class UserRepositoryController implements IUserRepository {
                 firstName: userDetails.user.FirstName,
                 lastName: userDetails.user.LastName,
                 dateOfBirth: `${userDetails.details.Day}/${userDetails.details.Month}/${userDetails.details.Year}`,
-                height: userDetails.details.Height,
-                weight: userDetails.details.Weight,
+                height: +userDetails.details.Height,
+                weight: +userDetails.details.Weight,
                 favoriteSport:userDetails.sport.Id,
             }
         };

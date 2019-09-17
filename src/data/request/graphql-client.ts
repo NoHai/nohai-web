@@ -1,9 +1,8 @@
 import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
-import StorageProvider from '../../utilities/providers/storage.provider';
-import { AuthKey } from '../../contracts/enums/common';
-import { InMemoryCache } from 'apollo-boost';
+import { InMemoryCache, ApolloLink } from 'apollo-boost';
 import { setContext } from 'apollo-link-context';
+import TokenProvider from '../../utilities/providers/token.provider';
 
 class GraphqlClientController {
     private static instance: GraphqlClientController;
@@ -59,22 +58,18 @@ class GraphqlClientController {
         const httpLink = createHttpLink({
            uri
         });
-        let authToken: string;
-        StorageProvider.get(AuthKey.SessionId)
-                        .then((token) => authToken = JSON.parse(token).auth.accessToken)
-                        .catch(() => authToken = '');
 
-        const authLink = setContext((_, { headers }) => {
+        const authMiddleware = setContext(async (req, { headers }) => {
+            const token = await TokenProvider.getToken();
             return {
                 headers: {
                     ...headers,
-                    authorization: authToken ? `Bearer ${authToken}` : "",
+                    authorization: token !== null ? `Bearer ${token.accessToken}`: '',
                 }
             }
-        });
+          });
 
-        return authLink.concat(httpLink);
-
+        return ApolloLink.from([authMiddleware, httpLink]);
     }
 
 }

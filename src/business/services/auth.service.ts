@@ -47,9 +47,14 @@ class AuthServiceController {
         return false;
     }
 
-    public async register(model: RegisterViewModel): Promise<string> {
-        const result = await RegisterCommand.execute(model);
-        return result;
+    public async register(model: RegisterViewModel): Promise<boolean> {
+        const token = await RegisterCommand.execute(model);
+        if (!!token) {
+            await TokenProvider.saveToken(token);
+            return true;
+        }
+
+        return false;
     }
 
     public async isAuthorized(): Promise<boolean> {

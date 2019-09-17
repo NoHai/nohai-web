@@ -9,8 +9,8 @@ import {
 import { UserViewModel } from '../../contracts/view-models/user-view.model';
 
 class UserServiceController implements IUserService {
-    public async Get(id: any): Promise<UserViewModel> {
-        return await GetUserCommand.execute(id);
+    public async Get(): Promise<UserViewModel> {
+        return await GetUserCommand.execute();
     }
 
     public async Create(user: UserViewModel): Promise<UserViewModel> {

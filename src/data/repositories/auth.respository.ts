@@ -21,7 +21,9 @@ class AuthRepositoryController {
                     refreshToken,
             }}`;
 
-        const authToken: Token = await GraphqlClient.mutate(authMutation, input);
+        const result: any = await GraphqlClient.mutate(authMutation, input);
+        const authToken: Token = result.auth;
+        
         return authToken;
     }
 
@@ -42,11 +44,13 @@ class AuthRepositoryController {
                     refreshToken,
             }}`;
 
-        const authToken: Token = await GraphqlClient.mutate(authMutation, input);
+        const result: any = await GraphqlClient.mutate(authMutation, input);
+        const authToken: Token = result.loginFacebook;
+
         return authToken;
     }
 
-    public async register(register: RegisterViewModel): Promise<string> {
+    public async register(register: RegisterViewModel): Promise<Token> {
         let input: any = {
             credentials:
             {
@@ -61,8 +65,20 @@ class AuthRepositoryController {
                     id
             }}`;
 
-        const result: any = await GraphqlClient.mutate(registerMutation, input);
-        return result.createUser.id;
+       const userId =   await GraphqlClient.mutate(registerMutation, input);
+       console.log(userId);
+
+        const authMutation = gql`
+        mutation authMutation($credentials: CredentialsInput!) {
+            auth(input: $credentials) {
+                accessToken,
+                refreshToken,
+        }}`;
+
+        const result : any = await GraphqlClient.mutate(authMutation, input);
+        const authToken: Token = result.auth;
+
+        return authToken;
     }
 }
 

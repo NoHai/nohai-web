@@ -10,7 +10,7 @@ class UserProfilePage extends Component {
     };
 
     async componentDidMount() {
-        let userDetails = await UserService.Get('782f0204-42e3-4fe1-8c96-9ee0e189a850');
+        let userDetails = await UserService.Get();
         this.setState({
             userDetails: userDetails,
         });
