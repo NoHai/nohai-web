@@ -18,7 +18,7 @@ class NotificationCard extends Component<NotificationCardProps> {
                         <div
                             className="avatar"
                             style={{
-                                backgroundImage: this.props.avatarUrl,
+                                backgroundImage: `url(${this.props.avatarUrl})`,
                             }}
                         />
                     </Col>

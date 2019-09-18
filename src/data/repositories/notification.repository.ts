@@ -38,8 +38,16 @@ class NotificationRepositoryController implements INotificationRepository {
 
     }
 
-    public MarkAllAsRead():  Promise<ResultModel<boolean>> {
-        throw new Error('Method not implemented.');
+    public async MarkAllAsRead(): Promise<ResultModel<boolean>> {
+
+        const markAllAsReadMutation = gql`
+            mutation markAllAsReadMutation{
+                markAllAsRead
+            }`;
+
+        const response: any = await GraphqlClient.mutate(markAllAsReadMutation, "");
+
+        return response;
     }
     public Create(notification: NotificationModel): Promise<NotificationModel> {
         throw new Error('Method not implemented.');

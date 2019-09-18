@@ -75,6 +75,10 @@ class IntroPersonPage extends Component<any, any> {
         await this.GetDays();
     }
 
+     onSearch(val:any) {
+        console.log('search:', val);
+      }
+
     render() {
         return (
             <div className="intro-step-page">
@@ -128,10 +132,12 @@ class IntroPersonPage extends Component<any, any> {
 
                                     <Col span={10}>
                                         <Select
+                                            showSearch
                                             size="large"
                                             style={{ width: '100%' }}
                                             value={this.state.registerDetails.details.Month || ''}
                                             onChange={(e: any) => this.handleMonthChange(e)}
+                                            onSearch={this.onSearch}
                                         >
                                             {this.state.months}
                                         </Select>

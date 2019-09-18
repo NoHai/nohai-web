@@ -4,9 +4,18 @@ import { connect } from 'react-redux';
 import { logout } from './../../redux/actions/auth.action';
 import { initialAuthState } from '../../redux/reducers/auth.reducer';
 import history from '../../utilities/core/history';
+import { UserService } from '../../business/services';
 
 
 class UserIconButton extends Component<any, any> {
+    state={url:""}
+    public user:any;
+    async componentDidMount(){
+       this.user= await UserService.Get();
+       this.setState({
+            url:`url(${this.user.user.Url})`
+       })
+    }
     render() {
         const menu = (
             <Menu>
@@ -23,7 +32,7 @@ class UserIconButton extends Component<any, any> {
                         className="avatar"
                         style={{
                             backgroundImage:
-                                'url(https://s.gravatar.com/avatar/164726d33219641af544edf1d2f38ada?s=80)',
+                                this.state.url,
                         }}
                     />
                 </Dropdown>

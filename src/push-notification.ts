@@ -1,6 +1,6 @@
 import * as firebase from 'firebase/app';
 import 'firebase/messaging';
-
+import { newNotificationReceived } from './redux/actions/notification.action';
 
 export const initializeFirebase = () => {
   // Your web app's Firebase configuration
@@ -19,6 +19,7 @@ export const initializeFirebase = () => {
   
   messaging.onMessage(function (payload) {
     console.log('onMessage: ', payload);
+    mapDispatchToProps.newNotificationReceived()
   });
 
 
@@ -35,6 +36,10 @@ export const initializeFirebase = () => {
   });
 
 }
+
+const mapDispatchToProps = {
+  newNotificationReceived,
+};
 
 export const askForPermissioToReceiveNotifications = async () => {
   try {

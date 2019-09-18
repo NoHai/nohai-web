@@ -18,6 +18,7 @@ class UserRepositoryController implements IUserRepository {
                     height
                     weight
                     picture
+                    login
                 }
             }
         `;

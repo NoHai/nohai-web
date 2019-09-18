@@ -27,6 +27,12 @@ class LoginPage extends Component<any, any> {
 
     async responseFacebook(response: any) {
         await AuthService.loginWithFb(response.email, response.name);
+        let token = await askForPermissioToReceiveNotifications();
+            if(token){
+                await UserTokenNotificationService.CreateToken(token);
+            }
+    
+            this.navigateToEvents();
         console.log(response);
     }
 
