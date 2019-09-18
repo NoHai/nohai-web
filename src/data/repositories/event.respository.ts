@@ -17,14 +17,8 @@ class EventRepositoryController implements IEventRepository {
                     description
                     address{
                         streetName
-                        city{
-                            id
-                            name
-                        }
-                        county{
-                            id
-                            name
-                        }
+                        city
+                        county
                     }
                     sport{
                         name,
@@ -59,14 +53,8 @@ class EventRepositoryController implements IEventRepository {
                     streetName
                     longitude
                     latitude
-                    city{
-                        id
-                        name
-                    }
-                    county{
-                        id
-                        name
-                    }
+                    city
+                    county
                 }
                 sport{
                     name,
@@ -94,12 +82,12 @@ class EventRepositoryController implements IEventRepository {
                 description: eventDetails.description.Description,
                 address: {
                     streetName: eventDetails.locationDetails.StreetName,
-                    city: { id: eventDetails.locationDetails.City },
-                    county: { id: "76rqy3nt07aydbwt" },
+                    city: eventDetails.locationDetails.City,
+                    county: eventDetails.locationDetails.County,
                     longitude: eventDetails.locationDetails.Longitude,
                     latitude: eventDetails.locationDetails.Latitude
                 },
-                sport: eventDetails.sport.Id,
+                sport: {id: eventDetails.sport.Id},
                 freeSpots: eventDetails.participantsDetails.FreeSpots,
                 cost: eventDetails.participantsDetails.PriceForParticipant,
                 date: eventDetails.description.Date,
