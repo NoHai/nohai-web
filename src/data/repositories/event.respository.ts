@@ -12,7 +12,12 @@ class EventRepositoryController implements IEventRepository {
             query {events(parameter: {title: "", pagination: {pageSize:${data.pageSize} , pageIndex: ${data.pageIndex}}}) {
                 items {
                     id
-                    owner
+                    owner{
+                        id 
+                        firstName 
+                        lastName
+                        picture
+                    }
                     title
                     description
                     address{
@@ -40,13 +45,18 @@ class EventRepositoryController implements IEventRepository {
         return results;
     }
 
-    public async Get(id: any): Promise<EventDetailsViewModel> {
-        const variables: any = { id: id };
+    public async Get(parameter: any): Promise<EventDetailsViewModel> {
+        const variables: any = { parameter: parameter };
         const query = gql`
-            query eventDetails($id: String!){
-             eventById(id: $id) {
-                id
-                owner
+            query eventDetails($parameter: String!){
+             eventDetails(parameter: $parameter) {
+               event { id
+                owner{
+                    id
+                    firstName 
+                    lastName
+                    picture
+                }
                 title
                 description
                 address{
@@ -57,7 +67,7 @@ class EventRepositoryController implements IEventRepository {
                     county
                 }
                 sport{
-                    name,
+                    name
                     defaultParticipantsNumber
                   }
                 freeSpots
@@ -67,11 +77,21 @@ class EventRepositoryController implements IEventRepository {
                 duration
                 level
                 }
+             userEvents{
+                 status
+                 user{
+                        id
+                        firstName
+                        lastName
+                        picture
+                    }
+             }
             }
+        }
         `;
 
         const results: any = await GraphqlClient.queryWithVariables(query, variables);
-        return MapModelHelper.MapEvent(results.eventById);
+        return MapModelHelper.MapEventDetails(results.eventDetails);
     }
 
     public async Create(eventDetails: EventDetailsViewModel): Promise<EventDetailsViewModel> {

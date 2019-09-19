@@ -27,13 +27,14 @@ class NotificationRepositoryController implements INotificationRepository {
                 status
                 notificationType
               },
-              totalCount
+              totalCount, 
+              customCount,
             }
            }
         `;
 
         const response: any = await GraphqlClient.query(query);
-        let results = await this.GetEventsMap(response.getNotifications);
+        let results = await this.GetNotificationsMap(response.getNotifications);
         return results;
 
     }
@@ -61,11 +62,12 @@ class NotificationRepositoryController implements INotificationRepository {
         throw new Error('Method not implemented.');
     }
 
-    private async GetEventsMap(model: any) {
+    private async GetNotificationsMap(model: any) {
         let result = new ListModel<NotificationModel>();
 
         if (model) {
             result.Total = model.totalCount;
+            result.CustomTotal = model.customCount;
             model.items.forEach((element: any) => {
                 let event = MapModelHelper.MapNotification(element);
                 result.Data.push(event);
