@@ -5,7 +5,7 @@ import { ActionType, ActionButtonType } from '../../contracts/enums/common';
 
 class NotificationCard extends Component<NotificationCardProps> {
     render() {
-        let cssClass= this.props.status===1? "not-read item-card":"item-card";
+        let cssClass= this.props.status===0? "not-read item-card":"item-card";
         return (
             
             <div className={cssClass}>

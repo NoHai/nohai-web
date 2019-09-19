@@ -13,7 +13,7 @@ class PageHeader extends Component<any, any> {
     public notificationRequest = new PaginationBaseRequestModel();
     async componentDidMount() {
         this.notification = await NotificationService.Find(this.notificationRequest);
-        this.props.unReadNotification(this.notification.Total)
+        this.props.unReadNotification(this.notification.Total);
     }
     render() {
         return (
@@ -26,7 +26,7 @@ class PageHeader extends Component<any, any> {
                             }}
                             className="icon mdi mdi-bell notification"
                         >
-                            <span className="badge">{this.props.unReadNotifications||""}</span>
+                            <span className="badge">{this.props.unReadNotifications || ''}</span>
                         </div>
                     </Col>
                     <Col span={8} className="text-center" />
@@ -43,10 +43,9 @@ class PageHeader extends Component<any, any> {
     }
 }
 const mapStateToProps = (state: any) => {
-        return {
-            unReadNotifications: state.notificationReducer.unReadNotifications,
-        };
-
+    return {
+        unReadNotifications: state.notificationReducer.unReadNotifications,
+    };
 };
 
 const mapDispatchToProps = {

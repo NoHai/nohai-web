@@ -5,9 +5,11 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import configureStore from './redux/store/configure.store';
-import { initializeFirebase } from './push-notification';
+import { initializeFirebase } from './business/services/push-notification.service';
+import StoreUtility from './utilities/core/store.utility';
 
 const store = configureStore();
+StoreUtility.init(store);
 
 ReactDOM.render(
     <Provider store={store}>
@@ -23,3 +25,5 @@ ReactDOM.render(
 // Learn more about service workers: http://bit.ly/CRA-PWA
 initializeFirebase();
 serviceWorker.register();
+
+export default store;

@@ -1,6 +1,8 @@
 import * as firebase from 'firebase/app';
 import 'firebase/messaging';
-import { newNotificationReceived } from './redux/actions/notification.action';
+import { newNotificationReceived } from '../../redux/actions/notification.action';
+import StoreUtility from '../../utilities/core/store.utility';
+
 
 export const initializeFirebase = () => {
   // Your web app's Firebase configuration
@@ -16,10 +18,11 @@ export const initializeFirebase = () => {
   firebase.initializeApp(firebaseConfig);
 
   const messaging = firebase.messaging();
-  
+
   messaging.onMessage(function (payload) {
-    console.log('onMessage: ', payload);
-    mapDispatchToProps.newNotificationReceived()
+    console.log('Token refreshed.',payload);
+    StoreUtility.store.dispatch(newNotificationReceived());
+
   });
 
 
@@ -37,19 +40,14 @@ export const initializeFirebase = () => {
 
 }
 
-const mapDispatchToProps = {
-  newNotificationReceived,
-};
-
 export const askForPermissioToReceiveNotifications = async () => {
   try {
     const messaging = firebase.messaging();
     await messaging.requestPermission();
     const token = await messaging.getToken();
-    console.log('token do usuário:', token);
     return token;
   } catch (error) {
     console.error(error);
   }
- }
+}
 

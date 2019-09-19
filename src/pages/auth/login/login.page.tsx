@@ -9,7 +9,7 @@ import { initialAuthState } from '../../../redux/reducers/auth.reducer';
 import { login } from './../../../redux/actions/auth.action';
 import AuthService from '../../../business/services/auth.service';
 import { UserTokenNotificationService } from '../../../business/services/user-token-notification.service';
-import { askForPermissioToReceiveNotifications } from '../../../push-notification';
+import { askForPermissioToReceiveNotifications } from '../../../business/services/push-notification.service';
 import FacebookLogin from 'react-facebook-login';
 
 

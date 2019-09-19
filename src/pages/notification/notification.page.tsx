@@ -114,6 +114,7 @@ class NotificationPage extends Component {
 
     private async markAllAsRead() {
         await NotificationService.MarkAllAsRead();
+        await this.getNotification();
     }
 
     private onButtonClickHandler(action: ActionButtonType, eventId: any, ...args: any[]) {
