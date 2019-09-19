@@ -2,6 +2,7 @@ import { EventDetailsViewModel } from "../contracts/models";
 import { UserViewModel } from "../contracts/view-models/user-view.model";
 import { NotificationModel } from "../contracts/models/notification.model";
 import { SportModel } from "../contracts/models/sport.model";
+import { ParticipantModel } from "../contracts/models/participant.model";
 
 export default class MapModelHelper {
     public static MapEvent(model: any): EventDetailsViewModel {
@@ -26,6 +27,13 @@ export default class MapModelHelper {
         result.participantsDetails.PriceForParticipant = model.cost;
         result.sport = model.sport;
         result.participantsDetails.Level = model.level;
+
+        return result;
+    }
+
+    public static MapEventDetails(model: any): EventDetailsViewModel {
+        let result = this.MapEvent(model.event);
+        result.participants = model.userEvents.forEach((participant: any) => this.MapEventParticipant(participant));
 
         return result;
     }
@@ -68,6 +76,19 @@ export default class MapModelHelper {
             result.Name = model.name;
             result.ParticipantNamber = model.participantNamber;
         }
+        return result;
+    }
+
+    private static MapEventParticipant(model: any): ParticipantModel {
+        let result = new ParticipantModel();
+        if (model) {
+            result.Id = model.user.id;
+            result.FirstName = model.user.firstName;
+            result.LastName = model.user.lastName;
+            result.Status = model.status;
+            result.Url = model.user.picture;
+        }
+
         return result;
     }
 }

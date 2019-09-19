@@ -3,12 +3,14 @@ import { LocationEventDetailsModel } from "../models/location-event-details.mode
 import { DescriptionEventModel } from "../models/description-event.model";
 import { EventModel } from "../models/event.model";
 import { SportModel } from "../models/sport.model";
+import { ParticipantModel } from "../models/participant.model";
 export class EventDetailsViewModel  {
     sport!:SportModel
     event!:EventModel
     participantsDetails!: ParticipantsEventDetailsModel;
     locationDetails!:LocationEventDetailsModel;
     description!:DescriptionEventModel;
+    participants!: ParticipantModel[];
 
     constructor(){
         this.sport=new SportModel();
@@ -16,5 +18,6 @@ export class EventDetailsViewModel  {
         this.participantsDetails=new ParticipantsEventDetailsModel();
         this.locationDetails= new LocationEventDetailsModel();
         this.description= new DescriptionEventModel();
+        this.participants = [];
     }
 }
