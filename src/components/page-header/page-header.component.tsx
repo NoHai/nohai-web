@@ -26,7 +26,11 @@ class PageHeader extends Component<any, any> {
                             }}
                             className="icon mdi mdi-bell notification"
                         >
-                            <span className="badge">{this.props.unReadNotifications || ''}</span>
+                            {this.props.unReadNotifications > 0 && (
+                                <span className="badge">
+                                    {this.props.unReadNotifications || ''}
+                                </span>
+                            )}
                         </div>
                     </Col>
                     <Col span={8} className="text-center" />

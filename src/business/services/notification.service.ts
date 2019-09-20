@@ -5,6 +5,7 @@ import { GetNotificationsCommand, CreateNotificationCommand, UpdateNotificationC
 import { FindNotificationsCommand } from '../commands/notification/find-notifications.command';
 import { PaginationBaseRequestModel } from '../../contracts/requests/pagination.base.model.request';
 import { MarkAllAsReadCommand } from '../commands/notification/mark-all-as-read.command';
+import { MarkAsReadCommand } from '../commands/notification/mark-as-read.command';
 
 class NotificationServiceController implements INotificationService {
 
@@ -29,6 +30,9 @@ class NotificationServiceController implements INotificationService {
 
     public async MarkAllAsRead(): Promise<ResultModel<boolean>> {
         return await MarkAllAsReadCommand.execute();
+    }
+    public async MarkAsRead(id:string): Promise<ResultModel<string>> {
+        return await MarkAsReadCommand.execute(id);
     }
 }
 

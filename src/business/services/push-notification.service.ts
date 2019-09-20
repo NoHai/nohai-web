@@ -2,26 +2,19 @@ import * as firebase from 'firebase/app';
 import 'firebase/messaging';
 import { newNotificationReceived } from '../../redux/actions/notification.action';
 import StoreUtility from '../../utilities/core/store.utility';
+import { FirebaseConfig } from '../../contracts/models/env-models/firebase.config';
 
 
 export const initializeFirebase = () => {
   // Your web app's Firebase configuration
-  var firebaseConfig = {
-    apiKey: "AIzaSyDet8nQkb4kEGzdJtvDo4JA9GvXZ-7kUxg",
-    authDomain: "nohai-pushnotification.firebaseapp.com",
-    databaseURL: "https://nohai-pushnotification.firebaseio.com",
-    projectId: "nohai-pushnotification",
-    storageBucket: "",
-    messagingSenderId: "44767533362",
-    appId: "1:44767533362:web:522cde2738eae6fa"
-  };
+  const firebaseConfig = new FirebaseConfig();
   firebase.initializeApp(firebaseConfig);
 
   const messaging = firebase.messaging();
 
   messaging.onMessage(function (payload) {
     console.log('Token refreshed.',payload);
-    StoreUtility.store.dispatch(newNotificationReceived());
+    StoreUtility.store.dispatch(newNotificationReceived(1));
 
   });
 

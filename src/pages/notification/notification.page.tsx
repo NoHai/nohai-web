@@ -8,6 +8,8 @@ import { NotificationModel } from '../../contracts/models/notification.model';
 import { EventService } from '../../business/services';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { PaginationBaseRequestModel } from '../../contracts/requests/pagination.base.model.request';
+import StoreUtility from '../../utilities/core/store.utility';
+import { unReadNotification, newNotificationReceived } from '../../redux/actions/notification.action';
 
 class NotificationPage extends Component {
     public notificationRequest = new PaginationBaseRequestModel();
@@ -61,7 +63,7 @@ class NotificationPage extends Component {
                                             style={{ backgroundImage: this.GenerateGradient() }}
                                         >
                                             <NotificationCard
-                                                id={notification.EventId}
+                                                id={notification.Id}
                                                 title={notification.Title}
                                                 body={notification.Body}
                                                 eventId={notification.EventId}
@@ -102,6 +104,11 @@ class NotificationPage extends Component {
             });
         }
 
+        await this.SetNotification();
+    }
+
+    private async SetNotification()
+    {
         await this.setState({
             notifications: this.norificationContainer,
             pageIndex: this.notificationRequest.pageIndex + 1,
@@ -112,17 +119,30 @@ class NotificationPage extends Component {
         approve ? await EventService.Approve(eventId) : await EventService.Reject(eventId);
     }
 
+    private async RedirectToEventDetails(notificationId: string, eventId:any) {
+        await NotificationService.MarkAsRead(notificationId);
+        StoreUtility.store.dispatch(newNotificationReceived(-1));
+        history.push('/details/' + eventId);
+    }
+
     private async markAllAsRead() {
+        this.norificationContainer= new Array<NotificationModel>();
+        StoreUtility.store.dispatch(unReadNotification(0))
+        await this.setState({
+            notifications: new Array<NotificationModel>(),
+            hasMoreItems: true,
+            pageIndex: 0,
+        })
         await NotificationService.MarkAllAsRead();
         await this.getNotification();
     }
 
-    private onButtonClickHandler(action: ActionButtonType, eventId: any, ...args: any[]) {
+    private onButtonClickHandler(action: ActionButtonType, notificationId:any, eventId: any, ...args: any[]) {
         switch (action) {
             default:
                 break;
             case ActionButtonType.Info:
-                history.push('/details/' + eventId);
+               this.RedirectToEventDetails(notificationId, eventId)
                 break;
             case ActionButtonType.Approve:
                 this.responseRequest(true, eventId);

@@ -14,13 +14,15 @@ import IntroPage from './pages/intro/intro.page';
 import { checkLogin } from './redux/actions/auth.action';
 import { initialAuthState } from './redux/reducers/auth.reducer';
 import ResetPasswordPage from './pages/auth/reset-password/reset-password.page';
+import { AppConfig } from './contracts/models/env-models/app.config';
 
 class App extends Component<any, any> {
+    private AppConfig = new AppConfig();
     async componentDidMount() {
         this.checkLogin();
         const script = document.createElement('script');
         script.src =
-            'https://maps.googleapis.com/maps/api/js?key=AIzaSyDx4lOromkMykLetHX78GQvWrMWrO7mmtM&libraries=places';
+            'https://maps.googleapis.com/maps/api/js?key='+this.AppConfig.googleApiKey+'&libraries=places';
         script.async = true;
         await document.body.appendChild(script);
     }

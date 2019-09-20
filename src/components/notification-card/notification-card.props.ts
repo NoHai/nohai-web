@@ -8,5 +8,5 @@ export interface NotificationCardProps {
     avatarUrl:string;
     eventId:string
     status:number;
-    onButtonClick?: (action: ActionButtonType, eventId: any, ...args: any[]) => void;
+    onButtonClick?: (action: ActionButtonType,notificationId:any, eventId: any, ...args: any[]) => void;
 }

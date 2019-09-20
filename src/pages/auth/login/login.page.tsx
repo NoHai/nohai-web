@@ -11,10 +11,11 @@ import AuthService from '../../../business/services/auth.service';
 import { UserTokenNotificationService } from '../../../business/services/user-token-notification.service';
 import { askForPermissioToReceiveNotifications } from '../../../business/services/push-notification.service';
 import FacebookLogin from 'react-facebook-login';
-
+import { AppConfig } from '../../../contracts/models/env-models/app.config';
 
 class LoginPage extends Component<any, any> {
     state = { email: '', password: '', isLogIn: false, userId: '', name: '' };
+    private AppConfig = new AppConfig();
 
     async handleChange(event: any) {
         const { name, value } = event.target;
@@ -28,11 +29,11 @@ class LoginPage extends Component<any, any> {
     async responseFacebook(response: any) {
         await AuthService.loginWithFb(response.email, response.name);
         let token = await askForPermissioToReceiveNotifications();
-            if(token){
-                await UserTokenNotificationService.CreateToken(token);
-            }
-    
-            this.navigateToEvents();
+        if (token) {
+            await UserTokenNotificationService.CreateToken(token);
+        }
+
+        this.navigateToEvents();
         console.log(response);
     }
 
@@ -45,7 +46,7 @@ class LoginPage extends Component<any, any> {
         } else {
             fbContent = (
                 <FacebookLogin
-                    appId="517121088858472"
+                    appId={this.AppConfig.facebookAppId || ''}
                     autoLoad={true}
                     fields="name,email,picture"
                     onClick={e => this.componentClicked}
@@ -138,12 +139,12 @@ class LoginPage extends Component<any, any> {
         this.props.login(this.state.email, this.state.password);
         //const hasLoggedId = await AuthService.login(this.state.email, this.state.password);
         //if(hasLoggedId){
-            let token = await askForPermissioToReceiveNotifications();
-            if(token){
-                await UserTokenNotificationService.CreateToken(token);
-            }
-    
-            this.navigateToEvents();
+        let token = await askForPermissioToReceiveNotifications();
+        if (token) {
+            await UserTokenNotificationService.CreateToken(token);
+        }
+
+        this.navigateToEvents();
         //}
     }
 
@@ -151,8 +152,7 @@ class LoginPage extends Component<any, any> {
         history.push('/register');
     }
 
-
-    private navigateToEvents(){
+    private navigateToEvents() {
         history.push('/');
     }
 }

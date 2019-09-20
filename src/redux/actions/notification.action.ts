@@ -8,9 +8,9 @@ export const unReadNotification = (unReadNorification: any) => {
     };
 };
 
-export const newNotificationReceived = () => {
+export const newNotificationReceived = (index:number) => {
     return {
         type: ReduxCommonActionType.NewNotificationReceived,
-        result: 1,
+        result: index,
     };
 };

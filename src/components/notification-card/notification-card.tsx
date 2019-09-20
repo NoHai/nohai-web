@@ -71,7 +71,7 @@ class NotificationCard extends Component<NotificationCardProps> {
 
     private onButtonClickHandler(action: ActionButtonType) {
         if (this.props.onButtonClick) {
-            this.props.onButtonClick(action, this.props.eventId);
+            this.props.onButtonClick(action,this.props.id, this.props.eventId);
         }
     }
 }
