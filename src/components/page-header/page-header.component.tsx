@@ -13,7 +13,7 @@ class PageHeader extends Component<any, any> {
     public notificationRequest = new PaginationBaseRequestModel();
     async componentDidMount() {
         this.notification = await NotificationService.Find(this.notificationRequest);
-        this.props.unReadNotification(this.notification.Total);
+        this.props.unReadNotification(this.notification.CustomTotal);
     }
     render() {
         return (
