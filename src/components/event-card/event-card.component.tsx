@@ -38,7 +38,7 @@ class EventCard extends Component<any, any> {
                             </div>
                             <div className="item-card-option">
                                 <span className="icon mdi mdi-map-marker" />
-                                {this.props.eventDetails.locationDetails.Address}{' '}
+                                {this.props.eventDetails.locationDetails.StreetName}{', '}
                                 {this.props.eventDetails.locationDetails.City}
                             </div>
                         </div>
@@ -54,7 +54,7 @@ class EventCard extends Component<any, any> {
                 {!this.isForPreview && (
                     <Row type="flex" align="middle">
                         <Col span={12}>
-                            <EventMembers />
+                            <EventMembers eventMembers={this.props.participants} />
                         </Col>
                         <Col span={12} className="text-right">
                             <Button
@@ -79,8 +79,8 @@ class EventCard extends Component<any, any> {
 
                 {!this.isForPreview && (
                     <div className="text-right margin-bottom">
-                        <Avatar size={24} src="https://randomuser.me/api/portraits/women/44.jpg" />
-                        Andreea Stanchi
+                        <Avatar size={24} src={this.props.eventDetails.owner.Url} />
+                        {this.props.eventDetails.owner.FirstName} {this.props.eventDetails.owner.LastName}
                     </div>
                 )}
 

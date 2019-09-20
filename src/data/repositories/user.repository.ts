@@ -1,5 +1,5 @@
 import { IUserRepository } from '../../contracts/repositories/user-repository.interface';
-import { ResultModel } from '../../contracts/models';
+import { ResultModel, UserModel } from '../../contracts/models';
 import gql from 'graphql-tag';
 import GraphqlClient from '../request/graphql-client';
 import { UserViewModel } from '../../contracts/view-models/user-view.model';
@@ -24,7 +24,7 @@ class UserRepositoryController implements IUserRepository {
         `;
 
         const results: any = await GraphqlClient.query(query);
-        return MapModelHelper.MapUser(results.getUserById) ;
+        return MapModelHelper.MapUser(results.getUserById);
     }
 
     public Create(data: UserViewModel): Promise<UserViewModel> {
@@ -32,14 +32,15 @@ class UserRepositoryController implements IUserRepository {
     }
 
     public async Update(userDetails: UserViewModel): Promise<UserViewModel> {
-        let input: any =  { details: 
+        let input: any = {
+            details:
             {
                 firstName: userDetails.user.FirstName,
                 lastName: userDetails.user.LastName,
                 dateOfBirth: `${userDetails.details.Day}/${userDetails.details.Month}/${userDetails.details.Year}`,
                 height: +userDetails.details.Height,
                 weight: +userDetails.details.Weight,
-                favoriteSport:userDetails.sport.Id,
+                favoriteSport: userDetails.sport.Id,
             }
         };
 
@@ -56,6 +57,13 @@ class UserRepositoryController implements IUserRepository {
     }
 
     public Delete(data: any): Promise<ResultModel<boolean>> {
+        throw new Error('Method not implemented.');
+    }
+
+    public RecoveryPassword(email: any): Promise<ResultModel<boolean>> {
+        throw new Error('Method not implemented.');
+    }
+    public ResetPassword(user: UserModel): Promise<ResultModel<boolean>> {
         throw new Error('Method not implemented.');
     }
 }

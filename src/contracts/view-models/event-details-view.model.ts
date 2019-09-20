@@ -11,6 +11,7 @@ export class EventDetailsViewModel  {
     locationDetails!:LocationEventDetailsModel;
     description!:DescriptionEventModel;
     participants!: ParticipantModel[];
+    owner!: ParticipantModel;
 
     constructor(){
         this.sport=new SportModel();
@@ -19,5 +20,6 @@ export class EventDetailsViewModel  {
         this.locationDetails= new LocationEventDetailsModel();
         this.description= new DescriptionEventModel();
         this.participants = [];
+        this.owner = new ParticipantModel();
     }
 }

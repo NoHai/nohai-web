@@ -6,4 +6,5 @@ export class AuthEndpoint {
     public static Login = `${AuthEndpoint.AuthUrl}/login`;
     public static Register = `${AuthEndpoint.AuthUrl}/register`;
     public static Recovery = `${AuthEndpoint.AuthUrl}/recovery`;
+    public static Reset = `${AuthEndpoint.AuthUrl}/reset-password`;
 }

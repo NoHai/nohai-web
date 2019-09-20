@@ -13,6 +13,7 @@ import WrapperPage from './pages/common/wrapper/wrapper.page';
 import IntroPage from './pages/intro/intro.page';
 import { checkLogin } from './redux/actions/auth.action';
 import { initialAuthState } from './redux/reducers/auth.reducer';
+import ResetPasswordPage from './pages/auth/reset-password/reset-password.page';
 
 class App extends Component<any, any> {
     async componentDidMount() {
@@ -44,6 +45,12 @@ class App extends Component<any, any> {
                         <AuthorizationRoute
                             path="/recover"
                             component={RecoveryPage}
+                            isAuthorized={this.props.isAuthorized}
+                            isCompleted={this.props.isCompleted}
+                        />
+                        <AuthorizationRoute
+                            path="/reset-password"
+                            component={ResetPasswordPage}
                             isAuthorized={this.props.isAuthorized}
                             isCompleted={this.props.isCompleted}
                         />

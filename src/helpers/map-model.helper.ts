@@ -13,19 +13,25 @@ export default class MapModelHelper {
         result.description.Time = model.hour;
 
         result.event.Name = model.title;
-        result.event.Owner = model.owner;
+        result.owner.FirstName = model.owner.firstName;
+        result.owner.LastName = model.owner.lastName;
+        result.owner.Status = model.owner.Status;
+        result.owner.Url = model.owner.picture;
         result.event.Id = model.id;
 
         result.locationDetails.StreetName = model.address.streetName;
-        result.locationDetails.City = model.address.city.name;
-        result.locationDetails.County = model.address.county.name;
+        result.locationDetails.City = model.address.city;
+        result.locationDetails.County = model.address.county;
         result.locationDetails.Longitude = model.address.longitude;
         result.locationDetails.Latitude = model.address.latitude;
 
         result.participantsDetails.FreeSpots = model.freeSpots;
         result.participantsDetails.TotalParticipants = model.sport.defaultParticipantsNumber;
         result.participantsDetails.PriceForParticipant = model.cost;
-        result.sport = model.sport;
+        result.sport.Id = model.sport.id;
+        result.sport.Name = model.sport.name;
+        result.sport.ParticipantNumber = model.sport.participantNumber;
+        result.sport.Description = model.sport.description;
         result.participantsDetails.Level = model.level;
 
         return result;
@@ -74,7 +80,7 @@ export default class MapModelHelper {
             result.Id = model.id;
             result.Description = model.description;
             result.Name = model.name;
-            result.ParticipantNamber = model.participantNamber;
+            result.ParticipantNumber = model.participantNumber;
         }
         return result;
     }

@@ -1,12 +1,14 @@
 import { IUserService } from '../../contracts/services/user-service.interface';
-import { ResultModel } from '../../contracts/models';
+import { ResultModel, UserModel } from '../../contracts/models';
 import {
     GetUserCommand,
     CreateUserCommand,
     UpdateUserCommand,
     DeleteUserCommand,
+    RecoveryPasswordCommand,
 } from '../commands/user';
 import { UserViewModel } from '../../contracts/view-models/user-view.model';
+import { ResetPasswordCommand } from '../commands/user/reset-password.command';
 
 class UserServiceController implements IUserService {
     public async Get(): Promise<UserViewModel> {
@@ -23,6 +25,13 @@ class UserServiceController implements IUserService {
 
     public async Delete(id: any): Promise<ResultModel<boolean>> {
         return await DeleteUserCommand.execute(id);
+    }
+
+    public async RecoveryPassword(email: any): Promise<ResultModel<boolean>> {
+        return await RecoveryPasswordCommand.execute(email);
+    }
+    public async ResetPassword(user: UserModel): Promise<ResultModel<boolean>> {
+        return await ResetPasswordCommand.execute(user);
     }
 }
 
