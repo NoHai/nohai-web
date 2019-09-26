@@ -4,6 +4,7 @@ import { InMemoryCache, ApolloLink } from 'apollo-boost';
 import { setContext } from 'apollo-link-context';
 import TokenProvider from '../../utilities/providers/token.provider';
 import { AppConfig } from '../../contracts/models/env-models/app.config';
+import { onError } from 'apollo-link-error';
 
 class GraphqlClientController {
     private static instance: GraphqlClientController;
@@ -12,8 +13,8 @@ class GraphqlClientController {
     private constructor() {
         const appConfig = new AppConfig();
         this.client = new ApolloClient({
-            link: this.getAppoloLink(appConfig.nohaiAppUrl),
-            cache: new InMemoryCache()
+            link: this.getAppoloLink(`${appConfig.nohaiAppUrl}/graphql`),
+            cache: new InMemoryCache(), 
         });
     }
 
@@ -29,6 +30,7 @@ class GraphqlClientController {
         const response: any = await this.client.query({
             query: query,
             fetchPolicy: 'network-only',
+            errorPolicy: 'all'
         });
 
         const result: T = response.data;
@@ -40,6 +42,7 @@ class GraphqlClientController {
             query: query,
             variables: variables,
             fetchPolicy: 'network-only',
+            errorPolicy: 'all'
         });
         const result: T = response.data;
         return result;
@@ -49,6 +52,7 @@ class GraphqlClientController {
         const response: any = await this.client.mutate({
             variables,
             mutation,
+            errorPolicy: 'all'
         });
 
         const result: T = response.data;
@@ -61,17 +65,28 @@ class GraphqlClientController {
            uri
         });
 
+        const onErrorLink = onError(({ graphQLErrors, networkError }) => {
+            if (graphQLErrors)
+              graphQLErrors.map(({ message, locations, path }) =>
+                console.log(
+                  `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
+                ),
+              );
+          
+            if (networkError) console.log(`[Network error]: ${networkError}`);
+          });
+
         const authMiddleware = setContext(async (req, { headers }) => {
             const token = await TokenProvider.getToken();
             return {
                 headers: {
                     ...headers,
                     authorization: token !== null ? `Bearer ${token.accessToken}`: '',
-                }
+                }, 
             }
           });
 
-        return ApolloLink.from([authMiddleware, httpLink]);
+        return ApolloLink.from([authMiddleware, httpLink, onErrorLink]);
     }
 
 }
