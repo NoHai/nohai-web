@@ -5,7 +5,7 @@ import { TokenNotificationModel } from '../../contracts/models/token-notificatio
 import { IUserTokenNotificationRepository } from '../../contracts/repositories/user-token-notification.repository.interface';
 
 class UserTokenNotificationRepositoryController implements IUserTokenNotificationRepository {
-  
+
     public async Get(userId: any): Promise<TokenNotificationModel> {
         const query = gql`
             {
@@ -22,7 +22,7 @@ class UserTokenNotificationRepositoryController implements IUserTokenNotificatio
     }
 
     public async CreateToken(token: any): Promise<TokenNotificationModel> {
-        let notificationToken: any = {token:token};
+        let notificationToken: any = { token: token };
 
         const createNotificationTokenMutation = gql`
             mutation createNotificationTokenMutation($token: String!) {
@@ -31,7 +31,9 @@ class UserTokenNotificationRepositoryController implements IUserTokenNotificatio
             }}`;
 
         const result: any = await GraphqlClient.mutate(createNotificationTokenMutation, notificationToken);
-        return result.createNotificationToken.id;
+        return result && result.createNotificationToken
+            ? result.createNotificationToken.id
+            : null;
     }
 
     public async Update(userToken: TokenNotificationModel): Promise<TokenNotificationModel> {
@@ -42,7 +44,7 @@ class UserTokenNotificationRepositoryController implements IUserTokenNotificatio
         throw new Error('Method not implemented.');
     }
 
-      Create(data: TokenNotificationModel): Promise<TokenNotificationModel> {
+    Create(data: TokenNotificationModel): Promise<TokenNotificationModel> {
         throw new Error("Method not implemented.");
     }
 }

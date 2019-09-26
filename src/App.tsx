@@ -20,11 +20,7 @@ class App extends Component<any, any> {
     private AppConfig = new AppConfig();
     async componentDidMount() {
         this.checkLogin();
-        const script = document.createElement('script');
-        script.src =
-            'https://maps.googleapis.com/maps/api/js?key='+this.AppConfig.googleApiKey+'&libraries=places';
-        script.async = true;
-        await document.body.appendChild(script);
+        await this.initMap();
     }
 
     render() {
@@ -77,6 +73,16 @@ class App extends Component<any, any> {
 
     private checkLogin() {
         return this.props.checkLogin();
+    }
+
+    private async initMap() {
+        const script = document.createElement('script');
+        script.src =
+            'https://maps.googleapis.com/maps/api/js?key=' +
+            this.AppConfig.googleApiKey +
+            '&libraries=places';
+        script.async = true;
+        await document.body.appendChild(script);
     }
 }
 

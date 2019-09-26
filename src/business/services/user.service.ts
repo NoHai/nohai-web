@@ -27,10 +27,10 @@ class UserServiceController implements IUserService {
         return await DeleteUserCommand.execute(id);
     }
 
-    public async RecoveryPassword(email: any): Promise<ResultModel<boolean>> {
+    public async RecoveryPassword(email: any): Promise<string> {
         return await RecoveryPasswordCommand.execute(email);
     }
-    public async ResetPassword(user: UserModel): Promise<ResultModel<boolean>> {
+    public async ResetPassword(user: UserModel): Promise<string> {
         return await ResetPasswordCommand.execute(user);
     }
 }

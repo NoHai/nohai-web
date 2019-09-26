@@ -1,10 +1,10 @@
 import { ICommand } from '../command.interface';
-import { UserRepository } from '../../../data/repositories';
-import { ResultModel, UserModel } from '../../../contracts/models';
+import { AuthRepository } from '../../../data/repositories';
+import { UserModel } from '../../../contracts/models';
 
-class ResetPasswordCommandController implements ICommand<any, Promise<ResultModel<boolean>>> {
-    public async execute(user:UserModel): Promise<ResultModel<boolean>> {
-        return await UserRepository.ResetPassword(user);
+class ResetPasswordCommandController implements ICommand<any, Promise<string>> {
+    public async execute(user:UserModel): Promise<string> {
+        return await AuthRepository.resetPassword(user);
     }
 }
 

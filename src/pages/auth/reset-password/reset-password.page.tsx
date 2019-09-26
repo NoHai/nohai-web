@@ -43,17 +43,6 @@ class ResetPasswordPage extends Component {
                 <div className="auth-page-container">
                     <div className="auth-page-form-group">
                         <div className="inline-input-wrapper">
-                            <span className="icon mdi mdi-email-outline" />
-                            <input
-                                readOnly
-                                type="email"
-                                placeholder="Adresa de email"
-                                data-lpignore="true"
-                                name="email"
-                                onChange={e => this.handleChange(e)}
-                            />
-                        </div>
-                        <div className="inline-input-wrapper">
                             <span className="icon mdi mdi-key" />
                             <input
                                 type="email"

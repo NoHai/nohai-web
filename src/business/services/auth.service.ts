@@ -25,7 +25,6 @@ class AuthServiceController {
     public async login(email: string, password: string): Promise<boolean> {
         const model = new LoginViewModel(email, password);
         const token = await LoginCommand.execute(model);
-
         if (!!token) {
             await TokenProvider.saveToken(token);
             return true;
@@ -51,8 +50,7 @@ class AuthServiceController {
 
     public async register(model: RegisterViewModel): Promise<boolean> {
         const logedId = await RegisterCommand.execute(model);
-        if (logedId) {
-            //await TokenProvider.saveToken(token);
+        if (logedId && logedId.length > 0) {
             return true;
         }
 

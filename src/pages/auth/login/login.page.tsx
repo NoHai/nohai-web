@@ -4,7 +4,6 @@ import './login.page.scss';
 import { Link } from 'react-router-dom';
 import { Button, Row, Col } from 'antd';
 import history from '../../../utilities/core/history';
-import FacebookHelper from '../../../helpers/facebook.helper';
 import { initialAuthState } from '../../../redux/reducers/auth.reducer';
 import { login } from './../../../redux/actions/auth.action';
 import AuthService from '../../../business/services/auth.service';
@@ -22,40 +21,22 @@ class LoginPage extends Component<any, any> {
         this.setState({ [name]: value });
     }
 
-    componentDidMount() {
-        FacebookHelper.Init();
-    }
-
     async responseFacebook(response: any) {
-        await AuthService.loginWithFb(response.email, response.name);
-        let token = await askForPermissioToReceiveNotifications();
-        if (token) {
-            await UserTokenNotificationService.CreateToken(token);
-        }
+        if (response && response.status === 'connected') {
+            await AuthService.loginWithFb(response.email, response.name);
+            let token = await askForPermissioToReceiveNotifications();
+            if (token) {
+                await UserTokenNotificationService.CreateToken(token);
+            }
 
-        this.navigateToEvents();
-        console.log(response);
+            this.navigateToEvents();
+        }
     }
 
     componentClicked = () => console.log('Clicked');
 
     public render() {
-        let fbContent;
-        if (this.state.isLogIn) {
-            fbContent = null;
-        } else {
-            fbContent = (
-                <FacebookLogin
-                    appId={this.AppConfig.facebookAppId || ''}
-                    autoLoad={true}
-                    fields="name,email,picture"
-                    onClick={e => this.componentClicked}
-                    callback={e => this.responseFacebook(e)}
-                    cssClass="facebook"
-                    icon="icon mdi mdi-facebook"
-                />
-            );
-        }
+        let fbContent = this.getFacebookButton();
 
         return (
             <div className="auth-page">
@@ -135,17 +116,29 @@ class LoginPage extends Component<any, any> {
         );
     }
 
-    public async doLogin() {
-        this.props.login(this.state.email, this.state.password);
-        //const hasLoggedId = await AuthService.login(this.state.email, this.state.password);
-        //if(hasLoggedId){
-        let token = await askForPermissioToReceiveNotifications();
-        if (token) {
-            await UserTokenNotificationService.CreateToken(token);
+    private getFacebookButton() {
+        let fbContent;
+        if (this.state.isLogIn) {
+            fbContent = null;
+        } else {
+            fbContent = (
+                <FacebookLogin
+                    appId={this.AppConfig.facebookAppId || ''}
+                    autoLoad={false}
+                    fields="name,email,picture"
+                    onClick={e => this.componentClicked}
+                    callback={e => this.responseFacebook(e)}
+                    cssClass="facebook"
+                    icon="icon mdi mdi-facebook"
+                />
+            );
         }
 
-        this.navigateToEvents();
-        //}
+        return fbContent;
+    }
+
+    public async doLogin() {
+        this.props.login(this.state.email, this.state.password);
     }
 
     private navigateToRegister() {

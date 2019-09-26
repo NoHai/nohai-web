@@ -130,6 +130,13 @@ class RegisterPage extends Component<any, any> {
         history.push('/login');
     }
 
+    private loginRegisterdUser() {
+        return this.props.login(
+            this.state.registerDetails.user.Email,
+            this.state.registerDetails.user.Password
+        );
+    }
+
     private async Register() {
         await this.getFildsValidation();
         let errors = this.getErrorMessage();
@@ -140,29 +147,25 @@ class RegisterPage extends Component<any, any> {
             };
             error();
         } else {
-            const LogId = await AuthService.register(this.state.registerDetails.user);
-            if (LogId) {
-                this.props.login(
-                    this.state.registerDetails.user.Email,
-                    this.state.registerDetails.user.Password
-                );
-
-                let registerDetails = JSON.parse(JSON.stringify(this.state.registerDetails));
-                let token = await askForPermissioToReceiveNotifications();
-                if (token) {
-                    await UserTokenNotificationService.CreateToken(token);
-                }
-
-                this.setState({
-                    registerDetails: registerDetails,
-                });
-                LocalStorageHelper.SaveItemToLocalStorage(
-                    LocalStorage.IntroInfo,
-                    this.state.registerDetails
-                );
-                history.push('/intro');
+            const registered = await AuthService.register(this.state.registerDetails.user);
+            if (registered) {
+                this.loginRegisterdUser();
+                this.storeRegisterDetails();
             }
         }
+    }
+
+    private async storeRegisterDetails() {
+        let registerDetails = JSON.parse(JSON.stringify(this.state.registerDetails));
+
+        this.setState({
+            registerDetails: registerDetails,
+        });
+
+        LocalStorageHelper.SaveItemToLocalStorage(
+            LocalStorage.IntroInfo,
+            this.state.registerDetails
+        );
     }
 
     private getErrorMessage() {

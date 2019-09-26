@@ -91,6 +91,39 @@ class AuthRepositoryController {
 
         return result;
     }
+
+    public async recoveryPassword(email: any): Promise<string> {
+       let parameter: string  = email;
+       const recoveryMutation =  gql`
+        mutation recoverPassword($parmeter: String!) {
+            recoverPassword(parameter: $parameter) {
+                id
+        }}`;
+
+        const response: any = await GraphqlClient.mutate(recoveryMutation, parameter);
+        const result: string = response.data;
+
+        return result;
+    }
+    public async  resetPassword(user: UserModel): Promise<string> {
+        let input: any = {
+            credentials:
+            {
+                login: user.Email,
+                password: user.Password
+            }
+        };
+        const resetPasswordMutation =  gql`
+         mutation updateCredentails($input: CredentialsInput!) {
+             updateCredentails(input: $input) {
+                 id
+         }}`;
+ 
+         const response: any = await GraphqlClient.mutate(resetPasswordMutation, input);
+         const result: string = response.data;
+ 
+         return result;
+    }
 }
 
 export const AuthRepository = new AuthRepositoryController();

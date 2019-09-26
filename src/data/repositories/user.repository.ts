@@ -59,13 +59,6 @@ class UserRepositoryController implements IUserRepository {
     public Delete(data: any): Promise<ResultModel<boolean>> {
         throw new Error('Method not implemented.');
     }
-
-    public RecoveryPassword(email: any): Promise<ResultModel<boolean>> {
-        throw new Error('Method not implemented.');
-    }
-    public ResetPassword(user: UserModel): Promise<ResultModel<boolean>> {
-        throw new Error('Method not implemented.');
-    }
 }
 
 export const UserRepository = new UserRepositoryController();

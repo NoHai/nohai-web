@@ -3,14 +3,16 @@ import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache, ApolloLink } from 'apollo-boost';
 import { setContext } from 'apollo-link-context';
 import TokenProvider from '../../utilities/providers/token.provider';
+import { AppConfig } from '../../contracts/models/env-models/app.config';
 
 class GraphqlClientController {
     private static instance: GraphqlClientController;
     private readonly client: ApolloClient<any>;
 
     private constructor() {
+        const appConfig = new AppConfig();
         this.client = new ApolloClient({
-            link: this.getAppoloLink('http://localhost:5000/graphql/'),
+            link: this.getAppoloLink(appConfig.nohaiAppUrl),
             cache: new InMemoryCache()
         });
     }

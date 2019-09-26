@@ -7,7 +7,6 @@ export class FirebaseConfig {
     public appId: string | undefined;
 
     constructor() {
-        debugger;
         this.apiKey = process.env.REACT_APP_NOHAI_FIREBASE_API_KEY;
         this.messagingSenderId = process.env.REACT_APP_NOHAI_FIREBASE_MESSAGING_SENDER_ID;
         this.appId = process.env.REACT_APP_NOHAI_FIREBASE_APP_ID;
