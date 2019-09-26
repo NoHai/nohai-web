@@ -12,8 +12,9 @@ class GraphqlClientController {
 
     private constructor() {
         const appConfig = new AppConfig();
+        const apiLink = `${appConfig.nohaiAppUrl}/graphql`
         this.client = new ApolloClient({
-            link: this.getAppoloLink(`${appConfig.nohaiAppUrl}/graphql`),
+            link: this.getAppoloLink(apiLink),
             cache: new InMemoryCache(), 
         });
     }
@@ -30,7 +31,6 @@ class GraphqlClientController {
         const response: any = await this.client.query({
             query: query,
             fetchPolicy: 'network-only',
-            errorPolicy: 'all'
         });
 
         const result: T = response.data;
@@ -42,7 +42,6 @@ class GraphqlClientController {
             query: query,
             variables: variables,
             fetchPolicy: 'network-only',
-            errorPolicy: 'all'
         });
         const result: T = response.data;
         return result;
@@ -52,7 +51,6 @@ class GraphqlClientController {
         const response: any = await this.client.mutate({
             variables,
             mutation,
-            errorPolicy: 'all'
         });
 
         const result: T = response.data;
@@ -86,7 +84,7 @@ class GraphqlClientController {
             }
           });
 
-        return ApolloLink.from([authMiddleware, httpLink, onErrorLink]);
+        return ApolloLink.from([authMiddleware, httpLink]);
     }
 
 }
