@@ -15,7 +15,19 @@ class GraphqlClientController {
         const apiLink = `${appConfig.nohaiAppUrl}/graphql`
         this.client = new ApolloClient({
             link: this.getAppoloLink(apiLink),
-            cache: new InMemoryCache(), 
+            cache: new InMemoryCache(),
+            defaultOptions: {
+                watchQuery: {
+                    errorPolicy: 'all'
+                },
+                query: {
+                    errorPolicy: 'all',
+                    fetchPolicy: 'network-only',
+                },
+                mutate: {
+                    errorPolicy: 'all'
+                }
+            }
         });
     }
 
@@ -28,63 +40,71 @@ class GraphqlClientController {
     }
 
     public async query<T>(query: any) {
-        const response: any = await this.client.query({
-            query: query,
-            fetchPolicy: 'network-only',
-        });
+        try {
+            const response: any = await this.client.query({
+                query: query,
+            });
 
-        const result: T = response.data;
-        return result;
+            const result: T = response.data;
+            return result;
+        } catch (e) {
+            alert(e)
+        }
     }
 
     public async queryWithVariables<T>(query: any, variables: any) {
-        const response: any = await this.client.query({
-            query: query,
-            variables: variables,
-            fetchPolicy: 'network-only',
-        });
-        const result: T = response.data;
-        return result;
+        try {
+            const response: any = await this.client.query({
+                query: query,
+                variables: variables,
+            });
+            const result: T = response.data;
+            return result;
+        } catch (e) {
+            console.log('from catch');
+        }
+
     }
 
     public async mutate<T>(mutation: any, variables: any) {
-        const response: any = await this.client.mutate({
-            variables,
-            mutation,
-        });
+        try {
+            const response: any = await this.client.mutate({
+                variables,
+                mutation,
+            });
 
-        const result: T = response.data;
-        return result;
+            const result: T = response.data;
+            return result;
+        } catch (e) {
+            console.log('from catch');
+        }
     }
-
 
     private getAppoloLink(uri: string) {
         const httpLink = createHttpLink({
-           uri
+            uri,
         });
 
-        const onErrorLink = onError(({ graphQLErrors, networkError }) => {
+        const errorLink = onError(({ graphQLErrors, networkError }) => {
             if (graphQLErrors)
-              graphQLErrors.map(({ message, locations, path }) =>
-                console.log(
-                  `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
-                ),
-              );
-          
+                graphQLErrors.map(({ message, locations, path }) =>
+                    console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`),
+                );
+
             if (networkError) console.log(`[Network error]: ${networkError}`);
-          });
+        });
 
         const authMiddleware = setContext(async (req, { headers }) => {
             const token = await TokenProvider.getToken();
             return {
                 headers: {
                     ...headers,
-                    authorization: token !== null ? `Bearer ${token.accessToken}`: '',
-                }, 
+                    authorization: token !== null ? `Bearer ${token.accessToken}` : '',
+                },
             }
-          });
+        });
 
-        return ApolloLink.from([authMiddleware, httpLink]);
+        return ApolloLink.from([authMiddleware, errorLink, httpLink]);
     }
 
 }

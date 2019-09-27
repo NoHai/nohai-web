@@ -41,6 +41,7 @@ export const login = (username: string, password: string) => {
     return (dispatch: any) => {
         loginUser(username, password)
             .then(saveNotificationToken)
+            .then(isCompleted)
             .then(loginDispatch(dispatch));
     };
 };
@@ -98,5 +99,16 @@ function loginUser(username: string, password: string) {
         };
         return result;
     });
+}
+
+function isCompleted(result: any) {
+    if (result && result.isAuthorized) {
+        return AuthService.isCompleted().then(isCompleted => {
+            result.isCompleted = isCompleted;
+            return result;
+        });
+    }
+
+    return result;
 }
 

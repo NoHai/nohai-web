@@ -107,7 +107,6 @@ class EventCard extends Component<any, any> {
         const id = await EventService.Create(this.props.eventDetails);
         if (id) {
             LocalStorageHelper.DeleteItemFromLocalStorage(LocalStorage.CreateEvent);
-            alert(id);
             history.push('/');
         }
     }
@@ -116,7 +115,6 @@ class EventCard extends Component<any, any> {
         const id = await EventService.Join(this.props.eventDetails.event.Id);
         if (id) {
             LocalStorageHelper.DeleteItemFromLocalStorage(LocalStorage.CreateEvent);
-            alert(id);
             history.push('/');
         }
     }

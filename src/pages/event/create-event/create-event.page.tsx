@@ -5,8 +5,6 @@ import patricipantsDetailsPage from './participants/patricipants-details.page';
 import PageNotFound from '../../common/not-found/not-found.page';
 import locationDetailsPage from './location/location-details.page';
 import descriptionPage from './description/description.page';
-//import SportsSelection from '../../../components/sports-selection/sports-selection.component';
-//import { Input, Carousel } from 'antd';
 
 class CreateEventPage extends Component {
     public render()
