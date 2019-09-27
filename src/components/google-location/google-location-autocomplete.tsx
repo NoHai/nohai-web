@@ -37,6 +37,7 @@ class GoogleLocationAutoComplete extends Component<GoogleLocationAutoCompletePro
                 <Input
                     type="text"
                     id={'address'}
+                    size="large"
                     className="form-control"
                     placeholder={'Adresa'}
                     value={this.state.streetName}
