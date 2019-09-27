@@ -5,6 +5,7 @@ import EventListItem from '../event-list-item/event-list-item.component';
 import { EventDetailsViewModel } from '../../contracts/models';
 import { EventService } from '../../business/services';
 import { FindEventRequest } from '../../contracts/requests/find-event.request';
+import AppLoading from '../app-loading/app-loading.component';
 
 class EventList extends Component {
     public eventRequest = new FindEventRequest();
@@ -34,7 +35,7 @@ class EventList extends Component {
                     dataLength={13}
                     next={this.getEvents}
                     hasMore={this.state.hasMoreItems}
-                    loader={<h4>Loading...</h4>}
+                    loader={<AppLoading />}
                     scrollableTarget="scrollableDiv"
                     scrollThreshold={0.9}
                 >
