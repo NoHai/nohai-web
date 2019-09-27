@@ -14,6 +14,7 @@ import {
   newNotificationReceived,
 } from '../../redux/actions/notification.action';
 import AppLoading from '../../components/app-loading/app-loading.component';
+import NoResults from '../../components/no-results/no-results.component';
 
 class NotificationPage extends Component {
   public notificationRequest = new PaginationBaseRequestModel();
@@ -43,9 +44,7 @@ class NotificationPage extends Component {
               </span>
             </div>
             {this.state.notifications && this.state.notifications.length <= 0 && (
-              <div className="position">
-                <span className="font-style">Nu ai nici o notificare</span>
-              </div>
+              <NoResults text="Nu ai nici o notificare" />
             )}
           </div>
 
