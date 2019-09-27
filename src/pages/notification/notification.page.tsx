@@ -15,6 +15,7 @@ import {
 } from '../../redux/actions/notification.action';
 import AppLoading from '../../components/app-loading/app-loading.component';
 import NoResults from '../../components/no-results/no-results.component';
+import { Row, Col } from 'antd';
 
 class NotificationPage extends Component {
   public notificationRequest = new PaginationBaseRequestModel();
@@ -36,12 +37,19 @@ class NotificationPage extends Component {
     return (
       <div className="notification-page full-height">
         <div className="page-sections">
-          <div className="">
-            <div className="header">
-              <span>Notificari</span>
-              <span className="mark-all" onClick={e => this.markAllAsRead()}>
-                Marcheaza-le pe toate ca citite
-              </span>
+          <div>
+            <div className="page-section-header">
+              <Row type="flex" justify="space-around" align="middle">
+                <Col span={12}>
+                  <h2>Notificari</h2>
+                </Col>
+                <Col span={12} className="text-right">
+                  <div
+                    onClick={e => this.markAllAsRead()}
+                    className="icon mdi mdi-email-mark-as-unread"
+                  ></div>
+                </Col>
+              </Row>
             </div>
             {this.state.notifications && this.state.notifications.length <= 0 && (
               <NoResults text="Nu ai nici o notificare" />
