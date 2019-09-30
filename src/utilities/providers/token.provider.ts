@@ -6,7 +6,7 @@ import moment from 'moment';
 class TokenProviderController {
   private static instance: TokenProviderController;
 
-  private constructor() {}
+  private constructor() { }
 
   static getInstance() {
     if (!TokenProviderController.instance) {
@@ -52,6 +52,11 @@ class TokenProviderController {
     return !!token && this.tokenIsNotExpired(token);
   }
 
+  public async  getUser() {
+    const token = await this.getToken();
+    return !!token ? this.parseToken(token.accessToken) : null;
+  }
+
   private tokenIsNotExpired(token: Token): boolean {
     const currentDate = new Date();
     const calculatedDate = new Date(currentDate.getTime() - 2 * 60000); // - 2 minutes
@@ -61,6 +66,25 @@ class TokenProviderController {
   private logout() {
     this.removeToken();
     window.location.reload();
+  }
+
+  public parseToken(token: string): any {
+    try {
+      let base64Url = token.split('.')[1];
+      let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      let jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split('')
+          .map(c => {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+          })
+          .join('')
+      );
+
+      return JSON.parse(jsonPayload);
+    } catch{
+      return null
+    }
   }
 }
 

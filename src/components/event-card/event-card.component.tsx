@@ -9,9 +9,11 @@ import history from '../../utilities/core/history';
 import LocalStorageHelper from '../../helpers/local-storage.helper';
 import { LocalStorage } from '../../contracts/enums/localStorage/local-storage';
 import AvatarHelper from '../../helpers/avatar.helper';
+import TokenProvider from '../../utilities/providers/token.provider';
 
 class EventCard extends Component<any, any> {
     private isForPreview = false;
+    private userId = '';
     constructor(props: any) {
         super(props);
 
@@ -19,6 +21,11 @@ class EventCard extends Component<any, any> {
             eventDetails: this.props.eventDetails,
         };
         this.isForPreview = window.location.pathname === '/preview';
+    }
+
+    async componentDidMount() {
+        let user = await TokenProvider.getUser();
+        user ? (this.userId = user.userId) : (this.userId = '');
     }
 
     render() {
@@ -39,7 +46,8 @@ class EventCard extends Component<any, any> {
                             </div>
                             <div className="item-card-option">
                                 <span className="icon mdi mdi-map-marker" />
-                                {this.props.eventDetails.locationDetails.StreetName}{', '}
+                                {this.props.eventDetails.locationDetails.StreetName}
+                                {', '}
                                 {this.props.eventDetails.locationDetails.City}
                             </div>
                         </div>
@@ -58,18 +66,38 @@ class EventCard extends Component<any, any> {
                             <EventMembers eventMembers={this.props.participants} />
                         </Col>
                         <Col span={12} className="text-right">
-                            <Button
-                                type="primary"
-                                size="large"
-                                block
-                                className="join-button"
-                                onClick={() => {
-                                    this.joinEvent();
-                                }}
-                            >
-                                <span className="icon mdi mdi-hand" />
-                                Vreau si eu
-                            </Button>
+                            {this.props.eventDetails.owner.Id === this.userId &&
+                                ! this.chekIfRequestSent() && (
+                                    <Button
+                                        type="primary"
+                                        size="large"
+                                        block
+                                        className="join-button"
+                                        onClick={() => {
+                                            this.joinEvent();
+                                        }}
+                                    >
+                                        <span className="icon mdi mdi-hand" />
+                                        Vreau si eu
+                                    </Button>
+                                )}
+
+                            {this.props.eventDetails.owner.Id !== this.userId &&
+                                this.props.participants &&
+                                this.chekIfRequestSent() && (
+                                    <Button
+                                        type="primary"
+                                        size="large"
+                                        block
+                                        className="join-button"
+                                        onClick={() => {
+                                            this.joinEvent();
+                                        }}
+                                    >
+                                        <span className="icon mdi mdi-hand" />
+                                        Cererea a fost trimisa
+                                    </Button>
+                                )}
                         </Col>
                     </Row>
                 )}
@@ -80,14 +108,21 @@ class EventCard extends Component<any, any> {
 
                 {!this.isForPreview && (
                     <div className="text-right margin-bottom">
-                        <Avatar size={24} src={AvatarHelper.get(this.props.eventDetails.owner.Url)} />
-                        {this.props.eventDetails.owner.FirstName} {this.props.eventDetails.owner.LastName}
+                        <Avatar
+                            size={24}
+                            src={AvatarHelper.get(this.props.eventDetails.owner.Url)}
+                        />
+                        {this.props.eventDetails.owner.FirstName}{' '}
+                        {this.props.eventDetails.owner.LastName}
                     </div>
                 )}
 
                 <div className="sub-title">Unde ne intalnim?</div>
 
-                <EventMap latitude={this.props.eventDetails.locationDetails.Latitude} longitude={this.props.eventDetails.locationDetails.Longitude} />
+                <EventMap
+                    latitude={this.props.eventDetails.locationDetails.Latitude}
+                    longitude={this.props.eventDetails.locationDetails.Longitude}
+                />
 
                 {this.isForPreview && (
                     <div>
@@ -103,6 +138,13 @@ class EventCard extends Component<any, any> {
                 )}
             </div>
         );
+    }
+
+    private chekIfRequestSent(){
+        return this.props.participants?
+        this.props.participants.some(
+            (item: any) => item.Id === this.userId
+        ):false
     }
     private async createEvent() {
         const id = await EventService.Create(this.props.eventDetails);

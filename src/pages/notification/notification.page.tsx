@@ -126,7 +126,15 @@ class NotificationPage extends Component {
   }
 
   private async responseRequest(approve: boolean, eventId: any) {
+    this.norificationContainer = new Array<NotificationModel>();
+    StoreUtility.store.dispatch(unReadNotification(0));
+    await this.setState({
+      notifications: new Array<NotificationModel>(),
+      hasMoreItems: true,
+      pageIndex: 0,
+    });
     approve ? await EventService.Approve(eventId) : await EventService.Reject(eventId);
+    await this.getNotification();
   }
 
   private async RedirectToEventDetails(notificationId: string, eventId: any) {
@@ -160,10 +168,10 @@ class NotificationPage extends Component {
         this.RedirectToEventDetails(notificationId, eventId);
         break;
       case ActionButtonType.Approve:
-        this.responseRequest(true, eventId);
+        this.responseRequest(true, notificationId);
         break;
       case ActionButtonType.Reject:
-        this.responseRequest(false, eventId);
+        this.responseRequest(false, notificationId);
         break;
     }
   }
