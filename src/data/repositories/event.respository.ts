@@ -6,14 +6,15 @@ import gql from 'graphql-tag';
 import MapModelHelper from '../../helpers/map-model.helper';
 
 class EventRepositoryController implements IEventRepository {
-  public async Find(data: FindEventRequest): Promise<ListModel<EventDetailsViewModel>> {
-    const query = gql`
+    public async Find(data: FindEventRequest): Promise<ListModel<EventDetailsViewModel>> {
+
+        const query = gql`
             query {events(parameter: {title: "", pagination: {pageSize:${data.pageSize} , pageIndex: ${data.pageIndex}}}) {
                 items {
                     id
                     owner{
-                        id
-                        firstName
+                        id 
+                        firstName 
                         lastName
                         picture
                     }
@@ -25,9 +26,8 @@ class EventRepositoryController implements IEventRepository {
                         county
                     }
                     sport{
-                        name
+                        name,
                         defaultParticipantsNumber
-                        imagePath
                       }
                     freeSpots
                     cost
@@ -40,151 +40,148 @@ class EventRepositoryController implements IEventRepository {
                 }
             }`;
 
-    const response: any = await GraphqlClient.query(query);
-    let results = await this.GetEventsMap(response.events);
-    return results;
-  }
+        const response: any = await GraphqlClient.query(query);
+        let results = await this.GetEventsMap(response.events);
+        return results;
+    }
 
-  public async Get(parameter: any): Promise<EventDetailsViewModel> {
-    const variables: any = { parameter: parameter };
-    const query = gql`
-      query eventDetails($parameter: String!) {
-        eventDetails(parameter: $parameter) {
-          event {
-            id
-            owner {
-              id
-              firstName
-              lastName
-              picture
+    public async Get(parameter: any): Promise<EventDetailsViewModel> {
+        const variables: any = { parameter: parameter };
+        const query = gql`
+            query eventDetails($parameter: String!){
+             eventDetails(parameter: $parameter) {
+               event { id
+                owner{
+                    id
+                    firstName 
+                    lastName
+                    picture
+                }
+                title
+                description
+                address{
+                    streetName
+                    longitude
+                    latitude
+                    city
+                    county
+                }
+                sport{
+                    name
+                    defaultParticipantsNumber
+                  }
+                freeSpots
+                cost
+                date
+                hour
+                duration
+                level
+                }
+             userEvents{
+                 status
+                 user{
+                        id
+                        firstName
+                        lastName
+                        picture
+                    }
+             }
             }
-            title
-            description
-            address {
-              streetName
-              longitude
-              latitude
-              city
-              county
-            }
-            sport {
-              name
-              defaultParticipantsNumber
-              imagePath
-            }
-            freeSpots
-            cost
-            date
-            hour
-            duration
-            level
-          }
-          userEvents {
-            status
-            user {
-              id
-              firstName
-              lastName
-              picture
-            }
-          }
         }
-      }
-    `;
+        `;
 
-    const results: any = await GraphqlClient.queryWithVariables(query, variables);
-    return MapModelHelper.MapEventDetails(results.eventDetails);
-  }
+        const results: any = await GraphqlClient.queryWithVariables(query, variables);
+        return MapModelHelper.MapEventDetails(results.eventDetails);
+    }
 
-  public async Create(eventDetails: EventDetailsViewModel): Promise<EventDetailsViewModel> {
-    let input: any = {
-      event: {
-        title: eventDetails.event.Name,
-        description: eventDetails.description.Description,
-        address: {
-          streetName: eventDetails.locationDetails.StreetName,
-          city: eventDetails.locationDetails.City,
-          county: eventDetails.locationDetails.County,
-          longitude: eventDetails.locationDetails.Longitude,
-          latitude: eventDetails.locationDetails.Latitude,
-        },
-        sport: { id: eventDetails.sport.Id },
-        freeSpots: eventDetails.participantsDetails.FreeSpots,
-        cost: eventDetails.participantsDetails.PriceForParticipant,
-        date: eventDetails.description.Date,
-        hour: eventDetails.description.Time,
-        duration: eventDetails.description.Duration,
-        level: eventDetails.participantsDetails.Level,
-      },
-    };
+    public async Create(eventDetails: EventDetailsViewModel): Promise<EventDetailsViewModel> {
+        let input: any = {
+            event:
+            {
+                title: eventDetails.event.Name,
+                description: eventDetails.description.Description,
+                address: {
+                    streetName: eventDetails.locationDetails.StreetName,
+                    city: eventDetails.locationDetails.City,
+                    county: eventDetails.locationDetails.County,
+                    longitude: eventDetails.locationDetails.Longitude,
+                    latitude: eventDetails.locationDetails.Latitude
+                },
+                sport: {id: eventDetails.sport.Id},
+                freeSpots: eventDetails.participantsDetails.FreeSpots,
+                cost: eventDetails.participantsDetails.PriceForParticipant,
+                date: eventDetails.description.Date,
+                hour: eventDetails.description.Time,
+                duration: eventDetails.description.Duration,
+                level: eventDetails.participantsDetails.Level,
+            }
+        };
 
-    const createEventMutation = gql`
-      mutation crateEventMutation($event: EventInput!) {
-        createEvent(input: $event) {
-          id
-        }
-      }
-    `;
+        const createEventMutation = gql`
+            mutation crateEventMutation($event: EventInput!) {
+                createEvent(input: $event) {
+                    id
+            }}`;
 
-    const result: any = await GraphqlClient.mutate(createEventMutation, input);
-    return result.createEvent.id;
-  }
+        const result: any = await GraphqlClient.mutate(createEventMutation, input);
+        return result.createEvent.id;
+    }
 
-  Update(data: EventDetailsViewModel): Promise<EventDetailsViewModel> {
-    throw new Error('Method not implemented.');
-  }
+    Update(data: EventDetailsViewModel): Promise<EventDetailsViewModel> {
+        throw new Error('Method not implemented.');
+    }
 
-  Delete(data: any): Promise<ResultModel<boolean>> {
-    throw new Error('Method not implemented.');
-  }
+    Delete(data: any): Promise<ResultModel<boolean>> {
+        throw new Error('Method not implemented.');
+    }
 
-  async Join(eventId: any): Promise<ResultModel<boolean>> {
-    let input: any = { eventId: eventId };
+    async Join(eventId: any): Promise<ResultModel<boolean>> {
+        let input: any = { eventId: eventId };
 
-    const joinEventMutation = gql`
-      mutation joinEvent($eventId: String!) {
-        joinEvent(eventId: $eventId)
-      }
-    `;
+        const joinEventMutation = gql`
+            mutation joinEvent($eventId: String!) {
+                joinEvent(eventId: $eventId)
+                }`;
 
-    const result: any = await GraphqlClient.mutate(joinEventMutation, input);
-    return result.joinEvent;
-  }
+        const result: any = await GraphqlClient.mutate(joinEventMutation, input);
+        return result.joinEvent;
+    }
 
-  async Approve(eventId: any): Promise<ResultModel<boolean>> {
-    let input: any = { eventId: eventId };
+    async Approve(eventId: any): Promise<ResultModel<boolean>> {
+        let input: any = { eventId: eventId };
 
-    const approveRequestMutation = gql`
-      mutation approveRequest($eventId: String!) {
-        approveRequest(eventId: $eventId)
-      }
-    `;
+        const approveRequestMutation = gql`
+            mutation approveRequest($eventId: String!) {
+                approveRequest(eventId: $eventId)
+                }`;
 
-    const result: any = await GraphqlClient.mutate(approveRequestMutation, input);
-    return result.approveRequest;
-  }
-  async Reject(eventId: any): Promise<ResultModel<boolean>> {
-    let input: any = { eventId: eventId };
+        const result: any = await GraphqlClient.mutate(approveRequestMutation, input);
+        return result.approveRequest;
+    }
+    async Reject(eventId: any): Promise<ResultModel<boolean>> {
+        let input: any = { eventId: eventId };
 
-    const rejectRequestMutation = gql`
-      mutation rejectRequest($eventId: String!) {
-        rejectRequest(eventId: $eventId)
-      }
-    `;
+        const rejectRequestMutation = gql`
+            mutation rejectRequest($eventId: String!) {
+                rejectRequest(eventId: $eventId)
+                }`;
 
-    const result: any = await GraphqlClient.mutate(rejectRequestMutation, input);
-    return result.approveRequest;
-  }
+        const result: any = await GraphqlClient.mutate(rejectRequestMutation, input);
+        return result.approveRequest;
+    }
 
-  private async GetEventsMap(model: any) {
-    let result = new ListModel<EventDetailsViewModel>();
-    result.Total = model.totalCount;
-    model.items.forEach((element: any) => {
-      let event = MapModelHelper.MapEvent(element);
-      result.Data.push(event);
-    });
+    private async GetEventsMap(model: any) {
+        let result = new ListModel<EventDetailsViewModel>();
+        result.Total = model.totalCount;
+        model.items.forEach((element: any) => {
+            let event = MapModelHelper.MapEvent(element);
+            result.Data.push(event);
+        });
 
-    return result;
-  }
+
+        return result;
+    }
+
+
 }
 export const EventRepository = new EventRepositoryController();
