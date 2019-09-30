@@ -30,7 +30,7 @@ class UserProfilePage extends Component {
               <div
                 className="dot avatar"
                 style={{
-                  backgroundImage: `url(${this.state.userDetails.user.Url})`,
+                  backgroundImage: `url(${this.state.userDetails.user.Url}?s=150)`,
                 }}
               ></div>
             </div>
