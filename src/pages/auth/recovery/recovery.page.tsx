@@ -4,6 +4,7 @@ import { Button, message } from 'antd';
 import './recovery.page.scss';
 import { UserService } from '../../../business/services';
 import { FormValidators } from '../../../contracts/validators/forms-validators';
+import MessageHelper from '../../../helpers/message.helper';
 import LoadingHelper from '../../../helpers/loading.helper';
 
 class RecoveryPage extends Component {
@@ -81,20 +82,17 @@ class RecoveryPage extends Component {
     );
   }
 
-  private NavigateToRegister() {
-    history.push('/login');
-  }
-  private async RecoveryPassword() {
-    await this.validateEmail();
-    if (this.state.emailError !== '') {
-      const error = () => {
-        message.error(this.state.emailError);
-      };
-      error();
-    } else {
-      UserService.RecoveryPassword(this.state.email);
+    private NavigateToRegister() {
+        history.push('/login');
+    }
+    private async RecoveryPassword() {
+        await this.validateEmail();
+        if (this.state.emailError !== '') {
+            MessageHelper.showError(this.state.emailError);
+        } else {
+            UserService.RecoveryPassword(this.state.email);
+        }
     }
   }
-}
 
 export default RecoveryPage;

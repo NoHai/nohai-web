@@ -5,6 +5,7 @@ import './reset-password.page.scss';
 import { UserService } from '../../../business/services';
 import { FormValidators } from '../../../contracts/validators/forms-validators';
 import { UserModel } from '../../../contracts/models';
+import MessageHelper from '../../../helpers/message.helper';
 
 class ResetPasswordPage extends Component {
     state = {
@@ -85,10 +86,7 @@ class ResetPasswordPage extends Component {
         await this.validatePassword();
         let errors = this.getErrorMessage();
         if (errors!=='') {
-            const error = () => {
-                message.error(errors);
-            };
-            error();
+            MessageHelper.showError(errors);
         } else {
             UserService.ResetPassword(new UserModel());
         //history.push('/login');

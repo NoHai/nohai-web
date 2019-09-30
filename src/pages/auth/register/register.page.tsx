@@ -12,6 +12,7 @@ import { askForPermissioToReceiveNotifications } from '../../../business/service
 import { connect } from 'react-redux';
 import { login } from './../../../redux/actions/auth.action';
 import { initialAuthState } from '../../../redux/reducers/auth.reducer';
+import MessageHelper from '../../../helpers/message.helper';
 
 class RegisterPage extends Component<any, any> {
     state = {
@@ -142,10 +143,7 @@ class RegisterPage extends Component<any, any> {
         let errors = this.getErrorMessage();
 
         if (errors !== '') {
-            const error = () => {
-                message.error(errors);
-            };
-            error();
+            MessageHelper.showError(errors);
         } else {
             const registered = await AuthService.register(this.state.registerDetails.user);
             if (registered) {
