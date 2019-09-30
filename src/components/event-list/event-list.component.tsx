@@ -22,7 +22,6 @@ class EventList extends Component {
         this.getEvents = this.getEvents.bind(this);
     }
 
-
     async componentDidMount() {
         await this.getEvents();
     }
@@ -65,7 +64,6 @@ class EventList extends Component {
             pageIndex:this.eventRequest.pageIndex+1,
         });
     }
-
    
 }
 

@@ -5,6 +5,9 @@ import { setContext } from 'apollo-link-context';
 import TokenProvider from '../../utilities/providers/token.provider';
 import { AppConfig } from '../../contracts/models/env-models/app.config';
 import { onError } from 'apollo-link-error';
+import MessageHelper from '../../helpers/message.helper';
+import AuthService from '../../business/services/auth.service';
+import { Token } from '../../contracts/models/auth';
 
 class GraphqlClientController {
     private static instance: GraphqlClientController;
@@ -48,7 +51,7 @@ class GraphqlClientController {
             const result: T = response.data;
             return result;
         } catch (e) {
-            alert(e)
+            console.log(e);
         }
     }
 
@@ -61,9 +64,8 @@ class GraphqlClientController {
             const result: T = response.data;
             return result;
         } catch (e) {
-            console.log('from catch');
+            console.log(e);
         }
-
     }
 
     public async mutate<T>(mutation: any, variables: any) {
@@ -76,7 +78,7 @@ class GraphqlClientController {
             const result: T = response.data;
             return result;
         } catch (e) {
-            console.log('from catch');
+            console.log(e);
         }
     }
 
@@ -87,15 +89,17 @@ class GraphqlClientController {
 
         const errorLink = onError(({ graphQLErrors, networkError }) => {
             if (graphQLErrors)
-                graphQLErrors.map(({ message, locations, path }) =>
-                    console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`),
+                graphQLErrors.map(({ message }) => {
+                    const formattedMessage = message.replace('Unexpected error value: ', '').replace(/(^")|("$)/g, '');
+                    MessageHelper.showError(formattedMessage)
+                }
                 );
 
-            if (networkError) console.log(`[Network error]: ${networkError}`);
+            if (networkError) MessageHelper.showError(networkError.message);
         });
 
         const authMiddleware = setContext(async (req, { headers }) => {
-            const token = await TokenProvider.getToken();
+            const token = await this.checkToken();
             return {
                 headers: {
                     ...headers,
@@ -105,6 +109,33 @@ class GraphqlClientController {
         });
 
         return ApolloLink.from([authMiddleware, errorLink, httpLink]);
+    }
+
+    private async checkToken(): Promise<Token | null> {
+        let token = await TokenProvider.getToken();
+
+        if (!TokenProvider.isTokenValid(token)) {
+            return await this.refreshToken(token);
+        }
+
+        return token;
+    }
+
+    private async refreshToken(token: Token | null): Promise<Token | null> {
+        if (!!token) {
+            try {
+                const result = await AuthService.refreshToken(token.refreshToken)
+
+                if (!!result) {
+                    await TokenProvider.saveToken(result);
+                    return result;
+                }
+            } catch {
+                return null;
+            }
+        }
+
+        return null;
     }
 
 }

@@ -4,6 +4,7 @@ import { Button, message } from 'antd';
 import './recovery.page.scss';
 import { UserService } from '../../../business/services';
 import { FormValidators } from '../../../contracts/validators/forms-validators';
+import MessageHelper from '../../../helpers/message.helper';
 
 class RecoveryPage extends Component {
     state = { email: '', emailError: '' };
@@ -82,10 +83,7 @@ class RecoveryPage extends Component {
     private async RecoveryPassword() {
         await this.validateEmail();
         if (this.state.emailError !== '') {
-            const error = () => {
-                message.error(this.state.emailError);
-            };
-            error();
+            MessageHelper.showError(this.state.emailError);
         } else {
             UserService.RecoveryPassword(this.state.email);
         }
