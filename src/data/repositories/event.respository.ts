@@ -28,6 +28,7 @@ class EventRepositoryController implements IEventRepository {
                     sport{
                         name,
                         defaultParticipantsNumber
+                        imagePath
                       }
                     freeSpots
                     cost
@@ -69,6 +70,7 @@ class EventRepositoryController implements IEventRepository {
                 sport{
                     name
                     defaultParticipantsNumber
+                    imagePath
                   }
                 freeSpots
                 cost

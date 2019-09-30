@@ -33,6 +33,7 @@ export default class MapModelHelper {
         result.sport.Name = model.sport.name;
         result.sport.ParticipantNumber = model.sport.participantNumber;
         result.sport.Description = model.sport.description;
+        result.sport.ImagePath = model.sport.imagePath;
         result.participantsDetails.Level = model.level;
 
         return result;
