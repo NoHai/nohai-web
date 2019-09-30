@@ -4,6 +4,7 @@ import { Input, Card, Row, Col } from 'antd';
 import { UserService } from '../../business/services';
 import { UserViewModel } from '../../contracts/view-models/user-view.model';
 import moment from 'moment';
+import AvatarHelper from '../../helpers/avatar.helper';
 
 class UserProfilePage extends Component {
   state = {
@@ -30,7 +31,7 @@ class UserProfilePage extends Component {
               <div
                 className="dot avatar"
                 style={{
-                  backgroundImage: `url(${this.state.userDetails.user.Url}?s=150)`,
+                  backgroundImage: `url(${AvatarHelper.get(this.state.userDetails.user.Url, 150)})`,
                 }}
               ></div>
             </div>

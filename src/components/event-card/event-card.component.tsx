@@ -8,6 +8,7 @@ import { EventService } from '../../business/services';
 import history from '../../utilities/core/history';
 import LocalStorageHelper from '../../helpers/local-storage.helper';
 import { LocalStorage } from '../../contracts/enums/localStorage/local-storage';
+import AvatarHelper from '../../helpers/avatar.helper';
 
 class EventCard extends Component<any, any> {
     private isForPreview = false;
@@ -79,7 +80,7 @@ class EventCard extends Component<any, any> {
 
                 {!this.isForPreview && (
                     <div className="text-right margin-bottom">
-                        <Avatar size={24} src={this.props.eventDetails.owner.Url} />
+                        <Avatar size={24} src={AvatarHelper.get(this.props.eventDetails.owner.Url)} />
                         {this.props.eventDetails.owner.FirstName} {this.props.eventDetails.owner.LastName}
                     </div>
                 )}
