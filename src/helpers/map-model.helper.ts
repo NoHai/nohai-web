@@ -12,12 +12,13 @@ export default class MapModelHelper {
         result.description.Duration = model.duration;
         result.description.Time = model.hour;
 
+        result.event.Id = model.id;
         result.event.Name = model.title;
         result.owner.FirstName = model.owner.firstName;
         result.owner.LastName = model.owner.lastName;
         result.owner.Status = model.owner.Status;
         result.owner.Url = model.owner.picture;
-        result.event.Id = model.id;
+        result.owner.Id = model.owner.id;
 
         result.locationDetails.StreetName = model.address.streetName;
         result.locationDetails.City = model.address.city;
