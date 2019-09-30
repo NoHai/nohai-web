@@ -31,6 +31,7 @@
         background-color: #ddd;
         background-position: center;
         background-size: cover;
+        background-repeat: no-repeat;
         @include border-radius(50%);
         display: inline-block;
         width: 28px;
