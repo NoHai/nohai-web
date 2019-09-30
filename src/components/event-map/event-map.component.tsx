@@ -18,7 +18,7 @@ class EventMap extends Component<EventMapProps> {
     }
 
     private GetMapLink() {
-            return `http://maps.google.com/maps?q=${this.props.latitude}, ${this.props.longitude}&z=15&output=embed`
+            return `https://maps.google.com/maps?q=${this.props.latitude}, ${this.props.longitude}&z=15&output=embed`
     }
 }
 
