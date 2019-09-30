@@ -44,6 +44,9 @@
         &.red-color {
             color: red;
         }
+        &.gray-color{
+            color: $secondary-color;
+        }
     }
 
     .not-read{

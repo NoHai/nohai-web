@@ -44,7 +44,7 @@ class NotificationCard extends Component<NotificationCardProps> {
                     <Col span={6} className="text-center">
                         <Button
                             type="link"
-                            className="link red-color"
+                            className="link gray-color"
                             block
                             onClick={() => {
                                 this.onButtonClickHandler(ActionButtonType.Reject);

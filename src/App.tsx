@@ -15,149 +15,152 @@ import { checkLogin } from './redux/actions/auth.action';
 import { initialAuthState } from './redux/reducers/auth.reducer';
 import ResetPasswordPage from './pages/auth/reset-password/reset-password.page';
 import { AppConfig } from './contracts/models/env-models/app.config';
+import AppLoading from './components/app-loading/app-loading.component';
+import LoadingHelper from './helpers/loading.helper';
 
 class App extends Component<any, any> {
-    private AppConfig = new AppConfig();
-    async componentDidMount() {
-        this.checkLogin();
-        await this.initMap();
-    }
+  private AppConfig = new AppConfig();
+  async componentDidMount() {
+    LoadingHelper.hideLoading();
+    this.checkLogin();
+    await this.initMap();
+  }
 
-    render() {
-        return this.props.isLoaded ? (
-            <Router history={history}>
-                <div className="app">
-                    <Switch>
-                        <AuthorizationRoute
-                            path="/login"
-                            component={LoginPage}
-                            isAuthorized={this.props.isAuthorized}
-                            isCompleted={this.props.isCompleted}
-                        />
-                        <AuthorizationRoute
-                            path="/register"
-                            component={RegisterPage}
-                            isAuthorized={this.props.isAuthorized}
-                            isCompleted={this.props.isCompleted}
-                        />
-                        <AuthorizationRoute
-                            path="/recover"
-                            component={RecoveryPage}
-                            isAuthorized={this.props.isAuthorized}
-                            isCompleted={this.props.isCompleted}
-                        />
-                        <AuthorizationRoute
-                            path="/reset-password"
-                            component={ResetPasswordPage}
-                            isAuthorized={this.props.isAuthorized}
-                            isCompleted={this.props.isCompleted}
-                        />
-                        <UnCompletedRoute
-                            path="/intro"
-                            component={IntroPage}
-                            isAuthorized={this.props.isAuthorized}
-                            isCompleted={this.props.isCompleted}
-                        />
-                        <PrivateRoute
-                            component={WrapperPage}
-                            isAuthorized={this.props.isAuthorized}
-                            isCompleted={this.props.isCompleted}
-                        />
-                    </Switch>
-                </div>
-            </Router>
-        ) : (
-            <div>loading</div>
-        );
-    }
+  render() {
+    return this.props.isLoaded ? (
+      <Router history={history}>
+        <div className="app">
+          <Switch>
+            <AuthorizationRoute
+              path="/login"
+              component={LoginPage}
+              isAuthorized={this.props.isAuthorized}
+              isCompleted={this.props.isCompleted}
+            />
+            <AuthorizationRoute
+              path="/register"
+              component={RegisterPage}
+              isAuthorized={this.props.isAuthorized}
+              isCompleted={this.props.isCompleted}
+            />
+            <AuthorizationRoute
+              path="/recover"
+              component={RecoveryPage}
+              isAuthorized={this.props.isAuthorized}
+              isCompleted={this.props.isCompleted}
+            />
+            <AuthorizationRoute
+              path="/reset-password"
+              component={ResetPasswordPage}
+              isAuthorized={this.props.isAuthorized}
+              isCompleted={this.props.isCompleted}
+            />
+            <UnCompletedRoute
+              path="/intro"
+              component={IntroPage}
+              isAuthorized={this.props.isAuthorized}
+              isCompleted={this.props.isCompleted}
+            />
+            <PrivateRoute
+              component={WrapperPage}
+              isAuthorized={this.props.isAuthorized}
+              isCompleted={this.props.isCompleted}
+            />
+          </Switch>
+        </div>
+      </Router>
+    ) : (
+      <AppLoading />
+    );
+  }
 
-    private checkLogin() {
-        return this.props.checkLogin();
-    }
+  private checkLogin() {
+    return this.props.checkLogin();
+  }
 
-    private async initMap() {
-        const script = document.createElement('script');
-        script.src =
-            'https://maps.googleapis.com/maps/api/js?key=' +
-            this.AppConfig.googleApiKey +
-            '&libraries=places';
-        script.async = true;
-        await document.body.appendChild(script);
-    }
+  private async initMap() {
+    const script = document.createElement('script');
+    script.src =
+      'https://maps.googleapis.com/maps/api/js?key=' +
+      this.AppConfig.googleApiKey +
+      '&libraries=places';
+    script.async = true;
+    await document.body.appendChild(script);
+  }
 }
 
 interface PrivateRouteProps extends RouteProps {
-    component: any;
-    isAuthorized: boolean;
-    isCompleted: boolean;
+  component: any;
+  isAuthorized: boolean;
+  isCompleted: boolean;
 }
 
 const PrivateRoute = (props: PrivateRouteProps) => {
-    const { component: Component, isAuthorized, isCompleted, ...rest } = props;
+  const { component: Component, isAuthorized, isCompleted, ...rest } = props;
 
-    return (
-        <Route
-            {...rest}
-            render={routeProps =>
-                isAuthorized ? (
-                    isCompleted ? (
-                        <Component {...routeProps} />
-                    ) : (
-                        <Redirect to={{ pathname: '/intro' }} />
-                    )
-                ) : (
-                    <Redirect to={{ pathname: '/login' }} />
-                )
-            }
-        />
-    );
+  return (
+    <Route
+      {...rest}
+      render={routeProps =>
+        isAuthorized ? (
+          isCompleted ? (
+            <Component {...routeProps} />
+          ) : (
+            <Redirect to={{ pathname: '/intro' }} />
+          )
+        ) : (
+          <Redirect to={{ pathname: '/login' }} />
+        )
+      }
+    />
+  );
 };
 
 const AuthorizationRoute = (props: PrivateRouteProps) => {
-    const { component: Component, isAuthorized, isCompleted, ...rest } = props;
+  const { component: Component, isAuthorized, isCompleted, ...rest } = props;
 
-    return (
-        <Route
-            {...rest}
-            render={routeProps =>
-                !isAuthorized ? (
-                    <Component {...routeProps} />
-                ) : !isCompleted ? (
-                    <Redirect to={{ pathname: '/intro' }} />
-                ) : (
-                    <Redirect to={{ pathname: '/' }} />
-                )
-            }
-        />
-    );
+  return (
+    <Route
+      {...rest}
+      render={routeProps =>
+        !isAuthorized ? (
+          <Component {...routeProps} />
+        ) : !isCompleted ? (
+          <Redirect to={{ pathname: '/intro' }} />
+        ) : (
+          <Redirect to={{ pathname: '/' }} />
+        )
+      }
+    />
+  );
 };
 
 const UnCompletedRoute = (props: PrivateRouteProps) => {
-    const { component: Component, isAuthorized, isCompleted, ...rest } = props;
+  const { component: Component, isAuthorized, isCompleted, ...rest } = props;
 
-    return (
-        <Route
-            {...rest}
-            render={routeProps =>
-                !isAuthorized ? (
-                    <Redirect to={{ pathname: '/login' }} />
-                ) : !isCompleted ? (
-                    <Component {...routeProps} />
-                ) : (
-                    <Redirect to={{ pathname: '/' }} />
-                )
-            }
-        />
-    );
+  return (
+    <Route
+      {...rest}
+      render={routeProps =>
+        !isAuthorized ? (
+          <Redirect to={{ pathname: '/login' }} />
+        ) : !isCompleted ? (
+          <Component {...routeProps} />
+        ) : (
+          <Redirect to={{ pathname: '/' }} />
+        )
+      }
+    />
+  );
 };
 
 const mapStateToProps = ({ authReducer }: any) => authReducer || initialAuthState;
 
 const mapDispatchToProps = {
-    checkLogin,
+  checkLogin,
 };
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(App);
