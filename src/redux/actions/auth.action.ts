@@ -1,8 +1,6 @@
 import AuthService from '../../business/services/auth.service';
 import { ReduxAuthActionType } from '../../contracts/enums/actions';
 import TokenProvider from '../../utilities/providers/token.provider';
-import { askForPermissioToReceiveNotifications } from '../../business/services/push-notification.service';
-import { UserTokenNotificationService } from '../../business/services/user-token-notification.service';
 
 export const checkLoginResult = (model: any) => ({
     type: ReduxAuthActionType.CheckLoginResult,
@@ -40,7 +38,6 @@ export const loginResult = (result: any) => ({
 export const login = (username: string, password: string) => {
     return (dispatch: any) => {
         loginUser(username, password)
-            .then(saveNotificationToken)
             .then(isCompleted)
             .then(loginDispatch(dispatch));
     };
@@ -77,18 +74,6 @@ function loginDispatch(dispatch: any): (value: any) => void {
     return result => {
         dispatch(loginResult(result));
     };
-}
-
-function saveNotificationToken(result: any) {
-    return askForPermissioToReceiveNotifications().then(token => {
-        if (token) {
-            return UserTokenNotificationService.CreateToken(token).then(() => {
-                return result;
-            });
-        } else {
-            return result;
-        }
-    });
 }
 
 function loginUser(username: string, password: string) {

@@ -7,8 +7,6 @@ import AuthService from '../../../business/services/auth.service';
 import { UserViewModel } from '../../../contracts/view-models/user-view.model';
 import { LocalStorage } from '../../../contracts/enums/localStorage/local-storage';
 import LocalStorageHelper from '../../../helpers/local-storage.helper';
-import { UserTokenNotificationService } from '../../../business/services/user-token-notification.service';
-import { askForPermissioToReceiveNotifications } from '../../../business/services/push-notification.service';
 import { connect } from 'react-redux';
 import { login } from './../../../redux/actions/auth.action';
 import { initialAuthState } from '../../../redux/reducers/auth.reducer';

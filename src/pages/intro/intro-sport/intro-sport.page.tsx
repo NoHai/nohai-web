@@ -94,7 +94,7 @@ class IntroSport extends Component<any, any> {
         if (result.user.Id) {
             this.props.registerComplete();
             LocalStorageHelper.DeleteItemFromLocalStorage(LocalStorage.IntroInfo);
-            history.push('/');
+            history.push('/step-four');
         }
     }
 
