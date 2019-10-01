@@ -87,19 +87,19 @@ class GraphqlClientController {
             uri,
         });
 
-        const errorLink = onError(({ graphQLErrors, networkError }) => {
-            if (graphQLErrors)
-                graphQLErrors.map(({ message }) => {
+        const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) => {
+            if(graphQLErrors)
+                graphQLErrors.map(({ message, originalError }) => {
+                  
                     const formattedMessage = message.replace('Unexpected error value: ', '').replace(/(^")|("$)/g, '');
                     MessageHelper.showError(formattedMessage)
-                }
-                );
+                });
 
-            if (networkError) MessageHelper.showError(networkError.message);
+            if(networkError) MessageHelper.showError(networkError.message);
         });
 
         const authMiddleware = setContext(async (req, { headers }) => {
-            const token = await this.checkToken();
+            const token = await TokenProvider.getToken();
             return {
                 headers: {
                     ...headers,
@@ -109,33 +109,6 @@ class GraphqlClientController {
         });
 
         return ApolloLink.from([authMiddleware, errorLink, httpLink]);
-    }
-
-    private async checkToken(): Promise<Token | null> {
-        let token = await TokenProvider.getToken();
-
-        if (!TokenProvider.isTokenValid(token)) {
-            return await this.refreshToken(token);
-        }
-
-        return token;
-    }
-
-    private async refreshToken(token: Token | null): Promise<Token | null> {
-        if (!!token) {
-            try {
-                const result = await AuthService.refreshToken(token.refreshToken)
-
-                if (!!result) {
-                    await TokenProvider.saveToken(result);
-                    return result;
-                }
-            } catch {
-                return null;
-            }
-        }
-
-        return null;
     }
 
 }
