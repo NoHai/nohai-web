@@ -1,4 +1,4 @@
 export interface EventMapProps {
-   longitude:string,
-   latitude:string
+  longitude: string;
+  latitude: string;
 }

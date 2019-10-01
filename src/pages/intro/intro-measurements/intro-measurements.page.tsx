@@ -6,120 +6,113 @@ import { LocalStorage } from '../../../contracts/enums/localStorage/local-storag
 import LocalStorageHelper from '../../../helpers/local-storage.helper';
 
 class IntroMeasurements extends Component<any, any> {
-    state = {
-        registerDetails: new UserViewModel(),
-    };
-    componentDidMount() {
-        this.setState({
-            registerDetails: LocalStorageHelper.GetItemFromLocalStorage(
-                LocalStorage.IntroInfo,
-                this.state.registerDetails
-            ),
-        });
-    }
-    async handleChange(event: any) {
-        let registerDetails = JSON.parse(JSON.stringify(this.state.registerDetails));
-        const { name, value } = event.target;
-        registerDetails.details[name] = value;
-        this.setState({
-            registerDetails: registerDetails,
-        });
-    }
+  state = {
+    registerDetails: new UserViewModel(),
+  };
+  componentDidMount() {
+    this.setState({
+      registerDetails: LocalStorageHelper.GetItemFromLocalStorage(
+        LocalStorage.IntroInfo,
+        this.state.registerDetails
+      ),
+    });
+  }
+  async handleChange(event: any) {
+    let registerDetails = JSON.parse(JSON.stringify(this.state.registerDetails));
+    const { name, value } = event.target;
+    registerDetails.details[name] = value;
+    this.setState({
+      registerDetails: registerDetails,
+    });
+  }
 
-    render() {
-        return (
-            <div className="intro-step-page">
-                <div className="page-sections">
-                    <div className="page-section page-section-large page-section-with-color align-middle">
-                        <h1 className="invert">Sa ne cunoastem</h1>
+  render() {
+    return (
+      <div className="intro-step-page">
+        <div className="page-sections">
+          <div className="page-section page-section-large page-section-with-color align-middle">
+            <h1 className="invert">Sa ne cunoastem</h1>
 
-                        <p className="margin-bottom invert">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci, culpa
-                            dolores architecto ipsam
-                        </p>
+            <p className="margin-bottom invert">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci, culpa dolores
+              architecto ipsam
+            </p>
 
-                        <div className="form">
-                            <div className="form-group">
-                                <label>Greutate</label>
-                                <Input
-                                    type="number"
-                                    size="large"
-                                    addonAfter="kg"
-                                    placeholder="Greutatea ta in kilograme"
-                                    name="Weight"
-                                    value={this.state.registerDetails.details.Weight || ''}
-                                    onChange={e => this.handleChange(e)}
-                                />
-                            </div>
+            <div className="form">
+              <div className="form-group">
+                <label>Greutate</label>
+                <Input
+                  type="number"
+                  size="large"
+                  addonAfter="kg"
+                  placeholder="Greutatea ta in kilograme"
+                  name="Weight"
+                  value={this.state.registerDetails.details.Weight || ''}
+                  onChange={e => this.handleChange(e)}
+                />
+              </div>
 
-                            <div className="form-group">
-                                <label>Inaltime</label>
-                                <Input
-                                    type="number"
-                                    size="large"
-                                    addonAfter="cm"
-                                    placeholder="Inaltime ta in centimetri"
-                                    name="Height"
-                                    value={this.state.registerDetails.details.Height || ''}
-                                    onChange={e => this.handleChange(e)}
-                                />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="page-section page-section-footer">
-                        <div className="intro-footer">
-                            <Row>
-                                <Col span={12}>
-                                    <Button
-                                        type="default"
-                                        onClick={() => {
-                                            this.GoBack();
-                                        }}
-                                    >
-                                        Pasul anterior
-                                    </Button>
-                                </Col>
-                                <Col span={12} className="text-right">
-                                    <Button
-                                        disabled={
-                                            !this.state.registerDetails.details.Weight ||
-                                            this.state.registerDetails.details.Weight<1 ||
-                                            !this.state.registerDetails.details.Height ||
-                                            this.state.registerDetails.details.Height<1 
-
-                                        }
-                                        type="primary"
-                                        onClick={() => {
-                                            this.GoForward();
-                                        }}
-                                    >
-                                        Urmatorul pas
-                                    </Button>
-                                </Col>
-                            </Row>
-                        </div>
-                    </div>
-                </div>
+              <div className="form-group">
+                <label>Inaltime</label>
+                <Input
+                  type="number"
+                  size="large"
+                  addonAfter="cm"
+                  placeholder="Inaltime ta in centimetri"
+                  name="Height"
+                  value={this.state.registerDetails.details.Height || ''}
+                  onChange={e => this.handleChange(e)}
+                />
+              </div>
             </div>
-        );
-    }
+          </div>
 
-    private GoForward() {
-        LocalStorageHelper.SaveItemToLocalStorage(
-            LocalStorage.IntroInfo,
-            this.state.registerDetails
-        );
-        history.push('/intro/step-three');
-    }
+          <div className="page-section page-section-footer">
+            <div className="intro-footer">
+              <Row>
+                <Col span={12}>
+                  <Button
+                    type="default"
+                    onClick={() => {
+                      this.GoBack();
+                    }}
+                  >
+                    Pasul anterior
+                  </Button>
+                </Col>
+                <Col span={12} className="text-right">
+                  <Button
+                    disabled={
+                      !this.state.registerDetails.details.Weight ||
+                      this.state.registerDetails.details.Weight < 1 ||
+                      !this.state.registerDetails.details.Height ||
+                      this.state.registerDetails.details.Height < 1
+                    }
+                    type="primary"
+                    onClick={() => {
+                      this.GoForward();
+                    }}
+                  >
+                    Urmatorul pas
+                  </Button>
+                </Col>
+              </Row>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
-    private GoBack() {
-        LocalStorageHelper.SaveItemToLocalStorage(
-            LocalStorage.IntroInfo,
-            this.state.registerDetails
-        );
-        history.push('/intro/step-one');
-    }
+  private GoForward() {
+    LocalStorageHelper.SaveItemToLocalStorage(LocalStorage.IntroInfo, this.state.registerDetails);
+    history.push('/intro/step-three');
+  }
+
+  private GoBack() {
+    LocalStorageHelper.SaveItemToLocalStorage(LocalStorage.IntroInfo, this.state.registerDetails);
+    history.push('/intro/step-one');
+  }
 }
 
 export default IntroMeasurements;

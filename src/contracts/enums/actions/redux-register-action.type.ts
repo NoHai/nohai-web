@@ -1,4 +1,4 @@
 export enum ReduxRegisterActionType {
-    Default = 'DEFAULT',
-    ChangeRegisterDetails = 'CHANGE_DETAILS_DETAILS',
+  Default = 'DEFAULT',
+  ChangeRegisterDetails = 'CHANGE_DETAILS_DETAILS',
 }

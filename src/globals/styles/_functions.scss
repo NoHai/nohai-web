@@ -1,33 +1,33 @@
 @mixin border-radius($radius) {
-    -webkit-border-radius: $radius;
-    -moz-border-radius: $radius;
-    -ms-border-radius: $radius;
-    border-radius: $radius;
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  border-radius: $radius;
 }
 
 @mixin linear-gradient($direction, $color-stops...) {
-    background: nth(nth($color-stops, 1), 1);
-    background: -webkit-linear-gradient(legacy-direction($direction), $color-stops);
-    background: linear-gradient($direction, $color-stops);
+  background: nth(nth($color-stops, 1), 1);
+  background: -webkit-linear-gradient(legacy-direction($direction), $color-stops);
+  background: linear-gradient($direction, $color-stops);
 }
 
 @mixin user-select-none() {
-    -ms-user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: -moz-none;
-    user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: -moz-none;
+  user-select: none;
 }
 
 @mixin rotate($value) {
-    -webkit-transform: rotate($value); /* Chrome and other webkit browsers */
-    -moz-transform: rotate($value); /* FF */
-    -o-transform: rotate($value); /* Opera */
-    -ms-transform: rotate($value); /* IE9 */
-    transform: rotate($value);
+  -webkit-transform: rotate($value); /* Chrome and other webkit browsers */
+  -moz-transform: rotate($value); /* FF */
+  -o-transform: rotate($value); /* Opera */
+  -ms-transform: rotate($value); /* IE9 */
+  transform: rotate($value);
 }
 
 @mixin box-shadow($color) {
-    -webkit-box-shadow: 0px 5px 10px 0px $color;
-    -moz-box-shadow: 0px 5px 10px 0px $color;
-    box-shadow: 0px 5px 10px 0px $color;
+  -webkit-box-shadow: 0px 5px 10px 0px $color;
+  -moz-box-shadow: 0px 5px 10px 0px $color;
+  box-shadow: 0px 5px 10px 0px $color;
 }

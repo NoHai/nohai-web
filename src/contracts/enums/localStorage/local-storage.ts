@@ -1,4 +1,4 @@
 export enum LocalStorage {
-    CreateEvent = "CreateEvent",
-    IntroInfo = "IntroInfo",
+  CreateEvent = 'CreateEvent',
+  IntroInfo = 'IntroInfo',
 }

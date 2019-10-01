@@ -8,19 +8,19 @@ import IntroMeasurements from './intro-measurements/intro-measurements.page';
 import IntroSport from './intro-sport/intro-sport.page';
 
 class IntroPage extends Component {
-    render() {
-        return (
-            <div className="intro-page">
-                <Switch>
-                    <Route exact path="/intro" component={IntroInfoPage} />
-                    <Route path="/intro/step-one" component={IntroPersonPage} />
-                    <Route path="/intro/step-two" component={IntroMeasurements} />
-                    <Route path="/intro/step-three" component={IntroSport} />
-                    <Route component={PageNotFound} />
-                </Switch>
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div className="intro-page">
+        <Switch>
+          <Route exact path="/intro" component={IntroInfoPage} />
+          <Route path="/intro/step-one" component={IntroPersonPage} />
+          <Route path="/intro/step-two" component={IntroMeasurements} />
+          <Route path="/intro/step-three" component={IntroSport} />
+          <Route component={PageNotFound} />
+        </Switch>
+      </div>
+    );
+  }
 }
 
 export default IntroPage;

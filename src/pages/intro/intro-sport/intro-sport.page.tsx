@@ -12,118 +12,114 @@ import { registerComplete } from './../../../redux/actions/auth.action';
 import { initialAuthState } from '../../../redux/reducers/auth.reducer';
 
 class IntroSport extends Component<any, any> {
-    state = {
-        registerDetails: new UserViewModel(),
-    };
-    componentDidMount() {
-        this.setState({
-            registerDetails: LocalStorageHelper.GetItemFromLocalStorage(
-                LocalStorage.IntroInfo,
-                this.state.registerDetails
-            ),
-        });
-    }
+  state = {
+    registerDetails: new UserViewModel(),
+  };
+  componentDidMount() {
+    this.setState({
+      registerDetails: LocalStorageHelper.GetItemFromLocalStorage(
+        LocalStorage.IntroInfo,
+        this.state.registerDetails
+      ),
+    });
+  }
 
-    async onCloseDrawer(sport: SportModel, level: number) {
-        this.setState((prevState: any) => ({
-            registerDetails: {
-                ...prevState.registerDetails,
-                details: {
-                    ...prevState.registerDetails.details,
-                    Level: level,
-                    Sport: sport,
-                },
-                sport: sport
-            },
-        }));
-    }
+  async onCloseDrawer(sport: SportModel, level: number) {
+    this.setState((prevState: any) => ({
+      registerDetails: {
+        ...prevState.registerDetails,
+        details: {
+          ...prevState.registerDetails.details,
+          Level: level,
+          Sport: sport,
+        },
+        sport: sport,
+      },
+    }));
+  }
 
-    render() {
-        return (
-            <div className="intro-step-page">
-                <div className="page-sections">
-                    <div className="page-section page-section-large page-section-with-color align-middle">
-                        <h1 className="invert">De ce sport esti pasionat?</h1>
+  render() {
+    return (
+      <div className="intro-step-page">
+        <div className="page-sections">
+          <div className="page-section page-section-large page-section-with-color align-middle">
+            <h1 className="invert">De ce sport esti pasionat?</h1>
 
-                        <p className="invert margin-bottom">
-                            Alege sporturile de care esti pasionat si nivelul la care esti. <br />
-                            Pe baza sporturilor selectate iti vom genera timeline-ul
-                        </p>
+            <p className="invert margin-bottom">
+              Alege sporturile de care esti pasionat si nivelul la care esti. <br />
+              Pe baza sporturilor selectate iti vom genera timeline-ul
+            </p>
 
-                        <SportsSelection
-                            sport={this.state.registerDetails.sport}
-                            level={this.state.registerDetails.details.Level}
-                            onCloseDrawer={(sport, level) => this.onCloseDrawer(sport, level)}
-                        />
-                    </div>
+            <SportsSelection
+              sport={this.state.registerDetails.sport}
+              level={this.state.registerDetails.details.Level}
+              onCloseDrawer={(sport, level) => this.onCloseDrawer(sport, level)}
+            />
+          </div>
 
-                    <div className="page-section page-section-footer">
-                        <div className="intro-footer">
-                            <Row>
-                                <Col span={12}>
-                                    <Button
-                                        type="default"
-                                        onClick={() => {
-                                            this.GoBack();
-                                        }}
-                                    >
-                                        Pasul anterior
-                                    </Button>
-                                </Col>
-                                <Col span={12} className="text-right">
-                                        <Button
-                                        disabled={this.state.registerDetails.details.Level===undefined}
-                                            type="primary"
-                                            onClick={() => {
-                                                this.GoForward();
-                                            }}
-                                        >
-                                            Finish
-                                        </Button>
-                                </Col>
-                            </Row>
-                        </div>
-                    </div>
-                </div>
+          <div className="page-section page-section-footer">
+            <div className="intro-footer">
+              <Row>
+                <Col span={12}>
+                  <Button
+                    type="default"
+                    onClick={() => {
+                      this.GoBack();
+                    }}
+                  >
+                    Pasul anterior
+                  </Button>
+                </Col>
+                <Col span={12} className="text-right">
+                  <Button
+                    disabled={this.state.registerDetails.details.Level === undefined}
+                    type="primary"
+                    onClick={() => {
+                      this.GoForward();
+                    }}
+                  >
+                    Finish
+                  </Button>
+                </Col>
+              </Row>
             </div>
-        );
-    }
+          </div>
+        </div>
+      </div>
+    );
+  }
 
-    private async GoForward() {
-        const result = await UserService.Update(this.state.registerDetails);
-        if (result.user.Id) {
-            this.props.registerComplete();
-            LocalStorageHelper.DeleteItemFromLocalStorage(LocalStorage.IntroInfo);
-            history.push('/');
-        }
+  private async GoForward() {
+    const result = await UserService.Update(this.state.registerDetails);
+    if (result.user.Id) {
+      this.props.registerComplete();
+      LocalStorageHelper.DeleteItemFromLocalStorage(LocalStorage.IntroInfo);
+      history.push('/step-four');
     }
+  }
 
-    private GoBack() {
-        LocalStorageHelper.SaveItemToLocalStorage(
-            LocalStorage.IntroInfo,
-            this.state.registerDetails
-        );
-        history.push('/intro/step-two');
-    }
+  private GoBack() {
+    LocalStorageHelper.SaveItemToLocalStorage(LocalStorage.IntroInfo, this.state.registerDetails);
+    history.push('/intro/step-two');
+  }
 }
 
 const mapStateToProps = (state: any) => {
-    if (state.authReducer && state.authReducer.isAuthorized) {
-        return {
-            isLoaded: state.authReducer.isLoaded,
-            isAuthorized: state.authReducer.isAuthorized,
-        };
-    }
+  if (state.authReducer && state.authReducer.isAuthorized) {
+    return {
+      isLoaded: state.authReducer.isLoaded,
+      isAuthorized: state.authReducer.isAuthorized,
+    };
+  }
 
-    return initialAuthState;
+  return initialAuthState;
 };
 
 const mapDispatchToProps = {
-    registerComplete,
+  registerComplete,
 };
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(IntroSport);
-

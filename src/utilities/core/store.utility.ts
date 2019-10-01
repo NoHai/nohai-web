@@ -1,19 +1,19 @@
 class StoreUtilityController {
-    private static instance: StoreUtilityController;
-    public store: any;
+  private static instance: StoreUtilityController;
+  public store: any;
 
-    private constructor() { }
+  private constructor() {}
 
-    public static getInstance() {
-        if (!StoreUtilityController.instance) {
-            StoreUtilityController.instance = new StoreUtilityController();
-        }
-        return StoreUtilityController.instance;
+  public static getInstance() {
+    if (!StoreUtilityController.instance) {
+      StoreUtilityController.instance = new StoreUtilityController();
     }
+    return StoreUtilityController.instance;
+  }
 
-    public init(store: any) {
-        this.store = store;
-    }
+  public init(store: any) {
+    this.store = store;
+  }
 }
 
 const StoreUtility = StoreUtilityController.getInstance();

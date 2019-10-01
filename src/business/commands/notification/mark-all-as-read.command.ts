@@ -3,9 +3,9 @@ import { NotificationRepository } from '../../../data/repositories/notification.
 import { ResultModel } from '../../../contracts/models';
 
 class MarkAllAsReadCommandController implements ICommand<any, Promise<ResultModel<boolean>>> {
-    public async execute(): Promise<ResultModel<boolean>> {
-        return await NotificationRepository.MarkAllAsRead();
-    }
+  public async execute(): Promise<ResultModel<boolean>> {
+    return await NotificationRepository.MarkAllAsRead();
+  }
 }
 
 export const MarkAllAsReadCommand = new MarkAllAsReadCommandController();

@@ -30,7 +30,7 @@ class LoadingHelperController {
       (e: any) => {
         const isActiveLink = e.target.classList.contains('link-active');
         const hasLink = e.target.href && !e.target.href.includes('#');
-        const isLink = e.target.tagName == 'A' && hasLink;
+        const isLink = e.target.tagName === 'A' && hasLink;
         if (!isLink || isActiveLink) {
           return;
         }

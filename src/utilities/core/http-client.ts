@@ -4,94 +4,94 @@ import { HttpMethod } from '../../contracts/enums/common';
 import AuthService from '../../business/services/auth.service';
 
 class HttpClientController {
-    private static instance: HttpClientController;
+  private static instance: HttpClientController;
 
-    private constructor() {}
+  private constructor() {}
 
-    static getInstance() {
-        if (!HttpClientController.instance) {
-            HttpClientController.instance = new HttpClientController();
-        }
-
-        return HttpClientController.instance;
+  static getInstance() {
+    if (!HttpClientController.instance) {
+      HttpClientController.instance = new HttpClientController();
     }
 
-    public async get(url: string, checkToken: boolean = true) {
-        checkToken && (await this.checkToken());
-        const accessToken = await this.getAccessToken();
-        const result = await this.doFetch(HttpMethod.Get, url, accessToken);
+    return HttpClientController.instance;
+  }
 
-        if (result.ok) {
-            return await result.json();
-        }
+  public async get(url: string, checkToken: boolean = true) {
+    checkToken && (await this.checkToken());
+    const accessToken = await this.getAccessToken();
+    const result = await this.doFetch(HttpMethod.Get, url, accessToken);
+
+    if (result.ok) {
+      return await result.json();
+    }
+  }
+
+  public async post(url: string, data?: any, checkToken: boolean = true) {
+    checkToken && (await this.checkToken());
+    const accessToken = await this.getAccessToken();
+    const result = await this.doFetch(HttpMethod.Post, url, accessToken, data);
+
+    if (result.ok) {
+      return await result.json();
     }
 
-    public async post(url: string, data?: any, checkToken: boolean = true) {
-        checkToken && (await this.checkToken());
-        const accessToken = await this.getAccessToken();
-        const result = await this.doFetch(HttpMethod.Post, url, accessToken, data);
+    return null;
+  }
 
-        if (result.ok) {
-            return await result.json();
-        }
+  public async checkToken(): Promise<boolean> {
+    let token = await TokenProvider.getToken();
 
-        return null;
+    if (!TokenProvider.isTokenValid(token)) {
+      return await this.refreshToken(token);
     }
 
-    public async checkToken(): Promise<boolean> {
-        let token = await TokenProvider.getToken();
+    return true;
+  }
 
-        if (!TokenProvider.isTokenValid(token)) {
-            return await this.refreshToken(token);
+  private async refreshToken(token: Token | null): Promise<boolean> {
+    if (!!token) {
+      try {
+        const result = await AuthService.refreshToken(token.refreshToken); // this.post(AuthEndpoint.Refresh, data, false);
+
+        if (!!result) {
+          await TokenProvider.saveToken(result);
+          return true;
         }
-
-        return true;
-    }
-
-    private async refreshToken(token: Token | null): Promise<boolean> {
-        if (!!token) {
-            try {
-                const result = await AuthService.refreshToken(token.refreshToken) // this.post(AuthEndpoint.Refresh, data, false);
-
-                if (!!result) {
-                    await TokenProvider.saveToken(result);
-                    return true;
-                }
-            } catch {
-                return false;
-            }
-        }
-
+      } catch {
         return false;
+      }
     }
 
-    private async getAccessToken(): Promise<string> {
-        const token = await TokenProvider.getToken();
-        if (!!token) {
-            return token.accessToken;
-        }
+    return false;
+  }
 
-        return '';
+  private async getAccessToken(): Promise<string> {
+    const token = await TokenProvider.getToken();
+    if (!!token) {
+      return token.accessToken;
     }
 
-    private async doFetch(
-        method: HttpMethod,
-        url: string,
-        accessToken: string,
-        data: any = null
-    ): Promise<Response> {
-        const body = !!data ? JSON.stringify(data) : null;
+    return '';
+  }
 
-        return await fetch(url, {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${accessToken}`,
-            },
-            body: body,
-        });
-    }
+  private async doFetch(
+    method: HttpMethod,
+    url: string,
+    accessToken: string,
+    data: any = null
+  ): Promise<Response> {
+    const body = !!data ? JSON.stringify(data) : null;
+
+    return await fetch(url, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: body,
+    });
+  }
 }
 
 const HttpClient: HttpClientController = HttpClientController.getInstance();

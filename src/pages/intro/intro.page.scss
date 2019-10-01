@@ -2,178 +2,178 @@
 @import './../../globals/styles/functions';
 
 .intro-page {
+  height: 100%;
+
+  .ant-btn-primary {
+    background-color: $main-color;
+    border: 0;
+  }
+
+  .intro-step-page {
     height: 100%;
 
-    .ant-btn-primary {
-        background-color: $main-color;
-        border: 0;
+    h1 {
+      font-size: 16px;
+      text-align: center;
+      color: $text-color;
+      font-weight: 500;
+      text-transform: uppercase;
+      margin-bottom: 15px;
+
+      &.invert {
+        color: $white-color;
+      }
     }
 
-    .intro-step-page {
-        height: 100%;
+    p {
+      text-align: center;
+      padding: 0 30px;
+      font-size: 13px;
+      &.margin-bottom {
+        margin-bottom: 45px;
+      }
 
-        h1 {
-            font-size: 16px;
-            text-align: center;
-            color: $text-color;
-            font-weight: 500;
-            text-transform: uppercase;
-            margin-bottom: 15px;
-
-            &.invert {
-                color: $white-color;
-            }
-        }
-
-        p {
-            text-align: center;
-            padding: 0 30px;
-            font-size: 13px;
-            &.margin-bottom {
-                margin-bottom: 45px;
-            }
-
-            &.invert {
-                color: $gray-color;
-            }
-        }
-
-        hr {
-            margin-bottom: 15px;
-        }
-
-        .page-section-large {
-            &.align-middle {
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-            }
-
-            &.page-section-with-color {
-                background: $main-color;
-            }
-        }
-
-        .form {
-            width: 100%;
-            padding: 0 30px;
-
-            .form-group {
-                margin-bottom: 10px;
-
-                label {
-                    display: block;
-                    color: $green-color;
-                    font-weight: bold;
-                    font-size: 12px;
-                    padding-left: 2px;
-                    margin-bottom: 2px;
-                    text-transform: uppercase;
-                }
-
-                input {
-                    border: 0;
-                }
-
-                .ant-calendar-picker {
-                    display: block;
-                }
-
-                .ant-input-group-addon {
-                    border: 0;
-                }
-
-                .ant-input-number {
-                    margin-left: 0;
-                    display: block;
-                    width: 100%;
-                    border: 0;
-                }
-
-                .ant-select-selection {
-                    border: 0;
-                }
-
-                .ant-select-lg .ant-select-selection__rendered {
-                    line-height: 40px;
-                }
-
-                .ant-input-number-lg input {
-                    height: 43px;
-                }
-            }
-        }
-
-        .image {
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: contain;
-            width: 100%;
-            height: 200px;
-
-            &.image-man {
-                background-image: url(/assets/man.svg);
-            }
-
-            &.image-woman {
-                background-image: url(/assets/woman.svg);
-            }
-        }
-
-        .intro-footer {
-            display: block;
-            width: 100%;
-            padding: 0 15px 15px 15px;
-        }
-
-        .image {
-            display: block;
-            margin: 0 auto;
-            width: 250px;
-            height: 300px;
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: contain;
-
-            &.persons {
-                background-image: url(/assets/persons.svg);
-            }
-
-            &.sports {
-                background-image: url(/assets/sports.svg);
-            }
-        }
-
-        .wave {
-            display: block;
-            width: 100%;
-            height: auto;
-            margin-top: -1px;
-            margin-bottom: 25px;
-        }
+      &.invert {
+        color: $gray-color;
+      }
     }
 
-    .page-section-footer {
-        position: relative;
-        height: 140px;
-        overflow: hidden;
+    hr {
+      margin-bottom: 15px;
+    }
+
+    .page-section-large {
+      &.align-middle {
+        width: 100%;
         display: flex;
-        justify-content: flex-end;
-        align-items: flex-end;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
 
-        &::before {
-            display: block;
-            content: ' ';
-            position: absolute;
-            top: -4px;
-            left: -4px;
-            right: -4px;
-            bottom: 0;
-            background: url('/assets/wave.svg') no-repeat;
-            background-position: right top;
-            background-size: cover;
-        }
+      &.page-section-with-color {
+        background: $main-color;
+      }
     }
+
+    .form {
+      width: 100%;
+      padding: 0 30px;
+
+      .form-group {
+        margin-bottom: 10px;
+
+        label {
+          display: block;
+          color: $green-color;
+          font-weight: bold;
+          font-size: 12px;
+          padding-left: 2px;
+          margin-bottom: 2px;
+          text-transform: uppercase;
+        }
+
+        input {
+          border: 0;
+        }
+
+        .ant-calendar-picker {
+          display: block;
+        }
+
+        .ant-input-group-addon {
+          border: 0;
+        }
+
+        .ant-input-number {
+          margin-left: 0;
+          display: block;
+          width: 100%;
+          border: 0;
+        }
+
+        .ant-select-selection {
+          border: 0;
+        }
+
+        .ant-select-lg .ant-select-selection__rendered {
+          line-height: 40px;
+        }
+
+        .ant-input-number-lg input {
+          height: 43px;
+        }
+      }
+    }
+
+    .image {
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      width: 100%;
+      height: 200px;
+
+      &.image-man {
+        background-image: url(/assets/man.svg);
+      }
+
+      &.image-woman {
+        background-image: url(/assets/woman.svg);
+      }
+    }
+
+    .intro-footer {
+      display: block;
+      width: 100%;
+      padding: 0 15px 15px 15px;
+    }
+
+    .image {
+      display: block;
+      margin: 0 auto;
+      width: 250px;
+      height: 300px;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+
+      &.persons {
+        background-image: url(/assets/persons.svg);
+      }
+
+      &.sports {
+        background-image: url(/assets/sports.svg);
+      }
+    }
+
+    .wave {
+      display: block;
+      width: 100%;
+      height: auto;
+      margin-top: -1px;
+      margin-bottom: 25px;
+    }
+  }
+
+  .page-section-footer {
+    position: relative;
+    height: 140px;
+    overflow: hidden;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+
+    &::before {
+      display: block;
+      content: ' ';
+      position: absolute;
+      top: -4px;
+      left: -4px;
+      right: -4px;
+      bottom: 0;
+      background: url('/assets/wave.svg') no-repeat;
+      background-position: right top;
+      background-size: cover;
+    }
+  }
 }

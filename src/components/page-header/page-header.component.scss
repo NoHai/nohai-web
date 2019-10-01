@@ -2,45 +2,46 @@
 @import './../../globals/styles/functions';
 
 .page-header {
+  position: relative;
+  display: block;
+  background-color: $main-color;
+  color: $white-color;
+  padding: 8px 15px;
+  border-bottom: 1px solid $main-dark-color;
+
+  .icon {
+    display: inline-block;
+    font-size: 24px;
+    cursor: pointer;
+    @include user-select-none();
+  }
+
+  .avatar {
+    background-color: #ddd;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    @include border-radius(50%);
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    margin-top: 5px;
+    cursor: pointer;
+    @include user-select-none();
+  }
+
+  .notification {
     position: relative;
-    display: block;
-    background-color: $main-color;
-    color: $white-color;
-    padding: 8px 15px;
-    border-bottom: 1px solid $main-dark-color;
+  }
 
-    .icon {
-        display: inline-block;
-        font-size: 24px;
-        cursor: pointer;
-        @include user-select-none();
-    }
-
-    .avatar {
-        background-color: #ddd;
-        background-position: center;
-        background-size: cover;
-        @include border-radius(50%);
-        display: inline-block;
-        width: 28px;
-        height: 28px;
-        margin-top: 5px;
-        cursor: pointer;
-        @include user-select-none();
-    }
-
-    .notification {
-        position: relative;
-    }
-
-    .notification .badge {
-        position: absolute;
-        top: 0px;
-        right: -7px;
-        padding: 2px 6px;
-        border-radius: 50%;
-        background-color: red;
-        color: white;
-        font-size: 10px;
-    }
+  .notification .badge {
+    position: absolute;
+    top: 0px;
+    right: -7px;
+    padding: 2px 6px;
+    border-radius: 50%;
+    background-color: red;
+    color: white;
+    font-size: 10px;
+  }
 }

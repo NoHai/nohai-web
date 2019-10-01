@@ -1,27 +1,26 @@
-import moment from "moment";
+import moment from 'moment';
 
 export default class DateHelper {
-    public static GetMonths() {
-        const months = [
-            'Ianuarie',
-            'Februarie',
-            'Martie',
-            'Aprilie',
-            'Mai',
-            'Iunie',
-            'Iulie',
-            'August',
-            'Septembrie',
-            'Octombrie',
-            'Noiembrie',
-            'Decembrie',
-        ];
+  public static GetMonths() {
+    const months = [
+      'Ianuarie',
+      'Februarie',
+      'Martie',
+      'Aprilie',
+      'Mai',
+      'Iunie',
+      'Iulie',
+      'August',
+      'Septembrie',
+      'Octombrie',
+      'Noiembrie',
+      'Decembrie',
+    ];
 
-        return months;
-    }
+    return months;
+  }
 
-    public static GetDateFormat(date: string, format: string="DD/MM/YY")
-    {
-        return moment(date).format(format);
-    }
+  public static GetDateFormat(date: string, format: string = 'DD/MM/YY') {
+    return moment(date).format(format);
+  }
 }

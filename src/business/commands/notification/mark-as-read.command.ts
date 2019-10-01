@@ -3,9 +3,9 @@ import { NotificationRepository } from '../../../data/repositories/notification.
 import { ResultModel } from '../../../contracts/models';
 
 class MarkAsReadCommandController implements ICommand<any, Promise<ResultModel<string>>> {
-    public async execute(id:string): Promise<ResultModel<string>> {
-        return await NotificationRepository.MarkAsRead(id);
-    }
+  public async execute(id: string): Promise<ResultModel<string>> {
+    return await NotificationRepository.MarkAsRead(id);
+  }
 }
 
 export const MarkAsReadCommand = new MarkAsReadCommandController();

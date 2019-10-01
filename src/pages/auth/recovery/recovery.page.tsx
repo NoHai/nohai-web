@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import history from '../../../utilities/core/history';
-import { Button, message } from 'antd';
+import { Button } from 'antd';
 import './recovery.page.scss';
 import { UserService } from '../../../business/services';
 import { FormValidators } from '../../../contracts/validators/forms-validators';
@@ -82,17 +82,17 @@ class RecoveryPage extends Component {
     );
   }
 
-    private NavigateToRegister() {
-        history.push('/login');
-    }
-    private async RecoveryPassword() {
-        await this.validateEmail();
-        if (this.state.emailError !== '') {
-            MessageHelper.showError(this.state.emailError);
-        } else {
-            UserService.RecoveryPassword(this.state.email);
-        }
+  private NavigateToRegister() {
+    history.push('/login');
+  }
+  private async RecoveryPassword() {
+    await this.validateEmail();
+    if (this.state.emailError !== '') {
+      MessageHelper.showError(this.state.emailError);
+    } else {
+      UserService.RecoveryPassword(this.state.email);
     }
   }
+}
 
 export default RecoveryPage;

@@ -1,4 +1,4 @@
-export class TokenNotificationModel  {
-    public UserId!: string;
-    public Token!: string;
+export class TokenNotificationModel {
+  public UserId!: string;
+  public Token!: string;
 }
