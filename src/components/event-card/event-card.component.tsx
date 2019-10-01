@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './event-card.component.scss';
-import { Row, Col, Button, Avatar } from 'antd';
+import { Row, Col, Button, Avatar, Alert } from 'antd';
 import EventTags from '../event-tags/event-tags.component';
 import EventMembers from '../event-members/event-members.component';
 import EventMap from '../event-map/event-map.component';
@@ -82,19 +82,17 @@ class EventCard extends Component<any, any> {
               )}
 
               {this.props.eventDetails.owner.Id !== this.userId &&
-                this.chekIfRequestSent() && (
-                  <Button
-                    type="primary"
-                    size="large"
-                    block
-                    disabled
-                    className="join-button"
-                    onClick={() => {
-                      this.joinEvent();
-                    }}
-                  >
+                this.chekIfRequestSent() &&
+                !this.chekIfRequestApproved() && (
+                  <Button type="dashed" block disabled className="join-button">
                     Cerere trimisa
                   </Button>
+                )}
+              
+              {this.props.eventDetails.owner.Id !== this.userId &&
+                this.chekIfRequestSent() &&
+                this.chekIfRequestApproved() && (
+                  <Alert message="Cerere aprobata" type="success" className="approvedMessage" />
                 )}
             </Col>
           </Row>
@@ -137,6 +135,12 @@ class EventCard extends Component<any, any> {
   private chekIfRequestSent() {
     return this.props.eventDetails.participants
       ? this.props.eventDetails.participants.some((item: any) => item.Id === this.userId)
+      : false;
+  }
+
+  private chekIfRequestApproved() {
+    return this.chekIfRequestSent()
+      ? this.props.eventDetails.participants.some((item: any) => item.Status === 1)
       : false;
   }
   private async createEvent() {
