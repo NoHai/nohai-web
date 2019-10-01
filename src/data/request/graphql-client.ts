@@ -10,134 +10,134 @@ import AuthService from '../../business/services/auth.service';
 import { Token } from '../../contracts/models/auth';
 
 class GraphqlClientController {
-    private static instance: GraphqlClientController;
-    private readonly client: ApolloClient<any>;
+  private static instance: GraphqlClientController;
+  private readonly client: ApolloClient<any>;
 
-    private constructor() {
-        const appConfig = new AppConfig();
-        const apiLink = `${appConfig.nohaiAppUrl}/graphql`
-        this.client = new ApolloClient({
-            link: this.getAppoloLink(apiLink),
-            cache: new InMemoryCache(),
-            defaultOptions: {
-                watchQuery: {
-                    errorPolicy: 'all'
-                },
-                query: {
-                    errorPolicy: 'all',
-                    fetchPolicy: 'network-only',
-                },
-                mutate: {
-                    errorPolicy: 'all'
-                }
-            }
-        });
+  private constructor() {
+    const appConfig = new AppConfig();
+    const apiLink = `${appConfig.nohaiAppUrl}/graphql`;
+    this.client = new ApolloClient({
+      link: this.getAppoloLink(apiLink),
+      cache: new InMemoryCache(),
+      defaultOptions: {
+        watchQuery: {
+          errorPolicy: 'all',
+        },
+        query: {
+          errorPolicy: 'all',
+          fetchPolicy: 'network-only',
+        },
+        mutate: {
+          errorPolicy: 'all',
+        },
+      },
+    });
+  }
+
+  static getInstance() {
+    if (!GraphqlClientController.instance) {
+      GraphqlClientController.instance = new GraphqlClientController();
     }
 
-    static getInstance() {
-        if (!GraphqlClientController.instance) {
-            GraphqlClientController.instance = new GraphqlClientController();
-        }
+    return GraphqlClientController.instance;
+  }
 
-        return GraphqlClientController.instance;
+  public async query<T>(query: any) {
+    try {
+      const response: any = await this.client.query({
+        query: query,
+      });
+
+      const result: T = response.data;
+      return result;
+    } catch (e) {
+      console.log(e);
     }
+  }
 
-    public async query<T>(query: any) {
-        try {
-            const response: any = await this.client.query({
-                query: query,
-            });
-
-            const result: T = response.data;
-            return result;
-        } catch (e) {
-            console.log(e);
-        }
+  public async queryWithVariables<T>(query: any, variables: any) {
+    try {
+      const response: any = await this.client.query({
+        query: query,
+        variables: variables,
+      });
+      const result: T = response.data;
+      return result;
+    } catch (e) {
+      console.log(e);
     }
+  }
 
-    public async queryWithVariables<T>(query: any, variables: any) {
-        try {
-            const response: any = await this.client.query({
-                query: query,
-                variables: variables,
-            });
-            const result: T = response.data;
-            return result;
-        } catch (e) {
-            console.log(e);
-        }
+  public async mutate<T>(mutation: any, variables: any) {
+    try {
+      const response: any = await this.client.mutate({
+        variables,
+        mutation,
+      });
+
+      const result: T = response.data;
+      return result;
+    } catch (e) {
+      console.log(e);
     }
+  }
 
-    public async mutate<T>(mutation: any, variables: any) {
-        try {
-            const response: any = await this.client.mutate({
-                variables,
-                mutation,
-            });
+  private getAppoloLink(uri: string) {
+    const httpLink = createHttpLink({
+      uri,
+    });
 
-            const result: T = response.data;
-            return result;
-        } catch (e) {
-            console.log(e);
-        }
-    }
-
-    private getAppoloLink(uri: string) {
-        const httpLink = createHttpLink({
-            uri,
-        });
-
-        const errorLink = onError(({ graphQLErrors, networkError }) => {
-            if (graphQLErrors)
-                graphQLErrors.map(({ message }) => {
-                    const formattedMessage = message.replace('Unexpected error value: ', '').replace(/(^")|("$)/g, '');
-                    MessageHelper.showError(formattedMessage)
-                }
-                );
-
-            if (networkError) MessageHelper.showError(networkError.message);
+    const errorLink = onError(({ graphQLErrors, networkError }) => {
+      if (graphQLErrors)
+        graphQLErrors.map(({ message }) => {
+          const formattedMessage = message
+            .replace('Unexpected error value: ', '')
+            .replace(/(^")|("$)/g, '');
+          MessageHelper.showError(formattedMessage);
         });
 
-        const authMiddleware = setContext(async (req, { headers }) => {
-            const token = await this.checkToken();
-            return {
-                headers: {
-                    ...headers,
-                    authorization: token !== null ? `Bearer ${token.accessToken}` : '',
-                },
-            }
-        });
+      if (networkError) MessageHelper.showError(networkError.message);
+    });
 
-        return ApolloLink.from([authMiddleware, errorLink, httpLink]);
+    const authMiddleware = setContext(async (req, { headers }) => {
+      const token = await this.checkToken();
+      return {
+        headers: {
+          ...headers,
+          authorization: token !== null ? `Bearer ${token.accessToken}` : '',
+        },
+      };
+    });
+
+    return ApolloLink.from([authMiddleware, errorLink, httpLink]);
+  }
+
+  private async checkToken(): Promise<Token | null> {
+    let token = await TokenProvider.getToken();
+
+    if (!TokenProvider.isTokenValid(token)) {
+      return await this.refreshToken(token);
     }
 
-    private async checkToken(): Promise<Token | null> {
-        let token = await TokenProvider.getToken();
+    return token;
+  }
 
-        if (!TokenProvider.isTokenValid(token)) {
-            return await this.refreshToken(token);
+  private async refreshToken(token: Token | null): Promise<Token | null> {
+    if (!!token) {
+      try {
+        const result = await AuthService.refreshToken(token.refreshToken);
+
+        if (!!result) {
+          await TokenProvider.saveToken(result);
+          return result;
         }
-
-        return token;
-    }
-
-    private async refreshToken(token: Token | null): Promise<Token | null> {
-        if (!!token) {
-            try {
-                const result = await AuthService.refreshToken(token.refreshToken)
-
-                if (!!result) {
-                    await TokenProvider.saveToken(result);
-                    return result;
-                }
-            } catch {
-                return null;
-            }
-        }
-
+      } catch {
         return null;
+      }
     }
 
+    return null;
+  }
 }
 
 const GraphqlClient: GraphqlClientController = GraphqlClientController.getInstance();

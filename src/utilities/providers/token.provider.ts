@@ -6,7 +6,7 @@ import moment from 'moment';
 class TokenProviderController {
   private static instance: TokenProviderController;
 
-  private constructor() { }
+  private constructor() {}
 
   static getInstance() {
     if (!TokenProviderController.instance) {
@@ -52,7 +52,7 @@ class TokenProviderController {
     return !!token && this.tokenIsNotExpired(token);
   }
 
-  public async  getUser() {
+  public async getUser() {
     const token = await this.getToken();
     return !!token ? this.parseToken(token.accessToken) : null;
   }
@@ -82,8 +82,8 @@ class TokenProviderController {
       );
 
       return JSON.parse(jsonPayload);
-    } catch{
-      return null
+    } catch {
+      return null;
     }
   }
 }

@@ -82,17 +82,17 @@ class RecoveryPage extends Component {
     );
   }
 
-    private NavigateToRegister() {
-        history.push('/login');
-    }
-    private async RecoveryPassword() {
-        await this.validateEmail();
-        if (this.state.emailError !== '') {
-            MessageHelper.showError(this.state.emailError);
-        } else {
-            UserService.RecoveryPassword(this.state.email);
-        }
+  private NavigateToRegister() {
+    history.push('/login');
+  }
+  private async RecoveryPassword() {
+    await this.validateEmail();
+    if (this.state.emailError !== '') {
+      MessageHelper.showError(this.state.emailError);
+    } else {
+      UserService.RecoveryPassword(this.state.email);
     }
   }
+}
 
 export default RecoveryPage;

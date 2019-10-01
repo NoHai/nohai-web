@@ -1,4 +1,4 @@
 export interface GoogleLocationAutoCompleteProps {
-    streetName:string;
-    onButtonClick?: (adress: any) => void;
+  streetName: string;
+  onButtonClick?: (adress: any) => void;
 }

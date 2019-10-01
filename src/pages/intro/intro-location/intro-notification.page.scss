@@ -2,59 +2,59 @@
 @import './../../../globals/styles/functions';
 
 .intro-notification-page {
+  height: 100%;
+
+  .intro-step-page {
     height: 100%;
 
-    .intro-step-page {
-        height: 100%;
+    h1 {
+      font-size: 16px;
+      text-align: center;
+      color: $text-color;
+      font-weight: 500;
+      text-transform: uppercase;
+      margin-bottom: 15px;
 
-        h1 {
-            font-size: 16px;
-            text-align: center;
-            color: $text-color;
-            font-weight: 500;
-            text-transform: uppercase;
-            margin-bottom: 15px;
-
-            &.invert {
-                color: $main-color;
-            }
-        }
-
-        p {
-            text-align: center;
-            padding: 0 30px;
-            font-size: 13px;
-            &.margin-bottom {
-                margin-bottom: 45px;
-            }
-        }
-
-        hr {
-            margin-bottom: 15px;
-        }
-
-        .page-section-large {
-            margin-top: 110px;
-
-            &.page-section-with-color {
-                background: $white-color;
-            }
-        }
-
-        .buttons {
-            padding: 0 15px;
-            text-align: center;
-        }
-
-        .page-section-footer {
-            padding: 25px;
-
-            .skip-button {
-                display: inline-block;
-                cursor: pointer;
-                color: $gray-dark-color;
-                border-bottom: 1px dashed $gray-dark-color;
-            }
-        }
+      &.invert {
+        color: $main-color;
+      }
     }
+
+    p {
+      text-align: center;
+      padding: 0 30px;
+      font-size: 13px;
+      &.margin-bottom {
+        margin-bottom: 45px;
+      }
+    }
+
+    hr {
+      margin-bottom: 15px;
+    }
+
+    .page-section-large {
+      margin-top: 110px;
+
+      &.page-section-with-color {
+        background: $white-color;
+      }
+    }
+
+    .buttons {
+      padding: 0 15px;
+      text-align: center;
+    }
+
+    .page-section-footer {
+      padding: 25px;
+
+      .skip-button {
+        display: inline-block;
+        cursor: pointer;
+        color: $gray-dark-color;
+        border-bottom: 1px dashed $gray-dark-color;
+      }
+    }
+  }
 }

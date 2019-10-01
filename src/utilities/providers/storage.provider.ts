@@ -1,29 +1,29 @@
 import * as localForage from 'localforage';
 
 class StorageProviderController {
-    private static instance: StorageProviderController;
+  private static instance: StorageProviderController;
 
-    private constructor() {}
+  private constructor() {}
 
-    static getInstance(): StorageProviderController {
-        if (!StorageProviderController.instance) {
-            StorageProviderController.instance = new StorageProviderController();
-        }
-
-        return StorageProviderController.instance;
+  static getInstance(): StorageProviderController {
+    if (!StorageProviderController.instance) {
+      StorageProviderController.instance = new StorageProviderController();
     }
 
-    async get(key: string) {
-        return await localForage.getItem<string>(key);
-    }
+    return StorageProviderController.instance;
+  }
 
-    async set(key: string, value: any) {
-        await localForage.setItem(key, value);
-    }
+  async get(key: string) {
+    return await localForage.getItem<string>(key);
+  }
 
-    async remove(key: string) {
-        await localForage.removeItem(key);
-    }
+  async set(key: string, value: any) {
+    await localForage.setItem(key, value);
+  }
+
+  async remove(key: string) {
+    await localForage.removeItem(key);
+  }
 }
 
 const StorageProvider: StorageProviderController = StorageProviderController.getInstance();

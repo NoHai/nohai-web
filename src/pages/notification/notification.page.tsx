@@ -133,7 +133,9 @@ class NotificationPage extends Component {
       hasMoreItems: true,
       pageIndex: 0,
     });
-    approve ? await EventService.Approve(notificationId) : await EventService.Reject(notificationId);
+    approve
+      ? await EventService.Approve(notificationId)
+      : await EventService.Reject(notificationId);
     await this.getNotification();
   }
 

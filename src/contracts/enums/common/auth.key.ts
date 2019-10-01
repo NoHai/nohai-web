@@ -1,3 +1,3 @@
 export enum AuthKey {
-    SessionId = 'SESSION_ID',
+  SessionId = 'SESSION_ID',
 }

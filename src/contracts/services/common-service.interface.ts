@@ -1,6 +1,6 @@
-import { SportModel } from "../models/sport.model";
-import { ListModel } from "../models";
+import { SportModel } from '../models/sport.model';
+import { ListModel } from '../models';
 
 export interface ICommonService {
-    Get(): Promise<ListModel<SportModel>>;
+  Get(): Promise<ListModel<SportModel>>;
 }

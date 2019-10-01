@@ -1,5 +1,5 @@
-import { EventDetailsViewModel } from "../../contracts/models";
+import { EventDetailsViewModel } from '../../contracts/models';
 
 export interface EventItemCardProps {
-    eventDetails: EventDetailsViewModel;
+  eventDetails: EventDetailsViewModel;
 }

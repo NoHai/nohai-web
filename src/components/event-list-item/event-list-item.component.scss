@@ -2,12 +2,12 @@
 @import './../../globals/styles/functions';
 
 .event-list-item {
-    display: block;
-    padding: 25px 15px;
-    background-image: linear-gradient(#fdfdfc, #f1f8ff);
-    @include user-select-none();
+  display: block;
+  padding: 25px 15px;
+  background-image: linear-gradient(#fdfdfc, #f1f8ff);
+  @include user-select-none();
 
-    &.full-height {
-        height: 100%;
-    }
+  &.full-height {
+    height: 100%;
+  }
 }

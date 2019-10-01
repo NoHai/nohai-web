@@ -1,5 +1,4 @@
-
 export interface CreateEventHeaderProps {
-    title: string;
-    iconClass: string;
+  title: string;
+  iconClass: string;
 }

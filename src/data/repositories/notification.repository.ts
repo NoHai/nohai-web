@@ -7,14 +7,12 @@ import MapModelHelper from '../../helpers/map-model.helper';
 import { PaginationBaseRequestModel } from '../../contracts/requests/pagination.base.model.request';
 
 class NotificationRepositoryController implements INotificationRepository {
+  public Get(id: any): Promise<NotificationModel> {
+    throw new Error('Method not implemented.');
+  }
 
-    public Get(id: any): Promise<NotificationModel> {
-        throw new Error("Method not implemented.");
-    }
-
-    public async Find(request: PaginationBaseRequestModel): Promise<ListModel<NotificationModel>> {
-
-        const query = gql`
+  public async Find(request: PaginationBaseRequestModel): Promise<ListModel<NotificationModel>> {
+    const query = gql`
         query{
             getNotifications(parameter: {pageSize:${request.pageSize} , pageIndex: ${request.pageIndex}}){
               items{
@@ -33,65 +31,64 @@ class NotificationRepositoryController implements INotificationRepository {
            }
         `;
 
-        const response: any = await GraphqlClient.query(query);
-        let results = await this.GetNotificationsMap(response.getNotifications);
-        return results;
+    const response: any = await GraphqlClient.query(query);
+    let results = await this.GetNotificationsMap(response.getNotifications);
+    return results;
+  }
 
-    }
+  public async MarkAllAsRead(): Promise<ResultModel<boolean>> {
+    const markAllAsReadMutation = gql`
+      mutation markAllAsReadMutation {
+        markAllAsRead
+      }
+    `;
 
-    public async MarkAllAsRead(): Promise<ResultModel<boolean>> {
+    const response: any = await GraphqlClient.mutate(markAllAsReadMutation, '');
 
-        const markAllAsReadMutation = gql`
-            mutation markAllAsReadMutation{
-                markAllAsRead
-            }`;
+    return response;
+  }
 
-        const response: any = await GraphqlClient.mutate(markAllAsReadMutation, "");
+  public async MarkAsRead(id: string): Promise<ResultModel<string>> {
+    let input: any = { parameter: id };
 
-        return response;
-    }
-
-    public async MarkAsRead(id: string): Promise<ResultModel<string>> {
-
-        let input: any = { parameter: id };
-
-        const markAsReadMutation = gql`
-            mutation markAsReadMutation($parameter: String!) {
-                markAsRead(parameter: $parameter){
-                    id
-                }
-                }`;
-
-        const result: any = await GraphqlClient.mutate(markAsReadMutation, input);
-        return result.markAsRead.Id;
-    }
-
-    public Create(notification: NotificationModel): Promise<NotificationModel> {
-        throw new Error('Method not implemented.');
-    }
-
-    public async Update(notification: NotificationModel): Promise<NotificationModel> {
-        throw new Error('Method not implemented.');
-    }
-
-    public Delete(notification: any): Promise<ResultModel<boolean>> {
-        throw new Error('Method not implemented.');
-    }
-
-    private async GetNotificationsMap(model: any) {
-        let result = new ListModel<NotificationModel>();
-
-        if (model) {
-            result.Total = model.totalCount;
-            result.CustomTotal = model.customCount;
-            model.items.forEach((element: any) => {
-                let event = MapModelHelper.MapNotification(element);
-                result.Data.push(event);
-            });
+    const markAsReadMutation = gql`
+      mutation markAsReadMutation($parameter: String!) {
+        markAsRead(parameter: $parameter) {
+          id
         }
+      }
+    `;
 
-        return result;
+    const result: any = await GraphqlClient.mutate(markAsReadMutation, input);
+    return result.markAsRead.Id;
+  }
+
+  public Create(notification: NotificationModel): Promise<NotificationModel> {
+    throw new Error('Method not implemented.');
+  }
+
+  public async Update(notification: NotificationModel): Promise<NotificationModel> {
+    throw new Error('Method not implemented.');
+  }
+
+  public Delete(notification: any): Promise<ResultModel<boolean>> {
+    throw new Error('Method not implemented.');
+  }
+
+  private async GetNotificationsMap(model: any) {
+    let result = new ListModel<NotificationModel>();
+
+    if (model) {
+      result.Total = model.totalCount;
+      result.CustomTotal = model.customCount;
+      model.items.forEach((element: any) => {
+        let event = MapModelHelper.MapNotification(element);
+        result.Data.push(event);
+      });
     }
+
+    return result;
+  }
 }
 
 export const NotificationRepository = new NotificationRepositoryController();

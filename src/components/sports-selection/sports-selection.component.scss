@@ -2,54 +2,54 @@
 @import './../../globals/styles/functions';
 
 .sports-selection {
-    display: inline-block;
-    text-align: center;
-    width: 100%;
-    padding: 0 35px;
+  display: inline-block;
+  text-align: center;
+  width: 100%;
+  padding: 0 35px;
 
-    .open-modal-button {
-        display: inline-block;
-        width: 100%;
-        text-align: center;
-        padding: 15px 50px;
-        border: 1px dashed $green-color;
-        color: $green-color;
-        cursor: pointer;
-        font-size: 14px;
-        font-weight: 300;
-        @include user-select-none();
-        @include border-radius(2px);
-    }
+  .open-modal-button {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    padding: 15px 50px;
+    border: 1px dashed $green-color;
+    color: $green-color;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 300;
+    @include user-select-none();
+    @include border-radius(2px);
+  }
 }
 
 .sports-drawer-buttons {
-    border-top: 1px solid #e8e8e8;
-    padding: 10px 0 0 0;
-    text-align: right;
-    left: 0;
-    background: #fff;
+  border-top: 1px solid #e8e8e8;
+  padding: 10px 0 0 0;
+  text-align: right;
+  left: 0;
+  background: #fff;
 }
 
 .sports-selection-drawer {
-    .ant-drawer-wrapper-body {
-        height: 100%;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
+  .ant-drawer-wrapper-body {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 
-        .ant-drawer-header {
-            width: 100%;
-        }
-        .ant-drawer-body {
-            -webkit-flex-grow: 1;
-            flex-grow: 1;
-            height: 100%;
-            overflow-y: auto;
-        }
+    .ant-drawer-header {
+      width: 100%;
     }
+    .ant-drawer-body {
+      -webkit-flex-grow: 1;
+      flex-grow: 1;
+      height: 100%;
+      overflow-y: auto;
+    }
+  }
 }
 
-.full-width{
-    width: 100%;
-    margin-bottom: 15px;
+.full-width {
+  width: 100%;
+  margin-bottom: 15px;
 }

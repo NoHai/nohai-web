@@ -1,9 +1,9 @@
 export class ListModel<T> {
-    public Data!: T[];
-    public Total!: number;
-    public CustomTotal!: number;
+  public Data!: T[];
+  public Total!: number;
+  public CustomTotal!: number;
 
-    constructor(){
-        this.Data = [];
-    }
+  constructor() {
+    this.Data = [];
+  }
 }

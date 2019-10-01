@@ -5,9 +5,8 @@ import { TokenNotificationModel } from '../../contracts/models/token-notificatio
 import { IUserTokenNotificationRepository } from '../../contracts/repositories/user-token-notification.repository.interface';
 
 class UserTokenNotificationRepositoryController implements IUserTokenNotificationRepository {
-
-    public async Get(userId: any): Promise<TokenNotificationModel> {
-        const query = gql`
+  public async Get(userId: any): Promise<TokenNotificationModel> {
+    const query = gql`
             {
                 userTokens(id: ${userId}) {
                     id,
@@ -17,36 +16,39 @@ class UserTokenNotificationRepositoryController implements IUserTokenNotificatio
             }
         `;
 
-        const results: any = await GraphqlClient.query(query);
-        return results.users;
-    }
+    const results: any = await GraphqlClient.query(query);
+    return results.users;
+  }
 
-    public async CreateToken(token: any): Promise<TokenNotificationModel> {
-        let notificationToken: any = { token: token };
+  public async CreateToken(token: any): Promise<TokenNotificationModel> {
+    let notificationToken: any = { token: token };
 
-        const createNotificationTokenMutation = gql`
-            mutation createNotificationTokenMutation($token: String!) {
-                createNotificationToken(token: $token) {
-                    id
-            }}`;
+    const createNotificationTokenMutation = gql`
+      mutation createNotificationTokenMutation($token: String!) {
+        createNotificationToken(token: $token) {
+          id
+        }
+      }
+    `;
 
-        const result: any = await GraphqlClient.mutate(createNotificationTokenMutation, notificationToken);
-        return result && result.createNotificationToken
-            ? result.createNotificationToken.id
-            : null;
-    }
+    const result: any = await GraphqlClient.mutate(
+      createNotificationTokenMutation,
+      notificationToken
+    );
+    return result && result.createNotificationToken ? result.createNotificationToken.id : null;
+  }
 
-    public async Update(userToken: TokenNotificationModel): Promise<TokenNotificationModel> {
-        throw new Error('Method not implemented.');
-    }
+  public async Update(userToken: TokenNotificationModel): Promise<TokenNotificationModel> {
+    throw new Error('Method not implemented.');
+  }
 
-    public Delete(data: any): Promise<ResultModel<boolean>> {
-        throw new Error('Method not implemented.');
-    }
+  public Delete(data: any): Promise<ResultModel<boolean>> {
+    throw new Error('Method not implemented.');
+  }
 
-    Create(data: TokenNotificationModel): Promise<TokenNotificationModel> {
-        throw new Error("Method not implemented.");
-    }
+  Create(data: TokenNotificationModel): Promise<TokenNotificationModel> {
+    throw new Error('Method not implemented.');
+  }
 }
 
 export const UserTokenNotificationRepository = new UserTokenNotificationRepositoryController();

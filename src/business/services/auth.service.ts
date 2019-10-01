@@ -10,66 +10,65 @@ import { RefreshTokenCommand } from '../commands/auth/refresh-token.command';
 import { Token } from '../../contracts/models/auth';
 
 class AuthServiceController {
-    private static instance: AuthServiceController;
+  private static instance: AuthServiceController;
 
-    private constructor() { }
+  private constructor() {}
 
-    static getInstance() {
-        if (!AuthServiceController.instance) {
-            AuthServiceController.instance = new AuthServiceController();
-        }
-
-        return AuthServiceController.instance;
+  static getInstance() {
+    if (!AuthServiceController.instance) {
+      AuthServiceController.instance = new AuthServiceController();
     }
 
-    public async login(email: string, password: string): Promise<boolean> {
-        const model = new LoginViewModel(email, password);
-        const token = await LoginCommand.execute(model);
-        if (!!token) {
-            await TokenProvider.saveToken(token);
-            return true;
-        }
+    return AuthServiceController.instance;
+  }
 
-        return false;
+  public async login(email: string, password: string): Promise<boolean> {
+    const model = new LoginViewModel(email, password);
+    const token = await LoginCommand.execute(model);
+    if (!!token) {
+      await TokenProvider.saveToken(token);
+      return true;
     }
 
-    public async loginWithFb(email: string, name: string): Promise<boolean> {
-        const model = new UserModel();
-        model.Email = email
-        model.FirstName = name.substr(0, name.indexOf(' '));
-        model.LastName = name.substr(name.indexOf(' ') + 1);
-        const token = await LoginWithFbCommand.execute(model);
+    return false;
+  }
 
-        if (!!token) {
-            await TokenProvider.saveToken(token);
-            return true;
-        }
+  public async loginWithFb(email: string, name: string): Promise<boolean> {
+    const model = new UserModel();
+    model.Email = email;
+    model.FirstName = name.substr(0, name.indexOf(' '));
+    model.LastName = name.substr(name.indexOf(' ') + 1);
+    const token = await LoginWithFbCommand.execute(model);
 
-        return false;
+    if (!!token) {
+      await TokenProvider.saveToken(token);
+      return true;
     }
 
-    public async register(model: RegisterViewModel): Promise<boolean> {
-        const logedId = await RegisterCommand.execute(model);
-        if (logedId && logedId.length > 0) {
-            return true;
-        }
+    return false;
+  }
 
-        return false;
+  public async register(model: RegisterViewModel): Promise<boolean> {
+    const logedId = await RegisterCommand.execute(model);
+    if (logedId && logedId.length > 0) {
+      return true;
     }
 
-    public async refreshToken(newToken: string): Promise<Token> {
-        return  await RefreshTokenCommand.execute(newToken);
-    }
+    return false;
+  }
 
-    public async isAuthorized(): Promise<boolean> {
-        return await HttpClient.checkToken();
-    }
+  public async refreshToken(newToken: string): Promise<Token> {
+    return await RefreshTokenCommand.execute(newToken);
+  }
 
-    public async isCompleted(): Promise<boolean> {
-        let user = await UserService.Get();
-        return user.details.Height ? true : false;
+  public async isAuthorized(): Promise<boolean> {
+    return await HttpClient.checkToken();
+  }
 
-    }
+  public async isCompleted(): Promise<boolean> {
+    let user = await UserService.Get();
+    return user.details.Height ? true : false;
+  }
 }
 
 const AuthService = AuthServiceController.getInstance();
