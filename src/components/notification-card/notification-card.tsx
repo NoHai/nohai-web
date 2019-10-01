@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import { Row, Col, Button } from 'antd';
 import { NotificationCardProps } from './notification-card.props';
 import { ActionType, ActionButtonType } from '../../contracts/enums/common';
+import AvatarHelper from '../../helpers/avatar.helper';
 
 class NotificationCard extends Component<NotificationCardProps> {
   render() {
-    let cssClass = this.props.status === 0 ? 'not-read item-card' : 'item-card';
+    const cssClass = this.props.status === 0 ? 'not-read item-card' : 'item-card';
+
     return (
       <div className={cssClass}>
         <Row
@@ -17,7 +19,7 @@ class NotificationCard extends Component<NotificationCardProps> {
             <div
               className="avatar"
               style={{
-                backgroundImage: `url(${this.props.avatarUrl})`,
+                backgroundImage: `url(${AvatarHelper.get(this.props.avatarUrl)})`,
               }}
             />
           </Col>
