@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import history from '../../../utilities/core/history';
-import { Button, message } from 'antd';
+import { Button } from 'antd';
 import './register.page.scss';
 import { FormValidators } from '../../../contracts/validators/forms-validators';
 import AuthService from '../../../business/services/auth.service';

@@ -149,23 +149,23 @@ class EventRepositoryController implements IEventRepository {
         return result.joinEvent;
     }
 
-    async Approve(eventId: any): Promise<ResultModel<boolean>> {
-        let input: any = { eventId: eventId };
+    async Approve(parameter: any): Promise<ResultModel<boolean>> {
+        let input: any = { parameter: parameter };
 
         const approveRequestMutation = gql`
-            mutation approveRequest($eventId: String!) {
-                approveRequest(eventId: $eventId)
+            mutation approveRequest($parameter: String!) {
+                approveRequest(parameter: $parameter)
                 }`;
 
         const result: any = await GraphqlClient.mutate(approveRequestMutation, input);
         return result.approveRequest;
     }
-    async Reject(eventId: any): Promise<ResultModel<boolean>> {
-        let input: any = { eventId: eventId };
+    async Reject(parameter: any): Promise<ResultModel<boolean>> {
+        let input: any = { parameter: parameter };
 
         const rejectRequestMutation = gql`
-            mutation rejectRequest($eventId: String!) {
-                rejectRequest(eventId: $eventId)
+            mutation rejectRequest($parameter: String!) {
+                rejectRequest(parameter: $parameter)
                 }`;
 
         const result: any = await GraphqlClient.mutate(rejectRequestMutation, input);

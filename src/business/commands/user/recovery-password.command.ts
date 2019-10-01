@@ -1,5 +1,4 @@
 import { ICommand } from '../command.interface';
-import { ResultModel } from '../../../contracts/models';
 import { AuthRepository } from '../../../data/repositories';
 
 class RecoveryPasswordCommandController implements ICommand<any, Promise<string>> {

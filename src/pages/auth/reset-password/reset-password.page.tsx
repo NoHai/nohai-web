@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import history from '../../../utilities/core/history';
-import { Button, message } from 'antd';
+import { Button } from 'antd';
 import './reset-password.page.scss';
 import { UserService } from '../../../business/services';
 import { FormValidators } from '../../../contracts/validators/forms-validators';

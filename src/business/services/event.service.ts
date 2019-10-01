@@ -38,12 +38,12 @@ class EventServiceController implements IEventService {
         return await JoinEventCommand.execute(id);
     }
 
-    public async Approve(id: any): Promise<ResultModel<boolean>> {
-        return await ApproveRequestCommand.execute(id);
+    public async Approve(notificationId: any): Promise<ResultModel<boolean>> {
+        return await ApproveRequestCommand.execute(notificationId);
     }
 
-    public async Reject(id: any): Promise<ResultModel<boolean>> {
-        return await RejectRequestCommand.execute(id);
+    public async Reject(notificationId: any): Promise<ResultModel<boolean>> {
+        return await RejectRequestCommand.execute(notificationId);
     }
 }
 

@@ -1,5 +1,5 @@
 import { IUserRepository } from '../../contracts/repositories/user-repository.interface';
-import { ResultModel, UserModel } from '../../contracts/models';
+import { ResultModel } from '../../contracts/models';
 import gql from 'graphql-tag';
 import GraphqlClient from '../request/graphql-client';
 import { UserViewModel } from '../../contracts/view-models/user-view.model';

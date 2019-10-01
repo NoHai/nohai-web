@@ -41,7 +41,7 @@ export default class MapModelHelper {
 
     public static MapEventDetails(model: any): EventDetailsViewModel {
         let result = this.MapEvent(model.event);
-        result.participants = model.userEvents.forEach((participant: any) => this.MapEventParticipant(participant));
+        model.userEvents.forEach((participant: any) => result.participants.push(this.MapEventParticipant(participant)));
 
         return result;
     }

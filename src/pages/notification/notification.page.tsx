@@ -125,7 +125,7 @@ class NotificationPage extends Component {
     });
   }
 
-  private async responseRequest(approve: boolean, eventId: any) {
+  private async responseRequest(approve: boolean, notificationId: any) {
     this.norificationContainer = new Array<NotificationModel>();
     StoreUtility.store.dispatch(unReadNotification(0));
     await this.setState({
@@ -133,7 +133,7 @@ class NotificationPage extends Component {
       hasMoreItems: true,
       pageIndex: 0,
     });
-    approve ? await EventService.Approve(eventId) : await EventService.Reject(eventId);
+    approve ? await EventService.Approve(notificationId) : await EventService.Reject(notificationId);
     await this.getNotification();
   }
 
