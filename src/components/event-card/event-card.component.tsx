@@ -33,7 +33,7 @@ class EventCard extends Component<any, any> {
     return (
       <div className="item-card event-card">
         <Row>
-          <Col span={5}>
+          <Col span={5} className="text-center">
             <EventSportImage url={this.props.eventDetails.sport.ImagePath} />
           </Col>
           <Col span={19}>
