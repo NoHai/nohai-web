@@ -84,13 +84,12 @@ class EventCard extends Component<any, any> {
 
               {this.props.eventDetails.owner.Id !== this.userId &&
                 this.chekIfRequestSent() &&
-                this.chekIfRequestSent() &&
                 !this.chekIfRequestApproved() && (
                   <Button type="dashed" block disabled className="join-button">
                     Cerere trimisa
                   </Button>
                 )}
-
+              
               {this.props.eventDetails.owner.Id !== this.userId &&
                 this.chekIfRequestSent() &&
                 this.chekIfRequestApproved() && (
