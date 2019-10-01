@@ -10,6 +10,7 @@ import LocalStorageHelper from '../../helpers/local-storage.helper';
 import { LocalStorage } from '../../contracts/enums/localStorage/local-storage';
 import AvatarHelper from '../../helpers/avatar.helper';
 import TokenProvider from '../../utilities/providers/token.provider';
+import { EventSportImage } from '../event-icon/event-sport-image.component';
 
 class EventCard extends Component<any, any> {
   private isForPreview = false;
@@ -24,7 +25,7 @@ class EventCard extends Component<any, any> {
   }
 
   async componentDidMount() {
-    let user = await TokenProvider.getUser();
+    const user = await TokenProvider.getUser();
     user ? (this.userId = user.userId) : (this.userId = '');
   }
 
@@ -33,7 +34,7 @@ class EventCard extends Component<any, any> {
       <div className="item-card event-card">
         <Row>
           <Col span={5}>
-            <div className="item-card-picture" />
+            <EventSportImage url={this.props.eventDetails.sport.ImagePath} />
           </Col>
           <Col span={19}>
             <div className="item-card-title">{this.props.eventDetails.event.Name}</div>
@@ -81,21 +82,20 @@ class EventCard extends Component<any, any> {
                 </Button>
               )}
 
-              {this.props.eventDetails.owner.Id !== this.userId &&
-                this.chekIfRequestSent() && (
-                  <Button
-                    type="primary"
-                    size="large"
-                    block
-                    disabled
-                    className="join-button"
-                    onClick={() => {
-                      this.joinEvent();
-                    }}
-                  >
-                    Cerere trimisa
-                  </Button>
-                )}
+              {this.props.eventDetails.owner.Id !== this.userId && this.chekIfRequestSent() && (
+                <Button
+                  type="primary"
+                  size="large"
+                  block
+                  disabled
+                  className="join-button"
+                  onClick={() => {
+                    this.joinEvent();
+                  }}
+                >
+                  Cerere trimisa
+                </Button>
+              )}
             </Col>
           </Row>
         )}
