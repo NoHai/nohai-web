@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { unReadNotification } from '../../redux/actions/notification.action';
 
 class PageHeader extends Component<any, any> {
-  state = { isMainPage: true };
+  state = { isMainPage: this.isMainPage() };
   public notification: any;
   public notificationRequest = new PaginationBaseRequestModel();
 
