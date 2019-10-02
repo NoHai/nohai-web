@@ -8,7 +8,6 @@ import { onError, ErrorResponse } from 'apollo-link-error';
 import MessageHelper from '../../helpers/message.helper';
 import HttpClient from '../../utilities/core/http-client';
 
-
 class GraphqlClientController {
   private static instance: GraphqlClientController;
   private readonly client: ApolloClient<any>;
@@ -89,13 +88,13 @@ class GraphqlClientController {
     });
 
     const errorLink = onError(({ graphQLErrors, networkError, operation, forward }: ErrorResponse) => {
-      if (graphQLErrors) {
-        graphQLErrors.map(({ message, }) => {
-          const error: any = JSON.parse(message);
-          this.handleGraphQlError(error);
+      // if (graphQLErrors) {
+      //   graphQLErrors.map(({ message, }) => {
+      //    if()
+      //     this.handleGraphQlError(error);
 
-        });
-      }
+      //   });
+      // }
 
       if (networkError && 'statusCode' in networkError) {
         if (networkError.statusCode === 401) {
@@ -122,6 +121,8 @@ class GraphqlClientController {
                 observer.error(err);
               });
           });
+        } else {
+          this.handleError(networkError.statusCode);
         }
       }
     });
@@ -165,8 +166,7 @@ class GraphqlClientController {
     });
   }
 
-  private handleGraphQlError(message: any) {
-    const status = message.status || null;
+  private handleError(status: number) {
     switch (status) {
       case 401:
         MessageHelper.showError('Unauthorized error');
