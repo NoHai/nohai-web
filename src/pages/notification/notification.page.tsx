@@ -16,6 +16,7 @@ import {
 import AppLoading from '../../components/app-loading/app-loading.component';
 import NoResults from '../../components/no-results/no-results.component';
 import { Row, Col } from 'antd';
+import { GetTokenNotification } from '../../business/services/push-notification.service';
 
 class NotificationPage extends Component {
   public notificationRequest = new PaginationBaseRequestModel();
@@ -24,6 +25,7 @@ class NotificationPage extends Component {
     notifications: new Array<NotificationModel>(),
     hasMoreItems: true,
     pageIndex: 0,
+    hasToken: true,
   };
 
   constructor(props: any) {
@@ -32,6 +34,7 @@ class NotificationPage extends Component {
   }
   async componentDidMount() {
     await this.getNotification();
+    await this.checkNotificationToken();
   }
   public render() {
     return (
@@ -50,6 +53,9 @@ class NotificationPage extends Component {
                   ></div>
                 </Col>
               </Row>
+              {!this.state.hasToken && (
+                <div>Notificarile tale sunt dezactivate, te rugam porneste notificarile</div>
+              )}
             </div>
             {this.state.notifications && this.state.notifications.length <= 0 && (
               <NoResults text="Nu ai nici o notificare" />
@@ -93,6 +99,12 @@ class NotificationPage extends Component {
         </div>
       </div>
     );
+  }
+  async checkNotificationToken() {
+    const tokenNotification = await GetTokenNotification(false);
+    this.setState({
+      hasToken: tokenNotification ? true : false,
+    });
   }
 
   private GenerateGradient(): string {

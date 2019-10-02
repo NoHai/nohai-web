@@ -32,7 +32,7 @@ class IntroLocation extends Component<any, any> {
                       this.allowNotification();
                     }}
                   >
-                    Proneste notificarile
+                    Porneste notificarile
                   </Button>
                 </div>
               </div>

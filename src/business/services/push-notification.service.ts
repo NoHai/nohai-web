@@ -41,6 +41,7 @@ export const GetTokenNotification = async (askForPermision: boolean = true) => {
       await messaging.requestPermission();
     }
     const token = await messaging.getToken();
+    console.log(token);
     return token;
   } catch {}
 };
