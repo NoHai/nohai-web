@@ -9,7 +9,7 @@ import EventDetailsPage from '../../event/details/event-details.page';
 import NotificationPage from '../../notification/notification.page';
 import CreateEventPage from '../../event/create-event/create-event.page';
 import UserProfilePage from '../../user/user-profile';
-import IntroLocation from '../../intro/intro-location/intro-notification.page';
+import IntroLocation from '../../intro/intro-notification/intro-notification.page';
 
 class WrapperPage extends Component {
   public render() {

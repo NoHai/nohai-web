@@ -42,8 +42,20 @@ class UserTokenNotificationRepositoryController implements IUserTokenNotificatio
     throw new Error('Method not implemented.');
   }
 
-  public Delete(data: any): Promise<ResultModel<boolean>> {
-    throw new Error('Method not implemented.');
+  public async Delete(id: any): Promise<ResultModel<boolean>> {
+    let notificationToken: any = { id: id };
+
+    const deleteNotificationTokenMutation = gql`
+      mutation deleteNotificationTokenMutation($id: String!) {
+        deleteNotificationToken(id: $id)
+      }
+    `;
+
+    const result: any = await GraphqlClient.mutate(
+      deleteNotificationTokenMutation,
+      notificationToken
+    );
+    return result;
   }
 
   Create(data: TokenNotificationModel): Promise<TokenNotificationModel> {

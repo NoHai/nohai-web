@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import history from '../../../utilities/core/history';
 import { Button } from 'antd';
 import './intro-notification.page.scss';
-import { askForPermissioToReceiveNotifications } from '../../../business/services/push-notification.service';
+import { GetTokenNotification } from '../../../business/services/push-notification.service';
 import { UserTokenNotificationService } from '../../../business/services/user-token-notification.service';
 import CreateEventHeaderComponent from '../../../components/create-event-header/create-event-header';
 
@@ -57,7 +57,7 @@ class IntroLocation extends Component<any, any> {
   }
 
   private async allowNotification() {
-    let notificationToken = await askForPermissioToReceiveNotifications();
+    let notificationToken = await GetTokenNotification();
     UserTokenNotificationService.CreateToken(notificationToken);
     history.push('/');
   }

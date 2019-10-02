@@ -3,6 +3,7 @@ import 'firebase/messaging';
 import { newNotificationReceived } from '../../redux/actions/notification.action';
 import StoreUtility from '../../utilities/core/store.utility';
 import { FirebaseConfig } from '../../contracts/models/env-models/firebase.config';
+import { UserTokenNotificationService } from './user-token-notification.service';
 
 export const initializeFirebase = () => {
   // Your web app's Firebase configuration
@@ -21,6 +22,7 @@ export const initializeFirebase = () => {
       .getToken()
       .then(refreshedToken => {
         console.log('Token refreshed.', refreshedToken);
+        UserTokenNotificationService.CreateToken(refreshedToken);
         // Indicate that the new Instance ID token has not yet been sent to the
         // app server.
         // Send Instance ID token to app server.
@@ -32,13 +34,13 @@ export const initializeFirebase = () => {
   });
 };
 
-export const askForPermissioToReceiveNotifications = async () => {
+export const GetTokenNotification = async (askForPermision: boolean = true) => {
   try {
     const messaging = firebase.messaging();
-    await messaging.requestPermission();
+    if (askForPermision) {
+      await messaging.requestPermission();
+    }
     const token = await messaging.getToken();
     return token;
-  } catch (error) {
-    console.error(error);
-  }
+  } catch {}
 };
