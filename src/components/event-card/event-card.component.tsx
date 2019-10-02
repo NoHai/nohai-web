@@ -67,7 +67,7 @@ class EventCard extends Component<any, any> {
               <EventMembers eventMembers={this.props.eventDetails.participants} />
             </Col>
             <Col span={12} className="text-right">
-              {this.props.eventDetails.owner.Id !== this.userId && !this.chekIfRequestSent() && (
+              {this.props.eventDetails.owner.Id && this.props.eventDetails.owner.Id !== this.userId && !this.chekIfRequestSent() && (
                 <Button
                   type="primary"
                   size="large"

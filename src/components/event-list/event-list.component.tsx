@@ -36,6 +36,7 @@ class EventList extends Component {
           next={this.getEvents}
           hasMore={this.state.hasMoreItems}
           loader={<AppLoading />}
+          hasChildren={true}
           scrollableTarget="scrollableDiv"
           scrollThreshold={0.9}
         >
