@@ -7,6 +7,8 @@ import { EventService } from '../../business/services';
 import { FindEventRequest } from '../../contracts/requests/find-event.request';
 import AppLoading from '../app-loading/app-loading.component';
 import NoResults from '../no-results/no-results.component';
+import AppInfiniteScroll from '../app-infinite-scroll/app-infinite-scroll.component';
+import LoadingHelper from '../../helpers/loading.helper';
 
 class EventList extends Component {
   public eventRequest = new FindEventRequest();
@@ -16,6 +18,7 @@ class EventList extends Component {
     eventDetails: new Array<EventDetailsViewModel>(),
     hasMoreItems: true,
     pageIndex: 0,
+    total: 0,
   };
 
   constructor(props: any) {
@@ -30,19 +33,21 @@ class EventList extends Component {
 
   render() {
     return (
-      <div id="scrollableDiv" className="full-height" style={{ overflow: 'auto' }}>
-        <InfiniteScroll
-          dataLength={13}
-          next={this.getEvents}
-          hasMore={this.state.hasMoreItems}
-          loader={<AppLoading />}
-          hasChildren={true}
-          scrollableTarget="scrollableDiv"
-          scrollThreshold={0.9}
-        >
-          {this.displayEvents()}
-        </InfiniteScroll>
-      </div>
+      <AppInfiniteScroll hasMore={this.state.hasMoreItems} next={this.getEvents}>
+        {this.displayEvents()}
+      </AppInfiniteScroll>
+
+      // <div id="scrollableDivTest" className="full-height" style={{ overflow: 'auto' }}>
+      //   <InfiniteScroll
+      //     dataLength={this.state.total}
+      //     next={this.getEvents}
+      //     hasMore={this.state.hasMoreItems}
+      //     loader={<div>loading</div>}
+      //     scrollableTarget="scrollableDivTest"
+      //   >
+      //     {this.displayEvents()}
+      //   </InfiniteScroll>
+      // </div>
     );
   }
 
@@ -60,20 +65,20 @@ class EventList extends Component {
   }
 
   private async getEvents() {
+    LoadingHelper.showLoading();
     this.eventRequest.pageIndex = this.state.pageIndex;
-    let result = await EventService.Find(this.eventRequest);
-    result.Data.forEach(element => {
-      this.eventDetilsContainer.push(element);
-    });
-    if (this.eventDetilsContainer.length >= result.Total) {
-      this.setState({
-        hasMoreItems: false,
-      });
-    }
+    const result = await EventService.Find(this.eventRequest);
+
+    this.eventDetilsContainer.push(...result.Data);
+
     this.setState({
+      hasMoreItems: this.eventDetilsContainer.length < result.Total,
       eventDetails: this.eventDetilsContainer,
       pageIndex: this.eventRequest.pageIndex + 1,
+      total: result.Total,
     });
+
+    LoadingHelper.hideLoading();
   }
 }
 
