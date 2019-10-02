@@ -17,9 +17,9 @@ class TokenProviderController {
   }
 
   public async saveToken(token: Token) {
-    const currentDate = new Date();
-    const calculatedDate = new Date(currentDate.getTime() + token.expireIn * 1000); // - seconds to milliseconds
-    token.expireDate = calculatedDate;
+    const currentDate = moment.now();
+    const calculatedDate = moment(currentDate).add(token.expireIn, 'seconds');
+    token.expireDate = calculatedDate.toDate();
     const tokenValue = JSON.stringify(token);
     await StorageProvider.remove(AuthKey.SessionId);
     await StorageProvider.set(AuthKey.SessionId, tokenValue);
@@ -58,9 +58,10 @@ class TokenProviderController {
   }
 
   private tokenIsNotExpired(token: Token): boolean {
-    const currentDate = new Date();
-    const calculatedDate = new Date(currentDate.getTime() - 2 * 60000); // - 2 minutes
-    return moment(token.expireDate).toDate() > calculatedDate;
+    const currentDate = moment.now();
+    const calculatedDate = moment(currentDate).subtract(10, 'seconds');
+    const expireDate = moment(token.expireDate).toDate();
+    return moment(expireDate).isAfter(calculatedDate);
   }
 
   private logout() {
@@ -70,9 +71,9 @@ class TokenProviderController {
 
   public parseToken(token: string): any {
     try {
-      let base64Url = token.split('.')[1];
-      let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      let jsonPayload = decodeURIComponent(
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(
         atob(base64)
           .split('')
           .map(c => {

@@ -1,7 +1,7 @@
 import TokenProvider from '../providers/token.provider';
 import { Token } from '../../contracts/models/auth';
 import { HttpMethod } from '../../contracts/enums/common';
-import AuthService from '../../business/services/auth.service';
+import { AuthEndpoint } from '../endpoints/auth.endpoint';
 
 class HttpClientController {
   private static instance: HttpClientController;
@@ -39,19 +39,38 @@ class HttpClientController {
   }
 
   public async checkToken(): Promise<boolean> {
-    let token = await TokenProvider.getToken();
+    const token = await TokenProvider.getToken();
 
     if (!TokenProvider.isTokenValid(token)) {
-      return await this.refreshToken(token);
+      const result = await this.refreshToken(token);
+      return result !== null;
     }
 
     return true;
   }
 
-  private async refreshToken(token: Token | null): Promise<boolean> {
+  public async refreshToken(token: Token | null): Promise<Token| null> {
     if (!!token) {
       try {
-        const result = await AuthService.refreshToken(token.refreshToken); // this.post(AuthEndpoint.Refresh, data, false);
+        const data = {refreshToken: token.refreshToken };
+        const result = await this.post(AuthEndpoint.Refresh, data, false);
+
+        if (!!result) {
+          await TokenProvider.saveToken(result);
+        }
+      } catch {
+        return null;
+      }
+    }
+
+    return null;
+  }
+
+  public async login(email: string, password: string): Promise<boolean> {
+    if (!!email && !!password) {
+      try {
+        const data = {login: email, password };
+        const result = await this.post(AuthEndpoint.Refresh, data, false);
 
         if (!!result) {
           await TokenProvider.saveToken(result);
@@ -85,11 +104,11 @@ class HttpClientController {
     return await fetch(url, {
       method: 'POST',
       headers: {
-        Accept: 'application/json',
+        'Accept': 'application/json',
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
+        'Authorization': `Bearer ${accessToken}`,
       },
-      body: body,
+      body,
     });
   }
 }

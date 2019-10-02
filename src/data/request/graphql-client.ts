@@ -1,13 +1,13 @@
 import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
-import { InMemoryCache, ApolloLink } from 'apollo-boost';
+import { InMemoryCache, ApolloLink, NextLink, Operation, Observable, FetchResult } from 'apollo-boost';
 import { setContext } from 'apollo-link-context';
 import TokenProvider from '../../utilities/providers/token.provider';
 import { AppConfig } from '../../contracts/models/env-models/app.config';
-import { onError } from 'apollo-link-error';
+import { onError, ErrorResponse } from 'apollo-link-error';
 import MessageHelper from '../../helpers/message.helper';
-import AuthService from '../../business/services/auth.service';
-import { Token } from '../../contracts/models/auth';
+import HttpClient from '../../utilities/core/http-client';
+
 
 class GraphqlClientController {
   private static instance: GraphqlClientController;
@@ -45,21 +45,22 @@ class GraphqlClientController {
   public async query<T>(query: any) {
     try {
       const response: any = await this.client.query({
-        query: query,
+        query,
       });
 
       const result: T = response.data;
       return result;
     } catch (e) {
       console.log(e);
+
     }
   }
 
   public async queryWithVariables<T>(query: any, variables: any) {
     try {
       const response: any = await this.client.query({
-        query: query,
-        variables: variables,
+        query,
+        variables,
       });
       const result: T = response.data;
       return result;
@@ -87,16 +88,42 @@ class GraphqlClientController {
       uri,
     });
 
-    const errorLink = onError(({ graphQLErrors, networkError }) => {
-      if (graphQLErrors)
-        graphQLErrors.map(({ message }) => {
-          const formattedMessage = message
-            .replace('Unexpected error value: ', '')
-            .replace(/(^")|("$)/g, '');
-          MessageHelper.showError(formattedMessage);
-        });
+    const errorLink = onError(({ graphQLErrors, networkError, operation, forward }: ErrorResponse) => {
+      if (graphQLErrors) {
+        graphQLErrors.map(({ message, }) => {
+          const error: any = JSON.parse(message);
+          this.handleGraphQlError(error);
 
-      if (networkError) MessageHelper.showError(networkError.message);
+        });
+      }
+
+      if (networkError && 'statusCode' in networkError) {
+        if (networkError.statusCode === 401) {
+          return new Observable(observer => {
+            this.checkToken()
+              .then(refreshResponse => {
+                const headers = operation.getContext().headers;
+                operation.setContext({
+                  headers: {
+                    ...headers,
+                    authorization: refreshResponse !== null ? `Bearer ${refreshResponse.accessToken}` : '',
+                  },
+                });
+              })
+              .then(() => {
+                const subscriber = {
+                  next: observer.next.bind(observer),
+                  error: observer.error.bind(observer),
+                  complete: observer.complete.bind(observer)
+                };
+                forward(operation).subscribe(subscriber);
+              }).catch(err => {
+                TokenProvider.removeToken();
+                observer.error(err);
+              });
+          });
+        }
+      }
     });
 
     const authMiddleware = setContext(async (req, { headers }) => {
@@ -112,31 +139,55 @@ class GraphqlClientController {
     return ApolloLink.from([authMiddleware, errorLink, httpLink]);
   }
 
-  private async checkToken(): Promise<Token | null> {
-    let token = await TokenProvider.getToken();
-
-    if (!TokenProvider.isTokenValid(token)) {
-      return await this.refreshToken(token);
-    }
-
-    return token;
+  private async retryWithRefresh(operation: Operation, forward: NextLink) {
+    return new Observable(observer => {
+      this.checkToken()
+        .then(refreshResponse => {
+          const headers = operation.getContext().headers;
+          operation.setContext({
+            headers: {
+              ...headers,
+              authorization: refreshResponse !== null ? `Bearer ${refreshResponse.accessToken}` : '',
+            },
+          });
+        })
+        .then(() => {
+          const subscriber = {
+            next: observer.next.bind(observer),
+            error: observer.error.bind(observer),
+            complete: observer.complete.bind(observer)
+          };
+          forward(operation).subscribe(subscriber);
+        }).catch(err => {
+          TokenProvider.removeToken();
+          observer.error(err);
+        });
+    });
   }
 
-  private async refreshToken(token: Token | null): Promise<Token | null> {
-    if (!!token) {
-      try {
-        const result = await AuthService.refreshToken(token.refreshToken);
-
-        if (!!result) {
-          await TokenProvider.saveToken(result);
-          return result;
-        }
-      } catch {
-        return null;
-      }
+  private handleGraphQlError(message: any) {
+    const status = message.status || null;
+    switch (status) {
+      case 401:
+        MessageHelper.showError('Unauthorized error');
+        break;
+      case 500:
+        MessageHelper.showError('Server error');
+        break;
+      default:
+        MessageHelper.showError('Ooops ceva s-a intamplat!');
+        break;
     }
+  }
 
-    return null;
+  private async checkToken() {
+    const token = await TokenProvider.getToken();
+
+    if (!TokenProvider.isTokenValid(token)) {
+      return await HttpClient.refreshToken(token);
+    } else {
+      return token;
+    }
   }
 }
 

@@ -12,7 +12,7 @@ import { Token } from '../../contracts/models/auth';
 class AuthServiceController {
   private static instance: AuthServiceController;
 
-  private constructor() {}
+  private constructor() { }
 
   static getInstance() {
     if (!AuthServiceController.instance) {
@@ -66,7 +66,7 @@ class AuthServiceController {
   }
 
   public async isCompleted(): Promise<boolean> {
-    let user = await UserService.Get();
+    const user = await UserService.Get();
     return user.details.Height ? true : false;
   }
 }
