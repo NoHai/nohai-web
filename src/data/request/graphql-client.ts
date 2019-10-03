@@ -1,12 +1,11 @@
 import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
-import { InMemoryCache, ApolloLink, NextLink, Operation, Observable, FetchResult } from 'apollo-boost';
+import { InMemoryCache, ApolloLink, Observable } from 'apollo-boost';
 import { setContext } from 'apollo-link-context';
 import TokenProvider from '../../utilities/providers/token.provider';
 import { AppConfig } from '../../contracts/models/env-models/app.config';
 import { onError, ErrorResponse } from 'apollo-link-error';
 import MessageHelper from '../../helpers/message.helper';
-import HttpClient from '../../utilities/core/http-client';
 
 class GraphqlClientController {
   private static instance: GraphqlClientController;
@@ -88,18 +87,16 @@ class GraphqlClientController {
     });
 
     const errorLink = onError(({ graphQLErrors, networkError, operation, forward }: ErrorResponse) => {
-      // if (graphQLErrors) {
-      //   graphQLErrors.map(({ message, }) => {
-      //    if()
-      //     this.handleGraphQlError(error);
-
-      //   });
-      // }
+      if (graphQLErrors && networkError === undefined) {
+        graphQLErrors.map(({ message, }) => {
+          return MessageHelper.showError(message);
+        });
+      }
 
       if (networkError && 'statusCode' in networkError) {
         if (networkError.statusCode === 401) {
           return new Observable(observer => {
-            this.checkToken()
+            TokenProvider.fetchToken()
               .then(refreshResponse => {
                 const headers = operation.getContext().headers;
                 operation.setContext({
@@ -127,8 +124,8 @@ class GraphqlClientController {
       }
     });
 
-    const authMiddleware = setContext(async (req, { headers }) => {
-      const token = await this.checkToken();
+    const authMiddleware = setContext(async (_, { headers }) => {
+      const token = await TokenProvider.fetchToken();
       return {
         headers: {
           ...headers,
@@ -138,32 +135,6 @@ class GraphqlClientController {
     });
 
     return ApolloLink.from([authMiddleware, errorLink, httpLink]);
-  }
-
-  private async retryWithRefresh(operation: Operation, forward: NextLink) {
-    return new Observable(observer => {
-      this.checkToken()
-        .then(refreshResponse => {
-          const headers = operation.getContext().headers;
-          operation.setContext({
-            headers: {
-              ...headers,
-              authorization: refreshResponse !== null ? `Bearer ${refreshResponse.accessToken}` : '',
-            },
-          });
-        })
-        .then(() => {
-          const subscriber = {
-            next: observer.next.bind(observer),
-            error: observer.error.bind(observer),
-            complete: observer.complete.bind(observer)
-          };
-          forward(operation).subscribe(subscriber);
-        }).catch(err => {
-          TokenProvider.removeToken();
-          observer.error(err);
-        });
-    });
   }
 
   private handleError(status: number) {
@@ -180,15 +151,6 @@ class GraphqlClientController {
     }
   }
 
-  private async checkToken() {
-    const token = await TokenProvider.getToken();
-
-    if (!TokenProvider.isTokenValid(token)) {
-      return await HttpClient.refreshToken(token);
-    } else {
-      return token;
-    }
-  }
 }
 
 const GraphqlClient: GraphqlClientController = GraphqlClientController.getInstance();
