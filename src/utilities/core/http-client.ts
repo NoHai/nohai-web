@@ -6,7 +6,7 @@ import { AuthEndpoint } from '../endpoints/auth.endpoint';
 class HttpClientController {
   private static instance: HttpClientController;
 
-  private constructor() {}
+  private constructor() { }
 
   static getInstance() {
     if (!HttpClientController.instance) {
@@ -27,14 +27,17 @@ class HttpClientController {
   }
 
   public async post(url: string, data?: any, checkToken: boolean = true) {
-    checkToken && (await this.checkToken());
-    const accessToken = await this.getAccessToken();
-    const result = await this.doFetch(HttpMethod.Post, url, accessToken, data);
-
-    if (result.ok) {
-      return await result.json();
+    let response: Response;
+    if (checkToken && (await this.checkToken())) {
+      const accessToken = await this.getAccessToken();
+      response = await this.doFetch(HttpMethod.Post, url, accessToken, data);
+    } else {
+      response = await this.doFetch(HttpMethod.Post, url, '', data);
     }
 
+    if (response.ok) {
+      return await response.json();
+    }
     return null;
   }
 
@@ -49,27 +52,29 @@ class HttpClientController {
     return true;
   }
 
-  public async refreshToken(token: Token | null): Promise<Token| null> {
+  public async refreshToken(token: Token | null): Promise<Token | null> {
     if (!!token) {
       try {
-        const data = {refreshToken: token.refreshToken };
-        const result = await this.post(AuthEndpoint.Refresh, data, false);
-
-        if (!!result) {
-          await TokenProvider.saveToken(result);
-        }
+        const data = { refreshToken: token.refreshToken };
+        await this.post(AuthEndpoint.Refresh, data, false)
+          .then(async response => {
+            if (response.ok) {
+              const refreshedToken = await response.json();
+              await TokenProvider.saveToken(refreshedToken);
+              return refreshedToken;
+            }
+          });
       } catch {
         return null;
       }
     }
-
     return null;
   }
 
   public async login(email: string, password: string): Promise<boolean> {
     if (!!email && !!password) {
       try {
-        const data = {login: email, password };
+        const data = { login: email, password };
         const result = await this.post(AuthEndpoint.Refresh, data, false);
 
         if (!!result) {

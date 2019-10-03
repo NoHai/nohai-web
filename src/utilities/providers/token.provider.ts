@@ -2,6 +2,7 @@ import StorageProvider from './storage.provider';
 import { Token } from '../../contracts/models/auth';
 import { AuthKey } from '../../contracts/enums/common';
 import moment from 'moment';
+import HttpClient from '../core/http-client';
 
 class TokenProviderController {
   private static instance: TokenProviderController;
@@ -59,7 +60,7 @@ class TokenProviderController {
 
   private tokenIsNotExpired(token: Token): boolean {
     const currentDate = moment.now();
-    const calculatedDate = moment(currentDate).subtract(10, 'seconds');
+    const calculatedDate = moment(currentDate).add(10, 'seconds');
     const expireDate = moment(token.expireDate).toDate();
     return moment(expireDate).isAfter(calculatedDate);
   }
@@ -85,6 +86,16 @@ class TokenProviderController {
       return JSON.parse(jsonPayload);
     } catch {
       return null;
+    }
+  }
+
+  public async fetchToken() {
+    const token = await TokenProvider.getToken();
+
+    if (!TokenProvider.isTokenValid(token)) {
+      return await HttpClient.refreshToken(token);
+    } else {
+      return token;
     }
   }
 }
