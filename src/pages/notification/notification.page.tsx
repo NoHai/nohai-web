@@ -6,17 +6,16 @@ import history from '../../utilities/core/history';
 import { NotificationService } from '../../business/services/notification.service';
 import { NotificationModel } from '../../contracts/models/notification.model';
 import { EventService } from '../../business/services';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { PaginationBaseRequestModel } from '../../contracts/requests/pagination.base.model.request';
 import StoreUtility from '../../utilities/core/store.utility';
 import {
   unReadNotification,
   newNotificationReceived,
 } from '../../redux/actions/notification.action';
-import AppLoading from '../../components/app-loading/app-loading.component';
 import NoResults from '../../components/no-results/no-results.component';
 import { Row, Col } from 'antd';
 import { GetTokenNotification } from '../../business/services/push-notification.service';
+import AppInfiniteScroll from '../../components/app-infinite-scroll/app-infinite-scroll.component';
 
 class NotificationPage extends Component {
   public notificationRequest = new PaginationBaseRequestModel();
@@ -57,44 +56,11 @@ class NotificationPage extends Component {
                 <div>Notificarile tale sunt dezactivate, te rugam porneste notificarile</div>
               )}
             </div>
-            {this.state.notifications && this.state.notifications.length <= 0 && (
-              <NoResults text="Nu ai nici o notificare" />
-            )}
           </div>
-
           <div className="page-section page-section-large">
-            <div id="scrollableDiv" className="full-height" style={{ overflow: 'auto' }}>
-              <InfiniteScroll
-                dataLength={13}
-                next={this.getNotification}
-                hasMore={this.state.hasMoreItems}
-                loader={<AppLoading />}
-                scrollableTarget="scrollableDiv"
-                scrollThreshold={0.9}
-              >
-                {this.state.notifications &&
-                  this.state.notifications.map(notification => (
-                    <div
-                      key={notification.Id}
-                      className="event-list-item"
-                      style={{ backgroundImage: this.GenerateGradient() }}
-                    >
-                      <NotificationCard
-                        id={notification.Id}
-                        title={notification.Title}
-                        body={notification.Body}
-                        eventId={notification.EventId}
-                        avatarUrl={notification.AvatarUrl}
-                        actionType={notification.NotificationType}
-                        status={notification.Status}
-                        onButtonClick={(action, eventId, args) =>
-                          this.onButtonClickHandler(action, eventId, args)
-                        }
-                      />
-                    </div>
-                  ))}
-              </InfiniteScroll>
-            </div>
+            <AppInfiniteScroll hasMore={this.state.hasMoreItems} next={this.getNotification}>
+              {this.displayNotification()}
+            </AppInfiniteScroll>
           </div>
         </div>
       </div>
@@ -107,6 +73,33 @@ class NotificationPage extends Component {
     });
   }
 
+  displayNotification() {
+    return this.state.notifications && this.state.notifications.length > 0 ? (
+      this.state.notifications.map(notification => (
+        <div
+          key={notification.Id}
+          className="event-list-item"
+          style={{ backgroundImage: this.GenerateGradient() }}
+        >
+          <NotificationCard
+            id={notification.Id}
+            title={notification.Title}
+            body={notification.Body}
+            eventId={notification.EventId}
+            avatarUrl={notification.AvatarUrl}
+            actionType={notification.NotificationType}
+            status={notification.Status}
+            onButtonClick={(action, eventId, args) =>
+              this.onButtonClickHandler(action, eventId, args)
+            }
+          />
+        </div>
+      ))
+    ) : (
+      <NoResults text="Nu ai nici o notificare" />
+    );
+  }
+
   private GenerateGradient(): string {
     const intR = Math.floor(Math.random() * 255) + 1;
     const intG = Math.floor(Math.random() * 255) + 1;
@@ -117,9 +110,8 @@ class NotificationPage extends Component {
   private async getNotification() {
     this.notificationRequest.pageIndex = this.state.pageIndex;
     let result = await NotificationService.Find(this.notificationRequest);
-    result.Data.forEach(element => {
-      this.norificationContainer.push(element);
-    });
+
+    this.norificationContainer.push(...result.Data);
 
     if (this.norificationContainer.length >= result.Total) {
       this.setState({
