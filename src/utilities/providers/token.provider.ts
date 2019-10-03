@@ -7,7 +7,7 @@ import HttpClient from '../core/http-client';
 class TokenProviderController {
   private static instance: TokenProviderController;
 
-  private constructor() {}
+  private constructor() { }
 
   static getInstance() {
     if (!TokenProviderController.instance) {
@@ -92,7 +92,7 @@ class TokenProviderController {
   public async fetchToken() {
     const token = await TokenProvider.getToken();
 
-    if (!TokenProvider.isTokenValid(token)) {
+    if (!!token && TokenProvider.isTokenValid(token) === false) {
       return await HttpClient.refreshToken(token);
     } else {
       return token;
