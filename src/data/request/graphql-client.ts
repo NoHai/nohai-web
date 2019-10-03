@@ -125,13 +125,15 @@ class GraphqlClientController {
     });
 
     const authMiddleware = setContext(async (_, { headers }) => {
-      const token = await TokenProvider.fetchToken();
-      return {
-        headers: {
-          ...headers,
-          authorization: token !== null ? `Bearer ${token.accessToken}` : '',
-        },
-      };
+       await TokenProvider.fetchToken().then( token => {
+        return {
+          headers: {
+            ...headers,
+            authorization: token !== null ? `Bearer ${token.accessToken}` : '',
+          },
+        };
+       }
+       );
     });
 
     return ApolloLink.from([authMiddleware, errorLink, httpLink]);

@@ -44,7 +44,7 @@ class HttpClientController {
   public async checkToken(): Promise<boolean> {
     const token = await TokenProvider.getToken();
 
-    if (!TokenProvider.isTokenValid(token)) {
+    if (!!token && TokenProvider.isTokenValid(token) === false) {
       const result = await this.refreshToken(token);
       return result !== null;
     }
@@ -59,7 +59,7 @@ class HttpClientController {
         await this.post(AuthEndpoint.Refresh, data, false)
           .then(async response => {
             if (response.ok) {
-              const refreshedToken = await response.json();
+              const refreshedToken: Token = await response.json();
               await TokenProvider.saveToken(refreshedToken);
               return refreshedToken;
             }
