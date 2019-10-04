@@ -14,6 +14,7 @@ class CommonRepositoryController implements ICommonRepository {
           name
           description
           defaultParticipantsNumber
+          imagePath
         }
       }
     `;

@@ -106,6 +106,7 @@ class DescriptionEventPage extends Component<any, any> {
             />
             <label>Ora Evenimentului</label>
             <TimePicker
+              inputReadOnly
               format={format}
               onChange={(time, timeString) => this.onTimeChange(time, timeString)}
               placeholder={this.state.eventDetails.description.Time || ''}

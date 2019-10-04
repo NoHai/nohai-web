@@ -85,6 +85,7 @@ export default class MapModelHelper {
       result.Description = model.description;
       result.Name = model.name;
       result.ParticipantNumber = model.participantNumber;
+      result.ImagePath = model.imagePath;
     }
     return result;
   }
