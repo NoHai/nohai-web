@@ -2,6 +2,7 @@ import TokenProvider from '../providers/token.provider';
 import { Token } from '../../contracts/models/auth';
 import { HttpMethod } from '../../contracts/enums/common';
 import { AuthEndpoint } from '../endpoints/auth.endpoint';
+import GraphqlClient from '../../data/request/graphql-client';
 
 class HttpClientController {
   private static instance: HttpClientController;
@@ -42,29 +43,25 @@ class HttpClientController {
   }
 
   public async checkToken(): Promise<boolean> {
-    const token = await TokenProvider.getToken();
+    let token = await TokenProvider.getToken();
 
-    if (!!token && TokenProvider.isTokenValid(token) === false) {
-      const result = await this.refreshToken(token);
-      return result !== null;
+    if (!!token) {
+      if (TokenProvider.tokenIsNotExpired(token) === false) {
+        token = await this.refreshToken(token);
+      }
     }
 
-    return true;
+    return token !== null;
   }
 
   public async refreshToken(token: Token | null): Promise<Token | null> {
     if (!!token) {
       try {
         const data = { refreshToken: token.refreshToken };
-        await this.post(AuthEndpoint.Refresh, data, false)
-          .then(async response => {
-            if (response.ok) {
-              const refreshedToken: Token = await response.json();
-              await TokenProvider.saveToken(refreshedToken);
-              return refreshedToken;
-            }
-          });
-      } catch {
+        const response: Token = await this.post(AuthEndpoint.Refresh, data, false);
+        await TokenProvider.saveToken(response);
+        return response;
+      } catch (err) {
         return null;
       }
     }
