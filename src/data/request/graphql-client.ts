@@ -9,12 +9,16 @@ import MessageHelper from '../../helpers/message.helper';
 
 class GraphqlClientController {
   private static instance: GraphqlClientController;
-  private readonly client: ApolloClient<any>;
+  private  client: ApolloClient<any>;
 
   private constructor() {
+    this.client = this.buildClient();
+  }
+
+  public buildClient() {
     const appConfig = new AppConfig();
     const apiLink = `${appConfig.nohaiAppUrl}/graphql`;
-    this.client = new ApolloClient({
+    const apolloClient = new ApolloClient({
       link: this.getAppoloLink(apiLink),
       cache: new InMemoryCache(),
       defaultOptions: {
@@ -30,6 +34,8 @@ class GraphqlClientController {
         },
       },
     });
+
+    return apolloClient;
   }
 
   static getInstance() {
@@ -114,7 +120,6 @@ class GraphqlClientController {
                 };
                 forward(operation).subscribe(subscriber);
               }).catch(err => {
-                TokenProvider.removeToken();
                 observer.error(err);
               });
           });
@@ -125,15 +130,13 @@ class GraphqlClientController {
     });
 
     const authMiddleware = setContext(async (_, { headers }) => {
-       await TokenProvider.fetchToken().then( token => {
-        return {
-          headers: {
-            ...headers,
-            authorization: token !== null ? `Bearer ${token.accessToken}` : '',
-          },
-        };
-       }
-       );
+      const token = await TokenProvider.fetchToken();
+      return {
+        headers: {
+          ...headers,
+          authorization: token !== null ? `Bearer ${token.accessToken}` : '',
+        },
+      };
     });
 
     return ApolloLink.from([authMiddleware, errorLink, httpLink]);

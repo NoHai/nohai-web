@@ -12,13 +12,14 @@ class EventRepositoryController implements IEventRepository {
                 items {
                     id
                     owner{
-                        id 
-                        firstName 
+                        id
+                        firstName
                         lastName
                         picture
                     }
                     title
                     description
+                    numberOfParticipants
                     address{
                         streetName
                         city
@@ -60,6 +61,7 @@ class EventRepositoryController implements IEventRepository {
             }
             title
             description
+            numberOfParticipants
             address {
               streetName
               longitude
