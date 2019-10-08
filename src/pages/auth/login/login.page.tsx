@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { Button, Row, Col } from 'antd';
 import history from '../../../utilities/core/history';
 import { initialAuthState } from '../../../redux/reducers/auth.reducer';
-import { login } from './../../../redux/actions/auth.action';
+import { login, checkLogin } from './../../../redux/actions/auth.action';
 import AuthService from '../../../business/services/auth.service';
 import FacebookLogin from 'react-facebook-login';
 import { AppConfig } from '../../../contracts/models/env-models/app.config';
@@ -22,6 +22,7 @@ class LoginPage extends Component<any, any> {
   async responseFacebook(response: any) {
     if (response && response.email && response.name) {
       await AuthService.loginWithFb(response.email, response.name);
+      this.props.checkLogin();
       this.navigateToEvents();
     }
   }
@@ -155,6 +156,7 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = {
   login,
+  checkLogin,
 };
 
 export default connect(
