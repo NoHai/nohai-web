@@ -20,6 +20,7 @@ class EventCard extends Component<any, any> {
 
     this.state = {
       eventDetails: this.props.eventDetails,
+      requestSent: false,
     };
     this.isForPreview = window.location.pathname === '/preview';
   }
@@ -67,24 +68,26 @@ class EventCard extends Component<any, any> {
               <EventMembers eventMembers={this.props.eventDetails.participants} />
             </Col>
             <Col span={12} className="text-right">
-              {this.props.eventDetails.owner.Id && this.props.eventDetails.owner.Id !== this.userId && !this.chekIfRequestSent() && (
-                <Button
-                  type="primary"
-                  size="large"
-                  block
-                  className="join-button"
-                  onClick={() => {
-                    this.joinEvent();
-                  }}
-                >
-                  <span className="icon mdi mdi-hand" />
-                  Vreau si eu
-                </Button>
-              )}
+              {this.props.eventDetails.owner.Id &&
+                this.props.eventDetails.owner.Id !== this.userId &&
+                !this.chekIfRequestSent() &&
+                !this.state.requestSent && (
+                  <Button
+                    type="primary"
+                    size="large"
+                    block
+                    className="join-button"
+                    onClick={() => {
+                      this.joinEvent();
+                    }}
+                  >
+                    <span className="icon mdi mdi-hand" />
+                    Vreau si eu
+                  </Button>
+                )}
 
               {this.props.eventDetails.owner.Id !== this.userId &&
-                this.chekIfRequestSent() &&
-                this.chekIfRequestSent() &&
+                (this.chekIfRequestSent() || this.state.requestSent) &&
                 !this.chekIfRequestApproved() && (
                   <Button type="dashed" block disabled className="join-button">
                     Cerere trimisa
@@ -155,10 +158,9 @@ class EventCard extends Component<any, any> {
 
   private async joinEvent() {
     const id = await EventService.Join(this.props.eventDetails.event.Id);
-    if (id) {
-      LocalStorageHelper.DeleteItemFromLocalStorage(LocalStorage.CreateEvent);
-      history.push('/');
-    }
+    this.setState({
+      requestSent: true,
+    });
   }
 }
 
