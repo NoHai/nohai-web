@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import './search-events.page.scss';
+import './history-events.page.scss';
 import EventList from '../../../components/event-list/event-list.component';
-import { FindEventRequest } from '../../../contracts/requests/find-event.request';
-import { EventDetailsViewModel } from '../../../contracts/models';
 import LoadingHelper from '../../../helpers/loading.helper';
 import { EventService } from '../../../business/services';
+import { FindEventRequest } from '../../../contracts/requests/find-event.request';
+import { EventDetailsViewModel } from '../../../contracts/models';
 
-class SearchEventsPage extends Component {
+class HistoryEventsPage extends Component {
   public eventRequest = new FindEventRequest();
   public eventDetilsContainer = new Array<EventDetailsViewModel>();
 
@@ -17,23 +17,20 @@ class SearchEventsPage extends Component {
     total: 0,
   };
 
-  constructor(props: any) {
+  constructor(props:any) {
     super(props);
-    this.eventRequest.showHistory = false;
+    this.eventRequest.showHistory=true;
   }
 
   async componentDidMount() {
     await this.getEvents();
   }
 
+
   public render() {
     return (
       <div className="full-height">
-        <EventList
-          eventDetails={this.state.eventDetails}
-          hasMoreItems={this.state.hasMoreItems}
-          onEventsDetailsChange={() => this.getEvents()}
-        />
+        <EventList eventDetails={this.state.eventDetails} hasMoreItems={this.state.hasMoreItems} onEventsDetailsChange={() =>this.getEvents()}  />
       </div>
     );
   }
@@ -56,4 +53,4 @@ class SearchEventsPage extends Component {
   }
 }
 
-export default SearchEventsPage;
+export default HistoryEventsPage;

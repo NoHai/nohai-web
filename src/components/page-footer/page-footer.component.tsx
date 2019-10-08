@@ -27,7 +27,12 @@ class PageFooter extends Component {
             />
           </Col>
           <Col span={8} className="text-center">
-            <div className="icon mdi mdi-history" />
+            <div
+              className="icon mdi mdi-history"
+              onClick={() => {
+                this.NavigateToHistoryEvents();
+              }}
+            />
           </Col>
         </Row>
       </div>
@@ -40,6 +45,10 @@ class PageFooter extends Component {
   }
   private NavigateToEvents() {
     history.push('/');
+  }
+
+  private NavigateToHistoryEvents() {
+    history.push('/events-history');
   }
 }
 

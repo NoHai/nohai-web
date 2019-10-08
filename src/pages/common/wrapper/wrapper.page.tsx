@@ -10,6 +10,7 @@ import NotificationPage from '../../notification/notification.page';
 import CreateEventPage from '../../event/create-event/create-event.page';
 import UserProfilePage from '../../user/user-profile';
 import IntroLocation from '../../intro/intro-notification/intro-notification.page';
+import HistoryEventsPage from '../../event/history-event/history-events.page';
 
 class WrapperPage extends Component {
   public render() {
@@ -27,6 +28,7 @@ class WrapperPage extends Component {
             <Route path="/create-event" component={CreateEventPage} />
             <Route path="/profile" component={UserProfilePage} />
             <Route path="/step-four" component={IntroLocation} />
+            <Route path="/events-history" component={HistoryEventsPage} />
             <Route component={PageNotFound} />
           </Switch>
         </div>
