@@ -53,9 +53,8 @@ class AuthRepositoryController {
   public async loginwithFb(model: UserModel): Promise<Token> {
     let input: any = {
       credentials: {
-        login: model.Email,
-        firstName: model.FirstName,
-        lastName: model.LastName,
+        accessToken: model.AccesToken,
+        userId: model.Id,
       },
     };
 

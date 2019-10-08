@@ -21,7 +21,7 @@ class LoginPage extends Component<any, any> {
 
   async responseFacebook(response: any) {
     if (response && response.email && response.name) {
-      await AuthService.loginWithFb(response.email, response.name);
+      await AuthService.loginWithFb(response.accessToken, response.userID);
       this.props.checkLogin();
       this.navigateToEvents();
     }
