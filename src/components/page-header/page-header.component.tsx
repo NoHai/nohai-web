@@ -13,10 +13,16 @@ class PageHeader extends Component<any, any> {
   public notification: any;
   public notificationRequest = new PaginationBaseRequestModel();
 
+  private unlisten: any;
+
   async componentDidMount(): Promise<any> {
     this.notification = await NotificationService.Find(this.notificationRequest);
     this.props.unReadNotification(this.notification.CustomTotal);
     this.historyListen();
+  }
+
+  componentWillUnmount() {
+    this.unlisten();
   }
 
   render(): any {
@@ -36,7 +42,7 @@ class PageHeader extends Component<any, any> {
   }
 
   private historyListen(): void {
-    history.listen(() => {
+    this.unlisten = history.listen(() => {
       this.setState({ isMainPage: this.isMainPage() });
     });
   }
