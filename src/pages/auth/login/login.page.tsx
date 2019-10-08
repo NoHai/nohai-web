@@ -20,16 +20,14 @@ class LoginPage extends Component<any, any> {
   }
 
   async responseFacebook(response: any) {
-    if (response && response.status === 'connected') {
+    if (response && response.email && response.name) {
       await AuthService.loginWithFb(response.email, response.name);
       this.navigateToEvents();
     }
   }
 
-  componentClicked = () => console.log('Clicked');
-
   public render() {
-    let fbContent = this.getFacebookButton();
+    const fbContent = this.getFacebookButton();
 
     return (
       <div className="auth-page">
@@ -121,7 +119,6 @@ class LoginPage extends Component<any, any> {
           appId={this.AppConfig.facebookAppId || ''}
           autoLoad={false}
           fields="name,email,picture"
-          onClick={e => this.componentClicked}
           callback={e => this.responseFacebook(e)}
           cssClass="facebook"
           icon="icon mdi mdi-facebook"
