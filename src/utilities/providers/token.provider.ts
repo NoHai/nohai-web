@@ -2,11 +2,12 @@ import StorageProvider from './storage.provider';
 import { Token } from '../../contracts/models/auth';
 import { AuthKey } from '../../contracts/enums/common';
 import moment from 'moment';
+import HttpClient from '../core/http-client';
 
 class TokenProviderController {
   private static instance: TokenProviderController;
 
-  private constructor() {}
+  private constructor() { }
 
   static getInstance() {
     if (!TokenProviderController.instance) {
@@ -18,7 +19,7 @@ class TokenProviderController {
 
   public async saveToken(token: Token) {
     const currentDate = moment.now();
-    const calculatedDate = moment(currentDate).add(token.expireIn, 'seconds');
+    const calculatedDate = moment(currentDate).add(token.expireIn - 30, 'seconds');
     token.expireDate = calculatedDate.toDate();
     const tokenValue = JSON.stringify(token);
     await StorageProvider.remove(AuthKey.SessionId);
@@ -33,7 +34,7 @@ class TokenProviderController {
         return token;
       }
     } catch {
-      this.logout();
+      await this.logout();
     }
 
     return null;
@@ -57,15 +58,15 @@ class TokenProviderController {
     return !!token ? this.parseToken(token.accessToken) : null;
   }
 
-  private tokenIsNotExpired(token: Token): boolean {
+  public tokenIsNotExpired(token: Token): boolean {
     const currentDate = moment.now();
-    const calculatedDate = moment(currentDate).subtract(10, 'seconds');
+    const calculatedDate = moment(currentDate).subtract(30, 'seconds');
     const expireDate = moment(token.expireDate).toDate();
     return moment(expireDate).isAfter(calculatedDate);
   }
 
-  private logout() {
-    this.removeToken();
+  private async  logout() {
+    await this.removeToken();
     window.location.reload();
   }
 
@@ -84,6 +85,26 @@ class TokenProviderController {
 
       return JSON.parse(jsonPayload);
     } catch {
+      return null;
+    }
+  }
+
+  public async fetchToken() {
+    try {
+      const token = await TokenProvider.getToken();
+
+      if (token) {
+        if (this.tokenIsNotExpired(token) === false) {
+          const refreshToken = await HttpClient.refreshToken(token);
+          return refreshToken;
+        } else {
+          return token;
+        }
+      } else {
+        return token;
+      }
+    } catch (err) {
+      await this.logout();
       return null;
     }
   }

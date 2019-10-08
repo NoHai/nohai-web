@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import './event-list.component.scss';
 import EventListItem from '../event-list-item/event-list-item.component';
 import { EventDetailsViewModel } from '../../contracts/models';
 import { EventService } from '../../business/services';
 import { FindEventRequest } from '../../contracts/requests/find-event.request';
-import AppLoading from '../app-loading/app-loading.component';
 import NoResults from '../no-results/no-results.component';
 import AppInfiniteScroll from '../app-infinite-scroll/app-infinite-scroll.component';
 import LoadingHelper from '../../helpers/loading.helper';
