@@ -157,7 +157,7 @@ class EventCard extends Component<any, any> {
   }
 
   private async joinEvent() {
-    const id = await EventService.Join(this.props.eventDetails.event.Id);
+    await EventService.Join(this.props.eventDetails.event.Id);
     this.setState({
       requestSent: true,
     });

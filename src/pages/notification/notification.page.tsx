@@ -16,6 +16,7 @@ import NoResults from '../../components/no-results/no-results.component';
 import { Row, Col } from 'antd';
 import { GetTokenNotification } from '../../business/services/push-notification.service';
 import AppInfiniteScroll from '../../components/app-infinite-scroll/app-infinite-scroll.component';
+import LoadingHelper from '../../helpers/loading.helper';
 
 class NotificationPage extends Component {
   public notificationRequest = new PaginationBaseRequestModel();
@@ -108,6 +109,7 @@ class NotificationPage extends Component {
   }
 
   private async getNotification() {
+    LoadingHelper.showLoading();
     this.notificationRequest.pageIndex = this.state.pageIndex;
     let result = await NotificationService.Find(this.notificationRequest);
 
@@ -120,6 +122,7 @@ class NotificationPage extends Component {
     }
 
     await this.SetNotification();
+    LoadingHelper.hideLoading();
   }
 
   private async SetNotification() {
