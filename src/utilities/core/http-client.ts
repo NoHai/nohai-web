@@ -2,7 +2,6 @@ import TokenProvider from '../providers/token.provider';
 import { Token } from '../../contracts/models/auth';
 import { HttpMethod } from '../../contracts/enums/common';
 import { AuthEndpoint } from '../endpoints/auth.endpoint';
-import GraphqlClient from '../../data/request/graphql-client';
 
 class HttpClientController {
   private static instance: HttpClientController;
