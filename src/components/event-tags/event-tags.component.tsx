@@ -9,7 +9,12 @@ class EventTags extends Component<EventTagsProps> {
       <div className="event-tags">
         <div className="event-tag">{this.props.Sport}</div>
         <div className="event-tag red">{SportLevelType[this.props.Level]}</div>
-        <div className="event-tag outline">Cost: {this.props.Price} lei / persoana</div>
+        {this.props.Price > 0 && (
+          <div className="event-tag outline">Cost: {this.props.Price} lei / persoana</div>
+        )}
+        {(this.props.Price === 0 || !this.props.Price) && (
+          <div className="event-tag outline">Gratis</div>
+        )}
       </div>
     );
   }

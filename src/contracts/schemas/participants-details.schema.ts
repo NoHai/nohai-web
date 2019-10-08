@@ -21,14 +21,5 @@ export let ParticipantsDetailsSchema: ValidationSchema = {
         constraints: [1],
       },
     ],
-    PriceForParticipant: [
-      {
-        type: 'isInt',
-      },
-      {
-        type: 'min',
-        constraints: [1],
-      },
-    ],
   },
 };
