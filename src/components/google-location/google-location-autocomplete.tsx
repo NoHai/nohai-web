@@ -59,7 +59,6 @@ class GoogleLocationAutoComplete extends Component<GoogleLocationAutoCompletePro
     //22.31873,46.36399,26.21887,45.40809
 
     var options = {
-      types: ['address'],
       bounds: defaultBounds,
       zoom: 9,
       strictBounds: true,
