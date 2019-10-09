@@ -121,7 +121,7 @@ class LoginPage extends Component<any, any> {
           autoLoad={false}
           fields="name,email,picture"
           callback={e => this.responseFacebook(e)}
-          cssClass="facebook"
+          cssClass="facebook-button"
           icon="icon mdi mdi-facebook"
         />
       );
