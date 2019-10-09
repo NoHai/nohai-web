@@ -96,14 +96,19 @@ class App extends Component<any, any> {
   }
 
   private listenToInstall() {
-    window.addEventListener('beforeinstallprompt', e => {
+    window.addEventListener('beforeinstallprompt', (e: any) => {
       e.preventDefault();
       const appDeferredPrompt = e;
 
       const win = window as any;
       win.appDeferredPrompt = appDeferredPrompt;
 
+      notification.destroy();
       this.showInstallAppButton();
+    });
+
+    window.addEventListener('appinstalled', () => {
+      notification.destroy();
     });
   }
 
