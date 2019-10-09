@@ -70,7 +70,10 @@
       background: transparent;
       cursor: pointer;
       padding: 4px;
-      
+
+      &:focus {
+        outline: 0;
+      }
 
       .icon {
         display: inline-block;
