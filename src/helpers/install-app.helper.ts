@@ -19,6 +19,8 @@ export async function installApp() {
 export function canBeInstalled() {
   const win = window as any;
 
+  console.log(win.appDeferredPrompt);
+
   if (win.appDeferredPrompt) {
     let isStandalone = false;
     if (window.matchMedia('(display-mode: standalone)').matches) {
