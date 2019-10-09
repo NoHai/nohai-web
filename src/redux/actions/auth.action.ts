@@ -4,37 +4,14 @@ import TokenProvider from '../../utilities/providers/token.provider';
 import { GetTokenNotification } from '../../business/services/push-notification.service';
 import { UserTokenNotificationService } from '../../business/services/user-token-notification.service';
 
-export const checkLoginResult = (model: any) => ({
-  type: ReduxAuthActionType.CheckLoginResult,
+export const loginResult = (model: any) => ({
+  type: ReduxAuthActionType.LoginResult,
   result: model,
 });
 
-export const checkLogin = () => {
-  const result = {
-    isLoaded: true,
-    isAuthorized: false,
-    isCompleted: false,
-  };
-  return (dispatch: any) => {
-    AuthService.isAuthorized().then(isAuthorized => {
-      result.isAuthorized = isAuthorized;
-
-      if (isAuthorized) {
-        AuthService.isCompleted().then(isCompleted => {
-          result.isCompleted = isCompleted;
-          dispatch(checkLoginResult(result));
-          return result;
-        });
-      } else {
-        dispatch(checkLoginResult(result));
-      }
-    });
-  };
-};
-
-export const loginResult = (result: any) => ({
-  type: ReduxAuthActionType.LoginResult,
-  result: result,
+export const checkLoginResult = (model: any) => ({
+  type: ReduxAuthActionType.CheckLoginResult,
+  result: model,
 });
 
 export const login = (username: string, password: string) => {
@@ -43,6 +20,15 @@ export const login = (username: string, password: string) => {
       .then(isCompleted)
       .then(setNotificationToken)
       .then(loginDispatch(dispatch));
+  };
+};
+
+export const checkLogin = () => {
+  return (dispatch: any) => {
+    isAuthorized()
+      .then(isCompleted)
+      .then(setNotificationToken)
+      .then(checkLoginDispatch(dispatch));
   };
 };
 
@@ -102,6 +88,12 @@ function loginDispatch(dispatch: any): (value: any) => void {
   };
 }
 
+function checkLoginDispatch(dispatch: any): (value: any) => void {
+  return result => {
+    dispatch(checkLoginResult(result));
+  };
+}
+
 function loginUser(username: string, password: string) {
   return AuthService.login(username, password).then(isAuthorized => {
     const result = {
@@ -112,10 +104,22 @@ function loginUser(username: string, password: string) {
   });
 }
 
+function isAuthorized() {
+  return AuthService.isAuthorized().then((response: boolean) => {
+    const result = {
+      isLoaded: true,
+      isAuthorized: response,
+      isCompleted: false,
+    };
+
+    return result;
+  });
+}
+
 function isCompleted(result: any) {
   if (result && result.isAuthorized) {
-    return AuthService.isCompleted().then(isCompleted => {
-      result.isCompleted = isCompleted;
+    return AuthService.isCompleted().then((response: boolean) => {
+      result.isCompleted = response;
       return result;
     });
   }
