@@ -121,7 +121,7 @@ class App extends Component<any, any> {
         description: (
           <div>
             <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eum voluptatum saepe eni.
+              Pentru a avea o experienta placuta poti instala aplicatia Nohai pe telefonul tau.
             </p>
 
             <div>
