@@ -43,19 +43,23 @@ class UserTokenNotificationRepositoryController implements IUserTokenNotificatio
   }
 
   public async Delete(id: any): Promise<ResultModel<boolean>> {
-    let notificationToken: any = { id: id };
+    if (id) {
+      let notificationToken: any = { id: id };
 
-    const deleteNotificationTokenMutation = gql`
-      mutation deleteNotificationTokenMutation($id: String!) {
-        deleteNotificationToken(id: $id)
-      }
-    `;
+      const deleteNotificationTokenMutation = gql`
+        mutation deleteNotificationTokenMutation($id: String!) {
+          deleteNotificationToken(id: $id)
+        }
+      `;
 
-    const result: any = await GraphqlClient.mutate(
-      deleteNotificationTokenMutation,
-      notificationToken
-    );
-    return result;
+      const result: any = await GraphqlClient.mutate(
+        deleteNotificationTokenMutation,
+        notificationToken
+      );
+      return result;
+    } else {
+      return new ResultModel<boolean>();
+    }
   }
 
   Create(data: TokenNotificationModel): Promise<TokenNotificationModel> {

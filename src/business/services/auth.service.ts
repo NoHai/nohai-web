@@ -33,11 +33,10 @@ class AuthServiceController {
     return false;
   }
 
-  public async loginWithFb(email: string, name: string): Promise<boolean> {
+  public async loginWithFb(accesToken: string, userID: string): Promise<boolean> {
     const model = new UserModel();
-    model.Email = email;
-    model.FirstName = name.substr(0, name.indexOf(' '));
-    model.LastName = name.substr(name.indexOf(' ') + 1);
+    model.AccesToken = accesToken;
+    model.Id = userID;
     const token = await LoginWithFbCommand.execute(model);
 
     if (!!token) {
