@@ -28,7 +28,7 @@ class App extends Component<any, any> {
     this.checkLogin();
     await this.initMap();
 
-    this.showInstallAppButton();
+    this.listenToInstall();
   }
 
   render() {
@@ -93,6 +93,18 @@ class App extends Component<any, any> {
       '&libraries=places';
     script.async = true;
     await document.body.appendChild(script);
+  }
+
+  private listenToInstall() {
+    window.addEventListener('beforeinstallprompt', e => {
+      e.preventDefault();
+      const appDeferredPrompt = e;
+
+      const win = window as any;
+      win.appDeferredPrompt = appDeferredPrompt;
+
+      this.showInstallAppButton();
+    });
   }
 
   private showInstallAppButton() {

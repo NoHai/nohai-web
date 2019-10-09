@@ -9,16 +9,6 @@ import { initializeFirebase } from './business/services/push-notification.servic
 import StoreUtility from './utilities/core/store.utility';
 import './helpers/install-app.helper';
 
-window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault();
-  const appDeferredPrompt = e;
-
-  const win = window as any;
-  win.appDeferredPrompt = appDeferredPrompt;
-
-  console.log(appDeferredPrompt);
-});
-
 const store = configureStore();
 StoreUtility.init(store);
 
