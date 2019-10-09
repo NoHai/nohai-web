@@ -17,56 +17,63 @@ import ResetPasswordPage from './pages/auth/reset-password/reset-password.page';
 import { AppConfig } from './contracts/models/env-models/app.config';
 import AppLoading from './components/app-loading/app-loading.component';
 import LoadingHelper from './helpers/loading.helper';
+import { notification, Button } from 'antd';
+import { canBeInstalled, installApp } from './helpers/install-app.helper';
 
 class App extends Component<any, any> {
   private AppConfig = new AppConfig();
+
   async componentDidMount() {
     LoadingHelper.hideLoading();
     this.checkLogin();
     await this.initMap();
+
+    this.showInstallAppButton();
   }
 
   render() {
     return this.props.isLoaded ? (
       <Router history={history}>
-        <div className="app">
-          <Switch>
-            <AuthorizationRoute
-              path="/login"
-              component={LoginPage}
-              isAuthorized={this.props.isAuthorized}
-              isCompleted={this.props.isCompleted}
-            />
-            <AuthorizationRoute
-              path="/register"
-              component={RegisterPage}
-              isAuthorized={this.props.isAuthorized}
-              isCompleted={this.props.isCompleted}
-            />
-            <AuthorizationRoute
-              path="/recover"
-              component={RecoveryPage}
-              isAuthorized={this.props.isAuthorized}
-              isCompleted={this.props.isCompleted}
-            />
-            <AuthorizationRoute
-              path="/reset-password"
-              component={ResetPasswordPage}
-              isAuthorized={this.props.isAuthorized}
-              isCompleted={this.props.isCompleted}
-            />
-            <UnCompletedRoute
-              path="/intro"
-              component={IntroPage}
-              isAuthorized={this.props.isAuthorized}
-              isCompleted={this.props.isCompleted}
-            />
-            <PrivateRoute
-              component={WrapperPage}
-              isAuthorized={this.props.isAuthorized}
-              isCompleted={this.props.isCompleted}
-            />
-          </Switch>
+        <div className="app page-sections">
+          <div className="page-section page-section-large">
+            <Switch>
+              <AuthorizationRoute
+                path="/login"
+                component={LoginPage}
+                isAuthorized={this.props.isAuthorized}
+                isCompleted={this.props.isCompleted}
+              />
+              <AuthorizationRoute
+                path="/register"
+                component={RegisterPage}
+                isAuthorized={this.props.isAuthorized}
+                isCompleted={this.props.isCompleted}
+              />
+              <AuthorizationRoute
+                path="/recover"
+                component={RecoveryPage}
+                isAuthorized={this.props.isAuthorized}
+                isCompleted={this.props.isCompleted}
+              />
+              <AuthorizationRoute
+                path="/reset-password"
+                component={ResetPasswordPage}
+                isAuthorized={this.props.isAuthorized}
+                isCompleted={this.props.isCompleted}
+              />
+              <UnCompletedRoute
+                path="/intro"
+                component={IntroPage}
+                isAuthorized={this.props.isAuthorized}
+                isCompleted={this.props.isCompleted}
+              />
+              <PrivateRoute
+                component={WrapperPage}
+                isAuthorized={this.props.isAuthorized}
+                isCompleted={this.props.isCompleted}
+              />
+            </Switch>
+          </div>
         </div>
       </Router>
     ) : (
@@ -86,6 +93,39 @@ class App extends Component<any, any> {
       '&libraries=places';
     script.async = true;
     await document.body.appendChild(script);
+  }
+
+  private showInstallAppButton() {
+    const isValid = canBeInstalled();
+
+    if (isValid) {
+      const args = {
+        message: 'Instaleaza aplicatia Nohai',
+        description: (
+          <div>
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eum voluptatum saepe eni.
+            </p>
+
+            <div>
+              <Button
+                type="primary"
+                shape="round"
+                icon="download"
+                size="default"
+                block={true}
+                onClick={() => installApp()}
+              >
+                Instaleaza
+              </Button>
+            </div>
+          </div>
+        ),
+        duration: 0,
+      };
+
+      notification.open(args);
+    }
   }
 }
 

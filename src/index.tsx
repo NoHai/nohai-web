@@ -7,6 +7,7 @@ import * as serviceWorker from './serviceWorker';
 import configureStore from './redux/store/configure.store';
 import { initializeFirebase } from './business/services/push-notification.service';
 import StoreUtility from './utilities/core/store.utility';
+import './helpers/install-app.helper';
 
 const store = configureStore();
 StoreUtility.init(store);
@@ -19,6 +20,14 @@ ReactDOM.render(
 
   document.getElementById('root')
 );
+
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  const appDeferredPrompt = e;
+
+  const win = window as any;
+  win.appDeferredPrompt = appDeferredPrompt;
+});
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
