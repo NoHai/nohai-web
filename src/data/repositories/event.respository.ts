@@ -36,7 +36,6 @@ class EventRepositoryController implements IEventRepository {
                     endDate
                     startTime
                     endTime
-                    duration
                     level
                 },
                 totalCount
@@ -82,7 +81,6 @@ class EventRepositoryController implements IEventRepository {
             endDate
             startTime
             endTime
-            duration
             level
           }
           userEvents {
