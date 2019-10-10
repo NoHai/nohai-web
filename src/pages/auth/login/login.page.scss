@@ -169,7 +169,7 @@
     flex-grow: 1;
     display: flex;
     justify-content: center;
-    padding-top: 20vh;
+    align-items: center;
 
     .login-logo {
       width: 150px;
@@ -184,8 +184,6 @@
 @media (max-width: 320px) {
   .auth-page {
     .login-logo-container {
-      padding-top: 5vh;
-
       .login-logo {
         width: 60px;
         height: 60px;
