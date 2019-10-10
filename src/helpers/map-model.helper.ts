@@ -8,9 +8,10 @@ export default class MapModelHelper {
   public static MapEvent(model: any): EventDetailsViewModel {
     let result = new EventDetailsViewModel();
     result.description.Description = model.description;
-    result.description.Date = model.date;
-    result.description.Duration = model.duration;
-    result.description.Time = model.hour;
+    result.description.StartDate = model.startDate;
+    result.description.EndDate = model.startDate;
+    result.description.EndTime = model.endTime;
+    result.description.StartTime = model.startTime;
 
     result.event.Id = model.id;
     result.event.Name = model.title;

@@ -32,8 +32,10 @@ class EventRepositoryController implements IEventRepository {
                       }
                     freeSpots
                     cost
-                    date
-                    hour
+                    startDate
+                    endDate
+                    startTime
+                    endTime
                     duration
                     level
                 },
@@ -76,8 +78,10 @@ class EventRepositoryController implements IEventRepository {
             }
             freeSpots
             cost
-            date
-            hour
+            startDate
+            endDate
+            startTime
+            endTime
             duration
             level
           }
@@ -113,9 +117,10 @@ class EventRepositoryController implements IEventRepository {
         sport: { id: eventDetails.sport.Id },
         freeSpots: eventDetails.participantsDetails.FreeSpots,
         cost: eventDetails.participantsDetails.PriceForParticipant?eventDetails.participantsDetails.PriceForParticipant:0,
-        date: eventDetails.description.Date,
-        hour: eventDetails.description.Time,
-        duration: eventDetails.description.Duration,
+        startDate: eventDetails.description.StartDate,
+        endDate: eventDetails.description.EndDate,
+        startTime: eventDetails.description.StartTime,
+        endTime: eventDetails.description.EndTime,
         level: eventDetails.participantsDetails.Level,
       },
     };
