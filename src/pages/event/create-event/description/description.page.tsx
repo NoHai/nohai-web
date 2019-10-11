@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { EventDetailsViewModel } from '../../../../contracts/models';
+import { EventDetailsViewModel, DescriptionEventModel } from '../../../../contracts/models';
 import { registerSchema } from 'class-validator';
 import { Description } from './../../../../contracts/schemas/description.schema';
 import TextArea from 'antd/lib/input/TextArea';
@@ -61,34 +61,28 @@ class DescriptionEventPage extends Component<any, any> {
   }
 
   async onDateTimeChange(date: any, DateTimeString: string, name: string) {
+    const description: any = this.state.eventDetails.description;
+    description[name] = DateTimeString;
+
+    const validEndDate = await this.checkDates(description);
+    const isValid = await this.chekIfIsValid();
+
     this.setState((prevState: any) => ({
       eventDetails: {
         ...prevState.eventDetails,
         description: {
           ...prevState.eventDetails.description,
           [name]: DateTimeString,
-        },
-      },
-    }));
-
-    let validEndDate = await this.checkDates();
-    let isValid = await this.chekIfIsValid();
-
-    this.setState((prevState: any) => ({
-      eventDetails: {
-        ...prevState.eventDetails,
-        description: {
-          ...prevState.eventDetails.description,
           IsValid: isValid,
         },
       },
-      validEndDate: validEndDate,
+      validEndDate,
       finishForm: isValid && validEndDate,
     }));
   }
 
   async chekIfIsValid() {
-    let isValid = await FormValidators.checkSchema(
+    const isValid = await FormValidators.checkSchema(
       this.state.eventDetails.description,
       'description'
     );
@@ -114,9 +108,13 @@ class DescriptionEventPage extends Component<any, any> {
             <TimePicker
               inputReadOnly
               open={this.state.openStartTime}
-              onOpenChange={e => this.handleOpenChange("openStartTime")}
+              onOpenChange={e => this.handleOpenChange('openStartTime')}
               addon={() => (
-                <Button size="small" type="primary" onClick={e => this.handleClose("openStartTime")}>
+                <Button
+                  size="small"
+                  type="primary"
+                  onClick={e => this.handleClose('openStartTime')}
+                >
                   Ok
                 </Button>
               )}
@@ -134,11 +132,11 @@ class DescriptionEventPage extends Component<any, any> {
             <TimePicker
               inputReadOnly
               open={this.state.openEndTime}
-              onOpenChange={e => this.handleOpenChange("openEndTime")}
+              onOpenChange={e => this.handleOpenChange('openEndTime')}
               defaultOpenValue={moment('00:00', 'HH:mm')}
               format={format}
               addon={() => (
-                <Button size="small" type="primary" onClick={e => this.handleClose("openEndTime")}>
+                <Button size="small" type="primary" onClick={e => this.handleClose('openEndTime')}>
                   Ok
                 </Button>
               )}
@@ -185,14 +183,13 @@ class DescriptionEventPage extends Component<any, any> {
       </div>
     );
   }
-  async checkDates() {
-    return moment(this.state.eventDetails.description.StartDate, 'YYYY:MM:DD').isSame(
-      moment(this.state.eventDetails.description.EndDate, 'YYYY:MM:DD')
+  async checkDates(description: DescriptionEventModel) {
+    return moment(description.StartDate, 'YYYY:MM:DD').isSame(
+      moment(description.EndDate, 'YYYY:MM:DD')
     )
-      ? moment(this.state.eventDetails.description.StartTime, 'HH:mm') <
-          moment(this.state.eventDetails.description.EndTime, 'HH:mm')
-      : moment(this.state.eventDetails.description.StartDate, 'YYYY:MM:DD').isBefore(
-          moment(this.state.eventDetails.description.EndDate, 'YYYY:MM:DD')
+      ? moment(description.StartTime, 'HH:mm') < moment(description.EndTime, 'HH:mm')
+      : moment(description.StartDate, 'YYYY:MM:DD').isBefore(
+          moment(description.EndDate, 'YYYY:MM:DD')
         );
   }
 
