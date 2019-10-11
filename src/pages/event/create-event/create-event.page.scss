@@ -47,15 +47,19 @@
     display: inline;
   }
   .ant-calendar-picker {
-    width: 100%;
+    width: 57%;
+    margin-right: 3%;
   }
   .ant-time-picker {
-    width: 100%;
-    margin-bottom: 15px;
+    width: 40%;
   }
 
   .ant-calendar-picker-icon {
     top: 35%;
+  }
+
+  .ant-time-picker-panel-addon{
+    text-align: right;
   }
 
   label {

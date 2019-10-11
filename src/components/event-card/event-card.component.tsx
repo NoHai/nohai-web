@@ -44,7 +44,10 @@ class EventCard extends Component<any, any> {
               <div className="item-card-option">
                 <span className="icon mdi mdi-alarm" />
                 {this.props.eventDetails.description.Date},{' '}
-                {this.props.eventDetails.description.Time}
+                <span className="text-right">
+                {this.props.eventDetails.description.StartTime} -{'  '}
+                {this.props.eventDetails.description.EndTime}
+                </span>
               </div>
               <div className="item-card-option">
                 <span className="icon mdi mdi-map-marker" />

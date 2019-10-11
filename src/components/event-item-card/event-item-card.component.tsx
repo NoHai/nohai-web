@@ -28,8 +28,8 @@ class EventItemCard extends Component<EventItemCardProps, any> {
           <Col span={10} className="text-center">
             <span className="icon mdi mdi-alarm" />
             <span className="text">
-              {DateHelper.GetDateFormat(this.props.eventDetails.description.Date)}{' '}
-              {this.props.eventDetails.description.Time}
+              {DateHelper.GetDateFormat(this.props.eventDetails.description.StartDate)}{' '}
+              {this.props.eventDetails.description.StartTime}
             </span>
           </Col>
           <Col span={6} className="text-right">

@@ -1,7 +1,8 @@
 export class DescriptionEventModel {
   Description!: string;
-  Date: string = 'Data';
-  Time: string = 'Ora';
-  Duration!: number;
+  StartDate: string = 'Data';
+  EndDate: string = 'Data';
+  StartTime: string = 'Ora';
+  EndTime: string = 'Ora';
   IsValid: boolean = false;
 }

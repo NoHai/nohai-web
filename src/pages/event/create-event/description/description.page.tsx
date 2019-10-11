@@ -3,7 +3,7 @@ import { EventDetailsViewModel } from '../../../../contracts/models';
 import { registerSchema } from 'class-validator';
 import { Description } from './../../../../contracts/schemas/description.schema';
 import TextArea from 'antd/lib/input/TextArea';
-import { DatePicker, TimePicker, Input, Row, Col, Button, Icon } from 'antd';
+import { DatePicker, TimePicker, Row, Col, Button, Icon } from 'antd';
 import history from '../../../../utilities/core/history';
 import CreateEventHeaderComponent from '../../../../components/create-event-header/create-event-header';
 import { LocalStorage } from '../../../../contracts/enums/localStorage/local-storage';
@@ -18,6 +18,10 @@ const format = 'HH:mm';
 class DescriptionEventPage extends Component<any, any> {
   state = {
     eventDetails: new EventDetailsViewModel(),
+    validEndDate: false,
+    finishForm: false,
+    openStartTime: false,
+    openEndTime: false,
   };
 
   componentDidMount() {
@@ -26,6 +30,18 @@ class DescriptionEventPage extends Component<any, any> {
         LocalStorage.CreateEvent,
         this.state.eventDetails
       ),
+    });
+  }
+
+  handleClose(name: any) {
+    this.setState({
+      [name]: false,
+    });
+  }
+
+  handleOpenChange(name: any) {
+    this.setState({
+      [name]: true,
     });
   }
 
@@ -42,41 +58,21 @@ class DescriptionEventPage extends Component<any, any> {
         },
       },
     }));
-    await this.chekIfIsValid();
   }
 
-  async onDateChange(date: any, dateString: string) {
+  async onDateTimeChange(date: any, DateTimeString: string, name: string) {
     this.setState((prevState: any) => ({
       eventDetails: {
         ...prevState.eventDetails,
         description: {
           ...prevState.eventDetails.description,
-          Date: dateString,
-        },
-      },
-    }));
-    await this.chekIfIsValid();
-  }
-
-  async onTimeChange(date: any, timeString: string) {
-    this.setState((prevState: any) => ({
-      eventDetails: {
-        ...prevState.eventDetails,
-        description: {
-          ...prevState.eventDetails.description,
-          Time: timeString,
+          [name]: DateTimeString,
         },
       },
     }));
 
-    await this.chekIfIsValid();
-  }
-
-  async chekIfIsValid() {
-    let isValid = await FormValidators.checkSchema(
-      this.state.eventDetails.description,
-      'description'
-    );
+    let validEndDate = await this.checkDates();
+    let isValid = await this.chekIfIsValid();
 
     this.setState((prevState: any) => ({
       eventDetails: {
@@ -86,7 +82,18 @@ class DescriptionEventPage extends Component<any, any> {
           IsValid: isValid,
         },
       },
+      validEndDate: validEndDate,
+      finishForm: isValid && validEndDate,
     }));
+  }
+
+  async chekIfIsValid() {
+    let isValid = await FormValidators.checkSchema(
+      this.state.eventDetails.description,
+      'description'
+    );
+
+    return isValid;
   }
 
   public render() {
@@ -95,38 +102,49 @@ class DescriptionEventPage extends Component<any, any> {
         <div className="page-sections">
           <div className="page-section page-section-large">
             <CreateEventHeaderComponent
-              title={'Descrieree eveniment'}
+              title={'Detalii eveniment'}
               iconClass={'icon mdi mdi-clipboard-outline'}
             />
-            <label>Data Evenimentului</label>
+            <label>Incepe in:</label>
             <DatePicker
-              onChange={(date, dateString) => this.onDateChange(date, dateString)}
-              placeholder={this.state.eventDetails.description.Date || ''}
-              size="large"
-            />
-            <label>Ora Evenimentului</label>
-            <TimePicker
-              inputReadOnly
-              format={format}
-              onChange={(time, timeString) => this.onTimeChange(time, timeString)}
-              placeholder={this.state.eventDetails.description.Time || ''}
-              size="large"
+              onChange={(date, dateString) => this.onDateTimeChange(date, dateString, 'StartDate')}
+              placeholder={this.state.eventDetails.description.StartDate || ''}
             />
 
-            <label>Durata Evenimentului</label>
-            <span className="position-relative">
-              <Input
-                className="padding-bottom"
-                size="large"
-                type="number"
-                placeholder="Durata"
-                data-lpignore="true"
-                name="Duration"
-                value={this.state.eventDetails.description.Duration}
-                onChange={e => this.handleChange(e)}
-              />
-              <span className="constant-palcholder">min</span>
-            </span>
+            <TimePicker
+              inputReadOnly
+              open={this.state.openStartTime}
+              onOpenChange={e => this.handleOpenChange("openStartTime")}
+              addon={() => (
+                <Button size="small" type="primary" onClick={e => this.handleClose("openStartTime")}>
+                  Ok
+                </Button>
+              )}
+              defaultOpenValue={moment('00:00', 'HH:mm')}
+              format={format}
+              onChange={(time, timeString) => this.onDateTimeChange(time, timeString, 'StartTime')}
+              placeholder={this.state.eventDetails.description.StartTime || ''}
+            />
+            <label>Se termina in:</label>
+            <DatePicker
+              onChange={(date, dateString) => this.onDateTimeChange(date, dateString, 'EndDate')}
+              placeholder={this.state.eventDetails.description.EndDate || ''}
+            />
+
+            <TimePicker
+              inputReadOnly
+              open={this.state.openEndTime}
+              onOpenChange={e => this.handleOpenChange("openEndTime")}
+              defaultOpenValue={moment('00:00', 'HH:mm')}
+              format={format}
+              addon={() => (
+                <Button size="small" type="primary" onClick={e => this.handleClose("openEndTime")}>
+                  Ok
+                </Button>
+              )}
+              onChange={(time, timeString) => this.onDateTimeChange(time, timeString, 'EndTime')}
+              placeholder={this.state.eventDetails.description.EndTime || ''}
+            />
             <label>Descrierea Evenimentului</label>
             <TextArea
               rows={3}
@@ -153,7 +171,7 @@ class DescriptionEventPage extends Component<any, any> {
             </Col>
             <Col span={12} className="text-right">
               <Button
-                disabled={!this.state.eventDetails.description.IsValid}
+                disabled={!this.state.finishForm}
                 type="primary"
                 onClick={() => {
                   this.goToDetails();
@@ -167,6 +185,16 @@ class DescriptionEventPage extends Component<any, any> {
       </div>
     );
   }
+  async checkDates() {
+    return moment(this.state.eventDetails.description.StartDate, 'YYYY:MM:DD').isSame(
+      moment(this.state.eventDetails.description.EndDate, 'YYYY:MM:DD')
+    )
+      ? moment(this.state.eventDetails.description.StartTime, 'HH:mm') <
+          moment(this.state.eventDetails.description.EndTime, 'HH:mm')
+      : moment(this.state.eventDetails.description.StartDate, 'YYYY:MM:DD').isBefore(
+          moment(this.state.eventDetails.description.EndDate, 'YYYY:MM:DD')
+        );
+  }
 
   goToLocationDetails() {
     LocalStorageHelper.SaveItemToLocalStorage(LocalStorage.CreateEvent, this.state.eventDetails);
@@ -179,13 +207,13 @@ class DescriptionEventPage extends Component<any, any> {
         event: {
           ...prevState.eventDetails.event,
           Name: `${this.state.eventDetails.sport.Name}: ${moment(
-            this.state.eventDetails.description.Date
+            this.state.eventDetails.description.StartDate
           )
             .locale('ro')
-            .format('dddd')}  ${moment(this.state.eventDetails.description.Date).format(
+            .format('dddd')}  ${moment(this.state.eventDetails.description.StartDate).format(
             'DD'
-          )} ${moment(this.state.eventDetails.description.Date).format('MMMM')}, ora ${
-            this.state.eventDetails.description.Time
+          )} ${moment(this.state.eventDetails.description.StartDate).format('MMMM')}, ora ${
+            this.state.eventDetails.description.StartTime
           }`,
         },
       },
