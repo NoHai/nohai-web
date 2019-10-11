@@ -9,6 +9,7 @@ import { login, checkLogin } from './../../../redux/actions/auth.action';
 import AuthService from '../../../business/services/auth.service';
 import FacebookLogin from 'react-facebook-login';
 import { AppConfig } from '../../../contracts/models/env-models/app.config';
+import LoadingHelper from '../../../helpers/loading.helper';
 
 class LoginPage extends Component<any, any> {
   state = { email: '', password: '', isLogIn: false, userId: '', name: '' };
@@ -20,9 +21,13 @@ class LoginPage extends Component<any, any> {
   }
 
   async responseFacebook(response: any) {
+    LoadingHelper.hideLoading();
     if (response && response.accessToken && response.userID) {
+      LoadingHelper.showLoading();
       await AuthService.loginWithFb(response.accessToken, response.userID);
       this.props.checkLogin();
+
+      LoadingHelper.hideLoading();
       this.navigateToEvents();
     }
   }
@@ -120,8 +125,11 @@ class LoginPage extends Component<any, any> {
           appId={this.AppConfig.facebookAppId || ''}
           autoLoad={false}
           fields="name,email,picture"
+          onClick={() => {
+            LoadingHelper.showLoading();
+          }}
           callback={e => this.responseFacebook(e)}
-          cssClass="facebook"
+          cssClass="facebook-button"
           icon="icon mdi mdi-facebook"
         />
       );

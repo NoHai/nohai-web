@@ -28,7 +28,7 @@ class App extends Component<any, any> {
     this.checkLogin();
     await this.initMap();
 
-    this.showInstallAppButton();
+    this.listenToInstall();
   }
 
   render() {
@@ -95,6 +95,23 @@ class App extends Component<any, any> {
     await document.body.appendChild(script);
   }
 
+  private listenToInstall() {
+    window.addEventListener('beforeinstallprompt', (e: any) => {
+      e.preventDefault();
+      const appDeferredPrompt = e;
+
+      const win = window as any;
+      win.appDeferredPrompt = appDeferredPrompt;
+
+      notification.destroy();
+      this.showInstallAppButton();
+    });
+
+    window.addEventListener('appinstalled', () => {
+      notification.destroy();
+    });
+  }
+
   private showInstallAppButton() {
     const isValid = canBeInstalled();
 
@@ -104,7 +121,7 @@ class App extends Component<any, any> {
         description: (
           <div>
             <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eum voluptatum saepe eni.
+              Pentru a avea o experienta placuta poti instala aplicatia Nohai pe telefonul tau.
             </p>
 
             <div>
