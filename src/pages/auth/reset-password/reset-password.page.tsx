@@ -5,14 +5,42 @@ import { UserService } from '../../../business/services';
 import { FormValidators } from '../../../contracts/validators/forms-validators';
 import { UserModel } from '../../../contracts/models';
 import MessageHelper from '../../../helpers/message.helper';
+import { match } from 'react-router';
+import history from '../../../utilities/core/history';
+import TokenProvider from '../../../utilities/providers/token.provider';
+import moment from 'moment';
 
-class ResetPasswordPage extends Component {
+interface TokenParams {
+  token: string;
+}
+
+interface TokenProps {
+  required: string;
+  match?: match<TokenParams>;
+  eventDetails: any;
+}
+
+class ResetPasswordPage extends Component<TokenProps> {
   state = {
+    email: '',
     password: '',
     confirmationPassword: '',
     passwordError: '',
     confirmationPasswordError: '',
   };
+
+  async componentDidMount() {
+    if (this.props.match && this.props.match.params.token) {
+      const decodedToken = TokenProvider.parseToken(this.props.match.params.token);
+      const expirationDate = moment(decodedToken.expireDate).toDate();
+      if (moment(expirationDate).isAfter(moment.now())) {
+        this.setState({email: decodedToken.email});
+      } else {
+        MessageHelper.showWarning('Ne pare rau dar link-ul a expirat!');
+        this.redirectToLogin();
+      }
+    }
+  }
 
   async handleChange(event: any) {
     const { name, value } = event.target;
@@ -45,7 +73,7 @@ class ResetPasswordPage extends Component {
             <div className="inline-input-wrapper">
               <span className="icon mdi mdi-key" />
               <input
-                type="email"
+                type="password"
                 placeholder="Noua Parola"
                 data-lpignore="true"
                 name="password"
@@ -83,12 +111,21 @@ class ResetPasswordPage extends Component {
 
   private async ResetPassword() {
     await this.validatePassword();
-    let errors = this.getErrorMessage();
+    const errors = this.getErrorMessage();
     if (errors !== '') {
       MessageHelper.showError(errors);
     } else {
-      UserService.ResetPassword(new UserModel());
-      //history.push('/login');
+      const user = new UserModel();
+      user.Password = this.state.password;
+      user.Email = this.state.email;
+      const result = await UserService.ResetPassword(user);
+      if (result === true){
+        MessageHelper.showSuccess('Parola schimbata cu sucess!');
+        this.redirectToLogin();
+      } else {
+        MessageHelper.showError('Parola nu a putut fi schimbata!');
+        this.redirectToLogin();
+      }
     }
   }
 
@@ -104,6 +141,10 @@ class ResetPasswordPage extends Component {
       errors = 'toate campurile sunt obligatorii';
     }
     return errors;
+  }
+
+  private redirectToLogin() {
+    history.push('/login');
   }
 }
 

@@ -96,13 +96,11 @@ class AuthRepositoryController {
     return result;
   }
 
-  public async recoveryPassword(email: any): Promise<string> {
-    let parameter: string = email;
+  public async recoveryPassword(email: string): Promise<string> {
+    const parameter: any = { parameter: email };
     const recoveryMutation = gql`
-      mutation recoverPassword($parmeter: String!) {
-        recoverPassword(parameter: $parameter) {
-          id
-        }
+      mutation recoverPassword($parameter: String!) {
+        recoverPassword(parameter: $parameter)
       }
     `;
 
@@ -111,23 +109,21 @@ class AuthRepositoryController {
 
     return result;
   }
-  public async resetPassword(user: UserModel): Promise<string> {
-    let input: any = {
+  public async resetPassword(user: UserModel): Promise<boolean> {
+    const input: any = {
       credentials: {
         login: user.Email,
         password: user.Password,
       },
     };
     const resetPasswordMutation = gql`
-      mutation updateCredentails($input: CredentialsInput!) {
-        updateCredentails(input: $input) {
-          id
-        }
+      mutation updateCredentials($credentials: CredentialsInput!) {
+        updateCredentials(input: $credentials)
       }
     `;
 
     const response: any = await GraphqlClient.mutate(resetPasswordMutation, input);
-    const result: string = response.data;
+    const result: boolean = response.updateCredentials;
 
     return result;
   }
