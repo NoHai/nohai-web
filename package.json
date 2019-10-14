@@ -1,56 +1,57 @@
 {
-    "name": "nohai-app",
-    "version": "0.1.0",
-    "private": true,
-    "scripts": {
-        "start": "react-scripts start",
-        "build": "react-scripts build",
-        "now-build": "react-scripts build",
-        "test": "react-scripts test",
-        "eject": "react-scripts eject"
-    },
-    "dependencies": {
-        "antd": "3.20.1",
-        "apollo-boost": "^0.4.4",
-        "apollo-link-context": "^1.0.19",
-        "class-validator": "^0.9.1",
-        "dotenv": "^8.1.0",
-        "firebase": "^6.6.2",
-        "graphql": "^14.5.8",
-        "localforage": "^1.7.3",
-        "node-sass": "4.12.0",
-        "react": "16.8.6",
-        "react-apollo": "^2.5.8",
-        "react-async-script-loader": "^0.3.0",
-        "react-dom": "16.8.6",
-        "react-facebook-login": "^4.1.1",
-        "react-redux": "^7.1.1",
-        "react-router-dom": "5.0.1",
-        "react-scripts": "3.0.1",
-        "redux": "^4.0.4",
-        "redux-thunk": "^2.3.0",
-        "typescript": "3.5.3"
-    },
-    "devDependencies": {
-        "@babel/core": "7.5.4",
-        "@types/jest": "24.0.15",
-        "@types/node": "12.6.2",
-        "@types/react": "16.8.23",
-        "@types/react-dom": "16.8.4",
-        "@types/react-facebook-login": "^4.1.0",
-        "@types/react-redux": "^7.1.3",
-        "@types/react-router": "5.0.3",
-        "@types/react-router-dom": "4.3.4",
-        "babel-core": "6.26.3",
-        "babel-loader": "8.0.5"
-    },
-    "eslintConfig": {
-        "extends": "react-app"
-    },
-    "browserslist": [
-        ">0.2%",
-        "not dead",
-        "not ie <= 11",
-        "not op_mini all"
-    ]
+  "name": "nohai-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "now-build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "deploy": "npm run build && now --prod"
+  },
+  "dependencies": {
+    "antd": "3.20.1",
+    "apollo-boost": "^0.4.4",
+    "apollo-link-context": "^1.0.19",
+    "class-validator": "^0.9.1",
+    "dotenv": "^8.1.0",
+    "firebase": "^6.6.2",
+    "graphql": "^14.5.8",
+    "localforage": "^1.7.3",
+    "node-sass": "4.12.0",
+    "react": "16.8.6",
+    "react-apollo": "^2.5.8",
+    "react-async-script-loader": "^0.3.0",
+    "react-dom": "16.8.6",
+    "react-facebook-login": "^4.1.1",
+    "react-redux": "^7.1.1",
+    "react-router-dom": "5.0.1",
+    "react-scripts": "3.0.1",
+    "redux": "^4.0.4",
+    "redux-thunk": "^2.3.0",
+    "typescript": "3.5.3"
+  },
+  "devDependencies": {
+    "@babel/core": "7.5.4",
+    "@types/jest": "24.0.15",
+    "@types/node": "12.6.2",
+    "@types/react": "16.8.23",
+    "@types/react-dom": "16.8.4",
+    "@types/react-facebook-login": "^4.1.0",
+    "@types/react-redux": "^7.1.3",
+    "@types/react-router": "5.0.3",
+    "@types/react-router-dom": "4.3.4",
+    "babel-core": "6.26.3",
+    "babel-loader": "8.0.5"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
