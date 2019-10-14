@@ -123,7 +123,7 @@ class IntroPersonPage extends Component<any, any> {
                       placeholder="An"
                       size="large"
                       style={{ width: '100%' }}
-                      value={this.state.registerDetails.details.Year || ''}
+                      value={this.state.registerDetails.details.Year}
                       onChange={(e: any) => this.handleYearChange(e)}
                     >
                       {this.state.years}
@@ -132,11 +132,11 @@ class IntroPersonPage extends Component<any, any> {
 
                   <Col span={10}>
                     <Select
-                      placeholder="Luna"
                       size="large"
                       style={{ width: '100%' }}
-                      value={this.state.registerDetails.details.Month || ''}
+                      value={this.state.registerDetails.details.Month}
                       onChange={(e: any) => this.handleMonthChange(e)}
+                      placeholder="Luna"
                     >
                       {this.state.months}
                     </Select>
@@ -151,7 +151,7 @@ class IntroPersonPage extends Component<any, any> {
                       }
                       size="large"
                       style={{ width: '100%' }}
-                      value={this.state.registerDetails.details.Day || ''}
+                      value={this.state.registerDetails.details.Day}
                       onChange={(e: any) => this.handleDayChange(e)}
                     >
                       {this.state.days}
