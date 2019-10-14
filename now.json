@@ -1,6 +1,8 @@
 {
   "version": 2,
   "name": "nohai-app",
+  "alias": ["no-hai.ro"],
+  "scope": "nohai-team",
   "build": {
     "env": {
       "REACT_APP_NOHAI_API_URL": "@react-app-nohai-api-url",
