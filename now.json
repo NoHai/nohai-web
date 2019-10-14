@@ -1,29 +1,42 @@
 {
-    "version": 2,
-    "name": "nohai-app",
-    "builds": [
-        { "src": "package.json", "use": "@now/static-build", "config": { "distDir": "build" } }
-    ],
-    "routes": [
-        {
-            "src": "/assets/(.*)",
-            "headers": { "cache-control": "s-maxage=31536000,immutable" },
-            "dest": "/assets/$1"
-        },
-        {
-            "src": "/static/(.*)",
-            "headers": { "cache-control": "s-maxage=31536000,immutable" },
-            "dest": "/static/$1"
-        },
-        { "src": "/favicon.ico", "dest": "/favicon.ico" },
-        { "src": "/asset-manifest.json", "dest": "/asset-manifest.json" },
-        { "src": "/manifest.json", "dest": "/manifest.json" },
-        { "src": "/precache-manifest.(.*)", "dest": "/precache-manifest.$1" },
-        {
-            "src": "/service-worker.js",
-            "headers": { "cache-control": "s-maxage=0" },
-            "dest": "/service-worker.js"
-        },
-        { "src": "/(.*)", "headers": { "cache-control": "s-maxage=0" }, "dest": "/index.html" }
-    ]
+  "version": 2,
+  "name": "nohai-app",
+  "env": {
+    "VARIABLE_NAME": "@variable-name",
+    "REACT_APP_NOHAI_API_URL": "@react-app-nohai-api-url",
+    "REACT_APP_NOHAI_FACEBOOK_APP_ID": "@react-app-nohai-facebook-app-id",
+    "REACT_APP_NOHAI_GOOGLE_API_KEY": "@react-app-nohai-google-api-key",
+    "REACT_APP_NOHAI_FIREBASE_API_KEY": "@react-app-nohai-firebase-api-key",
+    "REACT_APP_NOHAI_FIREBASE_MESSAGING_SENDER_ID": "@react-app-nohai-firebase-messaging-sender-id",
+    "REACT_APP_NOHAI_FIREBASE_APP_ID": "@react-app-nohai-firebase-app-id"
+  },
+  "builds": [
+    { "src": "package.json", "use": "@now/static-build", "config": { "distDir": "build" } }
+  ],
+  "routes": [
+    {
+      "src": "/assets/(.*)",
+      "headers": { "cache-control": "s-maxage=31536000,immutable" },
+      "dest": "/assets/$1"
+    },
+    {
+      "src": "/static/(.*)",
+      "headers": { "cache-control": "s-maxage=31536000,immutable" },
+      "dest": "/static/$1"
+    },
+    { "src": "/favicon.ico", "dest": "/favicon.ico" },
+    { "src": "/asset-manifest.json", "dest": "/asset-manifest.json" },
+    {
+      "src": "/manifest.json",
+      "dest": "/manifest.json",
+      "headers": { "cache-control": "max-age=0,no-cache,no-store,must-revalidate" }
+    },
+    { "src": "/precache-manifest.(.*)", "dest": "/precache-manifest.$1" },
+    {
+      "src": "/service-worker.js",
+      "headers": { "cache-control": "s-maxage=0" },
+      "dest": "/service-worker.js"
+    },
+    { "src": "/(.*)", "headers": { "cache-control": "s-maxage=0" }, "dest": "/index.html" }
+  ]
 }
