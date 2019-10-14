@@ -203,15 +203,14 @@ class DescriptionEventPage extends Component<any, any> {
         ...prevState.eventDetails,
         event: {
           ...prevState.eventDetails.event,
-          Name: `${this.state.eventDetails.sport.Name}: ${moment(
+          Name: `${this.state.eventDetails.sport.Name}, ${moment(
             this.state.eventDetails.description.StartDate
           )
             .locale('ro')
             .format('dddd')}  ${moment(this.state.eventDetails.description.StartDate).format(
             'DD'
-          )} ${moment(this.state.eventDetails.description.StartDate).format('MMMM')}, ora ${
-            this.state.eventDetails.description.StartTime
-          }`,
+          )} ${moment(this.state.eventDetails.description.StartDate).format('MMMM')}
+          `,
         },
       },
     }));

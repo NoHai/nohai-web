@@ -11,6 +11,7 @@ import { LocalStorage } from '../../contracts/enums/localStorage/local-storage';
 import AvatarHelper from '../../helpers/avatar.helper';
 import TokenProvider from '../../utilities/providers/token.provider';
 import { EventSportImage } from '../event-icon/event-sport-image.component';
+import DisplayTime from '../display-time/display-time.component';
 
 class EventCard extends Component<any, any> {
   private isForPreview = false;
@@ -41,14 +42,12 @@ class EventCard extends Component<any, any> {
             <div className="item-card-title">{this.props.eventDetails.event.Name}</div>
 
             <div className="item-card-options">
-              <div className="item-card-option">
-                <span className="icon mdi mdi-alarm" />
-                {this.props.eventDetails.description.Date},{' '}
-                <span className="text-right">
-                {this.props.eventDetails.description.StartTime} -{'  '}
-                {this.props.eventDetails.description.EndTime}
-                </span>
-              </div>
+              <DisplayTime
+                startDate={this.props.eventDetails.description.StartDate}
+                endDate={this.props.eventDetails.description.EndDate}
+                startTime={this.props.eventDetails.description.StartTime}
+                endTime={this.props.eventDetails.description.EndTime}
+              />
               <div className="item-card-option">
                 <span className="icon mdi mdi-map-marker" />
                 {this.props.eventDetails.locationDetails.StreetName}
@@ -74,7 +73,8 @@ class EventCard extends Component<any, any> {
               {this.props.eventDetails.owner.Id &&
                 this.props.eventDetails.owner.Id !== this.userId &&
                 !this.chekIfRequestSent() &&
-                !this.state.requestSent && (
+                !this.state.requestSent &&
+                this.props.eventDetails.participants.length<this.props.eventDetails.participantsDetails.FreeSpots&& (
                   <Button
                     type="primary"
                     size="large"

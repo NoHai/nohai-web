@@ -120,6 +120,7 @@ class IntroPersonPage extends Component<any, any> {
                 <Row gutter={16}>
                   <Col span={7}>
                     <Select
+                      placeholder="An"
                       size="large"
                       style={{ width: '100%' }}
                       value={this.state.registerDetails.details.Year || ''}
@@ -131,12 +132,11 @@ class IntroPersonPage extends Component<any, any> {
 
                   <Col span={10}>
                     <Select
-                      showSearch
+                      placeholder="Luna"
                       size="large"
                       style={{ width: '100%' }}
                       value={this.state.registerDetails.details.Month || ''}
                       onChange={(e: any) => this.handleMonthChange(e)}
-                      onSearch={this.onSearch}
                     >
                       {this.state.months}
                     </Select>
@@ -144,6 +144,7 @@ class IntroPersonPage extends Component<any, any> {
 
                   <Col span={7}>
                     <Select
+                      placeholder="Zi"
                       disabled={
                         this.state.registerDetails.details.Month === undefined ||
                         this.state.registerDetails.details.Year === undefined

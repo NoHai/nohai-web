@@ -9,7 +9,7 @@ export default class MapModelHelper {
     let result = new EventDetailsViewModel();
     result.description.Description = model.description;
     result.description.StartDate = model.startDate;
-    result.description.EndDate = model.startDate;
+    result.description.EndDate = model.endDate;
     result.description.EndTime = model.endTime;
     result.description.StartTime = model.startTime;
 

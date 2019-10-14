@@ -6,7 +6,7 @@ import { GetTokenNotification } from '../../../business/services/push-notificati
 import { UserTokenNotificationService } from '../../../business/services/user-token-notification.service';
 import CreateEventHeaderComponent from '../../../components/create-event-header/create-event-header';
 
-class IntroLocation extends Component<any, any> {
+class IntroNotification extends Component<any, any> {
   render() {
     return (
       <div className="intro-notification-page">
@@ -58,7 +58,9 @@ class IntroLocation extends Component<any, any> {
 
   private async allowNotification() {
     let notificationToken = await GetTokenNotification();
-    UserTokenNotificationService.CreateToken(notificationToken);
+    if (notificationToken) {
+      UserTokenNotificationService.CreateToken(notificationToken);
+    }
     history.push('/');
   }
 
@@ -67,4 +69,4 @@ class IntroLocation extends Component<any, any> {
   }
 }
 
-export default IntroLocation;
+export default IntroNotification;
