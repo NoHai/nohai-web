@@ -1,7 +1,6 @@
 {
   "version": 2,
   "name": "nohai-app",
-  "alias": ["nohai-app"],
   "scope": "nohai-team",
   "build": {
     "env": {
