@@ -11,9 +11,11 @@ import LocalStorageHelper from '../../../../helpers/local-storage.helper';
 import { FormValidators } from '../../../../contracts/validators/forms-validators';
 import moment from 'moment';
 import 'moment/locale/ro';
+import DateHelper from '../../../../helpers/date.helper';
 registerSchema(Description);
 
-const format = 'HH:mm';
+const timeFormat = 'HH:mm';
+const dateFormat = 'YYYY:MM:DD';
 
 class DescriptionEventPage extends Component<any, any> {
   state = {
@@ -25,12 +27,18 @@ class DescriptionEventPage extends Component<any, any> {
   };
 
   componentDidMount() {
+    let eventDetails = LocalStorageHelper.GetItemFromLocalStorage(
+      LocalStorage.CreateEvent,
+      this.state.eventDetails
+    );
     this.setState({
-      eventDetails: LocalStorageHelper.GetItemFromLocalStorage(
-        LocalStorage.CreateEvent,
-        this.state.eventDetails
-      ),
+      eventDetails: eventDetails,
     });
+    if (!eventDetails.locationDetails.IsValid) {
+      eventDetails.participantsDetails.IsValid
+        ? history.push('/create-event/location-details')
+        : history.push('/create-event/participants-details');
+    }
   }
 
   handleClose(name: any) {
@@ -102,7 +110,8 @@ class DescriptionEventPage extends Component<any, any> {
             <label>Incepe in:</label>
             <DatePicker
               onChange={(date, dateString) => this.onDateTimeChange(date, dateString, 'StartDate')}
-              placeholder={this.state.eventDetails.description.StartDate || ''}
+              placeholder={"Data"}
+              value={DateHelper.GetDateFromString(this.state.eventDetails.description.StartDate)|| undefined }
             />
 
             <TimePicker
@@ -118,30 +127,33 @@ class DescriptionEventPage extends Component<any, any> {
                   Ok
                 </Button>
               )}
-              defaultOpenValue={moment('00:00', 'HH:mm')}
-              format={format}
+              defaultOpenValue={moment('00:00', timeFormat)}
+              format={timeFormat}
               onChange={(time, timeString) => this.onDateTimeChange(time, timeString, 'StartTime')}
-              placeholder={this.state.eventDetails.description.StartTime || ''}
+              placeholder={'Ora'}
+              value={DateHelper.GetDateFromString(this.state.eventDetails.description.StartTime, timeFormat)|| undefined }
             />
             <label>Se termina in:</label>
             <DatePicker
               onChange={(date, dateString) => this.onDateTimeChange(date, dateString, 'EndDate')}
-              placeholder={this.state.eventDetails.description.EndDate || ''}
+              placeholder={'Data'}
+              value={DateHelper.GetDateFromString(this.state.eventDetails.description.EndDate)|| undefined }
             />
 
             <TimePicker
               inputReadOnly
               open={this.state.openEndTime}
               onOpenChange={e => this.handleOpenChange('openEndTime')}
-              defaultOpenValue={moment('00:00', 'HH:mm')}
-              format={format}
+              defaultOpenValue={moment('00:00', timeFormat)}
+              format={timeFormat}
               addon={() => (
                 <Button size="small" type="primary" onClick={e => this.handleClose('openEndTime')}>
                   Ok
                 </Button>
               )}
               onChange={(time, timeString) => this.onDateTimeChange(time, timeString, 'EndTime')}
-              placeholder={this.state.eventDetails.description.EndTime || ''}
+              placeholder={'Ora'}
+              value={DateHelper.GetDateFromString(this.state.eventDetails.description.EndTime, timeFormat)|| undefined }
             />
             <label>Descrierea Evenimentului</label>
             <TextArea
@@ -184,12 +196,12 @@ class DescriptionEventPage extends Component<any, any> {
     );
   }
   async checkDates(description: DescriptionEventModel) {
-    return moment(description.StartDate, 'YYYY:MM:DD').isSame(
-      moment(description.EndDate, 'YYYY:MM:DD')
+    return moment(description.StartDate, dateFormat).isSame(
+      moment(description.EndDate, dateFormat)
     )
-      ? moment(description.StartTime, 'HH:mm') < moment(description.EndTime, 'HH:mm')
-      : moment(description.StartDate, 'YYYY:MM:DD').isBefore(
-          moment(description.EndDate, 'YYYY:MM:DD')
+      ? moment(description.StartTime, timeFormat) < moment(description.EndTime, timeFormat)
+      : moment(description.StartDate, dateFormat).isBefore(
+          moment(description.EndDate, dateFormat)
         );
   }
 

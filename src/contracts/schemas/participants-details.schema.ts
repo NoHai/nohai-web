@@ -12,14 +12,5 @@ export let ParticipantsDetailsSchema: ValidationSchema = {
         constraints: [1],
       },
     ],
-    FreeSpots: [
-      {
-        type: 'isInt',
-      },
-      {
-        type: 'min',
-        constraints: [1],
-      },
-    ],
   },
 };

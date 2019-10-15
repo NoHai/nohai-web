@@ -6,27 +6,39 @@ import { LocalStorage } from '../../contracts/enums/localStorage/local-storage';
 import { EventDetailsViewModel, LocationEventDetailsModel } from '../../contracts/models';
 
 class GoogleLocationAutoComplete extends Component<GoogleLocationAutoCompleteProps> {
+  private isMount: boolean = false;
+
   state = { streetName: '' };
   eventDetail = new EventDetailsViewModel();
   public autocomplete: any;
   constructor(props: any) {
     super(props);
-    this.init = this.init.bind(this);
+    this.initLocationSearch = this.initLocationSearch.bind(this);
   }
 
   async componentDidMount() {
+    this.isMount = true;
     this.eventDetail = await LocalStorageHelper.GetItemFromLocalStorage(
       LocalStorage.CreateEvent,
       this.eventDetail
     );
-    await this.setState({
-      streetName: this.eventDetail.locationDetails.StreetName,
-    });
+
+    if (this.props.isValid) {
+      this.setState({
+        streetName: this.eventDetail.locationDetails.StreetName,
+      });
+
+      this.initLocationSearch();
+    }
+  }
+
+  componentWillUnmount() {
+    this.isMount = false;
   }
 
   async handleAddressChange(event: any) {
     const { value } = event.target;
-    await this.setState({
+    this.setState({
       streetName: value,
     });
   }
@@ -42,21 +54,18 @@ class GoogleLocationAutoComplete extends Component<GoogleLocationAutoCompletePro
           placeholder={'Adresa'}
           value={this.state.streetName}
           onChange={e => this.handleAddressChange(e)}
-          onClick={this.init}
         />
       </div>
     );
   }
 
-  private init() {
+  private initLocationSearch() {
     var input = document.querySelector('#address');
     const google = (window as any).google;
     var defaultBounds = new google.maps.LatLngBounds(
       new google.maps.LatLng(45.49552, 23.703),
       new google.maps.LatLng(46.25466, 24.78516)
     );
-
-    //22.31873,46.36399,26.21887,45.40809
 
     var options = {
       bounds: defaultBounds,
@@ -76,9 +85,12 @@ class GoogleLocationAutoComplete extends Component<GoogleLocationAutoCompletePro
       if (this.props.onButtonClick) {
         this.props.onButtonClick(address);
       }
-      this.setState({
-        streetName: address.StreetName,
-      });
+
+      if (this.isMount) {
+        this.setState({
+          streetName: address.StreetName,
+        });
+      }
     });
   }
 
@@ -100,16 +112,20 @@ class GoogleLocationAutoComplete extends Component<GoogleLocationAutoCompletePro
       };
       return address;
     } else {
-      const address: LocationEventDetailsModel = {
-        City: '',
-        County: '',
-        Latitude: '',
-        Longitude: '',
-        StreetName: place.name,
-        IsValid: false,
-      };
-      return address;
+      return this.createEmptyLocation(place);
     }
+  }
+
+  private createEmptyLocation(place: any) {
+    const address: LocationEventDetailsModel = {
+      City: '',
+      County: '',
+      Latitude: '',
+      Longitude: '',
+      StreetName: place.name,
+      IsValid: false,
+    };
+    return address;
   }
 
   private getLatitude(place: any) {

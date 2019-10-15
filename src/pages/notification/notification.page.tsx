@@ -13,10 +13,11 @@ import {
   newNotificationReceived,
 } from '../../redux/actions/notification.action';
 import NoResults from '../../components/no-results/no-results.component';
-import { Row, Col } from 'antd';
+import { Row, Col, Button } from 'antd';
 import { GetTokenNotification } from '../../business/services/push-notification.service';
 import AppInfiniteScroll from '../../components/app-infinite-scroll/app-infinite-scroll.component';
 import LoadingHelper from '../../helpers/loading.helper';
+import { UserTokenNotificationService } from '../../business/services/user-token-notification.service';
 
 class NotificationPage extends Component {
   public notificationRequest = new PaginationBaseRequestModel();
@@ -43,10 +44,20 @@ class NotificationPage extends Component {
           <div>
             <div className="page-section-header">
               <Row type="flex" justify="space-around" align="middle">
-                <Col span={12}>
+                <Col span={8}>
                   <h2>Notificari</h2>
                 </Col>
-                <Col span={12} className="text-right">
+                <Col span={5}>
+                  {!this.state.hasToken && (
+                    <Button type="link" onClick={e => this.allowNotification()}>
+                      Porneste
+                    </Button>
+                  )}
+                </Col>
+                <Col span={4}>
+                  {!this.state.hasToken && <span className="icon mdi mdi-bell notification"></span>}
+                </Col>
+                <Col span={7} className="text-right">
                   <div
                     onClick={e => this.markAllAsRead()}
                     className="icon mdi mdi-email-mark-as-unread"
@@ -54,7 +65,9 @@ class NotificationPage extends Component {
                 </Col>
               </Row>
               {!this.state.hasToken && (
-                <div>Notificarile tale sunt dezactivate, te rugam porneste notificarile</div>
+                <div>
+                  <div>Notificarile tale sunt dezactivate</div>
+                </div>
               )}
             </div>
           </div>
@@ -72,6 +85,13 @@ class NotificationPage extends Component {
     this.setState({
       hasToken: tokenNotification ? true : false,
     });
+  }
+
+  async allowNotification() {
+    let notificationToken = await GetTokenNotification();
+    if (notificationToken) {
+      UserTokenNotificationService.CreateToken(notificationToken);
+    }
   }
 
   displayNotification() {
@@ -121,12 +141,12 @@ class NotificationPage extends Component {
       });
     }
 
-    await this.SetNotification();
+    this.SetNotification();
     LoadingHelper.hideLoading();
   }
 
-  private async SetNotification() {
-    await this.setState({
+  private SetNotification() {
+    this.setState({
       notifications: this.norificationContainer,
       pageIndex: this.notificationRequest.pageIndex + 1,
     });
@@ -135,7 +155,7 @@ class NotificationPage extends Component {
   private async responseRequest(approve: boolean, notificationId: any) {
     this.norificationContainer = new Array<NotificationModel>();
     StoreUtility.store.dispatch(unReadNotification(0));
-    await this.setState({
+    this.setState({
       notifications: new Array<NotificationModel>(),
       hasMoreItems: true,
       pageIndex: 0,
@@ -155,7 +175,7 @@ class NotificationPage extends Component {
   private async markAllAsRead() {
     this.norificationContainer = new Array<NotificationModel>();
     StoreUtility.store.dispatch(unReadNotification(0));
-    await this.setState({
+    this.setState({
       notifications: new Array<NotificationModel>(),
       hasMoreItems: true,
       pageIndex: 0,

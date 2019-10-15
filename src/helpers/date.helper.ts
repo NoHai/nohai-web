@@ -24,10 +24,18 @@ export default class DateHelper {
     return moment(date, 'YYYY-MM-DD').format(format);
   }
 
-  public static GetDuration(startDate: string, endDate: string ) {
+  public static GetDateFromString(date: string, format: string = 'YYYY-MM-DD') {
+    if (date) {
+      return moment(date, format);
+    } else {
+      return null;
+    }
+  }
+
+  public static GetDuration(startDate: string, endDate: string) {
     var ms = moment(endDate, 'YYYY-MM-DD HH:mm').diff(moment(startDate, 'YYYY-MM-DD HH:mm'));
     var d = moment.duration(ms);
-    var s = Math.floor(d.asHours())+'h ' + moment.utc(ms).format('mm')+ "m";
-    return s ;
+    var s = Math.floor(d.asHours()) + 'h ' + moment.utc(ms).format('mm') + 'm';
+    return s;
   }
 }

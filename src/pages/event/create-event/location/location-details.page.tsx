@@ -13,64 +13,81 @@ import GoogleLocationAutoComplete from '../../../../components/google-location/g
 registerSchema(LocationDetailsSchema);
 
 class LocationDetailsEventPage extends Component<any, any> {
-  state = {
-    eventDetails: new EventDetailsViewModel(),
-  };
+  private isMount: boolean = false;
+
+  constructor(props: any) {
+    super(props);
+
+    const eventDetails = this.getEventDetails();
+
+    this.state = {
+      eventDetails: eventDetails,
+    };
+
+    this.isEventDetailsValid(eventDetails);
+  }
 
   componentDidMount() {
-    this.setState({
-      eventDetails: LocalStorageHelper.GetItemFromLocalStorage(
-        LocalStorage.CreateEvent,
-        this.state.eventDetails
-      ),
-    });
+    this.isMount = true;
   }
+
+  componentWillUnmount() {
+    this.isMount = false;
+  }
+
   async handleChange(event: any) {
     const { name, value } = event.target;
 
-    await this.setState((prevState: any) => ({
-      eventDetails: {
-        ...prevState.eventDetails,
-        locationDetails: {
-          ...prevState.eventDetails.locationDetails,
-          [name]: value,
+    if (this.isMount) {
+      this.setState((prevState: any) => ({
+        eventDetails: {
+          ...prevState.eventDetails,
+          locationDetails: {
+            ...prevState.eventDetails.locationDetails,
+            [name]: value,
+          },
         },
-      },
-    }));
-    await this.chekIfIsValid();
+      }));
+
+      await this.chekIfIsValid();
+    }
   }
 
   async setLocation(address: LocationEventDetailsModel) {
-    await this.setState((prevState: any) => ({
-      eventDetails: {
-        ...prevState.eventDetails,
-        locationDetails: {
-          County: address.County,
-          City: address.City,
-          StreetName: address.StreetName,
-          Longitude: address.Longitude,
-          Latitude: address.Latitude,
+    if (this.isMount) {
+      this.setState((prevState: any) => ({
+        eventDetails: {
+          ...prevState.eventDetails,
+          locationDetails: {
+            County: address.County,
+            City: address.City,
+            StreetName: address.StreetName,
+            Longitude: address.Longitude,
+            Latitude: address.Latitude,
+          },
         },
-      },
-    }));
-    await this.chekIfIsValid();
+      }));
+      await this.chekIfIsValid();
+    }
   }
 
   async chekIfIsValid() {
-    let isValid = await FormValidators.checkSchema(
-      this.state.eventDetails.locationDetails,
-      'locationDetailsSchema'
-    );
+    if (this.isMount) {
+      const isValid = await FormValidators.checkSchema(
+        this.state.eventDetails.locationDetails,
+        'locationDetailsSchema'
+      );
 
-    this.setState((prevState: any) => ({
-      eventDetails: {
-        ...prevState.eventDetails,
-        locationDetails: {
-          ...prevState.eventDetails.locationDetails,
-          IsValid: isValid,
+      this.setState((prevState: any) => ({
+        eventDetails: {
+          ...prevState.eventDetails,
+          locationDetails: {
+            ...prevState.eventDetails.locationDetails,
+            IsValid: isValid,
+          },
         },
-      },
-    }));
+      }));
+    }
   }
 
   public render() {
@@ -82,28 +99,29 @@ class LocationDetailsEventPage extends Component<any, any> {
               title={'Detalii locatie'}
               iconClass={'icon mdi mdi-map-marker-plus'}
             />
-            <label>Alege Adresa</label>
+            <label>Punct de intalnire</label>
             <GoogleLocationAutoComplete
               streetName={this.state.eventDetails.locationDetails.StreetName}
+              isValid={this.state.eventDetails.participantsDetails.IsValid}
               onButtonClick={e => this.setLocation(e)}
             ></GoogleLocationAutoComplete>
-            <label>Alege Judetul</label>
+            <label>Judet</label>
             <Input
               className="padding-bottom"
               size="large"
               type="text"
-              placeholder="Judet"
+              placeholder="Alege Judetul"
               data-lpignore="true"
               name="County"
               value={this.state.eventDetails.locationDetails.County}
               onChange={e => this.handleChange(e)}
             />
-            <label>Alege Orasul</label>
+            <label>Oras</label>
             <Input
               className="padding-bottom"
               size="large"
               type="text"
-              placeholder="Oras"
+              placeholder="Alege Orasul"
               data-lpignore="true"
               name="City"
               value={this.state.eventDetails.locationDetails.City}
@@ -139,6 +157,19 @@ class LocationDetailsEventPage extends Component<any, any> {
           </Row>
         </div>
       </div>
+    );
+  }
+
+  private isEventDetailsValid(eventDetails: any) {
+    if (!eventDetails.participantsDetails.IsValid) {
+      history.push('/create-event/participants-details');
+    }
+  }
+
+  private getEventDetails() {
+    return LocalStorageHelper.GetItemFromLocalStorage(
+      LocalStorage.CreateEvent,
+      new EventDetailsViewModel()
     );
   }
 
