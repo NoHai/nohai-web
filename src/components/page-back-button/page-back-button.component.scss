@@ -1,0 +1,23 @@
+@import './../../globals/styles/variables';
+@import './../../globals/styles/functions';
+
+.page-back-button {
+  .notification {
+    position: relative;
+    display: inline-block;
+    font-size: 24px;
+    cursor: pointer;
+    @include user-select-none();
+  }
+
+  .notification .badge {
+    position: absolute;
+    top: 0px;
+    right: -7px;
+    padding: 2px 6px;
+    border-radius: 50%;
+    background-color: red;
+    color: white;
+    font-size: 10px;
+  }
+}
