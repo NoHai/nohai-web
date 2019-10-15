@@ -22,6 +22,7 @@ class HistoryHelperClass {
     if (this.isHome(path)) {
       this.goHome();
     } else if (this.isNewPath(path)) {
+      this.optimizationCearPaths();
       this.paths.push(path);
       this.history.push(path, state);
     }
@@ -61,6 +62,12 @@ class HistoryHelperClass {
 
   private isNewPath(path: string): boolean {
     return this.paths && (this.paths.length === 0 || this.paths[this.paths.length - 1] !== path);
+  }
+
+  private optimizationCearPaths() {
+    if (this.paths.length > 20) {
+      this.paths = this.paths.splice(1);
+    }
   }
 }
 
