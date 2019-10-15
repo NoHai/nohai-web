@@ -23,7 +23,8 @@ class EventCard extends Component<any, any> {
       eventDetails: this.props.eventDetails,
       requestSent: false,
     };
-    this.isForPreview = window.location.pathname === '/preview';
+
+    this.isForPreview = window.location.pathname.endsWith('preview');
   }
 
   async componentDidMount() {
@@ -74,7 +75,8 @@ class EventCard extends Component<any, any> {
                 this.props.eventDetails.owner.Id !== this.userId &&
                 !this.chekIfRequestSent() &&
                 !this.state.requestSent &&
-                this.props.eventDetails.participants.length<this.props.eventDetails.participantsDetails.FreeSpots&& (
+                this.props.eventDetails.participants.length <
+                  this.props.eventDetails.participantsDetails.FreeSpots && (
                   <Button
                     type="primary"
                     size="large"
@@ -125,14 +127,24 @@ class EventCard extends Component<any, any> {
         />
 
         {this.isForPreview && (
-          <div>
+          <div className="create-event-wrapper">
+            <div className="sub-title">Totul este corect?</div>
+            <p>Daca totul este ok creaza evenimentul si asteapta ca lumea sa ti se alature</p>
+
             <Button
               type="primary"
+              size="large"
+              block={true}
+              className="margin-bottom"
               onClick={() => {
                 this.createEvent();
               }}
             >
               Creaza evenimentul
+            </Button>
+
+            <Button type="link" block={true} size="small" onClick={() => this.goBack()}>
+              Am uitat ceva
             </Button>
           </div>
         )}
@@ -164,6 +176,10 @@ class EventCard extends Component<any, any> {
     this.setState({
       requestSent: true,
     });
+  }
+
+  private goBack() {
+    history.goBack();
   }
 }
 

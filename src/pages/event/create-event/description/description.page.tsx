@@ -215,7 +215,7 @@ class DescriptionEventPage extends Component<any, any> {
       },
     }));
     LocalStorageHelper.SaveItemToLocalStorage(LocalStorage.CreateEvent, this.state.eventDetails);
-    history.push('/preview');
+    history.push('/create-event/preview');
   }
 }
 
