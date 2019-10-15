@@ -25,7 +25,7 @@ class EventDetailsPage extends Component<DetailsProps> {
     if (this.props.match && this.props.match.params.id) {
       const eventDetails = await EventService.Get(this.props.match.params.id);
       this.setState({
-        eventDetails: eventDetails,
+        eventDetails,
       });
     } else {
       this.setState({

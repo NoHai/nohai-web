@@ -51,7 +51,7 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
           ...prevState.eventDetails.participantsDetails,
           Level: level,
         },
-        sport: sport,
+        sport,
       },
     }));
 
@@ -59,7 +59,7 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
   }
 
   async chekIfIsValid() {
-    let isValid = await FormValidators.checkSchema(
+    const isValid = await FormValidators.checkSchema(
       this.state.eventDetails.participantsDetails,
       'participantsDetailsSchema'
     );
@@ -81,7 +81,7 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
         <div className="page-sections">
           <div className="page-section page-section-large">
             <CreateEventHeaderComponent
-              title={'Detalii participantii'}
+              title={'Detalii participanti'}
               iconClass={'icon mdi mdi-account-group'}
             />
             <label>Sportul si nivelul</label>

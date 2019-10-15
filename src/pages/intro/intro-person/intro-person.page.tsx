@@ -75,10 +75,6 @@ class IntroPersonPage extends Component<any, any> {
     await this.GetDays();
   }
 
-  onSearch(val: any) {
-    console.log('search:', val);
-  }
-
   render() {
     return (
       <div className="intro-step-page">
@@ -189,7 +185,9 @@ class IntroPersonPage extends Component<any, any> {
       this.state.registerDetails.details.Year
     ) {
       return true;
-    } else return false;
+    }
+
+    return false;
   }
 
   private GoForward() {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Router, RouteProps, Redirect } from 'react-router';
 import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
-import history from './utilities/core/history';
+import HistoryHelper from './utilities/core/history';
 import 'antd/dist/antd.css';
 import './App.scss';
 
@@ -33,7 +33,7 @@ class App extends Component<any, any> {
 
   render() {
     return this.props.isLoaded ? (
-      <Router history={history}>
+      <Router history={HistoryHelper.history}>
         <div className="app page-sections">
           <div className="page-section page-section-large">
             <Switch>
