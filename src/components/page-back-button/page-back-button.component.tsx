@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './page-back-button.component.scss';
-import history from '../../utilities/core/history';
+import HistoryHelper from '../../utilities/core/history';
 import { PaginationBaseRequestModel } from '../../contracts/requests/pagination.base.model.request';
 import { NotificationService } from '../../business/services/notification.service';
 import { connect } from 'react-redux';
@@ -8,7 +8,7 @@ import { unReadNotification } from '../../redux/actions/notification.action';
 
 class PageBackButton extends Component<any, any> {
   private unlisten: any;
-  state = { isMainPage: this.isMainPage() };
+  state = { isMainPage: HistoryHelper.isMainPage() };
 
   public notification: any;
   public notificationRequest = new PaginationBaseRequestModel();
@@ -28,19 +28,9 @@ class PageBackButton extends Component<any, any> {
   }
 
   private historyListen(): void {
-    this.unlisten = history.listen(() => {
-      this.setState({ isMainPage: this.isMainPage() });
+    this.unlisten = HistoryHelper.history.listen(() => {
+      this.setState({ isMainPage: HistoryHelper.isMainPage() });
     });
-  }
-
-  private isMainPage(): boolean {
-    const path = history.location.pathname;
-
-    if (path !== '/') {
-      return false;
-    }
-
-    return true;
   }
 
   private getNotificationIconButton(): any {
@@ -70,11 +60,11 @@ class PageBackButton extends Component<any, any> {
   }
 
   private NavigateToNotification(): void {
-    history.push('/notification');
+    HistoryHelper.push('/notification');
   }
 
   private NavigateBack() {
-    history.replace('/', {});
+    HistoryHelper.goBack();
   }
 }
 const mapStateToProps: any = (state: any) => {
