@@ -33,7 +33,7 @@ class IntroSport extends Component<any, any> {
           Level: level,
           Sport: sport,
         },
-        sport: sport,
+        sport,
       },
     }));
   }
@@ -46,8 +46,8 @@ class IntroSport extends Component<any, any> {
             <h1 className="invert">De ce sport esti pasionat?</h1>
 
             <p className="invert margin-bottom">
-              Alege sporturile de care esti pasionat si nivelul la care esti. <br />
-              Pe baza sporturilor selectate iti vom genera timeline-ul
+              Alege sportul de care esti pasionat si nivelul. <br />
+              Pe baza sportului selectat iti vom genera timeline-ul
             </p>
 
             <SportsSelection

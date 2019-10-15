@@ -18,11 +18,12 @@ class IntroMeasurements extends Component<any, any> {
     });
   }
   async handleChange(event: any) {
-    let registerDetails = JSON.parse(JSON.stringify(this.state.registerDetails));
+    const registerDetails = JSON.parse(JSON.stringify(this.state.registerDetails));
     const { name, value } = event.target;
     registerDetails.details[name] = value;
+
     this.setState({
-      registerDetails: registerDetails,
+      registerDetails,
     });
   }
 
@@ -31,11 +32,11 @@ class IntroMeasurements extends Component<any, any> {
       <div className="intro-step-page">
         <div className="page-sections">
           <div className="page-section page-section-large page-section-with-color align-middle">
-            <h1 className="invert">Sa ne cunoastem</h1>
+            <h1 className="invert">Cateva detalii</h1>
 
             <p className="margin-bottom invert">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci, culpa dolores
-              architecto ipsam
+              Doua, trei kilograme in plus sau in minus, cui ii pasa. <br />
+              Important e ca tu sa te simti bine.
             </p>
 
             <div className="form">

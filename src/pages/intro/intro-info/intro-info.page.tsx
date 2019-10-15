@@ -10,12 +10,11 @@ class IntroInfoPage extends Component {
         <div className="page-sections">
           <div className="page-section page-section-large">
             <div className="intro-info-image" />
-            <h1>Aproape am terminat</h1>
+            <h1>Bine ai venit</h1>
 
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci, culpa dolores
-              architecto ipsam repellendus sequi quod aperiam dolore aliquam quo! In deserunt sed
-              aliquam vero at, architecto.
+               Pentru a iti sugera cele mai bune evenimente, avem nevoie de
+              cateva informatii referitoare la ceea ce iti place sa faci.
             </p>
 
             <Button
