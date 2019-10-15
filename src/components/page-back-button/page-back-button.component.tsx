@@ -39,7 +39,7 @@ class PageBackButton extends Component<any, any> {
         onClick={() => {
           this.NavigateToNotification();
         }}
-        className="icon mdi mdi-bell notification"
+        className="icon mdi mdi-bell page-back-button notification"
       >
         {this.props.unReadNotifications > 0 && (
           <span className="badge">{this.props.unReadNotifications || ''}</span>

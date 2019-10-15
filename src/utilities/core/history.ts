@@ -21,7 +21,7 @@ class HistoryHelperClass {
   public push(path: string, state: any = null) {
     if (this.isHome(path)) {
       this.goHome();
-    } else {
+    } else if (this.isNewPath(path)) {
       this.paths.push(path);
       this.history.push(path, state);
     }
@@ -57,6 +57,10 @@ class HistoryHelperClass {
 
   private isHome(path: string) {
     return path === '/';
+  }
+
+  private isNewPath(path: string): boolean {
+    return this.paths && (this.paths.length === 0 || this.paths[this.paths.length - 1] !== path);
   }
 }
 
