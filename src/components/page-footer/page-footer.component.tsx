@@ -39,7 +39,7 @@ class PageFooter extends Component {
               }}
             >
               <span className={`icon mdi ${createEventClass}`} />
-              <div className="page-footer-text">Creeaza eveniment</div>
+              <div className="page-footer-text">Adauga eveniment</div>
             </div>
           </Col>
 
