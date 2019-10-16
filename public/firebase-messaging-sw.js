@@ -19,6 +19,7 @@ messaging.setBackgroundMessageHandler(function(payload) {
   var notificationOptions = {
     body: payload.notification.body,
     icon: payload.notification.icon,
+    badge: payload.notification.icon,
     data: { url: payload.notification.click_action },
   };
 
