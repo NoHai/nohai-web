@@ -92,7 +92,10 @@ class NotificationPage extends Component {
   async allowNotification() {
     let notificationToken = await GetTokenNotification();
     if (notificationToken) {
-      UserTokenNotificationService.CreateToken(notificationToken);
+      await UserTokenNotificationService.CreateToken(notificationToken);
+      this.setState({
+        hasToken: true,
+      });
     }
   }
 
