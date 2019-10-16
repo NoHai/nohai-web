@@ -5,22 +5,35 @@
   display: block;
   background-color: $footer-color;
   border-top: 1px solid $footer-border-color;
-  padding: 8px 5px;
+  padding: 0;
   box-shadow: 0 -1px 10px 1px $footer-border-color;
 
-  .icon {
-    font-size: 38px;
-    color: $footer-text-color;
+  .page-footer-link {
     cursor: pointer;
+    display: block;
+    width: 100%;
+    padding: 8px 0;
     @include user-select-none();
-    line-height: 1;
 
     &.active {
       color: $main-color;
+
+      .icon {
+        color: $main-color;
+      }
     }
 
-    &.icon-large {
-      font-size: 42px;
+    .icon {
+      font-size: 24px;
+      color: $footer-text-color;
+      line-height: 1;
+      padding: 0;
+      margin: 0;
+    }
+
+    .page-footer-text {
+      font-size: 13px;
+      font-weight: 400;
     }
   }
 }

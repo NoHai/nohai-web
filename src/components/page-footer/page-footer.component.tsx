@@ -8,42 +8,51 @@ import HistoryHelper from '../../utilities/core/history';
 
 class PageFooter extends Component {
   render() {
-    const homeClass = HistoryHelper.checkPath('/')
-      ? 'active mdi-home'
-      : 'mdi-home-outline';
-    const createEventClass = HistoryHelper.containsPath('/create-event')
-      ? 'active mdi-plus-circle'
-      : 'mdi-plus-circle-outline';
-    const eventHistoryClass = HistoryHelper.checkPath('/events-history')
-      ? 'active mdi-ticket'
-      : 'mdi-ticket-outline';
+    const isHomeActive = HistoryHelper.checkPath('/');
+    const isCreateEventActive = HistoryHelper.containsPath('/create-event');
+    const isHistoryActive = HistoryHelper.checkPath('/events-history');
+
+    const homeClass = isHomeActive ? 'mdi-home' : 'mdi-home-outline';
+    const createEventClass = isCreateEventActive ? 'mdi-plus-circle' : 'mdi-plus-circle-outline';
+    const eventHistoryClass = isHistoryActive ? 'mdi-calendar-star' : 'mdi-calendar-blank-outline';
 
     return (
       <div className="page-footer page-section">
         <Row type="flex" align="middle">
           <Col span={8} className="text-center">
             <div
-              className={`icon mdi ${homeClass}`}
+              className={`page-footer-link ${isHomeActive ? 'active' : ''}`}
               onClick={() => {
                 this.NavigateToEvents();
               }}
-            />
+            >
+              <span className={`icon mdi ${homeClass}`} />
+              <div className="page-footer-text">Acasa</div>
+            </div>
           </Col>
+
           <Col span={8} className="text-center">
             <div
-              className={`icon mdi ${createEventClass}`}
+              className={`page-footer-link ${isCreateEventActive ? 'active' : ''}`}
               onClick={() => {
                 this.NavigateToCreateEvent();
               }}
-            />
+            >
+              <span className={`icon mdi ${createEventClass}`} />
+              <div className="page-footer-text">Creaza eveniment</div>
+            </div>
           </Col>
+
           <Col span={8} className="text-center">
             <div
-              className={`icon mdi ${eventHistoryClass}`}
+              className={`page-footer-link ${isHistoryActive ? 'active' : ''}`}
               onClick={() => {
                 this.NavigateToHistoryEvents();
               }}
-            />
+            >
+              <span className={`icon mdi ${eventHistoryClass}`} />
+              <div className="page-footer-text">Istoric</div>
+            </div>
           </Col>
         </Row>
       </div>
