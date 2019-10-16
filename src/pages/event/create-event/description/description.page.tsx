@@ -12,6 +12,7 @@ import { FormValidators } from '../../../../contracts/validators/forms-validator
 import moment from 'moment';
 import 'moment/locale/ro';
 import DateHelper from '../../../../helpers/date.helper';
+import HistoryHelper from '../../../../utilities/core/history';
 registerSchema(Description);
 
 const timeFormat = 'HH:mm';
@@ -26,18 +27,18 @@ class DescriptionEventPage extends Component<any, any> {
     openEndTime: false,
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     let eventDetails = LocalStorageHelper.GetItemFromLocalStorage(
       LocalStorage.CreateEvent,
       this.state.eventDetails
     );
+    const validEndDate = await this.checkDates(eventDetails.description);
     this.setState({
       eventDetails: eventDetails,
+      finishForm: eventDetails.description.IsValid && validEndDate,
     });
     if (!eventDetails.locationDetails.IsValid) {
-      eventDetails.participantsDetails.IsValid
-        ? history.push('/create-event/location-details')
-        : history.push('/create-event/participants-details');
+      HistoryHelper.goHome();
     }
   }
 
@@ -110,14 +111,19 @@ class DescriptionEventPage extends Component<any, any> {
             <label>Incepe in:</label>
             <DatePicker
               onChange={(date, dateString) => this.onDateTimeChange(date, dateString, 'StartDate')}
-              placeholder={"Data"}
-              value={DateHelper.GetDateFromString(this.state.eventDetails.description.StartDate)|| undefined }
+              placeholder={'Data'}
+              size="large"
+              value={
+                DateHelper.GetDateFromString(this.state.eventDetails.description.StartDate) ||
+                undefined
+              }
             />
 
             <TimePicker
               inputReadOnly
               open={this.state.openStartTime}
               onOpenChange={e => this.handleOpenChange('openStartTime')}
+              size="large"
               addon={() => (
                 <Button
                   size="small"
@@ -131,13 +137,22 @@ class DescriptionEventPage extends Component<any, any> {
               format={timeFormat}
               onChange={(time, timeString) => this.onDateTimeChange(time, timeString, 'StartTime')}
               placeholder={'Ora'}
-              value={DateHelper.GetDateFromString(this.state.eventDetails.description.StartTime, timeFormat)|| undefined }
+              value={
+                DateHelper.GetDateFromString(
+                  this.state.eventDetails.description.StartTime,
+                  timeFormat
+                ) || undefined
+              }
             />
             <label>Se termina in:</label>
             <DatePicker
               onChange={(date, dateString) => this.onDateTimeChange(date, dateString, 'EndDate')}
               placeholder={'Data'}
-              value={DateHelper.GetDateFromString(this.state.eventDetails.description.EndDate)|| undefined }
+              size="large"
+              value={
+                DateHelper.GetDateFromString(this.state.eventDetails.description.EndDate) ||
+                undefined
+              }
             />
 
             <TimePicker
@@ -146,6 +161,7 @@ class DescriptionEventPage extends Component<any, any> {
               onOpenChange={e => this.handleOpenChange('openEndTime')}
               defaultOpenValue={moment('00:00', timeFormat)}
               format={timeFormat}
+              size="large"
               addon={() => (
                 <Button size="small" type="primary" onClick={e => this.handleClose('openEndTime')}>
                   Ok
@@ -153,7 +169,12 @@ class DescriptionEventPage extends Component<any, any> {
               )}
               onChange={(time, timeString) => this.onDateTimeChange(time, timeString, 'EndTime')}
               placeholder={'Ora'}
-              value={DateHelper.GetDateFromString(this.state.eventDetails.description.EndTime, timeFormat)|| undefined }
+              value={
+                DateHelper.GetDateFromString(
+                  this.state.eventDetails.description.EndTime,
+                  timeFormat
+                ) || undefined
+              }
             />
             <label>Descrierea Evenimentului</label>
             <TextArea
@@ -196,13 +217,9 @@ class DescriptionEventPage extends Component<any, any> {
     );
   }
   async checkDates(description: DescriptionEventModel) {
-    return moment(description.StartDate, dateFormat).isSame(
-      moment(description.EndDate, dateFormat)
-    )
+    return moment(description.StartDate, dateFormat).isSame(moment(description.EndDate, dateFormat))
       ? moment(description.StartTime, timeFormat) < moment(description.EndTime, timeFormat)
-      : moment(description.StartDate, dateFormat).isBefore(
-          moment(description.EndDate, dateFormat)
-        );
+      : moment(description.StartDate, dateFormat).isBefore(moment(description.EndDate, dateFormat));
   }
 
   goToLocationDetails() {
@@ -221,8 +238,9 @@ class DescriptionEventPage extends Component<any, any> {
             .locale('ro')
             .format('dddd')}  ${moment(this.state.eventDetails.description.StartDate).format(
             'DD'
-          )} ${moment(this.state.eventDetails.description.StartDate).format('MMMM')}
-          `,
+          )} ${moment(this.state.eventDetails.description.StartDate).format('MMMM')} ora ${
+            this.state.eventDetails.description.StartTime
+          }`,
         },
       },
     }));

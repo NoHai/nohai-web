@@ -9,6 +9,7 @@ import { LocalStorage } from '../../../../contracts/enums/localStorage/local-sto
 import LocalStorageHelper from '../../../../helpers/local-storage.helper';
 import { FormValidators } from '../../../../contracts/validators/forms-validators';
 import GoogleLocationAutoComplete from '../../../../components/google-location/google-location-autocomplete';
+import HistoryHelper from '../../../../utilities/core/history';
 
 registerSchema(LocationDetailsSchema);
 
@@ -162,7 +163,7 @@ class LocationDetailsEventPage extends Component<any, any> {
 
   private isEventDetailsValid(eventDetails: any) {
     if (!eventDetails.participantsDetails.IsValid) {
-      history.push('/create-event/participants-details');
+      HistoryHelper.goHome();
     }
   }
 
