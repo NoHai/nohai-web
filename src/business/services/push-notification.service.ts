@@ -6,7 +6,6 @@ import { FirebaseConfig } from '../../contracts/models/env-models/firebase.confi
 import { UserTokenNotificationService } from './user-token-notification.service';
 
 export const initializeFirebase = () => {
-  // Your web app's Firebase configuration
   const firebaseConfig = new FirebaseConfig();
   firebase.initializeApp(firebaseConfig);
 
@@ -23,10 +22,6 @@ export const initializeFirebase = () => {
       .then(refreshedToken => {
         console.log('Token refreshed.', refreshedToken);
         UserTokenNotificationService.CreateToken(refreshedToken);
-        // Indicate that the new Instance ID token has not yet been sent to the
-        // app server.
-        // Send Instance ID token to app server.
-        // ...
       })
       .catch(err => {
         console.log('Unable to retrieve refreshed token ', err);
