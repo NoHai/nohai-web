@@ -65,7 +65,7 @@ class TokenProviderController {
     return moment(expireDate).isAfter(calculatedDate);
   }
 
-  private async  logout() {
+  public async  logout() {
     await this.removeToken();
     window.location.reload();
   }
