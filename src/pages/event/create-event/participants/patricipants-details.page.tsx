@@ -18,8 +18,8 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
     eventDetails: new EventDetailsViewModel(),
   };
 
-  async componentDidMount() {
-    await this.setState({
+  componentDidMount() {
+    this.setState({
       eventDetails: LocalStorageHelper.GetItemFromLocalStorage(
         LocalStorage.CreateEvent,
         this.state.eventDetails
@@ -30,7 +30,7 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
   async handleChange(event: any) {
     const { name, value } = event.target;
 
-    await this.setState((prevState: any) => ({
+    this.setState((prevState: any) => ({
       eventDetails: {
         ...prevState.eventDetails,
         participantsDetails: {
@@ -44,7 +44,7 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
   }
 
   async onCloseDrawer(sport: SportModel, level: number) {
-    await this.setState((prevState: any) => ({
+    this.setState((prevState: any) => ({
       eventDetails: {
         ...prevState.eventDetails,
         participantsDetails: {
@@ -128,6 +128,7 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
       </div>
     );
   }
+
   goToLocationDetails() {
     LocalStorageHelper.SaveItemToLocalStorage(LocalStorage.CreateEvent, this.state.eventDetails);
     history.push('/create-event/location-details');

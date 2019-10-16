@@ -8,14 +8,16 @@ import { ListModel } from '../../contracts/models';
 import { SportModel } from '../../contracts/models/sport.model';
 
 class SportsSelection extends Component<SportSelectionProps> {
-  state = { visible: false, childrenDrawer: false };
-  private Sports = new ListModel<SportModel>();
+  state = { visible: false, childrenDrawer: false, sports: new ListModel<SportModel>() };
   private levels = [1, 2, 3];
   public selectedSport = new SportModel();
 
   async componentDidMount() {
-    this.Sports = await CommonService.Get();
+    this.setState({
+      sports: await CommonService.Get(),
+    });
   }
+
   showDrawer = () => {
     this.setState({
       visible: true,
@@ -71,7 +73,7 @@ class SportsSelection extends Component<SportSelectionProps> {
           <div className="page-sections">
             <div className="page-section page-section-large">
               <List
-                dataSource={this.Sports.Data}
+                dataSource={this.state.sports.Data}
                 renderItem={(item: any) => (
                   <List.Item
                     onClick={() => {
