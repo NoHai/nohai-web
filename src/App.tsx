@@ -56,7 +56,7 @@ class App extends Component<any, any> {
                 isCompleted={this.props.isCompleted}
               />
               <AuthorizationRoute
-                path="/reset-password"
+                path="/reset-password/:token"
                 component={ResetPasswordPage}
                 isAuthorized={this.props.isAuthorized}
                 isCompleted={this.props.isCompleted}

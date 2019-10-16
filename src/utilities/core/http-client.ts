@@ -61,6 +61,7 @@ class HttpClientController {
         await TokenProvider.saveToken(response);
         return response;
       } catch (err) {
+        await TokenProvider.logout();
         return null;
       }
     }
