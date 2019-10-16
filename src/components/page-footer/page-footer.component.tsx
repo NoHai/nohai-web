@@ -12,7 +12,7 @@ class PageFooter extends Component {
     const isCreateEventActive = HistoryHelper.containsPath('/create-event');
     const isHistoryActive = HistoryHelper.checkPath('/events-history');
 
-    const homeClass = isHomeActive ? 'mdi-home' : 'mdi-home-outline';
+    const homeClass = isHomeActive ? 'mdi-ticket' : 'mdi-ticket-outline';
     const createEventClass = isCreateEventActive ? 'mdi-plus-circle' : 'mdi-plus-circle-outline';
     const eventHistoryClass = isHistoryActive ? 'mdi-calendar-star' : 'mdi-calendar-blank-outline';
 
@@ -27,7 +27,7 @@ class PageFooter extends Component {
               }}
             >
               <span className={`icon mdi ${homeClass}`} />
-              <div className="page-footer-text">Acasa</div>
+              <div className="page-footer-text">Evenimente</div>
             </div>
           </Col>
 
