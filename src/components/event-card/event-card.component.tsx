@@ -129,7 +129,7 @@ class EventCard extends Component<any, any> {
         {this.isForPreview && (
           <div className="create-event-wrapper">
             <div className="sub-title">Totul este corect?</div>
-            <p>Daca totul este ok creaza evenimentul si asteapta ca lumea sa ti se alature</p>
+            <p>Daca totul este ok creeaza evenimentul si asteapta ca lumea sa ti se alature</p>
 
             <Button
               type="primary"
@@ -140,7 +140,7 @@ class EventCard extends Component<any, any> {
                 this.createEvent();
               }}
             >
-              Creaza evenimentul
+              Creeaza evenimentul
             </Button>
 
             <Button type="link" block={true} size="small" onClick={() => this.goBack()}>
