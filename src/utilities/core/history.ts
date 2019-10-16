@@ -6,6 +6,10 @@ class HistoryHelperClass {
   public history: any;
   private paths: string[];
 
+  public get currentPathName(): string {
+    return this.history.location.pathname;
+  }
+
   private constructor() {
     this.paths = new Array<string>();
     this.history = createBrowserHistory();
@@ -46,8 +50,20 @@ class HistoryHelperClass {
     return this.paths && this.paths.length > 0;
   }
 
+  public checkPath(path: string) {
+    return this.currentPathName === path;
+  }
+
+  public containsPath(path: string) {
+    return this.currentPathName.indexOf(path) > -1;
+  }
+
   public isMainPage() {
-    return this.isHome(this.history.location.pathname);
+    return this.isHome(this.currentPathName);
+  }
+
+  private isHome(path: string) {
+    return path === '/';
   }
 
   private popFromPath() {
@@ -56,12 +72,8 @@ class HistoryHelperClass {
     }
   }
 
-  private isHome(path: string) {
-    return path === '/';
-  }
-
   private isNewPath(path: string): boolean {
-    return this.paths && (this.paths.length === 0 || this.paths[this.paths.length - 1] !== path);
+    return this.currentPathName !== path;
   }
 
   private optimizationCearPaths() {

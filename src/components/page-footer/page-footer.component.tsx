@@ -4,15 +4,26 @@ import { Row, Col } from 'antd';
 import history from '../../utilities/core/history';
 import LocalStorageHelper from '../../helpers/local-storage.helper';
 import { LocalStorage } from '../../contracts/enums/localStorage/local-storage';
+import HistoryHelper from '../../utilities/core/history';
 
 class PageFooter extends Component {
   render() {
+    const homeClass = HistoryHelper.checkPath('/')
+      ? 'active mdi-home'
+      : 'mdi-home-outline';
+    const createEventClass = HistoryHelper.containsPath('/create-event')
+      ? 'active mdi-plus-circle'
+      : 'mdi-plus-circle-outline';
+    const eventHistoryClass = HistoryHelper.checkPath('/events-history')
+      ? 'active mdi-ticket'
+      : 'mdi-ticket-outline';
+
     return (
       <div className="page-footer page-section">
         <Row type="flex" align="middle">
           <Col span={8} className="text-center">
             <div
-              className="icon mdi mdi-ticket"
+              className={`icon mdi ${homeClass}`}
               onClick={() => {
                 this.NavigateToEvents();
               }}
@@ -20,7 +31,7 @@ class PageFooter extends Component {
           </Col>
           <Col span={8} className="text-center">
             <div
-              className="icon icon-large active mdi mdi-plus-circle"
+              className={`icon mdi ${createEventClass}`}
               onClick={() => {
                 this.NavigateToCreateEvent();
               }}
@@ -28,7 +39,7 @@ class PageFooter extends Component {
           </Col>
           <Col span={8} className="text-center">
             <div
-              className="icon mdi mdi-history"
+              className={`icon mdi ${eventHistoryClass}`}
               onClick={() => {
                 this.NavigateToHistoryEvents();
               }}
