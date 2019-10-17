@@ -10,12 +10,16 @@ import { SportModel } from '../../contracts/models/sport.model';
 class SportsSelection extends Component<SportSelectionProps> {
   state = { visible: false, childrenDrawer: false, sports: new ListModel<SportModel>() };
   private levels = [1, 2, 3];
+  private isMount: boolean = false;
   public selectedSport = new SportModel();
 
   async componentDidMount() {
-    this.setState({
-      sports: await CommonService.Get(),
-    });
+    this.isMount = true;
+    await this.getSports();
+  }
+
+  componentWillUnmount() {
+    this.isMount = false;
   }
 
   showDrawer = () => {
@@ -117,6 +121,16 @@ class SportsSelection extends Component<SportSelectionProps> {
     return hasValue
       ? `${this.props.sport.Name} - ${SportLevelType[this.props.level]}`
       : 'Alege sportul';
+  }
+
+  private async getSports() {
+    const sports = await CommonService.GetSports();
+
+    if (this.isMount) {
+      this.setState({
+        sports,
+      });
+    }
   }
 }
 
