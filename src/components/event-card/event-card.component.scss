@@ -4,6 +4,12 @@
 .event-card {
   margin-bottom: 25px;
 
+  p {
+    &.description {
+      margin-bottom: 25px;
+    }
+  }
+
   .item-card-options {
     padding-top: 5px;
     margin-bottom: 15px;

@@ -31,7 +31,7 @@ class DisplayTime extends Component<DisplayTimeProps> {
 
           <div className="item-card-option">
             <span className="icon mdi mdi-alarm" />
-            {this.props.startTime} -{'  '}
+            {this.props.startTime} -{' '}
             {this.props.endTime} (
             {DateHelper.GetDuration(
               moment(

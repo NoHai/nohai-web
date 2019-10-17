@@ -10,8 +10,10 @@ import LocalStorageHelper from '../../helpers/local-storage.helper';
 import { LocalStorage } from '../../contracts/enums/localStorage/local-storage';
 import AvatarHelper from '../../helpers/avatar.helper';
 import TokenProvider from '../../utilities/providers/token.provider';
-import { EventSportImage } from '../event-icon/event-sport-image.component';
 import DisplayTime from '../display-time/display-time.component';
+import EventCardTitle from '../event-card-title/event-card-title.component';
+import EventCardDetails from '../event-card-details/event-card-details.component';
+import EventCardOwner from '../event-card-owner/event-card-owner.component';
 
 class EventCard extends Component<any, any> {
   private isForPreview = false;
@@ -35,12 +37,27 @@ class EventCard extends Component<any, any> {
   render() {
     return (
       <div className="item-card event-card">
+        <EventCardTitle
+          imagePath={this.props.eventDetails.sport.ImagePath}
+          title={this.props.eventDetails.event.Name}
+        />
+
+        <EventCardDetails event={this.props.eventDetails} />
+
+        <p className="description">
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Deserunt sapiente enim impedit
+          ullam corporis repellendus explicabo possimus molestiae, consequatur dolores! Repellendus
+          nihil quaerat quod magni eveniet commodi eius.
+        </p>
+
+        <EventCardOwner owner={this.props.eventDetails.owner} />
+
         <Row>
           <Col span={5} className="text-center">
-            <EventSportImage url={this.props.eventDetails.sport.ImagePath} />
+            {/* <EventSportImage url={this.props.eventDetails.sport.ImagePath} /> */}
           </Col>
           <Col span={19}>
-            <div className="item-card-title">{this.props.eventDetails.event.Name}</div>
+            {/* <div className="item-card-title">{this.props.eventDetails.event.Name}</div> */}
 
             <div className="item-card-options">
               <DisplayTime

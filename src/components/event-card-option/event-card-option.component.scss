@@ -1,0 +1,20 @@
+@import './../../globals/styles/variables';
+
+.event-card-option {
+  margin-bottom: 15px;
+
+  .icon {
+    display: inline-block;
+    font-size: 24px;
+    line-height: 1;
+    color: $gray-dark-color;
+  }
+
+  .event-card-option-title {
+    color: $text-color;
+  }
+
+  .event-card-option-description {
+    color: $secondary-color;
+  }
+}
