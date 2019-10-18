@@ -8,7 +8,6 @@ import history from '../../../../utilities/core/history';
 import CreateEventHeaderComponent from '../../../../components/create-event-header/create-event-header';
 import { LocalStorage } from '../../../../contracts/enums/localStorage/local-storage';
 import LocalStorageHelper from '../../../../helpers/local-storage.helper';
-import { FormValidators } from '../../../../contracts/validators/forms-validators';
 import { SportModel } from '../../../../contracts/models/sport.model';
 
 registerSchema(ParticipantsDetailsSchema);
@@ -39,8 +38,6 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
         },
       },
     }));
-
-    await this.chekIfIsValid();
   }
 
   async onCloseDrawer(sport: SportModel, level: number) {
@@ -55,24 +52,17 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
       },
     }));
 
-    await this.chekIfIsValid();
-  }
-
-  async chekIfIsValid() {
-    const isValid = await FormValidators.checkSchema(
-      this.state.eventDetails.participantsDetails,
-      'participantsDetailsSchema'
-    );
-
-    this.setState((prevState: any) => ({
-      eventDetails: {
-        ...prevState.eventDetails,
-        participantsDetails: {
-          ...prevState.eventDetails.participantsDetails,
-          IsValid: isValid,
+    if (sport && sport.Name !== '') {
+      this.setState((prevState: any) => ({
+        eventDetails: {
+          ...prevState.eventDetails,
+          participantsDetails: {
+            ...prevState.eventDetails.participantsDetails,
+            IsValid: true,
+          },
         },
-      },
-    }));
+      }));
+    }
   }
 
   public render() {
