@@ -37,6 +37,7 @@ class EventRepositoryController implements IEventRepository {
                     startTime
                     endTime
                     level
+                    createdDate
                 },
                 totalCount
                 }
@@ -63,6 +64,7 @@ class EventRepositoryController implements IEventRepository {
             title
             description
             numberOfParticipants
+            createdDate
             address {
               streetName
               longitude
