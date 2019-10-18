@@ -1,30 +1,32 @@
 import React, { Component } from 'react';
 import { EventDetailsViewModel } from '../../contracts/models';
 import EventCardOption from '../event-card-option/event-card-option.component';
+import EventHelper from '../../helpers/event.helper';
 
 class EventCardDetails extends Component<{ event: EventDetailsViewModel }> {
   render() {
+    const event = this.props.event;
+    const sportLevel = EventHelper.getLevel(event);
+    const price = EventHelper.getPrice(event);
+    const date = EventHelper.getDate(event);
+    const time = EventHelper.getTime(event);
+    const location = event.locationDetails;
+
     return (
       <div>
         <EventCardOption
-          title="Alergare montana, intermediar"
+          title={`${event.sport.Name}, ${sportLevel}`}
           iconClass="mdi mdi-whistle"
-          description="20 lei / persoana"
+          description={price}
         />
 
-        <EventCardOption
-          title="Joi, 22 noiembrie"
-          iconClass="mdi mdi-clock-outline"
-          description="17:30 - 19:15"
-        />
+        <EventCardOption title={date} iconClass="mdi mdi-clock-outline" description={time} />
 
         <EventCardOption
-          title="General Eremia Grigorescu"
+          title={location.StreetName}
           iconClass="mdi mdi-map-marker"
-          description="Sibiu, Romania"
+          description={`${location.City}, ${location.County}`}
         />
-
-        <hr />
       </div>
     );
   }

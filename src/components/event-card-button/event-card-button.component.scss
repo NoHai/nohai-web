@@ -1,0 +1,30 @@
+@import './../../globals/styles/variables';
+@import './../../globals/styles/functions';
+
+.event-card-button {
+  text-align: right;
+
+  .join-button {
+    &.ant-btn-primary {
+      position: relative;
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: 13px;
+      background-color: $join-button-color;
+      border-color: $join-button-color;
+      color: $white-color;
+
+      .icon {
+        position: absolute;
+        font-size: 24px;
+        left: 10px;
+        top: 1px;
+      }
+    }
+  }
+
+  .approved-message {
+    text-align: center;
+    padding: 4px;
+  }
+}

@@ -40,24 +40,6 @@
       }
     }
   }
-  .join-button {
-    &.ant-btn-primary {
-      position: relative;
-      text-transform: uppercase;
-      font-weight: bold;
-      font-size: 13px;
-      background-color: $join-button-color;
-      border-color: $join-button-color;
-      color: $white-color;
-
-      .icon {
-        position: absolute;
-        font-size: 24px;
-        left: 10px;
-        top: 1px;
-      }
-    }
-  }
 
   .ant-avatar {
     margin-right: 5px;
@@ -69,10 +51,6 @@
     font-weight: 500;
     font-size: 14px;
     margin-bottom: 15px;
-  }
-  .approvedMessage {
-    text-align: center;
-    padding: 4px;
   }
 
   .create-event-wrapper {

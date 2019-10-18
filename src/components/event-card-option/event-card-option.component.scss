@@ -12,9 +12,17 @@
 
   .event-card-option-title {
     color: $text-color;
+
+    &:first-letter {
+      text-transform: uppercase;
+    }
   }
 
   .event-card-option-description {
     color: $secondary-color;
+
+    &:first-letter {
+      text-transform: uppercase;
+    }
   }
 }

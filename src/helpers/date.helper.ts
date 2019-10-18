@@ -1,7 +1,21 @@
 import moment from 'moment';
+// import './../utilities/locale/ro.locale';
 
-export default class DateHelper {
-  public static GetMonths() {
+class DateHelperClass {
+  private static instance: DateHelperClass;
+
+  private constructor() {
+    moment.locale('ro');
+  }
+
+  public static getInstance() {
+    if (!DateHelperClass.instance) {
+      DateHelperClass.instance = new DateHelperClass();
+    }
+    return DateHelperClass.instance;
+  }
+
+  public GetMonths() {
     const months = [
       'Ianuarie',
       'Februarie',
@@ -20,11 +34,15 @@ export default class DateHelper {
     return months;
   }
 
-  public static GetDateFormat(date: string, format: string = 'DD/MM/YY') {
+  public GetDays() {
+    return ['Luni', 'Marti', 'Miercuri', 'Joi', 'Vineri', 'Sambata', 'Duminica'];
+  }
+
+  public GetDateFormat(date: string, format: string = 'DD/MM/YY') {
     return moment(date, 'YYYY-MM-DD').format(format);
   }
 
-  public static GetDateFromString(date: string, format: string = 'YYYY-MM-DD') {
+  public GetDateFromString(date: string, format: string = 'YYYY-MM-DD') {
     if (date) {
       return moment(date, format);
     } else {
@@ -32,10 +50,13 @@ export default class DateHelper {
     }
   }
 
-  public static GetDuration(startDate: string, endDate: string) {
-    var ms = moment(endDate, 'YYYY-MM-DD HH:mm').diff(moment(startDate, 'YYYY-MM-DD HH:mm'));
-    var d = moment.duration(ms);
-    var s = Math.floor(d.asHours()) + 'h ' + moment.utc(ms).format('mm') + 'm';
+  public GetDuration(startDate: string, endDate: string) {
+    const ms = moment(endDate, 'YYYY-MM-DD HH:mm').diff(moment(startDate, 'YYYY-MM-DD HH:mm'));
+    const d = moment.duration(ms);
+    const s = Math.floor(d.asHours()) + 'h ' + moment.utc(ms).format('mm') + 'm';
     return s;
   }
 }
+
+const DateHelper = DateHelperClass.getInstance();
+export default DateHelper;

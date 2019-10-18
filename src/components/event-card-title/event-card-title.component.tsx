@@ -16,8 +16,6 @@ class EventCardTitle extends Component<EventCardTitleProps> {
             <div className="item-card-title">{this.props.title}</div>
           </Col>
         </Row>
-
-        <hr />
       </div>
     );
   }
