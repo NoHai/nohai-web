@@ -6,7 +6,7 @@ import { EventCardButtonProps } from './event-card-button.props';
 
 export class EventCardButton extends Component<EventCardButtonProps> {
   render() {
-    return !EventHelper.isOwner(this.props.event, this.props.userId) && this.getButton();
+    return this.getButton();
   }
 
   private getButton() {
@@ -14,8 +14,11 @@ export class EventCardButton extends Component<EventCardButtonProps> {
     const isAvailable = EventHelper.isAvailable(this.props.event);
     const isAlreadyAccepted = EventHelper.isUserAccepted(this.props.event, this.props.userId);
     const isInPending = EventHelper.isUserPending(this.props.event, this.props.userId);
+    const isOwner = EventHelper.isOwner(this.props.event, this.props.userId);
 
-    if (isAlreadyAccepted) {
+    if (isOwner) {
+      button = this.getCancelButton();
+    } else if (isAlreadyAccepted) {
       button = this.getApprovedButton();
     } else if (isInPending || this.props.requestSent) {
       button = this.getPendingButton();
@@ -39,6 +42,14 @@ export class EventCardButton extends Component<EventCardButtonProps> {
       >
         <span className="icon mdi mdi-hand" />
         Vreau si eu
+      </Button>
+    );
+  }
+
+  private getCancelButton() {
+    return (
+      <Button type="dashed" size="large" block className="join-button">
+        Anuleaza eveniment
       </Button>
     );
   }
