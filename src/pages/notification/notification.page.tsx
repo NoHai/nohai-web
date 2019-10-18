@@ -44,32 +44,34 @@ class NotificationPage extends Component {
           <div>
             <div className="page-section-header">
               <Row type="flex" justify="space-around" align="middle">
-                <Col span={8}>
+                <Col span={12}>
                   <h2>Notificari</h2>
                 </Col>
-                <Col span={5}>
-                  {!this.state.hasToken && (
-                    <Button type="link" onClick={e => this.allowNotification()}>
-                      Porneste
-                    </Button>
-                  )}
-                </Col>
-                <Col span={4}>
-                  {!this.state.hasToken && <span className="icon mdi mdi-bell notification"></span>}
-                </Col>
-                <Col span={7} className="text-right">
+                <Col span={12} className="text-right">
                   <div
                     onClick={e => this.markAllAsRead()}
                     className="icon mdi mdi-email-mark-as-unread"
                   ></div>
                 </Col>
               </Row>
-              {!this.state.hasToken && (
-                <div>
-                  <div>Notificarile tale sunt dezactivate</div>
-                </div>
-              )}
             </div>
+            {!this.state.hasToken && (
+              <div className="page-section-header notification-box">
+                <div>
+                  <p>Notificarile tale sunt dezactivate!</p>
+
+                  <div className="text-right">
+                    <Button
+                      onClick={e => this.allowNotification()}
+                      className="notification-button"
+                      type="primary"
+                    >
+                      Activare notificari
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
           <div className="page-section page-section-large">
             <AppInfiniteScroll hasMore={this.state.hasMoreItems} next={this.getNotification}>
@@ -90,7 +92,10 @@ class NotificationPage extends Component {
   async allowNotification() {
     let notificationToken = await GetTokenNotification();
     if (notificationToken) {
-      UserTokenNotificationService.CreateToken(notificationToken);
+      await UserTokenNotificationService.CreateToken(notificationToken);
+      this.setState({
+        hasToken: true,
+      });
     }
   }
 

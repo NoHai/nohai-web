@@ -67,21 +67,6 @@ export const logout = () => {
   };
 };
 
-// export const logout = () => {
-//   TokenProvider.removeToken();
-
-//   const model = {
-//     isLoaded: true,
-//     isAuthorized: false,
-//     isCompleted: false,
-//   };
-
-//   return {
-//     type: ReduxAuthActionType.Logout,
-//     result: model,
-//   };
-// };
-
 function loginDispatch(dispatch: any): (value: any) => void {
   return result => {
     dispatch(loginResult(result));

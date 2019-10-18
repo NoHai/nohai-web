@@ -226,24 +226,7 @@ class DescriptionEventPage extends Component<any, any> {
     LocalStorageHelper.SaveItemToLocalStorage(LocalStorage.CreateEvent, this.state.eventDetails);
     history.push('/create-event/location-details');
   }
-  async goToDetails() {
-    await this.setState((prevState: any) => ({
-      eventDetails: {
-        ...prevState.eventDetails,
-        event: {
-          ...prevState.eventDetails.event,
-          Name: `${this.state.eventDetails.sport.Name}, ${moment(
-            this.state.eventDetails.description.StartDate
-          )
-            .locale('ro')
-            .format('dddd')}  ${moment(this.state.eventDetails.description.StartDate).format(
-            'DD'
-          )} ${moment(this.state.eventDetails.description.StartDate).format('MMMM')} ora ${
-            this.state.eventDetails.description.StartTime
-          }`,
-        },
-      },
-    }));
+  goToDetails() {
     LocalStorageHelper.SaveItemToLocalStorage(LocalStorage.CreateEvent, this.state.eventDetails);
     history.push('/create-event/preview');
   }
