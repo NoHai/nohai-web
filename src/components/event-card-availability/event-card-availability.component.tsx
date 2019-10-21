@@ -20,7 +20,7 @@ export class EventCardAvailability extends Component<{
 
   private getFreeSpots() {
     const spots = EventHelper.getFreeSpots(this.props.event);
-    if (!!spots || spots === 0) {
+    if (!spots || spots === 0) {
       return 'Hai si tu, sunt locuri nelimitate';
     }
 
