@@ -21,7 +21,7 @@ import { UserTokenNotificationService } from '../../business/services/user-token
 
 class NotificationPage extends Component {
   public notificationRequest = new PaginationBaseRequestModel();
-  public norificationContainer = new Array<NotificationModel>();
+  public notificationContainer = new Array<NotificationModel>();
 
   state = {
     notifications: new Array<NotificationModel>(),
@@ -138,47 +138,42 @@ class NotificationPage extends Component {
     return `linear-gradient(rgba(${intR}, ${intG}, ${intB}, .01), rgba(${intR}, ${intG}, ${intB}, .08))`;
   }
 
-  private async getNotification() {
+  private async getNotification(withClear: boolean = false) {
     LoadingHelper.showLoading();
-    this.notificationRequest.pageIndex = this.state.pageIndex;
+    this.notificationRequest.pageIndex = withClear ? 0 : this.state.pageIndex;
     const result = await NotificationService.Find(this.notificationRequest);
 
-    this.norificationContainer.push(...result.Data);
+    this.notificationContainer.push(...result.Data);
+    const hasMoreItems = this.notificationContainer.length < result.Total;
 
-    if (this.norificationContainer.length >= result.Total) {
-      this.setState({
-        hasMoreItems: false,
-      });
-    }
-
-    this.SetNotification();
+    this.SetNotification(hasMoreItems, withClear);
     LoadingHelper.hideLoading();
   }
 
-  private SetNotification() {
+  private SetNotification(hasMoreItems: boolean, withClear: boolean) {
+    const pageIndex = withClear ? 0 : this.state.pageIndex + 1;
+
     this.setState({
-      notifications: this.norificationContainer,
-      pageIndex: this.notificationRequest.pageIndex + 1,
+      notifications: this.notificationContainer,
+      pageIndex,
+      hasMoreItems,
     });
   }
 
   private async responseRequest(approve: boolean, notificationId: any) {
-    this.norificationContainer = new Array<NotificationModel>();
-    StoreUtility.store.dispatch(unReadNotification(0));
-    this.setState({
-      notifications: new Array<NotificationModel>(),
-      hasMoreItems: true,
-      pageIndex: 0,
-    });
     LoadingHelper.showLoading();
+    await this.clearNotificationContainer();
 
     approve
       ? await EventService.Approve(notificationId)
       : await EventService.Reject(notificationId);
+    LoadingHelper.hideLoading();
+    await this.getNotification(true);
+  }
 
-    LoadingHelper.showLoading();
-
-    await this.getNotification();
+  private async clearNotificationContainer() {
+    this.notificationContainer = new Array<NotificationModel>();
+    StoreUtility.store.dispatch(unReadNotification(0));
   }
 
   private async RedirectToEventDetails(notificationId: string, eventId: any) {
@@ -188,15 +183,10 @@ class NotificationPage extends Component {
   }
 
   private async markAllAsRead() {
-    this.norificationContainer = new Array<NotificationModel>();
-    StoreUtility.store.dispatch(unReadNotification(0));
-    this.setState({
-      notifications: new Array<NotificationModel>(),
-      hasMoreItems: true,
-      pageIndex: 0,
-    });
+    await this.clearNotificationContainer();
+
     await NotificationService.MarkAllAsRead();
-    await this.getNotification();
+    await this.getNotification(true);
   }
 
   private onButtonClickHandler(
