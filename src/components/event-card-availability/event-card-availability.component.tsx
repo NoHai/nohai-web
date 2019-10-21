@@ -12,7 +12,7 @@ export class EventCardAvailability extends Component<{
     return (
       <EventCardOption
         title={this.getFreeSpots()}
-        iconClass="mdi mdi-seat-outline"
+        iconClass="mdi mdi-account-multiple"
         description={this.getTotal()}
       />
     );
