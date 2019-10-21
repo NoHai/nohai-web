@@ -48,9 +48,20 @@ export class EventCardButton extends Component<EventCardButtonProps> {
 
   private getCancelButton() {
     return (
-      <Button type="dashed" size="large" block className="join-button">
-        Anuleaza eveniment
-      </Button>
+      <Row type="flex" align="middle">
+        <Col span={16} className="join-text">
+          Anuleaza
+        </Col>
+        <Col span={8} className="text-right">
+          <Button
+            type="ghost"
+            size="large"
+            shape="circle"
+            icon="close"
+            className="join-button"
+          ></Button>
+        </Col>
+      </Row>
     );
   }
 
