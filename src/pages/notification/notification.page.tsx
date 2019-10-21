@@ -22,6 +22,7 @@ import { UserTokenNotificationService } from '../../business/services/user-token
 class NotificationPage extends Component {
   public notificationRequest = new PaginationBaseRequestModel();
   public norificationContainer = new Array<NotificationModel>();
+
   state = {
     notifications: new Array<NotificationModel>(),
     hasMoreItems: true,
@@ -48,10 +49,14 @@ class NotificationPage extends Component {
                   <h2>Notificari</h2>
                 </Col>
                 <Col span={12} className="text-right">
-                  <div
-                    onClick={e => this.markAllAsRead()}
-                    className="icon mdi mdi-email-mark-as-unread"
-                  ></div>
+                  {this.areUnreadEmails() ? (
+                    <div
+                      onClick={e => this.markAllAsRead()}
+                      className="icon mdi mdi-email-check"
+                    ></div>
+                  ) : (
+                    <div className="icon mdi mdi-email-check-outline"></div>
+                  )}
                 </Col>
               </Row>
             </div>
@@ -90,7 +95,7 @@ class NotificationPage extends Component {
   }
 
   async allowNotification() {
-    let notificationToken = await GetTokenNotification();
+    const notificationToken = await GetTokenNotification();
     if (notificationToken) {
       await UserTokenNotificationService.CreateToken(notificationToken);
       this.setState({
@@ -136,7 +141,7 @@ class NotificationPage extends Component {
   private async getNotification() {
     LoadingHelper.showLoading();
     this.notificationRequest.pageIndex = this.state.pageIndex;
-    let result = await NotificationService.Find(this.notificationRequest);
+    const result = await NotificationService.Find(this.notificationRequest);
 
     this.norificationContainer.push(...result.Data);
 
@@ -165,9 +170,14 @@ class NotificationPage extends Component {
       hasMoreItems: true,
       pageIndex: 0,
     });
+    LoadingHelper.showLoading();
+
     approve
       ? await EventService.Approve(notificationId)
       : await EventService.Reject(notificationId);
+
+    LoadingHelper.showLoading();
+
     await this.getNotification();
   }
 
@@ -208,6 +218,10 @@ class NotificationPage extends Component {
         this.responseRequest(false, notificationId);
         break;
     }
+  }
+
+  private areUnreadEmails() {
+    return this.state.notifications && this.state.notifications.some(x => x.Status === 0);
   }
 }
 

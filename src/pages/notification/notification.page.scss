@@ -49,7 +49,7 @@
 
   .link {
     &.red-color {
-      color: red;
+      color: $red-color;
     }
     &.gray-color {
       color: $secondary-color;
@@ -58,6 +58,7 @@
 
   .not-read {
     background-color: rgba(93, 164, 255, 0.08);
+    color: $blue-color;
   }
 
   .notification-box {
