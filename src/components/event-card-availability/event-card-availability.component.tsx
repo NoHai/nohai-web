@@ -19,9 +19,11 @@ export class EventCardAvailability extends Component<{
   }
 
   private getFreeSpots() {
-    const spots = EventHelper.getFreeSpots(this.props.event);
-    if (!spots || spots === 0) {
+    const spots = EventHelper.getAvailableSpots(this.props.event);
+    if (spots === null) {
       return 'Hai si tu, sunt locuri nelimitate';
+    } else if (spots === 0) {
+      return 'S-au ocupat toate locurile';
     }
 
     const result = spots > 1 ? `Mai sunt ${spots} locuri disponibile` : 'Mai este un singur loc';

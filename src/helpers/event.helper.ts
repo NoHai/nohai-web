@@ -62,10 +62,10 @@ class EventHelperClass {
     );
   }
 
-  public getFreeSpots(event: EventDetailsViewModel) {
-    return (
-      event.participantsDetails.FreeSpots - event.participants.filter(x => x.Status === 1).length
-    );
+  public getAvailableSpots(event: EventDetailsViewModel) {
+    return event.participantsDetails.FreeSpots > 0
+      ? event.participantsDetails.FreeSpots - event.participants.filter(x => x.Status === 1).length
+      : null;
   }
 }
 
