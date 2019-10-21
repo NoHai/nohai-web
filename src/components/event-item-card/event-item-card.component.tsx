@@ -35,8 +35,9 @@ class EventItemCard extends Component<EventItemCardProps, any> {
           <Col span={6} className="text-right">
             <span className="icon mdi mdi-account-group" />
             <span className="text">
-              {this.props.eventDetails.participantsDetails.TotalParticipants}
-              /{this.props.eventDetails.participantsDetails.FreeSpots}
+              {this.props.eventDetails.participantsDetails.TotalParticipants}/
+              {this.props.eventDetails.participantsDetails.FreeSpots}{' '}
+              {!this.props.eventDetails.participantsDetails.FreeSpots && <span> &infin;</span>}
             </span>
           </Col>
         </Row>

@@ -54,6 +54,31 @@
       display: inline-block;
     }
   }
+
+  .infinite-symbol {
+    position: relative;
+    width: 170px;
+    height: 100px;
+  }
+  .infinite-symbol:before,
+  .infinite-symbol:after {
+    content: '';
+    position: absolute;
+    margin-top: 5px;
+    margin-left: 1px;
+
+    width: 8px;
+    height: 8px;
+    border: 1px solid gray;
+    border-radius: 50px 50px 0 50px;
+    transform: rotate(130deg);
+  }
+  .infinite-symbol:before {
+    left: auto;
+    right: 0;
+    border-radius: 50px 50px 50px 0;
+    transform: rotate(-130deg);
+  }
 }
 
 @media (max-width: 360px) {
