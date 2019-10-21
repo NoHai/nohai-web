@@ -58,10 +58,13 @@
 
   .not-read {
     background-color: rgba(93, 164, 255, 0.08);
-    color: $blue-color;
   }
 
   .notification-box {
     padding: 15px;
+  }
+
+  .mark-icon-button {
+    color: $blue-color;
   }
 }

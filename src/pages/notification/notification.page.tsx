@@ -52,7 +52,7 @@ class NotificationPage extends Component {
                   {this.areUnreadEmails() ? (
                     <div
                       onClick={e => this.markAllAsRead()}
-                      className="icon mdi mdi-email-check"
+                      className="icon mark-icon-button mdi mdi-email-check"
                     ></div>
                   ) : (
                     <div className="icon mdi mdi-email-check-outline"></div>
