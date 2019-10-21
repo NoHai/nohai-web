@@ -53,7 +53,13 @@ class EventHelperClass {
   }
 
   public isAvailable(event: EventDetailsViewModel) {
-    return !event.participants || event.participants.length < event.participantsDetails.FreeSpots;
+    return (
+      event.event.Id &&
+      (!event.participants ||
+        !event.participantsDetails.FreeSpots ||
+        event.participantsDetails.FreeSpots === 0 ||
+        event.participants.length < event.participantsDetails.FreeSpots)
+    );
   }
 
   public getFreeSpots(event: EventDetailsViewModel) {
