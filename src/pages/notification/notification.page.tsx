@@ -106,9 +106,9 @@ class NotificationPage extends Component {
 
   displayNotification() {
     return this.state.notifications && this.state.notifications.length > 0 ? (
-      this.state.notifications.map(notification => (
+      this.state.notifications.map((notification, index )=> (
         <div
-          key={notification.Id}
+          key={index}
           className="event-list-item"
           style={{ backgroundImage: this.GenerateGradient() }}
         >
@@ -146,11 +146,11 @@ class NotificationPage extends Component {
     this.notificationContainer.push(...result.Data);
     const hasMoreItems = this.notificationContainer.length < result.Total;
 
-    this.SetNotification(hasMoreItems, withClear);
+    await this.SetNotification(hasMoreItems, withClear);
     LoadingHelper.hideLoading();
   }
 
-  private SetNotification(hasMoreItems: boolean, withClear: boolean) {
+  private async SetNotification(hasMoreItems: boolean, withClear: boolean) {
     const pageIndex = withClear ? 0 : this.state.pageIndex + 1;
 
     this.setState({
