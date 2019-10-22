@@ -18,6 +18,7 @@ import { GetTokenNotification } from '../../business/services/push-notification.
 import AppInfiniteScroll from '../../components/app-infinite-scroll/app-infinite-scroll.component';
 import LoadingHelper from '../../helpers/loading.helper';
 import { UserTokenNotificationService } from '../../business/services/user-token-notification.service';
+import ColorHelper from '../../helpers/color.helper';
 
 class NotificationPage extends Component {
   public notificationRequest = new PaginationBaseRequestModel();
@@ -106,11 +107,11 @@ class NotificationPage extends Component {
 
   displayNotification() {
     return this.state.notifications && this.state.notifications.length > 0 ? (
-      this.state.notifications.map((notification, index )=> (
+      this.state.notifications.map((notification, index) => (
         <div
           key={index}
           className="event-list-item"
-          style={{ backgroundImage: this.GenerateGradient() }}
+          style={{ backgroundImage: ColorHelper.generateUniqueGradient(notification.Id) }}
         >
           <NotificationCard
             id={notification.Id}
@@ -129,13 +130,6 @@ class NotificationPage extends Component {
     ) : (
       <NoResults text="Nu ai nici o notificare" />
     );
-  }
-
-  private GenerateGradient(): string {
-    const intR = Math.floor(Math.random() * 255) + 1;
-    const intG = Math.floor(Math.random() * 255) + 1;
-    const intB = Math.floor(Math.random() * 255) + 1;
-    return `linear-gradient(rgba(${intR}, ${intG}, ${intB}, .01), rgba(${intR}, ${intG}, ${intB}, .08))`;
   }
 
   private async getNotification(withClear: boolean = false) {

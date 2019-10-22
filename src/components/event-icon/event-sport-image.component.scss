@@ -1,8 +1,23 @@
+@import './../../globals/styles/variables';
+@import './../../globals/styles/functions';
+
 .event-icon-image {
-  display: inline-block;
-  width: 48px;
-  height: 48px;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  background-color: rgba(19, 27, 51, 0.06);
+  @include border-radius(8px);
+  @include box-shadow(rgba(0, 0, 0, 0.06));
+
+  .image {
+    display: block;
+    width: 32px;
+    height: 32px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
 }

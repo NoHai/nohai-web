@@ -19,14 +19,19 @@
   }
 
   .item-card-title {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 500;
+    line-height: 20px;
   }
 
   p {
-    font-size: 14px;
-    font-weight: 300;
+    font-size: 13px;
+    font-weight: 400;
     margin-bottom: 15px;
+
+    &.item-card-list-description {
+      margin-bottom: 0;
+    }
   }
 
   .item-card-icons {

@@ -7,38 +7,21 @@ import { EventSportImage } from '../event-icon/event-sport-image.component';
 
 class EventItemCard extends Component<EventItemCardProps, any> {
   render() {
+    const city = this.props.eventDetails.locationDetails.City;
+    const date = this.props.eventDetails.description.StartDate;
+    const time = this.props.eventDetails.description.StartTime;
+    const description = `${city}, ${DateHelper.GetDateFormat(date, 'dddd, DD MMMM')}, ${time}`;
+
     return (
       <div className="item-card">
-        <Row>
+        <Row type="flex" align="middle">
           <Col span={5} className="text-center">
             <EventSportImage url={this.props.eventDetails.sport.ImagePath} />
           </Col>
           <Col span={19}>
-            <div className="item-card-title">{this.props.eventDetails.event.Name}</div>
-
-            <p>{this.props.eventDetails.description.Description}</p>
-          </Col>
-        </Row>
-
-        <Row className="item-card-icons">
-          <Col span={8}>
-            <span className="icon mdi mdi-map-marker" />
-            <span className="text">{this.props.eventDetails.locationDetails.City}</span>
-          </Col>
-          <Col span={10} className="text-center">
-            <span className="icon mdi mdi-alarm" />
-            <span className="text">
-              {DateHelper.GetDateFormat(this.props.eventDetails.description.StartDate)}{' '}
-              {this.props.eventDetails.description.StartTime}
-            </span>
-          </Col>
-          <Col span={6} className="text-right">
-            <span className="icon mdi mdi-account-group" />
-            <span className="text">
-              {this.props.eventDetails.participantsDetails.TotalParticipants}/
-              {this.props.eventDetails.participantsDetails.FreeSpots}{' '}
-              {!this.props.eventDetails.participantsDetails.FreeSpots && <span> &infin;</span>}
-            </span>
+            <div className="item-card-title">{this.props.eventDetails.sport.Name}</div>
+            <p className="item-card-list-description">{description}</p>
+            <p className="item-card-list-description">{`Gazduit de ${this.props.eventDetails.owner.FirstName}`}</p>
           </Col>
         </Row>
       </div>
