@@ -8,7 +8,7 @@
   justify-content: center;
   align-items: center;
   border: 1px solid rgba(255, 255, 255, 0.6);
-  background-color: rgba(19, 27, 51, 0.06);
+  background-color: #fff; // rgba(19, 27, 51, 0.06);
   @include border-radius(8px);
   @include box-shadow(rgba(0, 0, 0, 0.06));
 
