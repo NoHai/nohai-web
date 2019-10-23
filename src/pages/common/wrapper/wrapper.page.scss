@@ -1,2 +1,6 @@
 @import './../../../globals/styles/variables';
 @import './../../../globals/styles/functions';
+
+.page-wrapper {
+  padding-bottom: $footer-height;
+}
