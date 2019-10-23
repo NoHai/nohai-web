@@ -68,5 +68,9 @@ hr {
     cursor: pointer;
     font-size: 24px;
     color: $gray-dark-color;
+
+    &.hidden {
+      visibility: hidden;
+    }
   }
 }

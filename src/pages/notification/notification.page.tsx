@@ -56,13 +56,13 @@ class NotificationPage extends Component {
                       className="icon mark-icon-button mdi mdi-email-check"
                     ></div>
                   ) : (
-                    <div className="icon mdi mdi-email-check-outline"></div>
+                    <div className="icon mdi hidden mdi-email-check-outline"></div>
                   )}
                 </Col>
               </Row>
             </div>
             {!this.state.hasToken && (
-              <div className="page-section-header notification-box">
+              <div className="page-section notification-box">
                 <div>
                   <p>Notificarile tale sunt dezactivate!</p>
 

@@ -15,7 +15,7 @@ class ObjectHelperClass {
       // tslint:disable-next-line: no-bitwise
       const random = (Math.random() * 16) | 0;
       // tslint:disable-next-line: no-bitwise
-      const value = character == 'x' ? random : (random & 0x3) | 0x8;
+      const value = character === 'x' ? random : (random & 0x3) | 0x8;
       return value.toString(16);
     });
   }
