@@ -45,7 +45,7 @@ class NotificationPage extends Component {
         <div className="page-sections">
           <div>
             <div className="page-section-header">
-              <Row type="flex" justify="space-around" align="middle">
+              <Row type="flex" align="middle">
                 <Col span={12}>
                   <h2>Notificari</h2>
                 </Col>
