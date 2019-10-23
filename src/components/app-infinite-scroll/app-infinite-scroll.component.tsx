@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import './app-infinite-scroll.component.scss';
+import ObjectHelper from '../../helpers/object.helper';
 
 interface AppInfiniteScrollProps {
   hasMore: boolean;
@@ -9,14 +9,19 @@ interface AppInfiniteScrollProps {
 
 class AppInfiniteScroll extends Component<AppInfiniteScrollProps> {
   private scrollElement: any;
+  private id: string = '';
 
   constructor(props: any) {
     super(props);
     this.scrollListen = this.scrollListen.bind(this);
   }
 
+  componentWillMount() {
+    this.id = ObjectHelper.generateUniqueId();
+  }
+
   componentDidMount() {
-    this.scrollElement = ReactDOM.findDOMNode(this);
+    this.scrollElement = document.getElementById(this.id);
     this.createScrollListener();
   }
 
@@ -26,7 +31,7 @@ class AppInfiniteScroll extends Component<AppInfiniteScrollProps> {
 
   render(): any {
     return (
-      <div className="app-infinite-scroll">
+      <div className="app-infinite-scroll" id={this.id}>
         <div className="app-infinite-scroll-container">{this.props.children}</div>
       </div>
     );
