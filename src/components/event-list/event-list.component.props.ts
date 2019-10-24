@@ -1,8 +1,7 @@
 import { EventDetailsViewModel } from '../../contracts/models';
 
 export interface EventListProps {
-  eventDetails: Array<EventDetailsViewModel>;
+  eventDetails: EventDetailsViewModel[];
   hasMoreItems: boolean;
-  onEventsDetailsChange?: (
-  ) =>{};
+  onEventsDetailsChange?: () => Promise<void>;
 }

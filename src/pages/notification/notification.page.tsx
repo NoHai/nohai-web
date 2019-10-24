@@ -52,9 +52,7 @@ class NotificationPage extends Component {
           <div className="page-section page-section-large">
             <AppInfiniteScroll
               hasMore={this.state.hasMoreItems}
-              next={() => {
-                this.getNotification();
-              }}
+              next={() => this.getNotification()}
             >
               {this.displayNotification()}
             </AppInfiniteScroll>

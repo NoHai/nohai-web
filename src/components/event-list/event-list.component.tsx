@@ -30,7 +30,7 @@ class EventList extends Component<EventListProps> {
 
   private async getEvents() {
     if (this.props.onEventsDetailsChange) {
-      this.props.onEventsDetailsChange();
+      await this.props.onEventsDetailsChange();
     }
   }
 }

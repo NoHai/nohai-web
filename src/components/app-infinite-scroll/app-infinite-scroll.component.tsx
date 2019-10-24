@@ -4,12 +4,14 @@ import ObjectHelper from '../../helpers/object.helper';
 
 interface AppInfiniteScrollProps {
   hasMore: boolean;
-  next: () => void;
+  next: () => Promise<void>;
 }
 
 class AppInfiniteScroll extends Component<AppInfiniteScrollProps> {
+  private isLoading: boolean = false;
   private scrollElement: any;
   private id: string = '';
+  private isMount: boolean = false;
 
   constructor(props: any) {
     super(props);
@@ -21,11 +23,13 @@ class AppInfiniteScroll extends Component<AppInfiniteScrollProps> {
   }
 
   componentDidMount() {
+    this.isMount = true;
     this.scrollElement = document.getElementById(this.id);
     this.createScrollListener();
   }
 
   componentWillUnmount() {
+    this.isMount = false;
     this.removeScrollListener();
   }
 
@@ -57,13 +61,23 @@ class AppInfiniteScroll extends Component<AppInfiniteScrollProps> {
         // const isScrolled = scrollPosition === this.scrollElement.clientHeight;
 
         const scrolled = this.scrollElement.scrollTop + this.scrollElement.offsetHeight;
-        const isScrolled = scrolled >= this.scrollElement.scrollHeight;
+        const isScrolled = scrolled >= this.scrollElement.scrollHeight - 80;
 
-        if (isScrolled) {
-          this.props.next();
+        if (isScrolled && !this.isLoading) {
+          this.toggleLoading(true);
+
+          this.props.next().finally(() => {
+            console.log('scroll', new Date());
+
+            this.toggleLoading(false);
+          });
         }
       }
     });
+  }
+
+  private toggleLoading(value: boolean) {
+    this.isLoading = value;
   }
 }
 
