@@ -43,9 +43,9 @@ class NotificationPage extends Component {
     return (
       <div className="notification-page full-height">
         <div className="page-sections">
-          {this.getHeader()}
+          <div className="page-section">{this.getHeader()}</div>
 
-          {this.getNotificationButton()}
+          <div className="page-section">{this.getNotificationButton()}</div>
 
           <div className="page-section page-section-large">
             <AppInfiniteScroll hasMore={this.state.hasMoreItems} next={this.getNotification}>
@@ -60,7 +60,7 @@ class NotificationPage extends Component {
   private getNotificationButton(): React.ReactNode {
     return (
       !this.state.hasToken && (
-        <div className="page-section notification-box">
+        <div className="notification-box">
           <div>
             <p>Notificarile tale sunt dezactivate!</p>
 
