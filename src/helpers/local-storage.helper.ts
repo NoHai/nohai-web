@@ -1,3 +1,5 @@
+import TokenProvider from '../utilities/providers/token.provider';
+
 export default class LocalStorageHelper {
   public static SaveItemToLocalStorage(storageName: string, model: any) {
     localStorage.setItem(storageName, JSON.stringify(model));
@@ -9,5 +11,17 @@ export default class LocalStorageHelper {
   }
   public static DeleteItemFromLocalStorage(storageName: string) {
     localStorage.removeItem(storageName);
+  }
+
+  public static DeleteLocalStorage() {
+    try {
+      localStorage.clear();
+    } catch (error) {}
+  }
+
+  public static DeleteTokenSession() {
+    try {
+      TokenProvider.removeToken();
+    } catch (error) {}
   }
 }

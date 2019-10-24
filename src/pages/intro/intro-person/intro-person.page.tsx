@@ -21,58 +21,8 @@ class IntroPersonPage extends Component<any, any> {
         this.state.registerDetails
       ),
     });
-    this.GetYears();
-    this.GetMonths();
-  }
-  async handleChange(event: any) {
-    const { name, value } = event.target;
-
-    this.setState((prevState: any) => ({
-      registerDetails: {
-        ...prevState.registerDetails,
-        user: {
-          ...prevState.registerDetails.user,
-          [name]: value,
-        },
-      },
-    }));
-  }
-  handleDayChange(value: any) {
-    this.setState((prevState: any) => ({
-      registerDetails: {
-        ...prevState.registerDetails,
-        details: {
-          ...prevState.registerDetails.details,
-          Day: value,
-        },
-      },
-    }));
-  }
-
-  async handleMonthChange(value: any) {
-    await this.setState((prevState: any) => ({
-      registerDetails: {
-        ...prevState.registerDetails,
-        details: {
-          ...prevState.registerDetails.details,
-          Month: value,
-        },
-      },
-    }));
-    await this.GetDays();
-  }
-
-  async handleYearChange(value: any) {
-    await this.setState((prevState: any) => ({
-      registerDetails: {
-        ...prevState.registerDetails,
-        details: {
-          ...prevState.registerDetails.details,
-          Year: value,
-        },
-      },
-    }));
-    await this.GetDays();
+    this.populateYears();
+    this.populateMonths();
   }
 
   render() {
@@ -110,51 +60,7 @@ class IntroPersonPage extends Component<any, any> {
                 />
               </div>
 
-              <div className="form-group">
-                <label>Data nasterii</label>
-
-                <Row gutter={16}>
-                  <Col span={7}>
-                    <Select
-                      placeholder="An"
-                      size="large"
-                      style={{ width: '100%' }}
-                      value={this.state.registerDetails.details.Year}
-                      onChange={(e: any) => this.handleYearChange(e)}
-                    >
-                      {this.state.years}
-                    </Select>
-                  </Col>
-
-                  <Col span={10}>
-                    <Select
-                      size="large"
-                      style={{ width: '100%' }}
-                      value={this.state.registerDetails.details.Month}
-                      onChange={(e: any) => this.handleMonthChange(e)}
-                      placeholder="Luna"
-                    >
-                      {this.state.months}
-                    </Select>
-                  </Col>
-
-                  <Col span={7}>
-                    <Select
-                      placeholder="Zi"
-                      disabled={
-                        this.state.registerDetails.details.Month === undefined ||
-                        this.state.registerDetails.details.Year === undefined
-                      }
-                      size="large"
-                      style={{ width: '100%' }}
-                      value={this.state.registerDetails.details.Day}
-                      onChange={(e: any) => this.handleDayChange(e)}
-                    >
-                      {this.state.days}
-                    </Select>
-                  </Col>
-                </Row>
-              </div>
+              {this.getDateForm()}
             </div>
           </div>
 
@@ -164,7 +70,7 @@ class IntroPersonPage extends Component<any, any> {
                 disabled={!this.checkForm()}
                 type="primary"
                 onClick={() => {
-                  this.GoForward();
+                  this.goForward();
                 }}
               >
                 Urmatorul pas
@@ -172,6 +78,56 @@ class IntroPersonPage extends Component<any, any> {
             </div>
           </div>
         </div>
+      </div>
+    );
+  }
+
+  private getDateForm() {
+    return (
+      <div className="form-group">
+        <label>Data nasterii</label>
+
+        <Row gutter={16}>
+          <Col span={7}>
+            <Select
+              placeholder="An"
+              size="large"
+              style={{ width: '100%' }}
+              value={this.state.registerDetails.details.Year}
+              onChange={(value: any) => this.handleDateChange(value, 'Year')}
+            >
+              {this.state.years}
+            </Select>
+          </Col>
+
+          <Col span={10}>
+            <Select
+              size="large"
+              style={{ width: '100%' }}
+              value={this.state.registerDetails.details.Month}
+              onChange={(value: any) => this.handleDateChange(value, 'Month')}
+              placeholder="Luna"
+            >
+              {this.state.months}
+            </Select>
+          </Col>
+
+          <Col span={7}>
+            <Select
+              placeholder="Zi"
+              disabled={
+                this.state.registerDetails.details.Month === undefined ||
+                this.state.registerDetails.details.Year === undefined
+              }
+              size="large"
+              style={{ width: '100%' }}
+              value={this.state.registerDetails.details.Day}
+              onChange={(value: any) => this.handleDateChange(value, 'Day')}
+            >
+              {this.state.days}
+            </Select>
+          </Col>
+        </Row>
       </div>
     );
   }
@@ -190,12 +146,53 @@ class IntroPersonPage extends Component<any, any> {
     return false;
   }
 
-  private GoForward() {
+  handleChange(event: any) {
+    const { name, value } = event.target;
+
+    this.setState((prevState: any) => ({
+      registerDetails: {
+        ...prevState.registerDetails,
+        user: {
+          ...prevState.registerDetails.user,
+          [name]: value,
+        },
+      },
+    }));
+  }
+
+  handleDateChange(value: any, type: string) {
+    this.setState((prevState: any) => ({
+      registerDetails: {
+        ...prevState.registerDetails,
+        details: {
+          ...prevState.registerDetails.details,
+          [type]: value,
+        },
+      },
+    }));
+
+    if (type !== 'Day') {
+      const selectedDate =
+        type === 'Month'
+          ? this.state.registerDetails.details.Year + '-' + value
+          : value + '-' + this.state.registerDetails.details.Month;
+      this.populateDays(selectedDate);
+    }
+  }
+
+  private goForward() {
     LocalStorageHelper.SaveItemToLocalStorage(LocalStorage.IntroInfo, this.state.registerDetails);
     history.push('/intro/step-two');
   }
 
-  private GetMonths() {
+  private populateDays(selectedDate: string) {
+    const startDay = 1;
+    const endDay = moment(selectedDate, 'YYYY-MM').daysInMonth();
+
+    this.populateDate(startDay, endDay, 'days');
+  }
+
+  private populateMonths() {
     const Option = Select.Option;
     let options = [];
     const months = DateHelper.GetMonths();
@@ -213,44 +210,26 @@ class IntroPersonPage extends Component<any, any> {
     });
   }
 
-  private GetYears() {
-    const Option = Select.Option;
-    let options = [];
-
+  private populateYears() {
     const startYear = 1950;
     const endYear = new Date().getFullYear() - 9;
 
-    for (let i = startYear; i <= endYear; i++) {
-      options.push(
-        <Option key={i} value={i}>
-          {i}
-        </Option>
-      );
-    }
-
-    this.setState({
-      years: options,
-    });
+    this.populateDate(startYear, endYear, 'years');
   }
 
-  private async GetDays() {
+  private populateDate(startVal: number, endVal: number, type: string) {
     const Option = Select.Option;
     let options = [];
-    let selectedDate =
-      this.state.registerDetails.details.Year + '-' + this.state.registerDetails.details.Month;
-    const startDay = 1;
-    const endDay = moment(selectedDate, 'YYYY-MM').daysInMonth();
 
-    for (let i = startDay; i <= endDay; i++) {
+    for (let i = startVal; i <= endVal; i++) {
       options.push(
         <Option key={i} value={i}>
           {i}
         </Option>
       );
     }
-
-    await this.setState({
-      days: options,
+    this.setState({
+      [type]: options,
     });
   }
 }

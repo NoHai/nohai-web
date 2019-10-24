@@ -17,20 +17,23 @@ class HistoryEventsPage extends Component {
     total: 0,
   };
 
-  constructor(props:any) {
+  constructor(props: any) {
     super(props);
-    this.eventRequest.showHistory=true;
+    this.eventRequest.showHistory = true;
   }
 
   async componentDidMount() {
     await this.getEvents();
   }
 
-
   public render() {
     return (
       <div className="full-height">
-        <EventList eventDetails={this.state.eventDetails} hasMoreItems={this.state.hasMoreItems} onEventsDetailsChange={() =>this.getEvents()}  />
+        <EventList
+          eventDetails={this.state.eventDetails}
+          hasMoreItems={this.state.hasMoreItems}
+          onEventsDetailsChange={() => this.getEvents()}
+        />
       </div>
     );
   }

@@ -1,8 +1,8 @@
-$login-text-color: #12998e;
+$login-text-color: #41c1b7;
 $login-button-color: #c6f0ed;
 $login-button-text-color: #25716c;
-$login-input-border-color: #12998e;
-$login-button-border-color: #12998e;
+$login-input-border-color: $login-text-color;
+$login-button-border-color: $login-text-color;
 $facebook-color: #3c66c4;
 
 $main-color: #048a81;
@@ -20,6 +20,6 @@ $footer-border-color: rgba(210, 210, 210, 0.52);
 $footer-text-color: #464646;
 $join-button-color: #54c1d8;
 $error-color: #d63211;
-$placeholder-color: #049b91;
+$placeholder-color: $login-text-color;
 $line-color: #e6e5e8;
 $secondary-color: #686868;

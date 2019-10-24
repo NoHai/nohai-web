@@ -19,6 +19,7 @@ import AppLoading from './components/app-loading/app-loading.component';
 import LoadingHelper from './helpers/loading.helper';
 import { notification, Button } from 'antd';
 import { canBeInstalled, installApp } from './helpers/install-app.helper';
+import clearStoragePage from './pages/common/customer-support/clear-storage/clear-storage.page';
 
 class App extends Component<any, any> {
   private AppConfig = new AppConfig();
@@ -67,6 +68,9 @@ class App extends Component<any, any> {
                 isAuthorized={this.props.isAuthorized}
                 isCompleted={this.props.isCompleted}
               />
+
+              <Route path="/clear-app" component={clearStoragePage} />
+
               <PrivateRoute
                 component={WrapperPage}
                 isAuthorized={this.props.isAuthorized}
@@ -120,9 +124,7 @@ class App extends Component<any, any> {
         message: 'Instaleaza aplicatia Nohai',
         description: (
           <div>
-            <p>
-              Pentru a avea o experienta placuta poti instala aplicatia Nohai pe telefonul tau.
-            </p>
+            <p>Pentru a avea o experienta placuta poti instala aplicatia Nohai pe telefonul tau.</p>
 
             <div>
               <Button
