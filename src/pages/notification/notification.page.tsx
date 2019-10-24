@@ -35,52 +35,25 @@ class NotificationPage extends Component {
     super(props);
     this.getNotification = this.getNotification.bind(this);
   }
+
   async componentDidMount() {
     await this.getNotification();
     await this.checkNotificationToken();
   }
+
   public render() {
     return (
       <div className="notification-page full-height">
         <div className="page-sections">
-          <div>
-            <div className="page-section-header">
-              <Row type="flex" justify="space-around" align="middle">
-                <Col span={12}>
-                  <h2>Notificari</h2>
-                </Col>
-                <Col span={12} className="text-right">
-                  {this.areUnreadEmails() ? (
-                    <div
-                      onClick={e => this.markAllAsRead()}
-                      className="icon mark-icon-button mdi mdi-email-check"
-                    ></div>
-                  ) : (
-                    <div className="icon mdi mdi-email-check-outline"></div>
-                  )}
-                </Col>
-              </Row>
-            </div>
-            {!this.state.hasToken && (
-              <div className="page-section-header notification-box">
-                <div>
-                  <p>Notificarile tale sunt dezactivate!</p>
+          <div className="page-section">{this.getHeader()}</div>
 
-                  <div className="text-right">
-                    <Button
-                      onClick={e => this.allowNotification()}
-                      className="notification-button"
-                      type="primary"
-                    >
-                      Activare notificari
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
+          <div className="page-section">{this.getNotificationButton()}</div>
+
           <div className="page-section page-section-large">
-            <AppInfiniteScroll hasMore={this.state.hasMoreItems} next={this.getNotification}>
+            <AppInfiniteScroll
+              hasMore={this.state.hasMoreItems}
+              next={() => this.getNotification()}
+            >
               {this.displayNotification()}
             </AppInfiniteScroll>
           </div>
@@ -88,6 +61,51 @@ class NotificationPage extends Component {
       </div>
     );
   }
+
+  private getNotificationButton(): React.ReactNode {
+    return (
+      !this.state.hasToken && (
+        <div className="notification-box">
+          <div>
+            <p>Notificarile tale sunt dezactivate!</p>
+
+            <div className="text-right">
+              <Button
+                onClick={e => this.allowNotification()}
+                className="notification-button"
+                type="primary"
+              >
+                Activare notificari
+              </Button>
+            </div>
+          </div>
+        </div>
+      )
+    );
+  }
+
+  private getHeader() {
+    return (
+      <div className="notification-section-header">
+        <Row type="flex" align="middle">
+          <Col span={12}>
+            <h2>Notificari</h2>
+          </Col>
+          <Col span={12} className="text-right">
+            {this.areUnreadEmails() ? (
+              <div
+                onClick={e => this.markAllAsRead()}
+                className="icon mark-icon-button mdi mdi-email-check"
+              ></div>
+            ) : (
+              <div className="icon mdi hidden mdi-email-check-outline"></div>
+            )}
+          </Col>
+        </Row>
+      </div>
+    );
+  }
+
   async checkNotificationToken() {
     const tokenNotification = await GetTokenNotification(false);
     this.setState({

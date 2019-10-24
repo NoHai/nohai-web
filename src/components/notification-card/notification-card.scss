@@ -1,0 +1,31 @@
+@import './../../globals/styles/variables';
+@import './../../globals/styles/functions';
+
+.notification-card {
+  &.not-read {
+    background-color: rgba(93, 164, 255, 0.08);
+  }
+
+  .avatar {
+    background-color: #ddd;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    @include border-radius(50%);
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    margin-top: 5px;
+    cursor: pointer;
+    @include user-select-none();
+  }
+
+  .link {
+    &.red-color {
+      color: $red-color;
+    }
+    &.gray-color {
+      color: $secondary-color;
+    }
+  }
+}

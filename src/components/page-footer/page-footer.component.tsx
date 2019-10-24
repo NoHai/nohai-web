@@ -17,8 +17,8 @@ class PageFooter extends Component {
     const eventHistoryClass = isHistoryActive ? 'mdi-calendar-star' : 'mdi-calendar-blank-outline';
 
     return (
-      <div className="page-footer page-section">
-        <Row type="flex" align="middle">
+      <div className="page-footer">
+        <Row type="flex" align="middle" className="footer-row">
           <Col span={8} className="text-center">
             <div
               className={`page-footer-link ${isHomeActive ? 'active' : ''}`}
