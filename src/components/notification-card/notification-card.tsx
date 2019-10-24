@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './notification-card.scss';
 import { Row, Col, Button } from 'antd';
 import { NotificationCardProps } from './notification-card.props';
 import { ActionType, ActionButtonType } from '../../contracts/enums/common';
@@ -6,10 +7,10 @@ import AvatarHelper from '../../helpers/avatar.helper';
 
 class NotificationCard extends Component<NotificationCardProps> {
   render() {
-    const cssClass = this.props.status === 0 ? 'not-read item-card' : 'item-card';
+    const cssClass = this.props.status === 0 ? 'not-read' : '';
 
     return (
-      <div className={cssClass}>
+      <div className={`notification-card item-card ${cssClass}`}>
         <Row
           onClick={() => {
             this.onButtonClickHandler(ActionButtonType.Info);

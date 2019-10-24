@@ -35,10 +35,12 @@ class NotificationPage extends Component {
     super(props);
     this.getNotification = this.getNotification.bind(this);
   }
+
   async componentDidMount() {
     await this.getNotification();
     await this.checkNotificationToken();
   }
+
   public render() {
     return (
       <div className="notification-page full-height">
@@ -48,7 +50,12 @@ class NotificationPage extends Component {
           <div className="page-section">{this.getNotificationButton()}</div>
 
           <div className="page-section page-section-large">
-            <AppInfiniteScroll hasMore={this.state.hasMoreItems} next={this.getNotification}>
+            <AppInfiniteScroll
+              hasMore={this.state.hasMoreItems}
+              next={() => {
+                this.getNotification();
+              }}
+            >
               {this.displayNotification()}
             </AppInfiniteScroll>
           </div>
@@ -81,7 +88,7 @@ class NotificationPage extends Component {
 
   private getHeader() {
     return (
-      <div className="page-section-header">
+      <div className="notification-section-header">
         <Row type="flex" align="middle">
           <Col span={12}>
             <h2>Notificari</h2>

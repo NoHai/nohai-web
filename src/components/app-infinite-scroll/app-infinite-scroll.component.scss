@@ -1,4 +1,12 @@
 .app-infinite-scroll {
   height: 100%;
   overflow: auto;
+
+  .is-loading {
+    overflow: hidden;
+  }
+
+  .app-infinite-scroll-container {
+    display: block;
+  }
 }

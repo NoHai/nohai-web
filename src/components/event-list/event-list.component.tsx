@@ -7,10 +7,9 @@ import AppInfiniteScroll from '../app-infinite-scroll/app-infinite-scroll.compon
 import { EventListProps } from './event-list.component.props';
 
 class EventList extends Component<EventListProps> {
-
   render() {
     return (
-      <AppInfiniteScroll hasMore={this.props.hasMoreItems} next={()=> this.getEvents()}>
+      <AppInfiniteScroll hasMore={this.props.hasMoreItems} next={() => this.getEvents()}>
         {this.displayEvents()}
       </AppInfiniteScroll>
     );
@@ -32,7 +31,7 @@ class EventList extends Component<EventListProps> {
   private async getEvents() {
     if (this.props.onEventsDetailsChange) {
       this.props.onEventsDetailsChange();
-    }   
+    }
   }
 }
 

@@ -4,7 +4,7 @@ import ObjectHelper from '../../helpers/object.helper';
 
 interface AppInfiniteScrollProps {
   hasMore: boolean;
-  next: () => {};
+  next: () => void;
 }
 
 class AppInfiniteScroll extends Component<AppInfiniteScrollProps> {
