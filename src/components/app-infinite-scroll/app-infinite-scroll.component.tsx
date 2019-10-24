@@ -55,7 +55,8 @@ class AppInfiniteScroll extends Component<AppInfiniteScrollProps> {
 
   private scrollListen() {
     setTimeout(() => {
-      const isScrollValid = this.scrollElement && this.props.hasMore;
+      const isScrollValid =
+        this.isMount && this.scrollElement && this.props.hasMore && !this.isLoading;
       if (isScrollValid) {
         // const scrollPosition = this.scrollElement.scrollHeight - this.scrollElement.scrollTop;
         // const isScrolled = scrollPosition === this.scrollElement.clientHeight;
@@ -63,12 +64,10 @@ class AppInfiniteScroll extends Component<AppInfiniteScrollProps> {
         const scrolled = this.scrollElement.scrollTop + this.scrollElement.offsetHeight;
         const isScrolled = scrolled >= this.scrollElement.scrollHeight - 80;
 
-        if (isScrolled && !this.isLoading) {
+        if (isScrolled) {
           this.toggleLoading(true);
 
           this.props.next().finally(() => {
-            console.log('scroll', new Date());
-
             this.toggleLoading(false);
           });
         }
