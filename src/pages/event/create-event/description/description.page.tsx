@@ -101,12 +101,12 @@ class DescriptionEventPage extends Component<any, any> {
 
   public render() {
     return (
-      <div className="create-event-page event-list-item full-height">
-        <div className="page-sections">
-          <div className="page-section page-section-large">
+      <div className="event-list-item full-height">
+        <div className="item-card full-min-height">
+          <div className="margin-bottom">
             <CreateEventHeaderComponent
               title={'Detalii eveniment'}
-              iconClass={'icon mdi mdi-clipboard-outline'}
+              imagePath="/assets/travel-tickets-colour.svg"
             />
             <label>Incepe in:</label>
             <DatePicker
@@ -187,11 +187,14 @@ class DescriptionEventPage extends Component<any, any> {
             />
           </div>
 
+          <hr />
+
           <Row>
             <Col span={12}>
               <Button
                 className="arrow-button"
                 type="link"
+                size="large"
                 onClick={() => {
                   this.goToLocationDetails();
                 }}
@@ -204,6 +207,7 @@ class DescriptionEventPage extends Component<any, any> {
               <Button
                 disabled={!this.state.finishForm}
                 type="primary"
+                size="large"
                 onClick={() => {
                   this.goToDetails();
                 }}

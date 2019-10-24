@@ -4,9 +4,14 @@ import { CreateEventHeaderProps } from './create-event-header.props';
 class CreateEventHederComponent extends Component<CreateEventHeaderProps> {
   public render() {
     return (
-      <div className="header-title">
-        {this.props.title}
-        <div className={this.props.iconClass} />
+      <div className="create-event-header">
+        {!!this.props.iconClass && <div className={this.props.iconClass} />}
+
+        {!!this.props.imagePath && (
+          <div className="image" style={{ backgroundImage: `url(${this.props.imagePath})` }} />
+        )}
+
+        <div className="header-title">{this.props.title}</div>
       </div>
     );
   }

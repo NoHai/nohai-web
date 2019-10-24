@@ -1,20 +1,32 @@
 @import './../../globals/styles/variables';
 @import './../../globals/styles/functions';
-.header-title {
-  position: relative;
+
+.create-event-header {
   text-align: center;
-  font-size: 20px;
-  font-weight: 300;
-  padding-bottom: 10%;
-  padding-top: 65px;
+  margin-bottom: 10%;
+
+  .header-title {
+    position: relative;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 300;
+  }
 
   .icon {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
     text-align: center;
     font-size: 54px;
     color: $red-color;
+    line-height: 1;
+  }
+
+  .image {
+    display: inline-block;
+    width: 128px;
+    height: 128px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    margin-top: 15px;
+    margin-bottom: 15px;
   }
 }

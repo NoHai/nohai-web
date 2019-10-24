@@ -93,12 +93,12 @@ class LocationDetailsEventPage extends Component<any, any> {
 
   public render() {
     return (
-      <div className="create-event-page event-list-item full-height">
-        <div className="page-sections">
-          <div className="page-section page-section-large">
+      <div className="event-list-item full-height">
+        <div className="item-card full-min-height">
+          <div className="margin-bottom">
             <CreateEventHeaderComponent
               title={'Detalii locatie'}
-              iconClass={'icon mdi mdi-map-marker-plus'}
+              imagePath="/assets/directions-colour.svg"
             />
             <label>Punct de intalnire</label>
             <GoogleLocationAutoComplete
@@ -129,11 +129,15 @@ class LocationDetailsEventPage extends Component<any, any> {
               onChange={e => this.handleChange(e)}
             />
           </div>
+
+          <hr />
+
           <Row>
             <Col span={12}>
               <Button
                 className="arrow-button"
                 type="link"
+                size="large"
                 onClick={() => {
                   this.goToParticipantsDetails();
                 }}
@@ -145,8 +149,8 @@ class LocationDetailsEventPage extends Component<any, any> {
             <Col span={12} className="text-right">
               <Button
                 disabled={!this.state.eventDetails.locationDetails.IsValid}
-                className="arrow-button"
-                type="link"
+                type="primary"
+                size="large"
                 onClick={() => {
                   this.goToDescription();
                 }}

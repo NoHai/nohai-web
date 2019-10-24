@@ -67,12 +67,12 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
 
   public render() {
     return (
-      <div className="create-event-page event-list-item full-height">
-        <div className="page-sections">
-          <div className="page-section page-section-large">
+      <div className="event-list-item full-height">
+        <div className="item-card full-min-height">
+          <div className="margin-bottom">
             <CreateEventHeaderComponent
               title={'Detalii participanti'}
-              iconClass={'icon mdi mdi-account-group'}
+              imagePath="/assets/handshake-colour.svg"
             />
             <label>Sportul si nivelul</label>
             <SportsSelection
@@ -103,17 +103,22 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
               onChange={e => this.handleChange(e)}
             />
           </div>
-          <Button
-            disabled={!this.state.eventDetails.participantsDetails.IsValid}
-            className="arrow-button align-right"
-            type="link"
-            onClick={() => {
-              this.goToLocationDetails();
-            }}
-          >
-            Inainte
-            <Icon type="right" />
-          </Button>
+
+          <div className="text-right margin-bottom">
+            <hr />
+
+            <Button
+              disabled={!this.state.eventDetails.participantsDetails.IsValid}
+              type="primary"
+              size="large"
+              onClick={() => {
+                this.goToLocationDetails();
+              }}
+            >
+              Inainte
+              <Icon type="right" />
+            </Button>
+          </div>
         </div>
       </div>
     );
