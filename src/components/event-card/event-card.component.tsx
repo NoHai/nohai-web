@@ -13,6 +13,7 @@ import EventCardDetails from '../event-card-details/event-card-details.component
 import EventCardOwner from '../event-card-owner/event-card-owner.component';
 import { EventCardAvailability } from '../event-card-availability/event-card-availability.component';
 import { EventCardButton } from '../event-card-button/event-card-button.component';
+import EventHelper from '../../helpers/event.helper';
 
 class EventCard extends Component<any, any> {
   private isForPreview = false;
@@ -78,7 +79,7 @@ class EventCard extends Component<any, any> {
           latitude={this.props.eventDetails.locationDetails.Latitude}
           longitude={this.props.eventDetails.locationDetails.Longitude}
         />
-
+        {this.leaveEvent()}
         {this.isForPreview && (
           <div className="create-event-wrapper">
             <div className="sub-title">Totul este corect?</div>
@@ -103,6 +104,24 @@ class EventCard extends Component<any, any> {
         )}
       </div>
     );
+  }
+
+  private leaveEvent() {
+    if (!this.isForPreview ) {
+      const isAlreadyAccepted = EventHelper.isUserAccepted(this.props.eventDetails, this.userId);
+      return (
+        isAlreadyAccepted && (
+          <div className="create-event-wrapper">
+            <div className="sub-title">A aparut ceva?</div>
+            <p>Daca a aparut ceva si nu mai poti ajunge paraseste evenimentul</p>
+
+            <Button type="primary" block={true} className="margin-bottom">
+              Paraseste evenimentul
+            </Button>
+          </div>
+        )
+      );
+    }
   }
 
   private async createEvent() {
