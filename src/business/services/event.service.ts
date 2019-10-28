@@ -13,6 +13,19 @@ import { ApproveRequestCommand } from '../commands/event/approve-request.command
 import { RejectRequestCommand } from '../commands/event/reject-request.command';
 
 class EventServiceController implements IEventService {
+  public async Approve(notificationId: any): Promise<ResultModel<boolean>> {
+    return await ApproveRequestCommand.execute(notificationId);
+  }
+
+  public async Create(model: EventDetailsViewModel): Promise<EventDetailsViewModel> {
+    const result = await CreateEventCommand.execute(model);
+    return result;
+  }
+
+  public async Delete(id: any): Promise<ResultModel<boolean>> {
+    return await DeleteEventCommand.execute(id);
+  }
+
   public async Find(request: FindEventRequest): Promise<ListModel<EventDetailsViewModel>> {
     return await FindEventCommand.execute(request);
   }
@@ -21,25 +34,12 @@ class EventServiceController implements IEventService {
     return await GetEventCommand.execute(id);
   }
 
-  public async Create(model: EventDetailsViewModel): Promise<EventDetailsViewModel> {
-    const result = await CreateEventCommand.execute(model);
-    return result;
-  }
-
-  public async Update(event: EventDetailsViewModel): Promise<EventDetailsViewModel> {
-    return await UpdateEventCommand.execute(event);
-  }
-
-  public async Delete(id: any): Promise<ResultModel<boolean>> {
-    return await DeleteEventCommand.execute(id);
-  }
-
   public async Join(id: any): Promise<ResultModel<boolean>> {
     return await JoinEventCommand.execute(id);
   }
 
-  public async Approve(notificationId: any): Promise<ResultModel<boolean>> {
-    return await ApproveRequestCommand.execute(notificationId);
+  public async Update(event: EventDetailsViewModel): Promise<EventDetailsViewModel> {
+    return await UpdateEventCommand.execute(event);
   }
 
   public async Reject(notificationId: any): Promise<ResultModel<boolean>> {

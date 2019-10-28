@@ -56,6 +56,7 @@ class EventCard extends Component<any, any> {
                   event={this.props.eventDetails}
                   requestSent={this.state.requestSent}
                   onJoinClick={() => this.joinEvent()}
+                  onCancelClick={() => this.cancelEvent()}
                 />
               </Col>
             </Row>
@@ -110,6 +111,13 @@ class EventCard extends Component<any, any> {
       LocalStorageHelper.DeleteItemFromLocalStorage(LocalStorage.CreateEvent);
       history.push('/');
     }
+  }
+
+  private async cancelEvent() {
+    await EventService.Delete(this.props.eventDetails.event.Id);
+    this.setState({
+      requestSent: true,
+    });
   }
 
   private async joinEvent() {

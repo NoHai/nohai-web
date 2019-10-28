@@ -140,8 +140,17 @@ class EventRepositoryController implements IEventRepository {
     throw new Error('Method not implemented.');
   }
 
-  Delete(data: any): Promise<ResultModel<boolean>> {
-    throw new Error('Method not implemented.');
+  async Delete(id: any): Promise<ResultModel<boolean>> {
+    let input: any = { id: id };
+
+    const deleteEventMutation = gql`
+      mutation deleteEvent($id: String!) {
+        deleteEvent(id: $id)
+      }
+    `;
+
+    const result: any = await GraphqlClient.mutate(deleteEventMutation, input);
+    return result.deleteEvent;
   }
 
   async Join(eventId: any): Promise<ResultModel<boolean>> {

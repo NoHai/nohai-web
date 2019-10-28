@@ -59,6 +59,9 @@ export class EventCardButton extends Component<EventCardButtonProps> {
             shape="circle"
             icon="close"
             className="join-button"
+            onClick={() => {
+              this.props.onCancelClick();
+            }}
           ></Button>
         </Col>
       </Row>

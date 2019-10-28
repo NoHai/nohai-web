@@ -5,4 +5,5 @@ export interface EventCardButtonProps {
   userId: string;
   requestSent: boolean;
   onJoinClick: () => void;
+  onCancelClick: () => void;
 }
