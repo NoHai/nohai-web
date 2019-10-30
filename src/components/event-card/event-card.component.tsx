@@ -48,11 +48,11 @@ class EventCard extends Component<any, any> {
         {!this.isForPreview && (
           <div>
             <Row className="margin-bottom">
-              <Col span={12}>
+              <Col span={10}>
                 <EventMembers eventMembers={this.props.eventDetails.participants} />
               </Col>
 
-              <Col span={12}>
+              <Col span={14}>
                 <EventCardButton
                   userId={this.userId}
                   event={this.props.eventDetails}

@@ -21,4 +21,11 @@
     padding-left: 25px;
     font-weight: 400;
   }
+
+  .ant-avatar {
+    .ant-avatar-string {
+      color: $white-color;
+      font-weight: bold;
+    }
+  }
 }
