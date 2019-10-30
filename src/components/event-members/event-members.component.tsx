@@ -29,28 +29,27 @@ class EventMembers extends Component<EventMembersProps> {
   }
 
   displayParticipants(members: Array<ParticipantModel>) {
-    if (members.length > 5) {
-      const extraParticipants= members.length-4;
-      let participants= new Array<any>();
-      for (let index = 0; index < 4; index++) {
+    const participants = new Array<any>();
+    const displayNumber = 3;
+    const extraParticipants= members.length-displayNumber;
+
+    if (members && members.length > 0) {
+      const displayMembers =
+        members.length > displayNumber ? members.slice(0, displayNumber) : members;
+      displayMembers.forEach((m, index) => {
+        participants.push(<Avatar key={index} size={this._size} src={AvatarHelper.get(m.Url)} />);
+      });
+
+      if (members.length > displayNumber) {
         participants.push(
-          <Avatar
-            key={members[index].Id}
-            size={this._size}
-            src={AvatarHelper.get(members[index].Url)}
-          />
+          <Avatar className="extra-members" key={4} size={this._size} src={''}>
+            +{extraParticipants}
+          </Avatar>
         );
       }
-      participants.push(<Avatar className="extra-members" key={4} size={this._size} src={''} >+{extraParticipants}</Avatar>);
-      return participants;
-    } else {
-      return (
-        this.props.eventMembers &&
-        members.map((member: ParticipantModel) => (
-          <Avatar key={member.Id} size={this._size} src={AvatarHelper.get(member.Url)} />
-        ))
-      );
     }
+
+    return participants;
   }
 
   showModal(show: boolean) {
