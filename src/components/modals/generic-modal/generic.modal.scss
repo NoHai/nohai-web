@@ -1,7 +1,7 @@
-@import './../../globals/styles/variables';
-@import './../../globals/styles/functions';
+@import './../../../globals/styles/variables';
+@import './../../../globals/styles/functions';
 
-.event-member-list {
+.generic-modal {
   &.open {
     .bg-modal {
       display: block;
@@ -24,10 +24,7 @@
     width: 100%;
     height: 100%;
     background-color: white;
-  }
-
-  .close-button {
-    text-align: right;
+    border-radius: 2%;
   }
 
   .modal-section-header {
@@ -37,17 +34,18 @@
 
     h2 {
       margin: 0;
-      text-transform: uppercase;
       font-size: 14px;
       font-weight: 400;
-      color: $gray-dark-color;
     }
 
-    
+    .close-button {
+      cursor: pointer;
+      color: $text-color;
+    }
   }
 
   .modal-section-body {
-    padding: 15px;
+    padding: 15px 30px;
     overflow-y: scroll;
   }
   .modal-section-footer {

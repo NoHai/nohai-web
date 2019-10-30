@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
-import './event-members-list.scss';
-import { EventMembersListProps } from './event-members-list.component.props';
+import './generic.modal.scss';
+import { GenericModalProps } from './generic.modal.props';
 import { Button, Row, Col } from 'antd';
 
-class EventMembersList extends Component<EventMembersListProps> {
-  private _size = 34;
-
+class GenericModal extends Component<GenericModalProps> {
   render() {
     const modalClass = this.props.showModal ? 'open' : '';
     return (
-      <div className={`event-member-list ${modalClass}`}>
+      <div className={`generic-modal ${modalClass}`}>
         <div className="bg-modal">
           <div className="modal-content">
             <div className="page-sections">
@@ -25,16 +23,17 @@ class EventMembersList extends Component<EventMembersListProps> {
 
   private getModalHeader() {
     return (
-      <div className="modal-section-footer">
+      <div className="modal-section-header">
         <Row type="flex" align="middle">
           <Col span={12}>
             <h2>{this.props.title}</h2>
           </Col>
           <Col span={12} className="text-right">
             <Button
-              type="ghost"
-              shape="circle"
+              type="link"
               icon="close"
+              size="large"
+              className="close-button"
               onClick={() => {
                 this.props.onClose();
               }}
@@ -47,17 +46,17 @@ class EventMembersList extends Component<EventMembersListProps> {
 
   private getModalFooter() {
     return (
-      <div className="modal-section-header">
+      <div className="modal-section-footer">
         <Row type="flex" align="middle">
           <Col span={12}></Col>
           <Col span={12} className="text-right">
             <Button
-              type="primary"
+              type="default"
               onClick={() => {
                 this.props.onClose();
               }}
             >
-              OK
+              Inchide
             </Button>
           </Col>
         </Row>
@@ -70,4 +69,4 @@ class EventMembersList extends Component<EventMembersListProps> {
   }
 }
 
-export default EventMembersList;
+export default GenericModal;
