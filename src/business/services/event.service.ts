@@ -38,6 +38,10 @@ class EventServiceController implements IEventService {
     return await JoinEventCommand.execute(id);
   }
 
+  public async Leave(id: any): Promise<ResultModel<boolean>> {
+    return await JoinEventCommand.execute(id);
+  }
+
   public async Update(event: EventDetailsViewModel): Promise<EventDetailsViewModel> {
     return await UpdateEventCommand.execute(event);
   }

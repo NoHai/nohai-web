@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './event-card.component.scss';
-import { Row, Col, Button } from 'antd';
+import { Row, Col, Button, Modal } from 'antd';
 import EventMembers from '../event-members/event-members.component';
 import EventMap from '../event-map/event-map.component';
 import { EventService } from '../../business/services';
@@ -14,6 +14,8 @@ import EventCardOwner from '../event-card-owner/event-card-owner.component';
 import { EventCardAvailability } from '../event-card-availability/event-card-availability.component';
 import { EventCardButton } from '../event-card-button/event-card-button.component';
 import EventHelper from '../../helpers/event.helper';
+
+const { confirm } = Modal;
 
 class EventCard extends Component<any, any> {
   private isForPreview = false;
@@ -79,7 +81,7 @@ class EventCard extends Component<any, any> {
           latitude={this.props.eventDetails.locationDetails.Latitude}
           longitude={this.props.eventDetails.locationDetails.Longitude}
         />
-        {this.leaveEvent()}
+        {this.leaveEventSection()}
         {this.isForPreview && (
           <div className="create-event-wrapper">
             <div className="sub-title">Totul este corect?</div>
@@ -106,21 +108,46 @@ class EventCard extends Component<any, any> {
     );
   }
 
-  private leaveEvent() {
-    if (!this.isForPreview ) {
+  private leaveEventSection() {
+    if (!this.isForPreview) {
       const isAlreadyAccepted = EventHelper.isUserAccepted(this.props.eventDetails, this.userId);
       return (
         isAlreadyAccepted && (
           <div className="create-event-wrapper">
-            <div className="sub-title">A aparut ceva?</div>
-            <p>Daca a aparut ceva si nu mai poti ajunge paraseste evenimentul</p>
+            <div className="sub-title">Te-ai razgandit?</div>
+            <p>Nu mai poti ajunge? Paraseste evenimentul.</p>
 
-            <Button type="primary" block={true} className="margin-bottom">
+            <Button
+              type="default"
+              block={true}
+              className="margin-bottom"
+              onClick={() => {
+                this.leaveEventModal(this);
+              }}
+            >
               Paraseste evenimentul
             </Button>
           </div>
         )
       );
+    }
+  }
+
+  private async leaveEventModal(context:any) {
+    confirm({
+      title: 'Esti sigur ca vrei sa parasesti evenimentul?',
+      okText: 'Da',
+      okType: 'danger',
+      cancelText: 'Nu',
+      onOk() {context.leaveEvent()},
+      onCancel() {},
+    });
+  }
+
+  private async leaveEvent() {
+    const result = EventService.Delete(this.props.eventDetails.event.Id);
+    if (result) {
+      history.push('/');
     }
   }
 
