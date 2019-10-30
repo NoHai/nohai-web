@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import './event-card-button.component.scss';
 import EventHelper from '../../helpers/event.helper';
-import { Button, Row, Col } from 'antd';
+import { Button, Row, Col, Modal } from 'antd';
 import { EventCardButtonProps } from './event-card-button.props';
+
+const { confirm } = Modal;
 
 export class EventCardButton extends Component<EventCardButtonProps> {
   render() {
@@ -59,8 +61,8 @@ export class EventCardButton extends Component<EventCardButtonProps> {
             shape="circle"
             icon="close"
             className="join-button"
-            onClick={() => {
-              this.props.onCancelClick();
+            onClick={(e) => {
+              this.cancelEvent(this.props);
             }}
           ></Button>
         </Col>
@@ -106,5 +108,19 @@ export class EventCardButton extends Component<EventCardButtonProps> {
         </Col>
       </Row>
     );
+  }
+
+  private cancelEvent(props: any){
+    confirm({
+      title: 'Esti sigur ca vrei sa anulezi evenimentul?',
+      okText: 'Anuleaza',
+      okType: 'danger',
+      cancelText: 'Nu doresc',
+      onOk() {
+        props.onCancelClick()
+      },
+      onCancel() {
+      },
+    });
   }
 }
