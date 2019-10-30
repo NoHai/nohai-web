@@ -108,15 +108,15 @@ class EventCard extends Component<any, any> {
   }
 
   private leaveEvent() {
-    if (!this.isForPreview) {
+    if (!this.isForPreview ) {
       const isAlreadyAccepted = EventHelper.isUserAccepted(this.props.eventDetails, this.userId);
       return (
         isAlreadyAccepted && (
           <div className="create-event-wrapper">
-            <div className="sub-title">Te-ai razgandit?</div>
-            <p>Nu mai poti ajunge? Paraseste evenimentul.</p>
+            <div className="sub-title">A aparut ceva?</div>
+            <p>Daca a aparut ceva si nu mai poti ajunge paraseste evenimentul</p>
 
-            <Button type="default" block={true} className="margin-bottom">
+            <Button type="primary" block={true} className="margin-bottom">
               Paraseste evenimentul
             </Button>
           </div>
