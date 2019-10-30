@@ -2,10 +2,10 @@ import { ICommand } from '../command.interface';
 import { ResultModel } from '../../../contracts/models';
 import { EventRepository } from '../../../data/repositories/event.respository';
 
-class RejectRequestCommandController implements ICommand<any, Promise<ResultModel<boolean>>> {
+class LeaveEventCommandController implements ICommand<any, Promise<ResultModel<boolean>>> {
   public async execute(notificationId: any): Promise<ResultModel<boolean>> {
-    return await EventRepository.Reject(notificationId);
+    return await EventRepository.Leave(notificationId);
   }
 }
 
-export const RejectRequestCommand = new RejectRequestCommandController();
+export const LeaveEventCommand = new LeaveEventCommandController();
