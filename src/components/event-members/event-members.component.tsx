@@ -4,7 +4,7 @@ import { Avatar } from 'antd';
 import { EventMembersProps } from './event-members.component.props';
 import { ParticipantModel } from '../../contracts/models/participant.model';
 import AvatarHelper from '../../helpers/avatar.helper';
-import EventMembersList from '../event-members-list/event-members-list';
+import EventMembersListModal from '../modals/event/event-members-list/event-members-list.modal';
 
 class EventMembers extends Component<EventMembersProps> {
   private _size: number = 34;
@@ -22,11 +22,11 @@ class EventMembers extends Component<EventMembersProps> {
               <Avatar key={member.Id} size={this._size} src={AvatarHelper.get(member.Url)} />
             ))}
         </div>
-        <EventMembersList
+        <EventMembersListModal
           showModal={this.state.showModal}
-          eventMembers={members}
-          onButtonClick={() => this.showModal(false)}
-        ></EventMembersList>
+          members={members}
+          onClose={() => this.showModal(false)}
+        ></EventMembersListModal>
       </div>
     );
   }
