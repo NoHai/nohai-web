@@ -1,7 +1,7 @@
 import { ParticipantModel } from '../../contracts/models/participant.model';
 
 export interface EventMembersListProps {
+  title: string;
   showModal: boolean;
-  eventMembers: Array<ParticipantModel>;
-  onButtonClick: () => void;
+  onClose: () => void;
 }

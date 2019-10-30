@@ -14,6 +14,7 @@ import EventCardOwner from '../event-card-owner/event-card-owner.component';
 import { EventCardAvailability } from '../event-card-availability/event-card-availability.component';
 import { EventCardButton } from '../event-card-button/event-card-button.component';
 import EventHelper from '../../helpers/event.helper';
+import moment from 'moment';
 
 class EventCard extends Component<any, any> {
   private isForPreview = false;
@@ -39,7 +40,7 @@ class EventCard extends Component<any, any> {
       <div className="item-card event-card">
         <EventCardTitle
           imagePath={this.props.eventDetails.sport.ImagePath}
-          title={this.props.eventDetails.event.Name}
+          title={this.generateTitle()}
         />
 
         <hr />
@@ -107,15 +108,15 @@ class EventCard extends Component<any, any> {
   }
 
   private leaveEvent() {
-    if (!this.isForPreview ) {
+    if (!this.isForPreview) {
       const isAlreadyAccepted = EventHelper.isUserAccepted(this.props.eventDetails, this.userId);
       return (
         isAlreadyAccepted && (
           <div className="create-event-wrapper">
-            <div className="sub-title">A aparut ceva?</div>
-            <p>Daca a aparut ceva si nu mai poti ajunge paraseste evenimentul</p>
+            <div className="sub-title">Te-ai razgandit?</div>
+            <p>Nu mai poti ajunge? Paraseste evenimentul.</p>
 
-            <Button type="primary" block={true} className="margin-bottom">
+            <Button type="default" block={true} className="margin-bottom">
               Paraseste evenimentul
             </Button>
           </div>
@@ -148,6 +149,18 @@ class EventCard extends Component<any, any> {
 
   private goBack() {
     history.goBack();
+  }
+
+  private generateTitle() {
+    return this.props.eventDetails.sport.Name
+      ? `${this.props.eventDetails.sport.Name},
+    ${moment(this.props.eventDetails.description.StartDate).locale('ro').format('dddd')}
+    ${moment(this.props.eventDetails.description.StartDate).format(
+      'DD'
+    )} ${moment(this.props.eventDetails.description.StartDate).format('MMMM')} ora ${
+          this.props.eventDetails.description.StartTime
+        }`
+      : '';
   }
 }
 

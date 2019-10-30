@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './event-members.component.scss';
-import { Avatar } from 'antd';
+import { Avatar, List } from 'antd';
 import { EventMembersProps } from './event-members.component.props';
 import { ParticipantModel } from '../../contracts/models/participant.model';
 import AvatarHelper from '../../helpers/avatar.helper';
@@ -23,10 +23,28 @@ class EventMembers extends Component<EventMembersProps> {
             ))}
         </div>
         <EventMembersList
+          title="Participanti"
           showModal={this.state.showModal}
-          eventMembers={members}
-          onButtonClick={() => this.showModal(false)}
-        ></EventMembersList>
+          onClose={() => this.showModal(false)}
+        >
+          <List
+            size="small"
+            itemLayout="horizontal"
+            dataSource={members}
+            renderItem={item => (
+              <List.Item>
+                <List.Item.Meta
+                  avatar={<Avatar size={this._size} src={AvatarHelper.get(item.Url)} />}
+                  title={
+                    <p>
+                      {item.FirstName} {item.LastName}
+                    </p>
+                  }
+                />
+              </List.Item>
+            )}
+          />
+        </EventMembersList>
       </div>
     );
   }

@@ -1,0 +1,58 @@
+@import './../../globals/styles/variables';
+@import './../../globals/styles/functions';
+
+.event-member-list {
+  &.open {
+    .bg-modal {
+      display: block;
+    }
+  }
+
+  .bg-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 70px 15px;
+  }
+
+  .modal-content {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+  }
+
+  .close-button {
+    text-align: right;
+  }
+
+  .modal-section-header {
+    vertical-align: middle;
+    padding: 8px 15px;
+    border-bottom: 1px solid $line-color;
+
+    h2 {
+      margin: 0;
+      text-transform: uppercase;
+      font-size: 14px;
+      font-weight: 400;
+      color: $gray-dark-color;
+    }
+
+    
+  }
+
+  .modal-section-body {
+    padding: 15px;
+    overflow-y: scroll;
+  }
+  .modal-section-footer {
+    vertical-align: middle;
+    padding: 8px 15px;
+    border-top: 1px solid $line-color;
+  }
+}
