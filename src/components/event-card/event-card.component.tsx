@@ -108,7 +108,7 @@ class EventCard extends Component<any, any> {
   }
 
   private leaveEvent() {
-    if (!this.isForPreview ) {
+    if (!this.isForPreview) {
       const isAlreadyAccepted = EventHelper.isUserAccepted(this.props.eventDetails, this.userId);
       return (
         isAlreadyAccepted && (
@@ -134,10 +134,10 @@ class EventCard extends Component<any, any> {
   }
 
   private async cancelEvent() {
-    await EventService.Delete(this.props.eventDetails.event.Id);
-    this.setState({
-      requestSent: true,
-    });
+    const id = await EventService.Delete(this.props.eventDetails.event.Id);
+    if (id) {
+      history.push('/');
+    }
   }
 
   private async joinEvent() {

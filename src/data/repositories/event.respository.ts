@@ -141,16 +141,16 @@ class EventRepositoryController implements IEventRepository {
   }
 
   async Delete(id: any): Promise<ResultModel<boolean>> {
-    let input: any = { id: id };
+    let parameter: any = { parameter: id };
 
-    const deleteEventMutation = gql`
-      mutation deleteEvent($id: String!) {
-        deleteEvent(id: $id)
+    const cancelEventMutation = gql`
+      mutation cancelEvent($parameter: String!) {
+        cancelEvent(parameter: $parameter)
       }
     `;
 
-    const result: any = await GraphqlClient.mutate(deleteEventMutation, input);
-    return result.deleteEvent;
+    const result: any = await GraphqlClient.mutate(cancelEventMutation, parameter);
+    return result.cancelEvent;
   }
 
   async Join(eventId: any): Promise<ResultModel<boolean>> {
