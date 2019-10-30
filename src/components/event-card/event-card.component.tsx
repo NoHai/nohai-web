@@ -145,7 +145,7 @@ class EventCard extends Component<any, any> {
   }
 
   private async leaveEvent() {
-    const result = EventService.Delete(this.props.eventDetails.event.Id);
+    const result = EventService.Leave(this.props.eventDetails.event.Id);
     if (result) {
       history.push('/');
     }
