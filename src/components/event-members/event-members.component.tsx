@@ -17,10 +17,7 @@ class EventMembers extends Component<EventMembersProps> {
     return (
       <div>
         <div className="event-members" onClick={() => this.showModal(true)}>
-          {this.props.eventMembers &&
-            members.map((member: ParticipantModel) => (
-              <Avatar key={member.Id} size={this._size} src={AvatarHelper.get(member.Url)} />
-            ))}
+          {this.displayParticipants(members)}
         </div>
         <EventMembersListModal
           showModal={this.state.showModal}
@@ -29,6 +26,31 @@ class EventMembers extends Component<EventMembersProps> {
         ></EventMembersListModal>
       </div>
     );
+  }
+
+  displayParticipants(members: Array<ParticipantModel>) {
+    if (members.length > 5) {
+      const extraParticipants= members.length-4;
+      let participants= new Array<any>();
+      for (let index = 0; index < 4; index++) {
+        participants.push(
+          <Avatar
+            key={members[index].Id}
+            size={this._size}
+            src={AvatarHelper.get(members[index].Url)}
+          />
+        );
+      }
+      participants.push(<Avatar className="extra-members" key={4} size={this._size} src={''} >+{extraParticipants}</Avatar>);
+      return participants;
+    } else {
+      return (
+        this.props.eventMembers &&
+        members.map((member: ParticipantModel) => (
+          <Avatar key={member.Id} size={this._size} src={AvatarHelper.get(member.Url)} />
+        ))
+      );
+    }
   }
 
   showModal(show: boolean) {
