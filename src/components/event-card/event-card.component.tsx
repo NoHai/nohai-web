@@ -51,7 +51,11 @@ class EventCard extends Component<any, any> {
           <div>
             <Row className="margin-bottom">
               <Col span={10}>
-                <EventMembers eventMembers={this.props.eventDetails.participants} />
+                <EventMembers
+                  isOwner={EventHelper.isOwner(this.props.eventDetails, this.userId)}
+                  eventMembers={this.props.eventDetails.participants}
+                  onKickoutParticipant={e => this.kickoutParticipant(e)}
+                />
               </Col>
 
               <Col span={14}>
@@ -174,6 +178,14 @@ class EventCard extends Component<any, any> {
     this.setState({
       requestSent: true,
     });
+  }
+
+  private async kickoutParticipant(participantId: string) {
+    let data = {
+      participantId,
+      eventId: this.props.eventDetails.event.Id,
+    };
+    await EventService.KickoutParticipant(data);
   }
 
   private goBack() {
