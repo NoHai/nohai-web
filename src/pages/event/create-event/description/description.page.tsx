@@ -112,6 +112,7 @@ class DescriptionEventPage extends Component<any, any> {
             <DatePicker
               onChange={(date, dateString) => this.onDateTimeChange(date, dateString, 'StartDate')}
               placeholder={'Data'}
+              disabledDate={e => this.disabledDate(e, 'startDate')}
               size="large"
               value={
                 DateHelper.GetDateFromString(this.state.eventDetails.description.StartDate) ||
@@ -149,6 +150,8 @@ class DescriptionEventPage extends Component<any, any> {
               onChange={(date, dateString) => this.onDateTimeChange(date, dateString, 'EndDate')}
               placeholder={'Data'}
               size="large"
+              disabled={this.state.eventDetails.description.StartDate === undefined}
+              disabledDate={e => this.disabledDate(e, 'endDate')}
               value={
                 DateHelper.GetDateFromString(this.state.eventDetails.description.EndDate) ||
                 undefined
@@ -224,6 +227,12 @@ class DescriptionEventPage extends Component<any, any> {
     return moment(description.StartDate, dateFormat).isSame(moment(description.EndDate, dateFormat))
       ? moment(description.StartTime, timeFormat) < moment(description.EndTime, timeFormat)
       : moment(description.StartDate, dateFormat).isBefore(moment(description.EndDate, dateFormat));
+  }
+
+  disabledDate(current: any, type: string) {
+    return type === 'startDate'
+      ? current < moment().subtract(1, 'days')
+      : current < moment(this.state.eventDetails.description.StartDate);
   }
 
   goToLocationDetails() {

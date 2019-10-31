@@ -52,7 +52,13 @@ export class EventCardButton extends Component<EventCardButtonProps> {
     return (
       <Row type="flex" align="middle">
         <Col span={16} className="join-text">
-          Anuleaza
+          <span
+            onClick={e => {
+              this.cancelEvent(this.props);
+            }}
+          >
+            Anuleaza
+          </span>
         </Col>
         <Col span={8} className="text-right">
           <Button
@@ -61,7 +67,7 @@ export class EventCardButton extends Component<EventCardButtonProps> {
             shape="circle"
             icon="close"
             className="join-button"
-            onClick={(e) => {
+            onClick={e => {
               this.cancelEvent(this.props);
             }}
           ></Button>
@@ -110,17 +116,16 @@ export class EventCardButton extends Component<EventCardButtonProps> {
     );
   }
 
-  private cancelEvent(props: any){
+  private cancelEvent(props: any) {
     confirm({
       title: 'Esti sigur ca vrei sa anulezi evenimentul?',
       okText: 'Anuleaza',
       okType: 'danger',
       cancelText: 'Nu doresc',
       onOk() {
-        props.onCancelClick()
+        props.onCancelClick();
       },
-      onCancel() {
-      },
+      onCancel() {},
     });
   }
 }
