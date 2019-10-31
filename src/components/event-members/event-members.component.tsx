@@ -21,7 +21,9 @@ class EventMembers extends Component<EventMembersProps> {
         </div>
         <EventMembersListModal
           showModal={this.state.showModal}
+          isOwner={this.props.isOwner}
           members={members}
+          onKickoutParticipant={e => this.props.onKickoutParticipant(e)}
           onClose={() => this.showModal(false)}
         ></EventMembersListModal>
       </div>
@@ -31,7 +33,7 @@ class EventMembers extends Component<EventMembersProps> {
   displayParticipants(members: Array<ParticipantModel>) {
     const participants = new Array<any>();
     const displayNumber = 3;
-    const extraParticipants= members.length-displayNumber;
+    const extraParticipants = members.length - displayNumber;
 
     if (members && members.length > 0) {
       const displayMembers =

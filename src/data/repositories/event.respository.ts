@@ -115,7 +115,9 @@ class EventRepositoryController implements IEventRepository {
         },
         sport: { id: eventDetails.sport.Id },
         freeSpots: eventDetails.participantsDetails.FreeSpots,
-        cost: eventDetails.participantsDetails.PriceForParticipant?eventDetails.participantsDetails.PriceForParticipant:0,
+        cost: eventDetails.participantsDetails.PriceForParticipant
+          ? eventDetails.participantsDetails.PriceForParticipant
+          : 0,
         startDate: eventDetails.description.StartDate,
         endDate: eventDetails.description.EndDate,
         startTime: eventDetails.description.StartTime,
@@ -164,6 +166,19 @@ class EventRepositoryController implements IEventRepository {
 
     const result: any = await GraphqlClient.mutate(joinEventMutation, input);
     return result.joinEvent;
+  }
+
+  async KickoutParticipant(data: any): Promise<ResultModel<boolean>> {
+    let parameter: any = { eventId: data.eventId, userId: data.participantId };
+
+    const kickoutUserMutation = gql`
+      mutation kickoutUser($parameter: KickoutUserParameter!) {
+        kickoutUser(parameter: $parameter)
+      }
+    `;
+
+    const result: any = await GraphqlClient.mutate(kickoutUserMutation, parameter);
+    return result.kickoutUser;
   }
 
   async Approve(parameter: any): Promise<ResultModel<boolean>> {

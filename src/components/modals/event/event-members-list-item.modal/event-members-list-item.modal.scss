@@ -1,0 +1,37 @@
+.list-item-container {
+    position: relative;
+    overflow: hidden;
+  
+    .list-item-delete-box {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      position: absolute;
+      width: 100%;
+      top: 0;
+      bottom: 0;
+      left: 100%;
+      right: 0;
+      padding: 0 18% 0 15px;
+      text-align: right;
+      background: #fff;
+      border-left: 1px solid #ddd;
+      transition: left linear 0.2s;
+      box-shadow: none;
+  
+      &.open {
+        left: 18%;
+        box-shadow: -3px 0 10px -8px #989898;
+      }
+  
+      .list-item-delete-box-title {
+        font-weight: 500;
+        margin-right: 5px;
+      }
+  
+      .action-button {
+        margin-right: 10px;
+      }
+    }
+  }
+  

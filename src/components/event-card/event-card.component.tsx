@@ -49,7 +49,11 @@ class EventCard extends Component<any, any> {
           <div>
             <Row className="margin-bottom">
               <Col span={10}>
-                <EventMembers eventMembers={this.props.eventDetails.participants} />
+                <EventMembers
+                  isOwner={EventHelper.isOwner(this.props.eventDetails, this.userId)}
+                  eventMembers={this.props.eventDetails.participants}
+                  onKickoutParticipant={e => this.kickoutParticipant(e)}
+                />
               </Col>
 
               <Col span={14}>
@@ -147,6 +151,14 @@ class EventCard extends Component<any, any> {
     });
   }
 
+  private async kickoutParticipant(participantId: string) {
+    let data = {
+      participantId,
+      eventId: this.props.eventDetails.event.Id,
+    };
+    await EventService.KickoutParticipant(data);
+  }
+
   private goBack() {
     history.goBack();
   }
@@ -154,12 +166,12 @@ class EventCard extends Component<any, any> {
   private generateTitle() {
     return this.props.eventDetails.sport.Name
       ? `${this.props.eventDetails.sport.Name},
-    ${moment(this.props.eventDetails.description.StartDate).locale('ro').format('dddd')}
-    ${moment(this.props.eventDetails.description.StartDate).format(
-      'DD'
-    )} ${moment(this.props.eventDetails.description.StartDate).format('MMMM')} ora ${
-          this.props.eventDetails.description.StartTime
-        }`
+    ${moment(this.props.eventDetails.description.StartDate)
+      .locale('ro')
+      .format('dddd')}
+    ${moment(this.props.eventDetails.description.StartDate).format('DD')} ${moment(
+          this.props.eventDetails.description.StartDate
+        ).format('MMMM')} ora ${this.props.eventDetails.description.StartTime}`
       : '';
   }
 }
