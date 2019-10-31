@@ -178,6 +178,20 @@ class EventRepositoryController implements IEventRepository {
     const result: any = await GraphqlClient.mutate(approveRequestMutation, input);
     return result.approveRequest;
   }
+
+  async Leave(id: any): Promise<ResultModel<boolean>> {
+    let parameter: any = { parameter: id };
+
+    const leaveEventMutation = gql`
+      mutation leaveEvent($parameter: String!) {
+        leaveEvent(parameter: $parameter)
+      }
+    `;
+
+    const result: any = await GraphqlClient.mutate(leaveEventMutation, parameter);
+    return result.leaveEvent;
+  }
+  
   async Reject(parameter: any): Promise<ResultModel<boolean>> {
     let input: any = { parameter: parameter };
 

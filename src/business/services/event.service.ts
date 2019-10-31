@@ -11,6 +11,7 @@ import {
 import { JoinEventCommand } from '../commands/event/join-event.command';
 import { ApproveRequestCommand } from '../commands/event/approve-request.command';
 import { RejectRequestCommand } from '../commands/event/reject-request.command';
+import { LeaveEventCommand } from '../commands/event/leave-event.command';
 
 class EventServiceController implements IEventService {
   public async Approve(notificationId: any): Promise<ResultModel<boolean>> {
@@ -36,6 +37,10 @@ class EventServiceController implements IEventService {
 
   public async Join(id: any): Promise<ResultModel<boolean>> {
     return await JoinEventCommand.execute(id);
+  }
+
+  public async Leave(id: any): Promise<ResultModel<boolean>> {
+    return await LeaveEventCommand.execute(id);
   }
 
   public async Update(event: EventDetailsViewModel): Promise<EventDetailsViewModel> {
