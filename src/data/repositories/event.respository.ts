@@ -172,7 +172,7 @@ class EventRepositoryController implements IEventRepository {
     let parameter: any = { eventId: data.eventId, userId: data.participantId };
 
     const kickoutUserMutation = gql`
-      mutation kickoutUser($parameter: KickoutUserParameter!) {
+      mutation kickoutUser($parameter: EventUserParameter!) {
         kickoutUser(parameter: $parameter)
       }
     `;
@@ -206,7 +206,7 @@ class EventRepositoryController implements IEventRepository {
     const result: any = await GraphqlClient.mutate(leaveEventMutation, parameter);
     return result.leaveEvent;
   }
-  
+
   async Reject(parameter: any): Promise<ResultModel<boolean>> {
     let input: any = { parameter: parameter };
 
