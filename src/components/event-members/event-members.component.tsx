@@ -1,28 +1,26 @@
 import React, { Component } from 'react';
 import './event-members.component.scss';
 import { Avatar } from 'antd';
-import { EventMembersProps } from './event-members.component.props';
 import { ParticipantModel } from '../../contracts/models/participant.model';
 import AvatarHelper from '../../helpers/avatar.helper';
 import EventMembersListModal from '../modals/event/event-members-list/event-members-list.modal';
+import { connect } from 'react-redux';
+import { initialnEventDetailsReducerState } from '../../redux/reducers/event-details.reducer';
+import { showMembersModalChange } from '../../redux/actions/event-details.action';
 
-class EventMembers extends Component<EventMembersProps> {
+class EventMembers extends Component<any, any> {
   private _size: number = 34;
-  state = {
-    showModal: false,
-  };
 
   render() {
-    const members = this.props.eventMembers.filter((member: any) => member.Status === 1);
+    const members = this.props.members
+      ? this.props.members.filter((member: any) => member.Status === 1)
+      : new Array<any>();
     return (
       <div>
-        <div className="event-members" onClick={() => this.showModal(true)}>
+        <div className="event-members" onClick={() => this.props.showMembersModalChange(true)}>
           {this.displayParticipants(members)}
         </div>
-        <EventMembersListModal
-          showModal={this.state.showModal}
-          onClose={() => this.showModal(false)}
-        ></EventMembersListModal>
+        <EventMembersListModal> </EventMembersListModal>
       </div>
     );
   }
@@ -50,12 +48,22 @@ class EventMembers extends Component<EventMembersProps> {
 
     return participants;
   }
-
-  showModal(show: boolean) {
-    this.setState({
-      showModal: show,
-    });
-  }
 }
+const mapStateToProps = (state: any) => {
+  if (state.eventDetailsReducer) {
+    return {
+      members: state.eventDetailsReducer.eventDetails.participants,
+    };
+  }
 
-export default EventMembers;
+  return initialnEventDetailsReducerState;
+};
+
+const mapDispatchToProps = {
+  showMembersModalChange,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EventMembers);

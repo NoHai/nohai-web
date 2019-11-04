@@ -5,7 +5,7 @@ import { List } from 'antd';
 import EventMembersListItemModal from '../event-members-list-item.modal/event-members-list-item.modal';
 import { EventService } from '../../../../business/services';
 import { connect } from 'react-redux';
-import { getEventDetails } from '../../../../redux/actions/event-details.action';
+import { getEventDetails, showMembersModalChange } from '../../../../redux/actions/event-details.action';
 import { initialnEventDetailsReducerState } from '../../../../redux/reducers/event-details.reducer';
 import EventHelper from '../../../../helpers/event.helper';
 import TokenProvider from '../../../../utilities/providers/token.provider';
@@ -21,7 +21,7 @@ class EventMembersListModal extends Component<any, any> {
       <GenericModal
         title="Participanti"
         showModal={this.props.showModal}
-        onClose={() => this.props.onClose()}
+        onClose={() => this.props.showMembersModalChange(false)}
       >
         <List
           size="small"
@@ -56,7 +56,8 @@ const mapStateToProps = (state: any) => {
     return {
       eventId: state.eventDetailsReducer.eventDetails.event.Id,
       eventDetails: state.eventDetailsReducer.eventDetails,
-      members: state.eventDetailsReducer.eventDetails.participants
+      members: state.eventDetailsReducer.eventDetails.participants,
+      showModal:state.eventDetailsReducer.showMembersModal,
     };
   }
 
@@ -65,6 +66,7 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = {
   getEventDetails,
+  showMembersModalChange,
 };
 
 export default connect(

@@ -5,4 +5,5 @@ export class ParticipantModel extends BaseModel {
   public FirstName!: string;
   public LastName!: string;
   public Url!: string;
+  public ShowKickout: boolean = false;
 }

@@ -5,13 +5,12 @@ import { EventService } from '../../../business/services';
 import { LocalStorage } from '../../../contracts/enums/localStorage/local-storage';
 import { connect } from 'react-redux';
 import { initialnEventDetailsReducerState } from '../../../redux/reducers/event-details.reducer';
-import { setEventDetailsState } from '../../../redux/actions/event-details.action';
+import { getEventDetails, setEventDetailsState } from '../../../redux/actions/event-details.action';
 
 class EventDetailsPage extends Component<any, any> {
   async componentDidMount() {
     if (this.props.match && this.props.match.params.id) {
-      const eventDetails = await EventService.Get(this.props.match.params.id);
-      this.props.setEventDetailsState(eventDetails);
+      this.props.getEventDetails(this.props.match.params.id);
     } else {
       this.props.setEventDetailsState(
         JSON.parse(localStorage.getItem(LocalStorage.CreateEvent) || '{}')
@@ -39,6 +38,7 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = {
   setEventDetailsState,
+  getEventDetails,
 };
 
 export default connect(
