@@ -51,11 +51,7 @@ class EventCard extends Component<any, any> {
           <div>
             <Row className="margin-bottom">
               <Col span={10}>
-                <EventMembers
-                  isOwner={EventHelper.isOwner(this.props.eventDetails, this.userId)}
-                  eventMembers={this.props.eventDetails.participants}
-                  onKickoutParticipant={e => this.kickoutParticipant(e)}
-                />
+                <EventMembers />
               </Col>
 
               <Col span={14}>

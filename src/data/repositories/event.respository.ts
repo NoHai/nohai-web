@@ -168,8 +168,8 @@ class EventRepositoryController implements IEventRepository {
     return result.joinEvent;
   }
 
-  async KickoutParticipant(data: any): Promise<ResultModel<boolean>> {
-    let parameter: any = { eventId: data.eventId, userId: data.participantId };
+  async KickoutParticipant(parameter: any): Promise<ResultModel<boolean>> {
+    let input: any = { parameter };
 
     const kickoutUserMutation = gql`
       mutation kickoutUser($parameter: EventUserParameter!) {
@@ -177,7 +177,7 @@ class EventRepositoryController implements IEventRepository {
       }
     `;
 
-    const result: any = await GraphqlClient.mutate(kickoutUserMutation, parameter);
+    const result: any = await GraphqlClient.mutate(kickoutUserMutation, input);
     return result.kickoutUser;
   }
 

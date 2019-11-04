@@ -49,7 +49,10 @@ class EventMembersListItemModal extends Component<EventMembersListItemModalProps
             >
               Nu
             </Button>
-            <Button className="action-button" size="default" type="danger">
+            <Button className="action-button" size="default" type="danger"
+             onClick={() => {
+              this.props.onKickoutParticipant(this.props.member.Id);
+            }}>
               Da
             </Button>
           </div>
