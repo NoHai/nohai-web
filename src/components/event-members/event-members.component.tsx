@@ -21,9 +21,6 @@ class EventMembers extends Component<EventMembersProps> {
         </div>
         <EventMembersListModal
           showModal={this.state.showModal}
-          isOwner={this.props.isOwner}
-          members={members}
-          onKickoutParticipant={e => this.props.onKickoutParticipant(e)}
           onClose={() => this.showModal(false)}
         ></EventMembersListModal>
       </div>

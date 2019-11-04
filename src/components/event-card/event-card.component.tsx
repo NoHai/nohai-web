@@ -54,7 +54,7 @@ class EventCard extends Component<any, any> {
                 <EventMembers
                   isOwner={EventHelper.isOwner(this.props.eventDetails, this.userId)}
                   eventMembers={this.props.eventDetails.participants}
-                  onKickoutParticipant={e => this.kickoutParticipant(e)}
+                  eventId={this.props.eventDetails.event.Id}
                 />
               </Col>
 

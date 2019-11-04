@@ -1,45 +1,47 @@
 import React, { Component } from 'react';
 import './event-details.page.scss';
 import EventCard from '../../../components/event-card/event-card.component';
-import { match } from 'react-router-dom';
 import { EventService } from '../../../business/services';
-import { EventDetailsViewModel } from '../../../contracts/models';
 import { LocalStorage } from '../../../contracts/enums/localStorage/local-storage';
+import { connect } from 'react-redux';
+import { initialnEventDetailsReducerState } from '../../../redux/reducers/event-details.reducer';
+import { setEventDetailsState } from '../../../redux/actions/event-details.action';
 
-interface DetailParams {
-  id: string;
-}
-
-interface DetailsProps {
-  required: string;
-  match?: match<DetailParams>;
-  eventDetails: any;
-}
-
-class EventDetailsPage extends Component<DetailsProps> {
-  state = {
-    eventDetails: new EventDetailsViewModel(),
-  };
-
+class EventDetailsPage extends Component<any, any> {
   async componentDidMount() {
     if (this.props.match && this.props.match.params.id) {
       const eventDetails = await EventService.Get(this.props.match.params.id);
-      this.setState({
-        eventDetails,
-      });
+      this.props.setEventDetailsState(eventDetails);
     } else {
-      this.setState({
-        eventDetails: JSON.parse(localStorage.getItem(LocalStorage.CreateEvent) || '{}'),
-      });
+      this.props.setEventDetailsState(
+        JSON.parse(localStorage.getItem(LocalStorage.CreateEvent) || '{}')
+      );
     }
   }
   render() {
     return (
       <div className="event-list-item">
-        <EventCard eventDetails={this.state.eventDetails} />
+        <EventCard eventDetails={this.props.eventDetails} />
       </div>
     );
   }
 }
 
-export default EventDetailsPage;
+const mapStateToProps = (state: any) => {
+  if (state.eventDetailsReducer) {
+    return {
+      eventDetails: state.eventDetailsReducer.eventDetails,
+    };
+  }
+
+  return initialnEventDetailsReducerState;
+};
+
+const mapDispatchToProps = {
+  setEventDetailsState,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EventDetailsPage);

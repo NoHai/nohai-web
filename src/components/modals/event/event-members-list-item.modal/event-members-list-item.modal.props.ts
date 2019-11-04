@@ -1,7 +1,7 @@
-import { ParticipantModel } from '../../../../contracts/models/participant.model';
 
 export interface EventMembersListItemModalProps {
-  member: ParticipantModel;
+  eventId: string;
+  member: any;
   isOwner: boolean;
   onKickoutParticipant:(participantId: string) => void;
 }
