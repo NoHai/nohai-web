@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './event-details.page.scss';
 import EventCard from '../../../components/event-card/event-card.component';
-import { EventService } from '../../../business/services';
 import { LocalStorage } from '../../../contracts/enums/localStorage/local-storage';
 import { connect } from 'react-redux';
 import { initialnEventDetailsReducerState } from '../../../redux/reducers/event-details.reducer';
@@ -32,7 +31,6 @@ const mapStateToProps = (state: any) => {
       eventDetails: state.eventDetailsReducer.eventDetails,
     };
   }
-
   return initialnEventDetailsReducerState;
 };
 

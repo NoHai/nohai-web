@@ -55,7 +55,6 @@ const mapStateToProps = (state: any) => {
       members: state.eventDetailsReducer.eventDetails.participants,
     };
   }
-
   return initialnEventDetailsReducerState;
 };
 
