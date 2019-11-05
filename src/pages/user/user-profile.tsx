@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './user-profile.scss';
-import { Input, Card, Row, Col } from 'antd';
 import { UserService } from '../../business/services';
 import { UserViewModel } from '../../contracts/view-models/user-view.model';
 import moment from 'moment';
@@ -19,7 +18,6 @@ class UserProfilePage extends Component {
   }
 
   render(): any {
-    const loading: boolean = !this.state.userDetails.user;
     const age: number | string =
       moment().diff(moment(this.state.userDetails.details.Day, 'DD/MM/YYYY'), 'years') || '';
 
@@ -42,68 +40,23 @@ class UserProfilePage extends Component {
             </div>
 
             <div className="user-profile-content">
-              <Card loading={loading}>
-                <div className="margin-bottom">
-                  <h3>Despre</h3>
-                  <div className="inline-input-wrapper">
-                    <Row type="flex" justify="space-around" align="middle">
-                      <Col span={8}>
-                        <label>Inaltime:</label>
-                      </Col>
-                      <Col span={16}>
-                        <Input readOnly value={this.state.userDetails.details.Height || ''}></Input>
-                      </Col>
-                    </Row>
-                  </div>
+              <div className="margin-bottom">
+                <div className="section-header">Despre</div>
+                  <p>
+                    Nascut(a) in data de{' '}
+                    {moment(this.state.userDetails.details.Day, 'DD/MM/YYYY').day()}{' '}
+                    {moment(this.state.userDetails.details.Day, 'DD/MM/YYYY').format('MMMM')}{' '}
+                    {moment(this.state.userDetails.details.Day, 'DD/MM/YYYY').format('YYYY')}, {age}{' '}
+                    de ani. Pasionat de {this.state.userDetails.sport.Name}.
+                  </p>
+              </div>
 
-                  <div className="inline-input-wrapper">
-                    <Row type="flex" justify="space-around" align="middle">
-                      <Col span={8}>
-                        <label>Greutate:</label>
-                      </Col>
-                      <Col span={16}>
-                        <Input readOnly value={this.state.userDetails.details.Weight || ''}></Input>
-                      </Col>
-                    </Row>
-                  </div>
-
-                  <div className="inline-input-wrapper">
-                    <Row type="flex" justify="space-around" align="middle">
-                      <Col span={8}>
-                        <label>Zi de naspere:</label>
-                      </Col>
-                      <Col span={16}>
-                        <Input readOnly value={this.state.userDetails.details.Day || ''}></Input>
-                      </Col>
-                    </Row>
-                  </div>
-
-                  <div className="inline-input-wrapper">
-                    <Row type="flex" justify="space-around" align="middle">
-                      <Col span={8}>
-                        <label>Varsta:</label>
-                      </Col>
-                      <Col span={16}>
-                        <Input readOnly value={age}></Input>
-                      </Col>
-                    </Row>
-                  </div>
-                </div>
-
-                <div>
-                  <h3>Contact</h3>
-                  <div className="inline-input-wrapper">
-                    <Row type="flex" justify="space-around" align="middle">
-                      <Col span={8}>
-                        <label>Email:</label>
-                      </Col>
-                      <Col span={16}>
-                        <Input readOnly value={this.state.userDetails.user.Email || ''}></Input>
-                      </Col>
-                    </Row>
-                  </div>
-                </div>
-              </Card>
+              <div>
+                <div className="section-header">Contact</div>
+                  <p className="icon mdi mdi-email-outline inline">
+                   {this.state.userDetails.user.Email}
+                  </p>
+              </div>
             </div>
           </div>
         </div>

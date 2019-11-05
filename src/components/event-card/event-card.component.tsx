@@ -15,6 +15,7 @@ import { EventCardAvailability } from '../event-card-availability/event-card-ava
 import { EventCardButton } from '../event-card-button/event-card-button.component';
 import EventHelper from '../../helpers/event.helper';
 import moment from 'moment';
+import CreateEventFooter from '../create-event-footer/create-event-footer.component';
 
 const { confirm } = Modal;
 
@@ -78,33 +79,27 @@ class EventCard extends Component<any, any> {
 
         {!this.isForPreview && <EventCardOwner owner={this.props.eventDetails.owner} />}
 
-        <EventMap
-          latitude={this.props.eventDetails.locationDetails.Latitude}
-          longitude={this.props.eventDetails.locationDetails.Longitude}
-        />
-        {this.leaveEventSection()}
-        {this.isForPreview && (
-          <div className="create-event-wrapper">
-            <div className="sub-title">Totul este corect?</div>
-            <p>Daca totul este ok creeaza evenimentul si asteapta ca lumea sa ti se alature</p>
-
-            <Button
-              type="primary"
-              size="large"
-              block={true}
-              className="margin-bottom"
-              onClick={() => {
-                this.createEvent();
-              }}
-            >
-              Creeaza evenimentul
-            </Button>
-
-            <Button type="link" block={true} size="small" onClick={() => this.goBack()}>
-              Am uitat ceva
-            </Button>
-          </div>
+        {this.props.eventDetails.locationDetails.Longitude !== '' && (
+          <EventMap
+            latitude={this.props.eventDetails.locationDetails.Latitude}
+            longitude={this.props.eventDetails.locationDetails.Longitude}
+          />
         )}
+        {this.leaveEventSection()}
+        {this.isForPreview &&  <CreateEventFooter
+          showLeftButton={true}
+          ShowCenterButton={true}
+          showRightButton={true}
+          CenterButtonIcon={'mdi-calendar-edit'}
+          LeftButtonIcon={'mdi-calendar-remove'}
+          LeftButtonText={'Renunta'}
+          RightButtonIcon={'mdi-calendar-plus'}
+          RightButtonText={'Adauga'}
+          onRightButtonClick={()=>this.createEvent()}
+          onCenterButtonClick={()=>this.goBack()}
+          onLeftButtonClick={()=>this.goHome()}
+          isValid={true}
+        ></CreateEventFooter>}
       </div>
     );
   }
@@ -176,16 +171,12 @@ class EventCard extends Component<any, any> {
     });
   }
 
-  private async kickoutParticipant(participantId: string) {
-    let data = {
-      participantId,
-      eventId: this.props.eventDetails.event.Id,
-    };
-    await EventService.KickoutParticipant(data);
+  private goBack() {
+    history.push('/create-event/description');
   }
 
-  private goBack() {
-    history.goBack();
+  private goHome() {
+    history.push('/');
   }
 
   private generateTitle() {

@@ -1,0 +1,50 @@
+@import './../../globals/styles/variables';
+@import './../../globals/styles/functions';
+
+.event-footer-component {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  width: 100%;
+  height: $footer-height;
+  background-color: $footer-color;
+  border-top: 1px solid $footer-border-color;
+  padding: 0;
+  box-shadow: 0 -1px 10px 1px $footer-border-color;
+  align-items: center;
+
+  .footer-row {
+    width: 100%;
+  }
+
+  .page-footer-link {
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    @include user-select-none();
+    color:$gray-dark-color;
+
+    &.active {
+      color:#464646;
+
+      .icon {
+        color: #464646;
+      }
+    }
+
+    .icon {
+      font-size: 24px;
+      color: $gray-dark-color;
+      line-height: 1;
+      padding: 0;
+      margin: 0;
+    }
+
+    .page-footer-text {
+      font-size: 12px;
+      font-weight: 400;
+    }
+  }
+}

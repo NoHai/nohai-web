@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Button, Icon, Col, Row } from 'antd';
+import { Input } from 'antd';
 import { registerSchema } from 'class-validator';
 import { LocationDetailsSchema } from '../../../../contracts/schemas/location-details.schema';
 import { EventDetailsViewModel, LocationEventDetailsModel } from '../../../../contracts/models';
@@ -10,6 +10,7 @@ import LocalStorageHelper from '../../../../helpers/local-storage.helper';
 import { FormValidators } from '../../../../contracts/validators/forms-validators';
 import GoogleLocationAutoComplete from '../../../../components/google-location/google-location-autocomplete';
 import HistoryHelper from '../../../../utilities/core/history';
+import CreateEventFooter from '../../../../components/create-event-footer/create-event-footer.component';
 
 registerSchema(LocationDetailsSchema);
 
@@ -130,36 +131,14 @@ class LocationDetailsEventPage extends Component<any, any> {
             />
           </div>
 
-          <hr />
-
-          <Row>
-            <Col span={12}>
-              <Button
-                className="arrow-button"
-                type="link"
-                size="large"
-                onClick={() => {
-                  this.goToParticipantsDetails();
-                }}
-              >
-                <Icon type="left" />
-                Inapoi
-              </Button>
-            </Col>
-            <Col span={12} className="text-right">
-              <Button
-                disabled={!this.state.eventDetails.locationDetails.IsValid}
-                type="primary"
-                size="large"
-                onClick={() => {
-                  this.goToDescription();
-                }}
-              >
-                Inainte
-                <Icon type="right" />
-              </Button>
-            </Col>
-          </Row>
+          <CreateEventFooter
+          showLeftButton={true}
+          ShowCenterButton={false}
+          showRightButton={true}
+          onLeftButtonClick={() => this.goToParticipantsDetails()}
+          onRightButtonClick={() => this.goToDescription()}
+          isValid={this.state.eventDetails.locationDetails.IsValid}
+        ></CreateEventFooter>
         </div>
       </div>
     );

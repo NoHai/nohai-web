@@ -11,9 +11,11 @@ import CreateEventPage from '../../event/create-event/create-event.page';
 import UserProfilePage from '../../user/user-profile';
 import IntroLocation from '../../intro/intro-notification/intro-notification.page';
 import HistoryEventsPage from '../../event/history-event/history-events.page';
+import HistoryHelper from '../../../utilities/core/history';
 
 class WrapperPage extends Component {
   public render() {
+    const isCreateEventPage = HistoryHelper.containsPath('/create-event');
     return (
       <div className="page-wrapper page-sections">
         <PageHeader />
@@ -32,7 +34,7 @@ class WrapperPage extends Component {
           </Switch>
         </div>
 
-        <PageFooter />
+        {!isCreateEventPage && <PageFooter />}
       </div>
     );
   }

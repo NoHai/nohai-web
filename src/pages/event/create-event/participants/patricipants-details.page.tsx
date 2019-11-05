@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Button, Icon } from 'antd';
+import { Input } from 'antd';
 import { registerSchema } from 'class-validator';
 import { EventDetailsViewModel } from '../../../../contracts/models';
 import SportsSelection from '../../../../components/sports-selection/sports-selection.component';
@@ -9,6 +9,7 @@ import CreateEventHeaderComponent from '../../../../components/create-event-head
 import { LocalStorage } from '../../../../contracts/enums/localStorage/local-storage';
 import LocalStorageHelper from '../../../../helpers/local-storage.helper';
 import { SportModel } from '../../../../contracts/models/sport.model';
+import CreateEventFooter from '../../../../components/create-event-footer/create-event-footer.component';
 
 registerSchema(ParticipantsDetailsSchema);
 
@@ -74,13 +75,14 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
               title={'Detalii participanti'}
               imagePath="/assets/handshake-colour.svg"
             />
-            <label>Sportul si nivelul</label>
+            <label>Activitatea si nivelul</label>
             <SportsSelection
               sport={this.state.eventDetails.sport || ''}
               level={this.state.eventDetails.participantsDetails.Level || 0}
               onCloseDrawer={(sport, level) => this.onCloseDrawer(sport, level)}
             />
-            <label>Locuri disponibile</label>
+            <label className="inline-input-label">Locuri disponibile</label>
+            <span className="optional-span">(Optional)</span>
             <Input
               className="padding-bottom"
               size="large"
@@ -91,7 +93,8 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
               value={this.state.eventDetails.participantsDetails.FreeSpots || ''}
               onChange={e => this.handleChange(e)}
             />
-            <label>Pret participant</label>
+            <label className="inline-input-label">Pret participant</label>
+            <span className="optional-span">(Optional)</span>
             <Input
               className="padding-bottom"
               size="large"
@@ -103,23 +106,14 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
               onChange={e => this.handleChange(e)}
             />
           </div>
-
-          <div className="text-right margin-bottom">
-            <hr />
-
-            <Button
-              disabled={!this.state.eventDetails.participantsDetails.IsValid}
-              type="primary"
-              size="large"
-              onClick={() => {
-                this.goToLocationDetails();
-              }}
-            >
-              Inainte
-              <Icon type="right" />
-            </Button>
-          </div>
         </div>
+        <CreateEventFooter
+          showLeftButton={false}
+          ShowCenterButton={false}
+          showRightButton={true}
+          onRightButtonClick={() => this.goToLocationDetails()}
+          isValid={this.state.eventDetails.participantsDetails.IsValid}
+        ></CreateEventFooter>
       </div>
     );
   }

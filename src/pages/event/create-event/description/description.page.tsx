@@ -3,7 +3,7 @@ import { EventDetailsViewModel, DescriptionEventModel } from '../../../../contra
 import { registerSchema } from 'class-validator';
 import { Description } from './../../../../contracts/schemas/description.schema';
 import TextArea from 'antd/lib/input/TextArea';
-import { DatePicker, TimePicker, Row, Col, Button, Icon } from 'antd';
+import { DatePicker, TimePicker, Button } from 'antd';
 import history from '../../../../utilities/core/history';
 import CreateEventHeaderComponent from '../../../../components/create-event-header/create-event-header';
 import { LocalStorage } from '../../../../contracts/enums/localStorage/local-storage';
@@ -13,6 +13,7 @@ import moment from 'moment';
 import 'moment/locale/ro';
 import DateHelper from '../../../../helpers/date.helper';
 import HistoryHelper from '../../../../utilities/core/history';
+import CreateEventFooter from '../../../../components/create-event-footer/create-event-footer.component';
 registerSchema(Description);
 
 const timeFormat = 'HH:mm';
@@ -179,7 +180,8 @@ class DescriptionEventPage extends Component<any, any> {
                 ) || undefined
               }
             />
-            <label>Descrierea Evenimentului</label>
+            <label className="inline-input-label">Descrierea Evenimentului</label>
+            <span className="optional-span">(Optional)</span>
             <TextArea
               rows={3}
               data-lpignore="true"
@@ -190,43 +192,25 @@ class DescriptionEventPage extends Component<any, any> {
             />
           </div>
 
-          <hr />
-
-          <Row>
-            <Col span={12}>
-              <Button
-                className="arrow-button"
-                type="link"
-                size="large"
-                onClick={() => {
-                  this.goToLocationDetails();
-                }}
-              >
-                <Icon type="left" />
-                Inapoi
-              </Button>
-            </Col>
-            <Col span={12} className="text-right">
-              <Button
-                disabled={!this.state.finishForm}
-                type="primary"
-                size="large"
-                onClick={() => {
-                  this.goToDetails();
-                }}
-              >
-                Vizualizeaza
-              </Button>
-            </Col>
-          </Row>
+          <CreateEventFooter
+            showLeftButton={true}
+            ShowCenterButton={false}
+            RightButtonIcon={'mdi-calendar-check'}
+            RightButtonText={'Vizualizeaza'}
+            showRightButton={true}
+            onRightButtonClick={() => this.goToDetails()}
+            onLeftButtonClick={() => this.goToLocationDetails()}
+            isValid={this.state.finishForm}
+          ></CreateEventFooter>
         </div>
       </div>
     );
   }
   async checkDates(description: DescriptionEventModel) {
-    return moment(description.StartDate, dateFormat).isSame(moment(description.EndDate, dateFormat))
-      ? moment(description.StartTime, timeFormat) < moment(description.EndTime, timeFormat)
-      : moment(description.StartDate, dateFormat).isBefore(moment(description.EndDate, dateFormat));
+    let result=moment(description.StartDate, dateFormat).isSame(moment(description.EndDate, dateFormat))
+    ? moment(description.StartTime, timeFormat) < moment(description.EndTime, timeFormat)
+    : moment(description.StartDate, dateFormat).isBefore(moment(description.EndDate, dateFormat));
+    return result;
   }
 
   disabledDate(current: any, type: string) {

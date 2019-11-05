@@ -60,6 +60,7 @@ export default class MapModelHelper {
     result.details.Day = model.dateOfBirth;
     result.details.Weight = model.weight;
     result.details.Height = model.height;
+    result.sport.Name = model.favoriteSport.name;
     return result;
   }
 
