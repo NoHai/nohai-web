@@ -120,7 +120,7 @@ class SportsSelection extends Component<SportSelectionProps> {
     const hasValue = this.props.level;
     return hasValue
       ? `${this.props.sport.Name} - ${SportLevelType[this.props.level]}`
-      : 'Alege sportul';
+      : 'Alege activitatea';
   }
 
   private async getSports() {

@@ -78,7 +78,7 @@ class EventCard extends Component<any, any> {
 
         {!this.isForPreview && <EventCardOwner owner={this.props.eventDetails.owner} />}
 
-        {this.props.eventDetails.locationDetails.Longitude != '' && (
+        {this.props.eventDetails.locationDetails.Longitude !== '' && (
           <EventMap
             latitude={this.props.eventDetails.locationDetails.Latitude}
             longitude={this.props.eventDetails.locationDetails.Longitude}

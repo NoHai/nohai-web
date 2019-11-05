@@ -179,7 +179,8 @@ class DescriptionEventPage extends Component<any, any> {
                 ) || undefined
               }
             />
-            <label>Descrierea Evenimentului</label>
+            <label className="inline-input-label">Descrierea Evenimentului</label>
+            <span className="optional-span">(Optional)</span>
             <TextArea
               rows={3}
               data-lpignore="true"
