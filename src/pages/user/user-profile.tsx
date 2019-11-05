@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './user-profile.scss';
-import { Input, Row, Col } from 'antd';
 import { UserService } from '../../business/services';
 import { UserViewModel } from '../../contracts/view-models/user-view.model';
 import moment from 'moment';
@@ -42,22 +41,21 @@ class UserProfilePage extends Component {
 
             <div className="user-profile-content">
               <div className="margin-bottom">
-                <div className="div-sections inline">Despre</div>
-                <span className="icon mdi mdi-alpha-i-circle-outline bold"></span>
-                <div>
-                  Nascut in {moment(this.state.userDetails.details.Day, 'DD/MM/YYYY').day()}{' '}
-                  {moment(this.state.userDetails.details.Day, 'DD/MM/YYYY').format('MMMM')}{' '}
-                  {moment(this.state.userDetails.details.Day, 'DD/MM/YYYY').format('YYYY')}, {age}{' '}
-                  de ani. 
-                  Pasionat de {this.state.userDetails.sport.Name}
-                </div>
+                <div className="section-header">Despre</div>
+                  <p>
+                    Nascut(a) in data de{' '}
+                    {moment(this.state.userDetails.details.Day, 'DD/MM/YYYY').day()}{' '}
+                    {moment(this.state.userDetails.details.Day, 'DD/MM/YYYY').format('MMMM')}{' '}
+                    {moment(this.state.userDetails.details.Day, 'DD/MM/YYYY').format('YYYY')}, {age}{' '}
+                    de ani. Pasionat de {this.state.userDetails.sport.Name}.
+                  </p>
               </div>
 
               <div>
-                <div className="div-sections">Contact</div>
-                <span className="icon mdi mdi-email-outline inline">
-                  <label>{this.state.userDetails.user.Email}</label>
-                </span>
+                <div className="section-header">Contact</div>
+                  <p className="icon mdi mdi-email-outline inline">
+                   {this.state.userDetails.user.Email}
+                  </p>
               </div>
             </div>
           </div>

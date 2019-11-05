@@ -102,6 +102,21 @@
     color: $gray-dark-color;
     margin-left: 1px;
   }
+
+  .footer{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    width: 100%;
+    height: $footer-height;
+    background-color: $footer-color;
+    border-top: 1px solid $footer-border-color;
+    padding: 0;
+    box-shadow: 0 -1px 10px 1px $footer-border-color;
+    align-items: center;
+  }
 }
 
 .location-search-input {

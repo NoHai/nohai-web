@@ -43,11 +43,11 @@ class IntroSport extends Component<any, any> {
       <div className="intro-step-page">
         <div className="page-sections">
           <div className="page-section page-section-large page-section-with-color align-middle">
-            <h1 className="invert">De ce sport esti pasionat?</h1>
+            <h1 className="invert">De ce activitate esti pasionat?</h1>
 
             <p className="invert margin-bottom">
-              Alege sportul de care esti pasionat si nivelul. <br />
-              Pe baza sportului selectat iti vom genera timeline-ul
+              Alege activitatea de care esti pasionat si nivelul. <br />
+              Pe baza activitati selectate iti vom genera timeline-ul
             </p>
 
             <SportsSelection

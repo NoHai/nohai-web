@@ -14,13 +14,16 @@
     display: inline;
   }
   
-  .bold{
-    font-weight:bold;
-  }
 
-  .div-sections{
+  .section-header{
     font-size: 15px;
     font-weight: bold;
+  }
+  p {
+    color: $text-color;
+    padding: 5px 15px;
+    font-size: 13px;
+    display: inline-block;
   }
 
   .avatar {
