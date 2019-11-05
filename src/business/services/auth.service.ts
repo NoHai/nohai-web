@@ -66,7 +66,7 @@ class AuthServiceController {
 
   public async isCompleted(): Promise<boolean> {
     const user = await UserService.Get();
-    return user.details.Height ? true : false;
+    return user.details.Day ? true : false;
   }
 }
 

@@ -78,10 +78,12 @@ class EventCard extends Component<any, any> {
 
         {!this.isForPreview && <EventCardOwner owner={this.props.eventDetails.owner} />}
 
-        <EventMap
-          latitude={this.props.eventDetails.locationDetails.Latitude}
-          longitude={this.props.eventDetails.locationDetails.Longitude}
-        />
+        {this.props.eventDetails.locationDetails.Longitude != '' && (
+          <EventMap
+            latitude={this.props.eventDetails.locationDetails.Latitude}
+            longitude={this.props.eventDetails.locationDetails.Longitude}
+          />
+        )}
         {this.leaveEventSection()}
         {this.isForPreview && (
           <div className="create-event-wrapper">

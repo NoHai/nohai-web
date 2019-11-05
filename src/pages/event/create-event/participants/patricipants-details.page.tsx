@@ -80,7 +80,8 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
               level={this.state.eventDetails.participantsDetails.Level || 0}
               onCloseDrawer={(sport, level) => this.onCloseDrawer(sport, level)}
             />
-            <label>Locuri disponibile</label>
+            <label className="inline-input-label">Locuri disponibile</label>
+            <span className="optional-span">(Optional)</span>
             <Input
               className="padding-bottom"
               size="large"
@@ -91,7 +92,8 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
               value={this.state.eventDetails.participantsDetails.FreeSpots || ''}
               onChange={e => this.handleChange(e)}
             />
-            <label>Pret participant</label>
+            <label className="inline-input-label">Pret participant</label>
+            <span className="optional-span">(Optional)</span>
             <Input
               className="padding-bottom"
               size="large"

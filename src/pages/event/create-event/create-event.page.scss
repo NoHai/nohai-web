@@ -93,6 +93,15 @@
   .position-relative {
     position: relative;
   }
+  .inline-input-label{
+    display:inline;
+  }
+
+  .optional-span{
+    font-size: 10px;
+    color: $gray-dark-color;
+    margin-left: 1px;
+  }
 }
 
 .location-search-input {

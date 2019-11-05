@@ -54,6 +54,7 @@ class GoogleLocationAutoComplete extends Component<GoogleLocationAutoCompletePro
           placeholder={'Adresa'}
           value={this.state.streetName}
           onChange={e => this.handleAddressChange(e)}
+          onBlur={e=>this.sendAddress()}
         />
       </div>
     );
@@ -92,6 +93,20 @@ class GoogleLocationAutoComplete extends Component<GoogleLocationAutoCompletePro
         });
       }
     });
+  }
+
+  private sendAddress(){
+    const address: LocationEventDetailsModel = {
+      City: "",
+      County:"",
+      Latitude: "",
+      Longitude: "",
+      StreetName: this.state.streetName,
+      IsValid: false,
+    };
+    if (this.props.onButtonClick) {
+      this.props.onButtonClick(address);
+    }
   }
 
   private getAddress(place: any) {
