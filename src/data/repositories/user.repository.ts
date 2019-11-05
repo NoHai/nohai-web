@@ -18,6 +18,9 @@ class UserRepositoryController implements IUserRepository {
           weight
           picture
           login
+          favoriteSport {
+            name
+          }
         }
       }
     `;
@@ -31,14 +34,14 @@ class UserRepositoryController implements IUserRepository {
   }
 
   public async Update(userDetails: UserViewModel): Promise<UserViewModel> {
-    let input: any = {
+    const input: any = {
       details: {
         firstName: userDetails.user.FirstName,
         lastName: userDetails.user.LastName,
         dateOfBirth: `${userDetails.details.Day}/${userDetails.details.Month}/${userDetails.details.Year}`,
         height: +userDetails.details.Height,
         weight: +userDetails.details.Weight,
-        favoriteSport: userDetails.sport.Id,
+        favoriteSport: { id: userDetails.sport.Id }
       },
     };
 
