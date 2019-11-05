@@ -10,7 +10,7 @@ import LocalStorageHelper from '../../../../helpers/local-storage.helper';
 import { FormValidators } from '../../../../contracts/validators/forms-validators';
 import GoogleLocationAutoComplete from '../../../../components/google-location/google-location-autocomplete';
 import HistoryHelper from '../../../../utilities/core/history';
-import EventFooter from '../../../../components/event-footer/event-footer.component';
+import CreateEventFooter from '../../../../components/create-event-footer/create-event-footer.component';
 
 registerSchema(LocationDetailsSchema);
 
@@ -131,14 +131,14 @@ class LocationDetailsEventPage extends Component<any, any> {
             />
           </div>
 
-          <EventFooter
+          <CreateEventFooter
           showLeftButton={true}
           ShowCenterButton={false}
           showRightButton={true}
           onLeftButtonClick={() => this.goToParticipantsDetails()}
           onRightButtonClick={() => this.goToDescription()}
           isValid={this.state.eventDetails.locationDetails.IsValid}
-        ></EventFooter>
+        ></CreateEventFooter>
         </div>
       </div>
     );

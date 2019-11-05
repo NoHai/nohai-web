@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Button, Icon } from 'antd';
+import { Input } from 'antd';
 import { registerSchema } from 'class-validator';
 import { EventDetailsViewModel } from '../../../../contracts/models';
 import SportsSelection from '../../../../components/sports-selection/sports-selection.component';
@@ -9,7 +9,7 @@ import CreateEventHeaderComponent from '../../../../components/create-event-head
 import { LocalStorage } from '../../../../contracts/enums/localStorage/local-storage';
 import LocalStorageHelper from '../../../../helpers/local-storage.helper';
 import { SportModel } from '../../../../contracts/models/sport.model';
-import EventFooter from '../../../../components/event-footer/event-footer.component';
+import CreateEventFooter from '../../../../components/create-event-footer/create-event-footer.component';
 
 registerSchema(ParticipantsDetailsSchema);
 
@@ -107,13 +107,13 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
             />
           </div>
         </div>
-        <EventFooter
+        <CreateEventFooter
           showLeftButton={false}
           ShowCenterButton={false}
           showRightButton={true}
           onRightButtonClick={() => this.goToLocationDetails()}
           isValid={this.state.eventDetails.participantsDetails.IsValid}
-        ></EventFooter>
+        ></CreateEventFooter>
       </div>
     );
   }

@@ -15,7 +15,7 @@ import HistoryHelper from '../../../utilities/core/history';
 
 class WrapperPage extends Component {
   public render() {
-    const isCreateEventActive = HistoryHelper.containsPath('/create-event');
+    const isCreateEventPage = HistoryHelper.containsPath('/create-event');
     return (
       <div className="page-wrapper page-sections">
         <PageHeader />
@@ -34,7 +34,7 @@ class WrapperPage extends Component {
           </Switch>
         </div>
 
-        {!isCreateEventActive && <PageFooter />}
+        {!isCreateEventPage && <PageFooter />}
       </div>
     );
   }
