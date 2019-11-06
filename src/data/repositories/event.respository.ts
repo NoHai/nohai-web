@@ -168,6 +168,19 @@ class EventRepositoryController implements IEventRepository {
     return result.joinEvent;
   }
 
+  async CancelPendingRequest(parameter: any): Promise<ResultModel<boolean>> {
+    let input: any = { parameter: parameter };
+
+    const cancelPendingRequestMutation = gql`
+      mutation cancelPendingRequest($parameter: String!) {
+        cancelPendingRequest(parameter: $parameter)
+      }
+    `;
+
+    const result: any = await GraphqlClient.mutate(cancelPendingRequestMutation, input);
+    return result.cancelPendingRequest;
+  }
+
   async KickoutParticipant(parameter: any): Promise<ResultModel<boolean>> {
     let input: any = { parameter };
 

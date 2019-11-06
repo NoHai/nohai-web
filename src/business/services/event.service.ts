@@ -13,6 +13,7 @@ import { ApproveRequestCommand } from '../commands/event/approve-request.command
 import { RejectRequestCommand } from '../commands/event/reject-request.command';
 import { LeaveEventCommand } from '../commands/event/leave-event.command';
 import { KickoutParticipantCommand } from '../commands/event/kickout-participant.command';
+import { CancelPendingRequestCommand } from '../commands/event/cancel-pending-request.command';
 
 class EventServiceController implements IEventService {
   public async Approve(notificationId: any): Promise<ResultModel<boolean>> {
@@ -22,6 +23,10 @@ class EventServiceController implements IEventService {
   public async Create(model: EventDetailsViewModel): Promise<EventDetailsViewModel> {
     const result = await CreateEventCommand.execute(model);
     return result;
+  }
+
+  public async CancelPendingRequest(id: any): Promise<ResultModel<boolean>> {
+    return await CancelPendingRequestCommand.execute(id);
   }
 
   public async Delete(id: any): Promise<ResultModel<boolean>> {

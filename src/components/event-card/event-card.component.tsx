@@ -51,11 +51,11 @@ class EventCard extends Component<any, any> {
         {!this.isForPreview && (
           <div>
             <Row className="margin-bottom">
-              <Col span={10}>
+              <Col span={8}>
                 <EventMembers />
               </Col>
 
-              <Col span={14}>
+              <Col span={16}>
                 <EventCardButton
                   userId={this.userId}
                   event={this.props.eventDetails}
@@ -86,22 +86,51 @@ class EventCard extends Component<any, any> {
           />
         )}
         {this.leaveEventSection()}
-        {this.isForPreview &&  <CreateEventFooter
-          showLeftButton={true}
-          ShowCenterButton={true}
-          showRightButton={true}
-          CenterButtonIcon={'mdi-calendar-edit'}
-          LeftButtonIcon={'mdi-calendar-remove'}
-          LeftButtonText={'Renunta'}
-          RightButtonIcon={'mdi-calendar-plus'}
-          RightButtonText={'Adauga'}
-          onRightButtonClick={()=>this.createEvent()}
-          onCenterButtonClick={()=>this.goBack()}
-          onLeftButtonClick={()=>this.goHome()}
-          isValid={true}
-        ></CreateEventFooter>}
+        {this.cancelPendingRequestSection()}
+        {this.isForPreview && (
+          <CreateEventFooter
+            showLeftButton={true}
+            ShowCenterButton={true}
+            showRightButton={true}
+            CenterButtonIcon={'mdi-calendar-edit'}
+            LeftButtonIcon={'mdi-calendar-remove'}
+            LeftButtonText={'Renunta'}
+            RightButtonIcon={'mdi-calendar-plus'}
+            RightButtonText={'Adauga'}
+            onRightButtonClick={() => this.createEvent()}
+            onCenterButtonClick={() => this.goBack()}
+            onLeftButtonClick={() => this.dropEventDraft()}
+            isValid={true}
+          ></CreateEventFooter>
+        )}
       </div>
     );
+  }
+
+  private cancelPendingRequestSection() {
+    if (!this.isForPreview) {
+      const isAlreadyAccepted =
+        EventHelper.isUserPending(this.props.eventDetails, this.userId) || this.state.requestSent;
+      return (
+        isAlreadyAccepted && (
+          <div className="create-event-wrapper">
+            <div className="sub-title">Te-ai razgandit?</div>
+            <p>Nu mai poti ajunge? Anuleaza cererea.</p>
+
+            <Button
+              type="default"
+              block={true}
+              className="margin-bottom"
+              onClick={() => {
+                this.cancelRequest(this);
+              }}
+            >
+              Anuleaza cererea
+            </Button>
+          </div>
+        )
+      );
+    }
   }
 
   private leaveEventSection() {
@@ -142,6 +171,32 @@ class EventCard extends Component<any, any> {
     });
   }
 
+  private async dropEventDraft() {
+    confirm({
+      title: 'Esti sigur ca vrei sa renunti la crearea evenimentului?',
+      okText: 'Da',
+      okType: 'danger',
+      cancelText: 'Nu',
+      onOk() {
+        history.goHome();
+      },
+      onCancel() {},
+    });
+  }
+
+  private async cancelRequest(context: any) {
+    confirm({
+      title: 'Esti sigur ca vrei sa anulezi cererea?',
+      okText: 'Da',
+      okType: 'danger',
+      cancelText: 'Nu',
+      onOk() {
+        context.cancelPendingRequest();
+      },
+      onCancel() {},
+    });
+  }
+
   private async leaveEvent() {
     const result = EventService.Leave(this.props.eventDetails.event.Id);
     if (result) {
@@ -171,12 +226,13 @@ class EventCard extends Component<any, any> {
     });
   }
 
-  private goBack() {
-    history.push('/create-event/description');
+  private async cancelPendingRequest() {
+    await EventService.CancelPendingRequest(this.props.eventDetails.event.Id);
+    history.goHome();
   }
 
-  private goHome() {
-    history.push('/');
+  private goBack() {
+    history.push('/create-event/description');
   }
 
   private generateTitle() {

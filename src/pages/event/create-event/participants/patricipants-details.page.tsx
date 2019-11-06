@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input } from 'antd';
+import { Input, Modal } from 'antd';
 import { registerSchema } from 'class-validator';
 import { EventDetailsViewModel } from '../../../../contracts/models';
 import SportsSelection from '../../../../components/sports-selection/sports-selection.component';
@@ -10,6 +10,7 @@ import { LocalStorage } from '../../../../contracts/enums/localStorage/local-sto
 import LocalStorageHelper from '../../../../helpers/local-storage.helper';
 import { SportModel } from '../../../../contracts/models/sport.model';
 import CreateEventFooter from '../../../../components/create-event-footer/create-event-footer.component';
+const { confirm } = Modal;
 
 registerSchema(ParticipantsDetailsSchema);
 
@@ -108,14 +109,30 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
           </div>
         </div>
         <CreateEventFooter
-          showLeftButton={false}
+          showLeftButton={true}
           ShowCenterButton={false}
           showRightButton={true}
+          LeftButtonIcon={'mdi-calendar-remove'}
+          LeftButtonText={'Renunta'}
           onRightButtonClick={() => this.goToLocationDetails()}
+          onLeftButtonClick={() => this.dropEventDraft()}
           isValid={this.state.eventDetails.participantsDetails.IsValid}
         ></CreateEventFooter>
       </div>
     );
+  }
+
+  private async dropEventDraft() {
+    confirm({
+      title: 'Esti sigur ca vrei sa renunti la crearea evenimentului?',
+      okText: 'Da',
+      okType: 'danger',
+      cancelText: 'Nu',
+      onOk() {
+        history.goHome();
+      },
+      onCancel() {},
+    });
   }
 
   goToLocationDetails() {
