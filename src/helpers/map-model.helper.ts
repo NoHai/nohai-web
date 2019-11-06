@@ -6,7 +6,7 @@ import { ParticipantModel } from '../contracts/models/participant.model';
 
 export default class MapModelHelper {
   public static MapEvent(model: any): EventDetailsViewModel {
-    let result = new EventDetailsViewModel();
+    const result = new EventDetailsViewModel();
     result.description.Description = model.description;
     result.description.StartDate = model.startDate;
     result.description.EndDate = model.endDate;
@@ -41,7 +41,7 @@ export default class MapModelHelper {
   }
 
   public static MapEventDetails(model: any): EventDetailsViewModel {
-    let result = this.MapEvent(model.event);
+    const result = this.MapEvent(model.event);
     model.userEvents.forEach((participant: any) =>
       result.participants.push(this.MapEventParticipant(participant))
     );
@@ -50,7 +50,7 @@ export default class MapModelHelper {
   }
 
   public static MapUser(model: any): UserViewModel {
-    let result = new UserViewModel();
+    const result = new UserViewModel();
     result.user.Id = model.id;
     result.user.FirstName = model.firstName;
     result.user.LastName = model.lastName;
@@ -65,7 +65,7 @@ export default class MapModelHelper {
   }
 
   public static MapNotification(model: any): NotificationModel {
-    let result = new NotificationModel();
+    const result = new NotificationModel();
     if (model) {
       result.AvatarUrl = model.avatarUrl;
       result.Body = model.body;
@@ -81,7 +81,7 @@ export default class MapModelHelper {
   }
 
   public static MapSport(model: any): SportModel {
-    let result = new SportModel();
+    const result = new SportModel();
     if (model) {
       result.Id = model.id;
       result.Description = model.description;
@@ -93,7 +93,7 @@ export default class MapModelHelper {
   }
 
   private static MapEventParticipant(model: any): ParticipantModel {
-    let result = new ParticipantModel();
+    const result = new ParticipantModel();
     if (model) {
       result.Id = model.user.id;
       result.FirstName = model.user.firstName;

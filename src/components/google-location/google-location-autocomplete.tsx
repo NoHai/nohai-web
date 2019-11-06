@@ -97,10 +97,8 @@ class GoogleLocationAutoComplete extends Component<GoogleLocationAutoCompletePro
 
   private sendAddress(){
     const address: LocationEventDetailsModel = {
-      City: "",
-      County:"",
-      Latitude: "",
-      Longitude: "",
+      City: '',
+      County: '',
       StreetName: this.state.streetName,
       IsValid: false,
     };
@@ -135,8 +133,6 @@ class GoogleLocationAutoComplete extends Component<GoogleLocationAutoCompletePro
     const address: LocationEventDetailsModel = {
       City: '',
       County: '',
-      Latitude: '',
-      Longitude: '',
       StreetName: place.name,
       IsValid: false,
     };

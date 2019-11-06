@@ -2,7 +2,7 @@ export class LocationEventDetailsModel {
   County!: string;
   City!: string;
   StreetName!: string;
-  Longitude?: string;
-  Latitude?: string;
+  Longitude?: number;
+  Latitude?: number;
   IsValid: boolean = false;
 }
