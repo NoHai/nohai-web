@@ -44,7 +44,7 @@ class EventRepositoryController implements IEventRepository {
             }`;
 
     const response: any = await GraphqlClient.query(query);
-    let results = await this.GetEventsMap(response.events);
+    const results = await this.GetEventsMap(response.events);
     return results;
   }
 
@@ -103,7 +103,7 @@ class EventRepositoryController implements IEventRepository {
   }
 
   public async Create(eventDetails: EventDetailsViewModel): Promise<EventDetailsViewModel> {
-    let input: any = {
+    const input: any = {
       event: {
         description: eventDetails.description.Description,
         address: {
@@ -143,7 +143,7 @@ class EventRepositoryController implements IEventRepository {
   }
 
   async Delete(id: any): Promise<ResultModel<boolean>> {
-    let parameter: any = { parameter: id };
+    const parameter: any = { parameter: id };
 
     const cancelEventMutation = gql`
       mutation cancelEvent($parameter: String!) {
@@ -156,7 +156,7 @@ class EventRepositoryController implements IEventRepository {
   }
 
   async Join(eventId: any): Promise<ResultModel<boolean>> {
-    let input: any = { eventId: eventId };
+    const input: any = { eventId };
 
     const joinEventMutation = gql`
       mutation joinEvent($eventId: String!) {
@@ -182,7 +182,7 @@ class EventRepositoryController implements IEventRepository {
   }
 
   async KickoutParticipant(parameter: any): Promise<ResultModel<boolean>> {
-    let input: any = { parameter };
+    const input: any = { parameter };
 
     const kickoutUserMutation = gql`
       mutation kickoutUser($parameter: EventUserParameter!) {
@@ -195,7 +195,7 @@ class EventRepositoryController implements IEventRepository {
   }
 
   async Approve(parameter: any): Promise<ResultModel<boolean>> {
-    let input: any = { parameter: parameter };
+    const input: any = { parameter };
 
     const approveRequestMutation = gql`
       mutation approveRequest($parameter: String!) {
@@ -208,7 +208,7 @@ class EventRepositoryController implements IEventRepository {
   }
 
   async Leave(id: any): Promise<ResultModel<boolean>> {
-    let parameter: any = { parameter: id };
+    const parameter: any = { parameter: id };
 
     const leaveEventMutation = gql`
       mutation leaveEvent($parameter: String!) {
@@ -221,7 +221,7 @@ class EventRepositoryController implements IEventRepository {
   }
 
   async Reject(parameter: any): Promise<ResultModel<boolean>> {
-    let input: any = { parameter: parameter };
+    const input: any = { parameter };
 
     const rejectRequestMutation = gql`
       mutation rejectRequest($parameter: String!) {
