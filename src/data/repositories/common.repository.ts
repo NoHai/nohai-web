@@ -6,7 +6,7 @@ import { SportModel } from '../../contracts/models/sport.model';
 import MapModelHelper from '../../helpers/map-model.helper';
 
 class CommonRepositoryController implements ICommonRepository {
-  async Get(): Promise<ListModel<SportModel>> {
+  async GetSports(): Promise<ListModel<SportModel>> {
     const query = gql`
       query {
         sports {
@@ -22,6 +22,33 @@ class CommonRepositoryController implements ICommonRepository {
     const response: any = await GraphqlClient.query(query);
     let result = await this.GetSportsMap(response.sports);
     return result;
+  }
+  async GetCities(): Promise<Array<any>> {
+    const query = gql`
+      query {
+        cities {
+          id
+          name
+        }
+      }
+    `;
+
+    const response: any = await GraphqlClient.query(query);
+    return response;
+  }
+  
+  async GetCounties(): Promise<Array<any>> {
+    const query = gql`
+      query {
+        counties {
+          id
+          name
+        }
+      }
+    `;
+
+    const response: any = await GraphqlClient.query(query);
+    return response;
   }
 
   private async GetSportsMap(model: any) {

@@ -5,7 +5,7 @@ import { CommonRepository } from '../../../data/repositories';
 
 class GetSportsCommandController implements ICommand<UserModel, Promise<ListModel<SportModel>>> {
   public async execute(): Promise<ListModel<SportModel>> {
-    return await CommonRepository.Get();
+    return await CommonRepository.GetSports();
   }
 }
 

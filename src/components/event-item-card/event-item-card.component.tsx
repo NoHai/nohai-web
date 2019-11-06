@@ -4,11 +4,12 @@ import { Row, Col } from 'antd';
 import { EventItemCardProps } from './event-item-card.props';
 import DateHelper from '../../helpers/date.helper';
 import { EventSportImage } from '../event-icon/event-sport-image.component';
+import moment from 'moment';
 
 class EventItemCard extends Component<EventItemCardProps, any> {
   render() {
     const city = this.props.eventDetails.locationDetails.City;
-    const date = this.props.eventDetails.description.StartDate;
+    const date = moment(this.props.eventDetails.description.StartDate).format("YYYY-MM-DD");
     const time = this.props.eventDetails.description.StartTime;
     const description = `${city}, ${DateHelper.GetDateFormat(date, 'dddd, DD MMMM')}, ${time}`;
 

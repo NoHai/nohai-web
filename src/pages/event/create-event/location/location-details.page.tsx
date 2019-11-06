@@ -11,11 +11,14 @@ import { FormValidators } from '../../../../contracts/validators/forms-validator
 import GoogleLocationAutoComplete from '../../../../components/google-location/google-location-autocomplete';
 import HistoryHelper from '../../../../utilities/core/history';
 import CreateEventFooter from '../../../../components/create-event-footer/create-event-footer.component';
+import { CommonService } from '../../../../business/services/common.service';
 
 registerSchema(LocationDetailsSchema);
 
 class LocationDetailsEventPage extends Component<any, any> {
   private isMount: boolean = false;
+  private cities =new Array<any>();
+  private counties =new Array<any>();
 
   constructor(props: any) {
     super(props);
@@ -29,8 +32,10 @@ class LocationDetailsEventPage extends Component<any, any> {
     this.isEventDetailsValid(eventDetails);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.isMount = true;
+    this.cities=await CommonService.GetCities();
+    this.counties=await CommonService.GetCounties();
   }
 
   componentWillUnmount() {
