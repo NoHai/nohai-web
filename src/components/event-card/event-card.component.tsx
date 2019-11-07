@@ -16,6 +16,7 @@ import { EventCardButton } from '../event-card-button/event-card-button.componen
 import EventHelper from '../../helpers/event.helper';
 import moment from 'moment';
 import CreateEventFooter from '../create-event-footer/create-event-footer.component';
+import HistoryHelper from '../../utilities/core/history';
 
 const { confirm } = Modal;
 
@@ -39,6 +40,8 @@ class EventCard extends Component<any, any> {
   }
 
   render() {
+    const isEditable = HistoryHelper.containsPath('/edit-event');
+
     return (
       <div className="item-card event-card">
         <EventCardTitle
@@ -61,7 +64,7 @@ class EventCard extends Component<any, any> {
                   event={this.props.eventDetails}
                   requestSent={this.state.requestSent}
                   onJoinClick={() => this.joinEvent()}
-                  onCancelClick={() => this.cancelEvent()}
+                  onEditClick={() => this.editEvent()}
                 />
               </Col>
             </Row>
@@ -96,7 +99,7 @@ class EventCard extends Component<any, any> {
             LeftButtonIcon={'mdi-calendar-remove'}
             LeftButtonText={'Renunta'}
             RightButtonIcon={'mdi-calendar-plus'}
-            RightButtonText={'Adauga'}
+            RightButtonText={`${isEditable ? 'Salveaza' : 'Adauga'}`}
             onRightButtonClick={() => this.createEvent()}
             onCenterButtonClick={() => this.goBack()}
             onLeftButtonClick={() => this.dropEventDraft()}
@@ -224,6 +227,11 @@ class EventCard extends Component<any, any> {
     this.setState({
       requestSent: true,
     });
+  }
+
+  private async editEvent() {
+    LocalStorageHelper.SaveItemToLocalStorage(LocalStorage.CreateEvent, this.props.eventDetails);
+    history.push('/edit-event/participants-details');
   }
 
   private async cancelPendingRequest() {

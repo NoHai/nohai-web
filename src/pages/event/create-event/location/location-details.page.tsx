@@ -11,18 +11,16 @@ import { FormValidators } from '../../../../contracts/validators/forms-validator
 import GoogleLocationAutoComplete from '../../../../components/google-location/google-location-autocomplete';
 import HistoryHelper from '../../../../utilities/core/history';
 import CreateEventFooter from '../../../../components/create-event-footer/create-event-footer.component';
-import { CommonService } from '../../../../business/services/common.service';
 
 registerSchema(LocationDetailsSchema);
 
 class LocationDetailsEventPage extends Component<any, any> {
   private isMount: boolean = false;
-  private cities =new Array<any>();
-  private counties =new Array<any>();
+  private isEditable: boolean = false;
 
   constructor(props: any) {
     super(props);
-
+    this.isEditable = HistoryHelper.containsPath('/edit-event');
     const eventDetails = this.getEventDetails();
 
     this.state = {
@@ -34,8 +32,6 @@ class LocationDetailsEventPage extends Component<any, any> {
 
   async componentDidMount() {
     this.isMount = true;
-    this.cities=await CommonService.GetCities();
-    this.counties=await CommonService.GetCounties();
   }
 
   componentWillUnmount() {
@@ -137,13 +133,13 @@ class LocationDetailsEventPage extends Component<any, any> {
           </div>
 
           <CreateEventFooter
-          showLeftButton={true}
-          ShowCenterButton={false}
-          showRightButton={true}
-          onLeftButtonClick={() => this.goToParticipantsDetails()}
-          onRightButtonClick={() => this.goToDescription()}
-          isValid={this.state.eventDetails.locationDetails.IsValid}
-        ></CreateEventFooter>
+            showLeftButton={true}
+            ShowCenterButton={false}
+            showRightButton={true}
+            onLeftButtonClick={() => this.goToParticipantsDetails()}
+            onRightButtonClick={() => this.goToDescription()}
+            isValid={this.state.eventDetails.locationDetails.IsValid}
+          ></CreateEventFooter>
         </div>
       </div>
     );
@@ -156,20 +152,26 @@ class LocationDetailsEventPage extends Component<any, any> {
   }
 
   private getEventDetails() {
-    return LocalStorageHelper.GetItemFromLocalStorage(
+    const eventDetails = LocalStorageHelper.GetItemFromLocalStorage(
       LocalStorage.CreateEvent,
       new EventDetailsViewModel()
     );
+    eventDetails.locationDetails.IsValid = this.isEditable;
+    return eventDetails;
   }
 
   goToDescription() {
     LocalStorageHelper.SaveItemToLocalStorage(LocalStorage.CreateEvent, this.state.eventDetails);
-    history.push('/create-event/description');
+    this.isEditable
+      ? history.push('/edit-event/description')
+      : history.push('/create-event/description');
   }
 
   goToParticipantsDetails() {
     LocalStorageHelper.SaveItemToLocalStorage(LocalStorage.CreateEvent, this.state.eventDetails);
-    history.push('/create-event/participants-details');
+    this.isEditable
+      ? history.push('/edit-event/participants-details')
+      : history.push('/create-event/participants-details');
   }
 }
 

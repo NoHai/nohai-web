@@ -15,7 +15,7 @@ import HistoryHelper from '../../../utilities/core/history';
 
 class WrapperPage extends Component {
   public render() {
-    const isCreateEventPage = HistoryHelper.containsPath('/create-event');
+    const isCreateEventPage = HistoryHelper.containsPath('/create-event') || HistoryHelper.containsPath('/edit-event');
     return (
       <div className="page-wrapper page-sections">
         <PageHeader />
@@ -27,6 +27,7 @@ class WrapperPage extends Component {
             <Route path="/details/:id" component={EventDetailsPage} />
             <Route path="/notification" component={NotificationPage} />
             <Route path="/create-event" component={CreateEventPage} />
+            <Route path="/edit-event" component={CreateEventPage} />
             <Route path="/profile" component={UserProfilePage} />
             <Route path="/step-four" component={IntroLocation} />
             <Route path="/events-history" component={HistoryEventsPage} />

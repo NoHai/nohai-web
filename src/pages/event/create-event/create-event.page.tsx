@@ -18,6 +18,11 @@ class CreateEventPage extends Component {
           <Route path="/create-event/description" component={DescriptionPage} />
           <Route path="/create-event/preview" component={EventDetailsPage} />
 
+          <Route path="/edit-event/participants-details" component={PatricipantsDetailsPage} />
+          <Route path="/edit-event/location-details" component={LocationDetailsPage} />
+          <Route path="/edit-event/description" component={DescriptionPage} />
+          <Route path="/edit-event/preview" component={EventDetailsPage} />
+
           <Route component={PageNotFound} />
         </Switch>
       </div>
