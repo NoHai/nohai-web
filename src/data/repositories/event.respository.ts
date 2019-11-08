@@ -49,7 +49,7 @@ class EventRepositoryController implements IEventRepository {
   }
 
   public async Get(parameter: any): Promise<EventDetailsViewModel> {
-    const variables: any = { parameter: parameter };
+    const variables: any = { parameter };
     const query = gql`
       query eventDetails($parameter: String!) {
         eventDetails(parameter: $parameter) {
@@ -126,16 +126,16 @@ class EventRepositoryController implements IEventRepository {
       },
     };
 
-    const createEventMutation = gql`
-      mutation crateEventMutation($event: EventInput!) {
-        createEvent(input: $event) {
+    const saveEventMutation = gql`
+      mutation saveEventMutation($event: EventInput!) {
+        saveEvent(input: $event) {
           id
         }
       }
     `;
 
-    const result: any = await GraphqlClient.mutate(createEventMutation, input);
-    return result.createEvent.id;
+    const result: any = await GraphqlClient.mutate(saveEventMutation, input);
+    return result.saveEvent.id;
   }
 
   Update(data: EventDetailsViewModel): Promise<EventDetailsViewModel> {
@@ -169,7 +169,7 @@ class EventRepositoryController implements IEventRepository {
   }
 
   async CancelPendingRequest(parameter: any): Promise<ResultModel<boolean>> {
-    let input: any = { parameter: parameter };
+    const input: any = { parameter };
 
     const cancelPendingRequestMutation = gql`
       mutation cancelPendingRequest($parameter: String!) {
@@ -234,10 +234,10 @@ class EventRepositoryController implements IEventRepository {
   }
 
   private async GetEventsMap(model: any) {
-    let result = new ListModel<EventDetailsViewModel>();
+    const result = new ListModel<EventDetailsViewModel>();
     result.Total = model.totalCount;
     model.items.forEach((element: any) => {
-      let event = MapModelHelper.MapEvent(element);
+      const event = MapModelHelper.MapEvent(element);
       result.Data.push(event);
     });
 
