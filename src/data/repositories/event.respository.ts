@@ -75,6 +75,7 @@ class EventRepositoryController implements IEventRepository {
               county
             }
             sport {
+              id
               name
               defaultParticipantsNumber
               imagePath
