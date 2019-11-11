@@ -105,6 +105,7 @@ class EventRepositoryController implements IEventRepository {
   public async Create(eventDetails: EventDetailsViewModel): Promise<EventDetailsViewModel> {
     const input: any = {
       event: {
+        id:eventDetails.event.Id,
         description: eventDetails.description.Description,
         address: {
           streetName: eventDetails.locationDetails.StreetName,

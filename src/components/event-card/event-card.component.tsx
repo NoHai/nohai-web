@@ -22,6 +22,7 @@ const { confirm } = Modal;
 
 class EventCard extends Component<any, any> {
   private isForPreview = false;
+  private isEditable = false;
   private userId = '';
   constructor(props: any) {
     super(props);
@@ -32,6 +33,7 @@ class EventCard extends Component<any, any> {
     };
 
     this.isForPreview = window.location.pathname.endsWith('preview');
+    this.isEditable = HistoryHelper.containsPath('/edit-event');
   }
 
   async componentDidMount() {
@@ -40,8 +42,6 @@ class EventCard extends Component<any, any> {
   }
 
   render() {
-    const isEditable = HistoryHelper.containsPath('/edit-event');
-
     return (
       <div className="item-card event-card">
         <EventCardTitle
@@ -90,6 +90,7 @@ class EventCard extends Component<any, any> {
         )}
         {this.leaveEventSection()}
         {this.cancelPendingRequestSection()}
+        {this.cancelEventSection()}
         {this.isForPreview && (
           <CreateEventFooter
             showLeftButton={true}
@@ -99,10 +100,10 @@ class EventCard extends Component<any, any> {
             LeftButtonIcon={'mdi-calendar-remove'}
             LeftButtonText={'Renunta'}
             RightButtonIcon={'mdi-calendar-plus'}
-            RightButtonText={`${isEditable ? 'Salveaza' : 'Adauga'}`}
+            RightButtonText={`${this.isEditable ? 'Salveaza' : 'Adauga'}`}
             onRightButtonClick={() => this.createEvent()}
             onCenterButtonClick={() => this.goBack()}
-            onLeftButtonClick={() => this.dropEventDraft()}
+            onLeftButtonClick={() => this.dropEventDraftModal(this)}
             isValid={true}
           ></CreateEventFooter>
         )}
@@ -125,7 +126,7 @@ class EventCard extends Component<any, any> {
               block={true}
               className="margin-bottom"
               onClick={() => {
-                this.cancelRequest(this);
+                this.cancelRequestModal(this);
               }}
             >
               Anuleaza cererea
@@ -161,6 +162,31 @@ class EventCard extends Component<any, any> {
     }
   }
 
+  private cancelEventSection() {
+    if (!this.isForPreview) {
+      const isOwner = EventHelper.isOwner(this.props.eventDetails, this.userId);
+      return (
+        isOwner && (
+          <div className="create-event-wrapper">
+            <div className="sub-title">Te-ai razgandit?</div>
+            <p>Nu mai poti ajunge? Paraseste evenimentul.</p>
+
+            <Button
+              type="default"
+              block={true}
+              className="margin-bottom"
+              onClick={() => {
+                this.cancelEventModal(this);
+              }}
+            >
+              Anuleaza evenimentul
+            </Button>
+          </div>
+        )
+      );
+    }
+  }
+
   private async leaveEventModal(context: any) {
     confirm({
       title: 'Esti sigur ca vrei sa parasesti evenimentul?',
@@ -174,20 +200,29 @@ class EventCard extends Component<any, any> {
     });
   }
 
-  private async dropEventDraft() {
+  private async dropEventDraftModal(context: any) {
+    const title = this.isEditable
+      ? 'Esti sigur ca vrei sa renunti la editarea evenimentului?'
+      : 'Esti sigur ca vrei sa renunti la crearea evenimentului?';
     confirm({
-      title: 'Esti sigur ca vrei sa renunti la crearea evenimentului?',
+      title: title,
       okText: 'Da',
       okType: 'danger',
       cancelText: 'Nu',
       onOk() {
-        history.goHome();
+        context.dropDraft();
       },
       onCancel() {},
     });
   }
 
-  private async cancelRequest(context: any) {
+  private dropDraft() {
+    this.isEditable
+      ? history.push(`/details/${this.props.eventDetails.event.Id}`)
+      : history.goHome();
+  }
+
+  private async cancelRequestModal(context: any) {
     confirm({
       title: 'Esti sigur ca vrei sa anulezi cererea?',
       okText: 'Da',
@@ -195,6 +230,19 @@ class EventCard extends Component<any, any> {
       cancelText: 'Nu',
       onOk() {
         context.cancelPendingRequest();
+      },
+      onCancel() {},
+    });
+  }
+
+  private async cancelEventModal(context: any) {
+    confirm({
+      title: 'Esti sigur ca vrei sa anulezi evenimentul?',
+      okText: 'Da',
+      okType: 'danger',
+      cancelText: 'Nu',
+      onOk() {
+        context.cancelEvent();
       },
       onCancel() {},
     });
@@ -208,8 +256,8 @@ class EventCard extends Component<any, any> {
   }
 
   private async createEvent() {
-    const id = await EventService.Create(this.props.eventDetails);
-    if (id) {
+    const result = await EventService.Create(this.props.eventDetails);
+    if (result) {
       LocalStorageHelper.DeleteItemFromLocalStorage(LocalStorage.CreateEvent);
       history.push('/');
     }
