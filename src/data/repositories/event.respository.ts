@@ -107,7 +107,7 @@ class EventRepositoryController implements IEventRepository {
   public async Create(eventDetails: EventDetailsViewModel): Promise<EventDetailsViewModel> {
     const input: any = {
       event: {
-        id:eventDetails.event.Id,
+        id: eventDetails.event.Id,
         description: eventDetails.description.Description,
         address: {
           streetName: eventDetails.locationDetails.StreetName,
@@ -126,6 +126,7 @@ class EventRepositoryController implements IEventRepository {
         startTime: eventDetails.description.StartTime,
         endTime: eventDetails.description.EndTime,
         level: eventDetails.participantsDetails.Level,
+        owner: { id: eventDetails.owner.Id },
       },
     };
 
