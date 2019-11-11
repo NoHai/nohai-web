@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './event-card.component.scss';
-import { Row, Col, Button, Modal } from 'antd';
+import { Row, Col, Modal } from 'antd';
 import EventMembers from '../event-members/event-members.component';
 import EventMap from '../event-map/event-map.component';
 import { EventService } from '../../business/services';
@@ -14,9 +14,9 @@ import EventCardOwner from '../event-card-owner/event-card-owner.component';
 import { EventCardAvailability } from '../event-card-availability/event-card-availability.component';
 import { EventCardButton } from '../event-card-button/event-card-button.component';
 import EventHelper from '../../helpers/event.helper';
-import moment from 'moment';
 import CreateEventFooter from '../create-event-footer/create-event-footer.component';
 import HistoryHelper from '../../utilities/core/history';
+import EventDetailsFooterButtons from '../event-details-section/event-details-footer-buttons';
 
 const { confirm } = Modal;
 
@@ -46,7 +46,7 @@ class EventCard extends Component<any, any> {
       <div className="item-card event-card">
         <EventCardTitle
           imagePath={this.props.eventDetails.sport.ImagePath}
-          title={this.generateTitle()}
+          title={EventHelper.generateTitle(this.props.eventDetails)}
         />
 
         <hr />
@@ -88,9 +88,16 @@ class EventCard extends Component<any, any> {
             longitude={this.props.eventDetails.locationDetails.Longitude}
           />
         )}
-        {this.leaveEventSection()}
-        {this.cancelPendingRequestSection()}
-        {this.cancelEventSection()}
+        {!this.isForPreview && (
+          <EventDetailsFooterButtons
+            event={this.props.eventDetails}
+            userId={this.userId}
+            requestSent={this.state.requestSent}
+            leaveEvent={() => this.leaveEvent()}
+            cancelEvent={() => this.cancelEvent()}
+            cancelRequest={() => this.cancelPendingRequest()}
+          ></EventDetailsFooterButtons>
+        )}
         {this.isForPreview && (
           <CreateEventFooter
             showLeftButton={true}
@@ -109,95 +116,6 @@ class EventCard extends Component<any, any> {
         )}
       </div>
     );
-  }
-
-  private cancelPendingRequestSection() {
-    if (!this.isForPreview) {
-      const isAlreadyAccepted =
-        EventHelper.isUserPending(this.props.eventDetails, this.userId) || this.state.requestSent;
-      return (
-        isAlreadyAccepted && (
-          <div className="create-event-wrapper">
-            <div className="sub-title">Te-ai razgandit?</div>
-            <p>Nu mai poti ajunge? Anuleaza cererea.</p>
-
-            <Button
-              type="default"
-              block={true}
-              className="margin-bottom"
-              onClick={() => {
-                this.cancelRequestModal(this);
-              }}
-            >
-              Anuleaza cererea
-            </Button>
-          </div>
-        )
-      );
-    }
-  }
-
-  private leaveEventSection() {
-    if (!this.isForPreview) {
-      const isAlreadyAccepted = EventHelper.isUserAccepted(this.props.eventDetails, this.userId);
-      return (
-        isAlreadyAccepted && (
-          <div className="create-event-wrapper">
-            <div className="sub-title">Te-ai razgandit?</div>
-            <p>Nu mai poti ajunge? Paraseste evenimentul.</p>
-
-            <Button
-              type="default"
-              block={true}
-              className="margin-bottom"
-              onClick={() => {
-                this.leaveEventModal(this);
-              }}
-            >
-              Paraseste evenimentul
-            </Button>
-          </div>
-        )
-      );
-    }
-  }
-
-  private cancelEventSection() {
-    if (!this.isForPreview) {
-      const isOwner = EventHelper.isOwner(this.props.eventDetails, this.userId);
-      return (
-        isOwner && (
-          <div className="create-event-wrapper">
-            <div className="sub-title">Te-ai razgandit?</div>
-            <p>Nu mai poti ajunge? Paraseste evenimentul.</p>
-
-            <Button
-              type="default"
-              block={true}
-              className="margin-bottom"
-              onClick={() => {
-                this.cancelEventModal(this);
-              }}
-            >
-              Anuleaza evenimentul
-            </Button>
-          </div>
-        )
-      );
-    }
-  }
-
-  private async leaveEventModal(context: any) {
-    confirm({
-      title: 'Esti sigur ca vrei sa parasesti evenimentul?',
-      okText: 'Da',
-      okType: 'danger',
-      cancelText: 'Nu',
-      onOk() {
-        context.leaveEvent();
-      },
-      onCancel() {},
-    });
   }
 
   private async dropEventDraftModal(context: any) {
@@ -220,32 +138,6 @@ class EventCard extends Component<any, any> {
     this.isEditable
       ? history.push(`/details/${this.props.eventDetails.event.Id}`)
       : history.goHome();
-  }
-
-  private async cancelRequestModal(context: any) {
-    confirm({
-      title: 'Esti sigur ca vrei sa anulezi cererea?',
-      okText: 'Da',
-      okType: 'danger',
-      cancelText: 'Nu',
-      onOk() {
-        context.cancelPendingRequest();
-      },
-      onCancel() {},
-    });
-  }
-
-  private async cancelEventModal(context: any) {
-    confirm({
-      title: 'Esti sigur ca vrei sa anulezi evenimentul?',
-      okText: 'Da',
-      okType: 'danger',
-      cancelText: 'Nu',
-      onOk() {
-        context.cancelEvent();
-      },
-      onCancel() {},
-    });
   }
 
   private async leaveEvent() {
@@ -289,18 +181,6 @@ class EventCard extends Component<any, any> {
 
   private goBack() {
     history.push('/create-event/description');
-  }
-
-  private generateTitle() {
-    return this.props.eventDetails.sport.Name
-      ? `${this.props.eventDetails.sport.Name},
-    ${moment(this.props.eventDetails.description.StartDate)
-      .locale('ro')
-      .format('dddd')}
-    ${moment(this.props.eventDetails.description.StartDate).format('DD')} ${moment(
-          this.props.eventDetails.description.StartDate
-        ).format('MMMM')} ora ${this.props.eventDetails.description.StartTime}`
-      : '';
   }
 }
 

@@ -34,18 +34,7 @@ class PageBackButton extends Component<any, any> {
   }
 
   private getNotificationIconButton(): any {
-    return (
-      <div
-        onClick={() => {
-          this.NavigateToNotification();
-        }}
-        className="icon mdi mdi-bell page-back-button notification"
-      >
-        {this.props.unReadNotifications > 0 && (
-          <span className="badge">{this.props.unReadNotifications || ''}</span>
-        )}
-      </div>
-    );
+    return <div className="logo"></div>;
   }
 
   private getBackIconButton(): any {
@@ -57,10 +46,6 @@ class PageBackButton extends Component<any, any> {
         className="icon mdi mdi-arrow-left"
       ></div>
     );
-  }
-
-  private NavigateToNotification(): void {
-    HistoryHelper.push('/notification');
   }
 
   private NavigateBack() {

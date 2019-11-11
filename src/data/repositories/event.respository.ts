@@ -11,6 +11,7 @@ class EventRepositoryController implements IEventRepository {
             query {events(parameter: {showHistory:${data.showHistory}, pagination: {pageSize:${data.pageSize} , pageIndex: ${data.pageIndex}}}) {
                 items {
                     id
+                    status
                     owner{
                         id
                         firstName
@@ -55,6 +56,7 @@ class EventRepositoryController implements IEventRepository {
         eventDetails(parameter: $parameter) {
           event {
             id
+            status
             owner {
               id
               firstName

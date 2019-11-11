@@ -37,6 +37,8 @@ export default class MapModelHelper {
     result.sport.ImagePath = model.sport.imagePath;
     result.participantsDetails.Level = model.level;
 
+    result.status=model.status
+
     return result;
   }
 
