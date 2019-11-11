@@ -28,7 +28,7 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
       this.state.eventDetails
     );
 
-    eventDetails.participantsDetails.IsValid =  this.isEditable;
+    eventDetails.participantsDetails.IsValid = this.isEditable;
     this.setState({
       eventDetails: eventDetails,
     });
@@ -145,6 +145,7 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
   }
 
   onOkClick() {
+    LocalStorageHelper.DeleteItemFromLocalStorage(LocalStorage.CreateEvent);
     this.isEditable
       ? history.push(`/details/${this.state.eventDetails.event.Id}`)
       : history.goHome();
@@ -152,9 +153,9 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
 
   goToLocationDetails() {
     LocalStorageHelper.SaveItemToLocalStorage(LocalStorage.CreateEvent, this.state.eventDetails);
-    this.isEditable?
-    history.push('/edit-event/location-details'):
-    history.push('/create-event/location-details');
+    this.isEditable
+      ? history.push('/edit-event/location-details')
+      : history.push('/create-event/location-details');
   }
 }
 
