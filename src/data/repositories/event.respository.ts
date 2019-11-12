@@ -7,8 +7,20 @@ import MapModelHelper from '../../helpers/map-model.helper';
 
 class EventRepositoryController implements IEventRepository {
   public async Find(data: FindEventRequest): Promise<ListModel<EventDetailsViewModel>> {
+    const parameter: any = {
+      parameter: {
+        sports: data.sports,
+        startDate: data.startDate,
+        searchText: data.searchText,
+        status: data.status,
+        showHistory: data.showHistory,
+        pagination: { pageSize: data.pageSize, pageIndex: data.pageIndex }
+      }
+    };
+
     const query = gql`
-            query {searchEvents(parameter: {sports:${data.sports}, startDate:${data.startDate}, searchText:${data.searchText}, status:${data.status}, showHistory:${data.showHistory}, pagination: {pageSize:${data.pageSize} , pageIndex: ${data.pageIndex}}}) {
+            query  searchEvents($parameter: SearchEventsParameter!){
+              searchEvents(parameter: $parameter) {
                 items {
                     id
                     status
@@ -41,17 +53,17 @@ class EventRepositoryController implements IEventRepository {
                     level
                     createdDate
                 },
-                totalCount
-                }
+              totalCount
+              }
             }`;
 
-    const response: any = await GraphqlClient.query(query);
-    const results = await this.GetEventsMap(response.events);
+    const response: any = await GraphqlClient.queryWithVariables(query, parameter);
+    const results = await this.GetEventsMap(response.searchEvents);
     return results;
   }
 
   public async Get(parameter: any): Promise<EventDetailsViewModel> {
-    const variables: any = { parameter: parameter };
+    const variables: any = { parameter };
     const query = gql`
       query eventDetails($parameter: String!) {
         eventDetails(parameter: $parameter) {
