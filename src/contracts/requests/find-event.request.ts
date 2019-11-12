@@ -4,14 +4,12 @@ export class FindEventRequest extends PaginationBaseRequestModel {
   sports?: string[];
   startDate?: string;
   searchText?: string;
-  status?: number;
   showHistory!: boolean;
 
-  constructor(){
+  constructor() {
     super();
     this.sports = [];
     this.startDate = '';
     this.searchText = '';
-    this.status = 1;
   }
 }
