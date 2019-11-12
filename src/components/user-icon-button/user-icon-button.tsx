@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Menu, Dropdown } from 'antd';
 import { connect } from 'react-redux';
 import { logout } from './../../redux/actions/auth.action';
-import { initialAuthState } from '../../redux/reducers/auth.reducer';
 import history from '../../utilities/core/history';
 import HistoryHelper from '../../utilities/core/history';
 import './user-icon-button.scss';

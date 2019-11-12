@@ -8,7 +8,7 @@ import MapModelHelper from '../../helpers/map-model.helper';
 class EventRepositoryController implements IEventRepository {
   public async Find(data: FindEventRequest): Promise<ListModel<EventDetailsViewModel>> {
     const query = gql`
-            query {events(parameter: {showHistory:${data.showHistory}, pagination: {pageSize:${data.pageSize} , pageIndex: ${data.pageIndex}}}) {
+            query {searchEvents(parameter: {sports:${data.sports}, startDate:${data.startDate}, searchText:${data.searchText}, status:${data.status}, showHistory:${data.showHistory}, pagination: {pageSize:${data.pageSize} , pageIndex: ${data.pageIndex}}}) {
                 items {
                     id
                     status

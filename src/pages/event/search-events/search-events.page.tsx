@@ -5,6 +5,7 @@ import { FindEventRequest } from '../../../contracts/requests/find-event.request
 import { EventDetailsViewModel } from '../../../contracts/models';
 import LoadingHelper from '../../../helpers/loading.helper';
 import { EventService } from '../../../business/services';
+import { Input } from 'antd';
 
 class SearchEventsPage extends Component {
   public eventRequest = new FindEventRequest();
@@ -29,13 +30,30 @@ class SearchEventsPage extends Component {
   public render() {
     return (
       <div className="full-height">
-        <EventList
-          eventDetails={this.state.eventDetails}
-          hasMoreItems={this.state.hasMoreItems}
-          onEventsDetailsChange={() => this.getEvents()}
-        />
+        <div className="page-sections">
+          <div className="page-section">
+            <div className="icon mdi mdi-magnify">
+              <Input onChange={(e)=>this.onSearchChange(e)} placeholder="Cauta evenimente..."></Input>
+            </div>
+            <div className="icon mdi mdi-filter-menu"></div>
+          </div>
+          <div className="page-section-large">
+            <EventList
+              eventDetails={this.state.eventDetails}
+              hasMoreItems={this.state.hasMoreItems}
+              onEventsDetailsChange={() => this.getEvents()}
+            />
+          </div>
+        </div>
       </div>
     );
+  }
+
+  private async onSearchChange(data:any){
+    const { value } = data.target
+    console.log(value);
+    this.eventRequest.searchText=value
+    await this.getEvents()
   }
 
   private async getEvents() {
