@@ -5,19 +5,11 @@ export let Description: ValidationSchema = {
   properties: {
     StartDate: [
       {
-        type: 'maxLength',
-        constraints: [10],
-      },
-      {
         type: 'minLength',
         constraints: [10],
       },
     ],
     EndDate: [
-      {
-        type: 'maxLength',
-        constraints: [10],
-      },
       {
         type: 'minLength',
         constraints: [10],
