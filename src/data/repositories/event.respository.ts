@@ -12,15 +12,14 @@ class EventRepositoryController implements IEventRepository {
         sports: data.sports,
         startDate: data.startDate,
         searchText: data.searchText,
-        status: data.status,
         showHistory: data.showHistory,
         pagination: { pageSize: data.pageSize, pageIndex: data.pageIndex }
       }
     };
 
     const query = gql`
-            query  searchEvents($parameter: SearchEventsParameter!){
-              searchEvents(parameter: $parameter) {
+            query  events($parameter: SearchEventsParameter!){
+              events(parameter: $parameter) {
                 items {
                     id
                     status
@@ -58,7 +57,7 @@ class EventRepositoryController implements IEventRepository {
             }`;
 
     const response: any = await GraphqlClient.queryWithVariables(query, parameter);
-    const results = await this.GetEventsMap(response.searchEvents);
+    const results = await this.GetEventsMap(response.events);
     return results;
   }
 
