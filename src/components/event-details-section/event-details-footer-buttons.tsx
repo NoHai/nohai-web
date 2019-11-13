@@ -76,7 +76,7 @@ class EventDetailsFooterButtons extends Component<EventDetailsFooterProps> {
       isOwner && (
         <div className="create-event-wrapper">
           <div className="sub-title">Te-ai razgandit?</div>
-          <p>Nu mai poti ajunge? Paraseste evenimentul.</p>
+          <p>A intervenit ceva? Anuleaza evenimentul.</p>
 
           <Button
             type="default"
