@@ -62,7 +62,7 @@ class EventRepositoryController implements IEventRepository {
   }
 
   public async Get(parameter: any): Promise<EventDetailsViewModel> {
-    const variables: any = { parameter: parameter };
+    const variables: any = { parameter };
     const query = gql`
       query eventDetails($parameter: String!) {
         eventDetails(parameter: $parameter) {

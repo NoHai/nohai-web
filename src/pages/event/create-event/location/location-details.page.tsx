@@ -11,7 +11,6 @@ import { FormValidators } from '../../../../contracts/validators/forms-validator
 import GoogleLocationAutoComplete from '../../../../components/google-location/google-location-autocomplete';
 import HistoryHelper from '../../../../utilities/core/history';
 import CreateEventFooter from '../../../../components/create-event-footer/create-event-footer.component';
-import { CommonService } from '../../../../business/services/common.service';
 
 registerSchema(LocationDetailsSchema);
 
