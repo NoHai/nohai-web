@@ -1,0 +1,47 @@
+@import './../../globals/styles/variables';
+@import './../../globals/styles/functions';
+.event-filter {
+  .inline-wrapper {
+    border-bottom: 1px solid #e6e5e8;
+    padding: 9px 18px;
+    input {
+        padding: 2px 0;
+        width: 80%;
+        height: 100%;
+        border: none;
+        background: transparent;
+        vertical-align: text-bottom;
+    }
+    input:focus {
+      outline: none;
+    }
+
+    .icon {
+      padding: 0px 7px;
+      font-size: 20px;
+    }
+  }
+  .search-field {
+    width: 100%;
+    display: block;
+    border: 0;
+    background: $gray-color;
+    cursor: pointer;
+    border-radius: 20px;
+  
+    &:focus {
+      outline: 0;
+    }
+  }
+}
+
+
+.input-filter-size {
+  width: 80%;
+  margin-bottom: 5px;
+}
+.modal-label-filter {
+  margin-bottom: 5px;
+  display: block;
+  font-weight: 500;
+}

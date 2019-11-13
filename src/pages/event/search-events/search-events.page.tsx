@@ -5,11 +5,9 @@ import { FindEventRequest } from '../../../contracts/requests/find-event.request
 import { EventDetailsViewModel, ListModel } from '../../../contracts/models';
 import LoadingHelper from '../../../helpers/loading.helper';
 import { EventService } from '../../../business/services';
-import { Row, Col, Modal, Select, DatePicker } from 'antd';
 import { CommonService } from '../../../business/services/common.service';
 import { SportModel } from '../../../contracts/models/sport.model';
-import moment from 'moment';
-const { Option } = Select;
+import EventFilter from '../../../components/event-filter/event-filter.component';
 class SearchEventsPage extends Component {
   public eventRequest = new FindEventRequest();
   public eventDetilsContainer = new Array<EventDetailsViewModel>();
@@ -38,22 +36,7 @@ class SearchEventsPage extends Component {
       <div className="full-height">
         <div className="page-sections">
           <div className="page-section">
-            <Row className="inline-input-wrapper">
-              <Col span={12}>
-                <input
-                  className="input"
-                  onChange={e => this.onSearchChange(e)}
-                  placeholder="Cauta evenimente..."
-                ></input>
-                <span className="icon mdi mdi-magnify"></span>
-              </Col>
-              <Col span={12} className="text-right">
-                <div
-                  className="icon mdi mdi-filter-menu"
-                  onClick={() => this.toggleShowModal()}
-                ></div>
-              </Col>
-            </Row>
+            <EventFilter onOk={eventRequest => this.applyFilter(eventRequest)}></EventFilter>
           </div>
           <div className="page-section page-section-large">
             <EventList
@@ -61,61 +44,16 @@ class SearchEventsPage extends Component {
               hasMoreItems={this.state.hasMoreItems}
               onEventsDetailsChange={() => this.getEvents()}
             />
-            <Modal
-              title="Filtreaza evenimentele"
-              visible={this.state.showFilter}
-              onOk={() => this.applyFilter()}
-              onCancel={() => this.toggleShowModal()}
-            >
-              <label>Dupa sport:</label>
-              <div>
-                <Select
-                  className="select"
-                  size="default"
-                  placeholder="Selecteaza Sportul"
-                  onChange={(value: string) => {
-                    if (this.eventRequest.sports) this.eventRequest.sports.push(value);
-                  }}
-                >
-                  {this.sports.Data.map((element: any, index: any) => (
-                    <Option key={index} value={element.Id}>
-                      {element.Name}
-                    </Option>
-                  ))}
-                </Select>
-              </div>
-              <label>Dupa data de inceput:</label>
-              <DatePicker
-                className="select"
-                onChange={(date, dateString) => {
-                  this.eventRequest.startDate = dateString;
-                }}
-                placeholder={'Alege Data'}
-                size="default"
-              />
-            </Modal>
           </div>
         </div>
       </div>
     );
   }
 
-  private toggleShowModal() {
-    this.setState({
-      showFilter: !this.state.showFilter,
-    });
-  }
-  private async onSearchChange(data: any) {
+  private applyFilter(eventRequest: any) {
     this.eventDetilsContainer = new Array<EventDetailsViewModel>();
-    const { value } = data.target;
-    this.eventRequest.searchText = value;
+    this.eventRequest = eventRequest;
     this.getEvents(true);
-  }
-
-  private applyFilter() {
-    this.eventDetilsContainer = new Array<EventDetailsViewModel>();
-    this.getEvents(true);
-    this.toggleShowModal();
   }
 
   private async getEvents(search: boolean = false) {
