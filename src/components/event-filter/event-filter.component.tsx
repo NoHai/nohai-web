@@ -22,8 +22,8 @@ class EventFilter extends Component<EventFilterProps> {
   render() {
     return (
       <div className="event-filter">
-        <Row className="inline-wrapper" align="middle">
-          <Col span={22}>
+        <Row align="middle" className="event-filter-wrapper">
+          <Col span={21}>
             <div className="search-field">
               <span className="icon mdi mdi-magnify"></span>
               <input
@@ -32,24 +32,24 @@ class EventFilter extends Component<EventFilterProps> {
                 placeholder="Cauta evenimente..."
               ></input>
             </div>
-            {/* <input
-              className="input"
-              onChange={e => this.onSearchChange(e)}
-              placeholder="Cauta evenimente..."
-            ></input>
-            <span className="icon mdi mdi-magnify"></span> */}
           </Col>
-          <Col span={2} className="text-right">
-            <div className="icon mdi mdi-filter margin-top" onClick={() => this.toggleShowModal()}></div>
+
+          <Col span={3} className="text-right">
+            <div
+              className="icon mdi mdi-filter margin-top"
+              onClick={() => this.toggleShowModal()}
+            ></div>
           </Col>
         </Row>
+
         <Modal
           title="Filtreaza evenimentele"
           visible={this.state.showFilter}
           onOk={() => this.applyyFilter()}
           onCancel={() => this.toggleShowModal()}
         >
-          <label className="modal-label-filter">Dupa sport:</label>
+            <label className="inline-input-label">Dupa sport</label>
+            <span className="optional-span">(Optional)</span>
           <div className="event-filter">
             <Select
               className="input-filter-size"
@@ -66,7 +66,8 @@ class EventFilter extends Component<EventFilterProps> {
               ))}
             </Select>
           </div>
-          <label className="modal-label-filter">Dupa data de inceput:</label>
+          <label className="inline-input-label">Dupa data de inceput</label>
+            <span className="optional-span">(Optional)</span>
           <DatePicker
             className="input-filter-size"
             onChange={(date, dateString) => {
