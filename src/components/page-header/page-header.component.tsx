@@ -8,12 +8,12 @@ class PageHeader extends Component<any, any> {
   render(): any {
     return (
       <div className="page-header page-section">
-        <Row>
-          <Col span={8}>
+        <Row type="flex" align="middle">
+          <Col span={12}>
             <PageBackButton />
           </Col>
 
-          <Col span={8} className="text-center" />
+          <Col span={4} className="text-center" />
 
           <Col span={8} className="text-right">
             <UserIconButton />

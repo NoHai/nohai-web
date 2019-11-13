@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import './event-card-button.component.scss';
 import EventHelper from '../../helpers/event.helper';
-import { Button, Row, Col, Modal } from 'antd';
+import { Button, Row, Col } from 'antd';
 import { EventCardButtonProps } from './event-card-button.props';
-
-const { confirm } = Modal;
 
 export class EventCardButton extends Component<EventCardButtonProps> {
   render() {
@@ -17,15 +15,20 @@ export class EventCardButton extends Component<EventCardButtonProps> {
     const isAlreadyAccepted = EventHelper.isUserAccepted(this.props.event, this.props.userId);
     const isInPending = EventHelper.isUserPending(this.props.event, this.props.userId);
     const isOwner = EventHelper.isOwner(this.props.event, this.props.userId);
+    const isUnavailable = !this.props.event.status;
 
-    if (isOwner) {
+    if (!isUnavailable && isOwner) {
       button = this.getCancelButton();
-    } else if (isAlreadyAccepted) {
+    } else if (!isUnavailable && isAlreadyAccepted) {
       button = this.getApprovedButton();
-    } else if (isInPending || this.props.requestSent) {
+    } else if (!isUnavailable && (isInPending || this.props.requestSent)) {
       button = this.getPendingButton();
-    } else if (isAvailable) {
+    } else if (!isUnavailable && isAvailable) {
       button = this.getJoinButton();
+    } else if (isUnavailable) {
+      button = this.getUnavailableButton();
+    } else if (isUnavailable) {
+      button = <div />;
     }
 
     return <div className="event-card-button">{button}</div>;
@@ -54,10 +57,10 @@ export class EventCardButton extends Component<EventCardButtonProps> {
         <Col span={16} className="join-text">
           <span
             onClick={e => {
-              this.cancelEvent(this.props);
+              this.props.onEditClick();
             }}
           >
-            Anuleaza
+            Editeaza
           </span>
         </Col>
         <Col span={8} className="text-right">
@@ -65,10 +68,10 @@ export class EventCardButton extends Component<EventCardButtonProps> {
             type="ghost"
             size="large"
             shape="circle"
-            icon="close"
+            icon="edit"
             className="join-button"
             onClick={e => {
-              this.cancelEvent(this.props);
+              this.props.onEditClick();
             }}
           ></Button>
         </Col>
@@ -116,16 +119,23 @@ export class EventCardButton extends Component<EventCardButtonProps> {
     );
   }
 
-  private cancelEvent(props: any) {
-    confirm({
-      title: 'Esti sigur ca vrei sa anulezi evenimentul?',
-      okText: 'Anuleaza',
-      okType: 'danger',
-      cancelText: 'Nu doresc',
-      onOk() {
-        props.onCancelClick();
-      },
-      onCancel() {},
-    });
+  private getUnavailableButton() {
+    return (
+      <Row type="flex" align="middle">
+        <Col span={16} className="join-text">
+          Eveniment Anululat
+        </Col>
+        <Col span={8} className="text-right">
+          <Button
+            type="ghost"
+            size="large"
+            shape="circle"
+            icon="close"
+            disabled
+            className="join-button"
+          ></Button>
+        </Col>
+      </Row>
+    );
   }
 }

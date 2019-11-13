@@ -5,6 +5,7 @@ import LoadingHelper from '../../../helpers/loading.helper';
 import { EventService } from '../../../business/services';
 import { FindEventRequest } from '../../../contracts/requests/find-event.request';
 import { EventDetailsViewModel } from '../../../contracts/models';
+import EventFilter from '../../../components/event-filter/event-filter.component';
 
 class HistoryEventsPage extends Component {
   public eventRequest = new FindEventRequest();
@@ -29,18 +30,30 @@ class HistoryEventsPage extends Component {
   public render() {
     return (
       <div className="full-height">
-        <EventList
-          eventDetails={this.state.eventDetails}
-          hasMoreItems={this.state.hasMoreItems}
-          onEventsDetailsChange={() => this.getEvents()}
-        />
+        <div className="page-sections">
+          <div className="page-section">
+            <EventFilter onOk={eventRequest => this.applyFilter(eventRequest)}></EventFilter>
+          </div>
+          <div className="page-section page-section-large">
+            <EventList
+              eventDetails={this.state.eventDetails}
+              hasMoreItems={this.state.hasMoreItems}
+              onEventsDetailsChange={() => this.getEvents()}
+            />
+          </div>
+        </div>
       </div>
     );
   }
-
-  private async getEvents() {
+  private applyFilter(eventRequest: any) {
+    this.eventDetilsContainer = new Array<EventDetailsViewModel>();
+    this.eventRequest = eventRequest;
+    this.eventRequest.showHistory = true;
+    this.getEvents(true);
+  }
+  private async getEvents(search: boolean = false) {
     LoadingHelper.showLoading();
-    this.eventRequest.pageIndex = this.state.pageIndex;
+    this.eventRequest.pageIndex = search ? 0 : this.state.pageIndex;
     const result = await EventService.Find(this.eventRequest);
 
     this.eventDetilsContainer.push(...result.Data);

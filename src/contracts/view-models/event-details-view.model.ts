@@ -12,6 +12,7 @@ export class EventDetailsViewModel {
   description!: DescriptionEventModel;
   participants!: ParticipantModel[];
   owner!: ParticipantModel;
+  status!:number;
 
   constructor() {
     this.sport = new SportModel();

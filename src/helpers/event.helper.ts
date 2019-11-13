@@ -1,6 +1,7 @@
 import { EventDetailsViewModel } from '../contracts/models';
 import { SportLevelType } from '../contracts/enums/common/sport-level.type';
 import DateHelper from './date.helper';
+import moment from 'moment';
 
 class EventHelperClass {
   private static instance: EventHelperClass;
@@ -25,9 +26,9 @@ class EventHelperClass {
   }
 
   public getDate(event: EventDetailsViewModel) {
-    const startDate = event.description.StartDate;
+    const startDate = moment(event.description.StartDate).format("YYYY-MM-DD");
     const startDateString = DateHelper.GetDateFormat(startDate, 'dddd, DD MMMM');
-    const endDate = event.description.EndDate;
+    const endDate =moment(event.description.EndDate).format("YYYY-MM-DD");
     const endDateString = DateHelper.GetDateFormat(endDate, 'dddd, DD MMMM');
 
     return startDate === endDate ? startDateString : `${startDateString} - ${endDateString}`;
@@ -66,6 +67,18 @@ class EventHelperClass {
     return event.participantsDetails.FreeSpots > 0
       ? event.participantsDetails.FreeSpots - event.participants.filter(x => x.Status === 1).length
       : null;
+  }
+
+  public generateTitle(eventDetails:any) {
+    return eventDetails.sport.Name
+      ? `${eventDetails.sport.Name},
+    ${moment(eventDetails.description.StartDate)
+      .locale('ro')
+      .format('dddd')}
+    ${moment(eventDetails.description.StartDate).format('DD')} ${moment(
+          eventDetails.description.StartDate
+        ).format('MMMM')} ora ${eventDetails.description.StartTime}`
+      : '';
   }
 }
 
