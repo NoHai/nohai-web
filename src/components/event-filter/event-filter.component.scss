@@ -1,47 +1,63 @@
 @import './../../globals/styles/variables';
 @import './../../globals/styles/functions';
+
 .event-filter {
-  .inline-wrapper {
-    border-bottom: 1px solid #e6e5e8;
-    padding: 9px 18px;
-    input {
-        padding: 2px 0;
-        width: 80%;
-        height: 100%;
-        border: none;
-        background: transparent;
-        vertical-align: text-bottom;
+  .event-filter-wrapper {
+    border-bottom: 1px solid $gray-color;
+    padding: 15px 15px;
+
+    .search-field {
+      position: relative;
+      width: 100%;
+      display: block;
+      background: $gray-color;
+      @include border-radius(20px);
+
+      .icon {
+        position: absolute;
+        font-size: 20px;
+        left: 15px;
+        padding-top: 4px;
+      }
     }
-    input:focus {
-      outline: none;
+
+    input {
+      padding: 8px 15px 8px 45px;
+      width: 100%;
+      border: none;
+      background: transparent;
+      vertical-align: text-bottom;
+
+      &:focus {
+        outline: none;
+      }
     }
 
     .icon {
-      padding: 0px 7px;
-      font-size: 20px;
+      display: inline-block;
+      font-size: 24px;
+      padding-top: 1px;
     }
   }
-  .search-field {
-    width: 100%;
-    display: block;
-    border: 0;
-    background: $gray-color;
-    cursor: pointer;
-    border-radius: 20px;
   
-    &:focus {
-      outline: 0;
-    }
-  }
 }
 
+.inline-input-label{
+  display:inline;
+}
+
+.optional-span{
+  font-size: 10px;
+  color: $gray-dark-color;
+  margin-left: 1px;
+}
 
 .input-filter-size {
-  width: 80%;
+  width: 100%;
   margin-bottom: 5px;
 }
 .modal-label-filter {
   margin-bottom: 5px;
   display: block;
-  font-weight: 500;
+  font-weight: 400;
 }
