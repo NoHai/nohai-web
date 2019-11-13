@@ -1,9 +1,10 @@
 import { EventDetailsViewModel } from '../../contracts/models';
 
-export interface EventCardButtonProps {
+export interface EventDetailsFooterProps {
   event: EventDetailsViewModel;
   userId: string;
   requestSent: boolean;
-  onJoinClick: () => void;
-  onEditClick: () => void;
+  leaveEvent: () => void;
+  cancelEvent: () => void;
+  cancelRequest: () => void;
 }

@@ -10,21 +10,27 @@ import { LocalStorage } from '../../../../contracts/enums/localStorage/local-sto
 import LocalStorageHelper from '../../../../helpers/local-storage.helper';
 import { SportModel } from '../../../../contracts/models/sport.model';
 import CreateEventFooter from '../../../../components/create-event-footer/create-event-footer.component';
+import HistoryHelper from '../../../../utilities/core/history';
 const { confirm } = Modal;
 
 registerSchema(ParticipantsDetailsSchema);
 
 class ParticipantsDetailsEventPage extends Component<any, any> {
+  private isEditable: boolean = false;
   state = {
     eventDetails: new EventDetailsViewModel(),
   };
 
   componentDidMount() {
+    this.isEditable = HistoryHelper.containsPath('/edit-event');
+    const eventDetails = LocalStorageHelper.GetItemFromLocalStorage(
+      LocalStorage.CreateEvent,
+      this.state.eventDetails
+    );
+
+    eventDetails.participantsDetails.IsValid = this.isEditable;
     this.setState({
-      eventDetails: LocalStorageHelper.GetItemFromLocalStorage(
-        LocalStorage.CreateEvent,
-        this.state.eventDetails
-      ),
+      eventDetails: eventDetails,
     });
   }
 
@@ -115,29 +121,41 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
           LeftButtonIcon={'mdi-calendar-remove'}
           LeftButtonText={'Renunta'}
           onRightButtonClick={() => this.goToLocationDetails()}
-          onLeftButtonClick={() => this.dropEventDraft()}
+          onLeftButtonClick={() => this.dropEventDraft(this)}
           isValid={this.state.eventDetails.participantsDetails.IsValid}
         ></CreateEventFooter>
       </div>
     );
   }
 
-  private async dropEventDraft() {
+  private async dropEventDraft(context: any) {
+    const title = HistoryHelper.containsPath('/edit-event')
+      ? 'Esti sigur ca vrei sa renunti la editare?'
+      : 'Esti sigur ca vrei sa renunti la crearea evenimentului?';
     confirm({
-      title: 'Esti sigur ca vrei sa renunti la crearea evenimentului?',
+      title: title,
       okText: 'Da',
       okType: 'danger',
       cancelText: 'Nu',
       onOk() {
-        history.goHome();
+        context.onOkClick();
       },
       onCancel() {},
     });
   }
 
+  onOkClick() {
+    LocalStorageHelper.DeleteItemFromLocalStorage(LocalStorage.CreateEvent);
+    this.isEditable
+      ? history.push(`/details/${this.state.eventDetails.event.Id}`)
+      : history.goHome();
+  }
+
   goToLocationDetails() {
     LocalStorageHelper.SaveItemToLocalStorage(LocalStorage.CreateEvent, this.state.eventDetails);
-    history.push('/create-event/location-details');
+    this.isEditable
+      ? history.push('/edit-event/location-details')
+      : history.push('/create-event/location-details');
   }
 }
 

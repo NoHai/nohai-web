@@ -68,6 +68,18 @@ class EventHelperClass {
       ? event.participantsDetails.FreeSpots - event.participants.filter(x => x.Status === 1).length
       : null;
   }
+
+  public generateTitle(eventDetails:any) {
+    return eventDetails.sport.Name
+      ? `${eventDetails.sport.Name},
+    ${moment(eventDetails.description.StartDate)
+      .locale('ro')
+      .format('dddd')}
+    ${moment(eventDetails.description.StartDate).format('DD')} ${moment(
+          eventDetails.description.StartDate
+        ).format('MMMM')} ora ${eventDetails.description.StartTime}`
+      : '';
+  }
 }
 
 const EventHelper = EventHelperClass.getInstance();

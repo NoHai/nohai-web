@@ -29,4 +29,22 @@
     cursor: pointer;
     @include user-select-none();
   }
+
+  .logo {
+    display: block;
+    text-indent: -9999px;
+    width: 80px;
+    height: 28px;
+    background: url(/assets/nohai-logo.svg) no-repeat;
+    background-size: contain;
+  }
+
+  .logo-login {
+    display: block;
+    text-indent: -9999px;
+    width: 100px;
+    height: 30px;
+    background: url(/assets/login-logo.svg) no-repeat;
+    background-size: 85px 30px;
+  }
 }

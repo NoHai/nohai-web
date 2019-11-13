@@ -7,10 +7,22 @@ import MapModelHelper from '../../helpers/map-model.helper';
 
 class EventRepositoryController implements IEventRepository {
   public async Find(data: FindEventRequest): Promise<ListModel<EventDetailsViewModel>> {
+    const parameter: any = {
+      parameter: {
+        sports: data.sports,
+        startDate: data.startDate,
+        searchText: data.searchText,
+        showHistory: data.showHistory,
+        pagination: { pageSize: data.pageSize, pageIndex: data.pageIndex }
+      }
+    };
+
     const query = gql`
-            query {events(parameter: {showHistory:${data.showHistory}, pagination: {pageSize:${data.pageSize} , pageIndex: ${data.pageIndex}}}) {
+            query  events($parameter: SearchEventsParameter!){
+              events(parameter: $parameter) {
                 items {
                     id
+                    status
                     owner{
                         id
                         firstName
@@ -26,7 +38,8 @@ class EventRepositoryController implements IEventRepository {
                         county
                     }
                     sport{
-                        name,
+                        id
+                        name
                         defaultParticipantsNumber
                         imagePath
                       }
@@ -39,22 +52,23 @@ class EventRepositoryController implements IEventRepository {
                     level
                     createdDate
                 },
-                totalCount
-                }
+              totalCount
+              }
             }`;
 
-    const response: any = await GraphqlClient.query(query);
+    const response: any = await GraphqlClient.queryWithVariables(query, parameter);
     const results = await this.GetEventsMap(response.events);
     return results;
   }
 
   public async Get(parameter: any): Promise<EventDetailsViewModel> {
-    const variables: any = { parameter: parameter };
+    const variables: any = { parameter };
     const query = gql`
       query eventDetails($parameter: String!) {
         eventDetails(parameter: $parameter) {
           event {
             id
+            status
             owner {
               id
               firstName
@@ -73,6 +87,7 @@ class EventRepositoryController implements IEventRepository {
               county
             }
             sport {
+              id
               name
               defaultParticipantsNumber
               imagePath
@@ -105,6 +120,7 @@ class EventRepositoryController implements IEventRepository {
   public async Create(eventDetails: EventDetailsViewModel): Promise<EventDetailsViewModel> {
     const input: any = {
       event: {
+        id: eventDetails.event.Id,
         description: eventDetails.description.Description,
         address: {
           streetName: eventDetails.locationDetails.StreetName,
@@ -123,19 +139,20 @@ class EventRepositoryController implements IEventRepository {
         startTime: eventDetails.description.StartTime,
         endTime: eventDetails.description.EndTime,
         level: eventDetails.participantsDetails.Level,
+        owner: { id: eventDetails.owner.Id },
       },
     };
 
-    const createEventMutation = gql`
-      mutation crateEventMutation($event: EventInput!) {
-        createEvent(input: $event) {
+    const saveEventMutation = gql`
+      mutation saveEventMutation($event: EventInput!) {
+        saveEvent(input: $event) {
           id
         }
       }
     `;
 
-    const result: any = await GraphqlClient.mutate(createEventMutation, input);
-    return result.createEvent.id;
+    const result: any = await GraphqlClient.mutate(saveEventMutation, input);
+    return result.saveEvent.id;
   }
 
   Update(data: EventDetailsViewModel): Promise<EventDetailsViewModel> {
@@ -169,7 +186,7 @@ class EventRepositoryController implements IEventRepository {
   }
 
   async CancelPendingRequest(parameter: any): Promise<ResultModel<boolean>> {
-    let input: any = { parameter: parameter };
+    const input: any = { parameter };
 
     const cancelPendingRequestMutation = gql`
       mutation cancelPendingRequest($parameter: String!) {
@@ -234,10 +251,10 @@ class EventRepositoryController implements IEventRepository {
   }
 
   private async GetEventsMap(model: any) {
-    let result = new ListModel<EventDetailsViewModel>();
+    const result = new ListModel<EventDetailsViewModel>();
     result.Total = model.totalCount;
     model.items.forEach((element: any) => {
-      let event = MapModelHelper.MapEvent(element);
+      const event = MapModelHelper.MapEvent(element);
       result.Data.push(event);
     });
 

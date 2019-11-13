@@ -17,6 +17,9 @@ class EventMembersListModal extends Component<any, any> {
     user ? (this.userId = user.userId) : (this.userId = '');
   }
   render() {
+    const members = this.props.members
+    ? this.props.members.filter((member: any) => member.Status === 1)
+    : new Array<any>();
     return (
       <GenericModal
         title="Participanti"
@@ -25,7 +28,7 @@ class EventMembersListModal extends Component<any, any> {
       >
         <List
           size="small"
-          dataSource={this.props.members}
+          dataSource={members}
           renderItem={item => (
             <EventMembersListItemModal
               eventId={this.props.eventId}

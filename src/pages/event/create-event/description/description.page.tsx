@@ -20,6 +20,7 @@ const timeFormat = 'HH:mm';
 const dateFormat = 'YYYY:MM:DD';
 
 class DescriptionEventPage extends Component<any, any> {
+  private isEditable: boolean = false;
   state = {
     eventDetails: new EventDetailsViewModel(),
     validEndDate: false,
@@ -29,10 +30,13 @@ class DescriptionEventPage extends Component<any, any> {
   };
 
   async componentDidMount() {
+    this.isEditable = HistoryHelper.containsPath('/edit-event');
     let eventDetails = LocalStorageHelper.GetItemFromLocalStorage(
       LocalStorage.CreateEvent,
       this.state.eventDetails
     );
+    eventDetails.description.IsValid = this.isEditable;
+
     const validEndDate = await this.checkDates(eventDetails.description);
     this.setState({
       eventDetails: eventDetails,
@@ -207,10 +211,17 @@ class DescriptionEventPage extends Component<any, any> {
     );
   }
   async checkDates(description: DescriptionEventModel) {
-    let result=moment(description.StartDate, dateFormat).isSame(moment(description.EndDate, dateFormat))
-    ? moment(description.StartTime, timeFormat) < moment(description.EndTime, timeFormat)
-    : moment(description.StartDate, dateFormat).isBefore(moment(description.EndDate, dateFormat));
-    return result;
+    const startDate = this.isEditable
+      ? moment(description.StartDate)
+      : moment(description.StartDate, dateFormat);
+    const endDate = this.isEditable
+      ? moment(description.EndDate)
+      : moment(description.EndDate, dateFormat);
+    const startTime = moment(description.StartTime, timeFormat);
+    const endTime = moment(description.EndTime, timeFormat);
+    let result = startDate.isSame(endDate);
+    let test = result ? startTime < endTime : startDate.isBefore(endDate);
+    return test;
   }
 
   disabledDate(current: any, type: string) {
@@ -221,11 +232,13 @@ class DescriptionEventPage extends Component<any, any> {
 
   goToLocationDetails() {
     LocalStorageHelper.SaveItemToLocalStorage(LocalStorage.CreateEvent, this.state.eventDetails);
-    history.push('/create-event/location-details');
+    this.isEditable
+      ? history.push('/edit-event/location-details')
+      : history.push('/create-event/location-details');
   }
   goToDetails() {
     LocalStorageHelper.SaveItemToLocalStorage(LocalStorage.CreateEvent, this.state.eventDetails);
-    history.push('/create-event/preview');
+    this.isEditable ? history.push('/edit-event/preview') : history.push('/create-event/preview');
   }
 }
 
