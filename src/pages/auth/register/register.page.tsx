@@ -145,8 +145,7 @@ class RegisterPage extends Component<any, any> {
     } else {
       const registered = await AuthService.register(this.state.registerDetails.user);
       if (registered) {
-        this.loginRegisterdUser();
-        this.storeRegisterDetails();
+        history.push("/email-validation")
       }
     }
   }
