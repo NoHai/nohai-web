@@ -26,9 +26,9 @@ class EventHelperClass {
   }
 
   public getDate(event: EventDetailsViewModel) {
-    const startDate = moment(event.description.StartDate).format("YYYY-MM-DD");
+    const startDate = moment(event.description.StartDate).format('YYYY-MM-DD');
     const startDateString = DateHelper.GetDateFormat(startDate, 'dddd, DD MMMM');
-    const endDate =moment(event.description.EndDate).format("YYYY-MM-DD");
+    const endDate = moment(event.description.EndDate).format('YYYY-MM-DD');
     const endDateString = DateHelper.GetDateFormat(endDate, 'dddd, DD MMMM');
 
     return startDate === endDate ? startDateString : `${startDateString} - ${endDateString}`;
@@ -63,13 +63,41 @@ class EventHelperClass {
     );
   }
 
+  public isAlreadyPast(event: EventDetailsViewModel) {
+    var result = false;
+    if (event.description.EndDate) {
+      const endDate = moment(event.description.EndDate).format('YYYY-MM-DD');
+      const endTime = moment(event.description.EndTime, 'HH:mm').format('HH:mm');
+      const endDateTime = moment(endDate + ' ' + endTime, 'YYYY-MM-DD HH:mm');
+
+      const currentDate = moment();
+
+      result = endDateTime.isBefore(currentDate);
+    }
+    return result;
+  }
+
+  public isHappeningNow(event: EventDetailsViewModel) {
+    const startDate = moment(event.description.StartDate).format('YYYY-MM-DD');
+    const startTime = moment(event.description.StartTime, 'HH:mm').format('HH:mm');
+    const startDateTime = moment(startDate + ' ' + startTime, 'YYYY-MM-DD HH:mm');
+    const endDate = moment(event.description.EndDate).format('YYYY-MM-DD');
+    const endTime = moment(event.description.EndTime, 'HH:mm').format('HH:mm');
+    const endDateTime = moment(endDate + ' ' + endTime, 'YYYY-MM-DD HH:mm');
+
+    const currentDate = moment();
+
+    const result = currentDate.isBetween(startDateTime, endDateTime);
+    return result;
+  }
+
   public getAvailableSpots(event: EventDetailsViewModel) {
     return event.participantsDetails.FreeSpots > 0
       ? event.participantsDetails.FreeSpots - event.participants.filter(x => x.Status === 1).length
       : null;
   }
 
-  public generateTitle(eventDetails:any) {
+  public generateTitle(eventDetails: any) {
     return eventDetails.sport.Name
       ? `${eventDetails.sport.Name},
     ${moment(eventDetails.description.StartDate)

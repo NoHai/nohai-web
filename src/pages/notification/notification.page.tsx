@@ -139,6 +139,7 @@ class NotificationPage extends Component {
             avatarUrl={notification.AvatarUrl}
             actionType={notification.NotificationType}
             status={notification.Status}
+            createdDate={notification.CreatedDate}
             onButtonClick={(action, eventId, args) =>
               this.onButtonClickHandler(action, eventId, args)
             }

@@ -4,6 +4,7 @@ import { Row, Col, Button } from 'antd';
 import { NotificationCardProps } from './notification-card.props';
 import { ActionType, ActionButtonType } from '../../contracts/enums/common';
 import AvatarHelper from '../../helpers/avatar.helper';
+import DateHelper from '../../helpers/date.helper';
 
 class NotificationCard extends Component<NotificationCardProps> {
   render() {
@@ -36,36 +37,40 @@ class NotificationCard extends Component<NotificationCardProps> {
   }
 
   getCardButtons() {
-    if (this.props.actionType === ActionType.Request) {
       return (
         <Row className="item-card-icons">
-          <Col span={12} />
+          <Col span={12} className="created-date">
+            Trimisa in {DateHelper.GetDateFormat(this.props.createdDate, 'DD-MM-YYYY')}
+          </Col>
           <Col span={6} className="text-center">
-            <Button
-              type="link"
-              className="link gray-color"
-              block
-              onClick={() => {
-                this.onButtonClickHandler(ActionButtonType.Reject);
-              }}
-            >
-              Refuza
-            </Button>
+            {this.props.actionType === ActionType.Request && (
+              <Button
+                type="link"
+                className="link gray-color"
+                block
+                onClick={() => {
+                  this.onButtonClickHandler(ActionButtonType.Reject);
+                }}
+              >
+                Refuza
+              </Button>
+            )}
           </Col>
           <Col span={6} className="text-right">
-            <Button
-              type="primary"
-              block
-              onClick={() => {
-                this.onButtonClickHandler(ActionButtonType.Approve);
-              }}
-            >
-              Accepta
-            </Button>
+            {this.props.actionType === ActionType.Request && (
+              <Button
+                type="primary"
+                block
+                onClick={() => {
+                  this.onButtonClickHandler(ActionButtonType.Approve);
+                }}
+              >
+                Accepta
+              </Button>
+            )}
           </Col>
         </Row>
       );
-    }
   }
 
   private onButtonClickHandler(action: ActionButtonType) {

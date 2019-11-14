@@ -4,7 +4,8 @@
 .event-filter {
   .event-filter-wrapper {
     border-bottom: 1px solid $gray-color;
-    padding: 15px 15px;
+    padding: 8px 50px 8px 15px;
+    position: relative;
 
     .search-field {
       position: relative;
@@ -17,12 +18,11 @@
         position: absolute;
         font-size: 20px;
         left: 15px;
-        padding-top: 4px;
       }
     }
 
     input {
-      padding: 8px 15px 8px 45px;
+      padding: 4px 15px 3px 45px;
       width: 100%;
       border: none;
       background: transparent;
@@ -36,17 +36,21 @@
     .icon {
       display: inline-block;
       font-size: 24px;
-      padding-top: 1px;
+
+      &.filter-button {
+        position: absolute;
+        right: 15px;
+        top: 5px;
+      }
     }
   }
-  
 }
 
-.inline-input-label{
-  display:inline;
+.inline-input-label {
+  display: inline;
 }
 
-.optional-span{
+.optional-span {
   font-size: 10px;
   color: $gray-dark-color;
   margin-left: 1px;
@@ -60,4 +64,7 @@
   margin-bottom: 5px;
   display: block;
   font-weight: 400;
+}
+.filter-modal-select{
+  margin-bottom: 15px
 }

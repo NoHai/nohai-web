@@ -11,9 +11,10 @@ class EventDetailsFooterButtons extends Component<EventDetailsFooterProps> {
     const isInPending = EventHelper.isUserPending(this.props.event, this.props.userId);
     const isOwner = EventHelper.isOwner(this.props.event, this.props.userId);
     const isUnavailable = !this.props.event.status;
+    const isEventStartedOrPased=EventHelper.isHappeningNow(this.props.event)||EventHelper.isAlreadyPast(this.props.event);
     return (
       <div>
-        {!isUnavailable && isOwner
+        {!isUnavailable &&!isEventStartedOrPased && isOwner
           ? this.cancelEventSection()
           : !isUnavailable && isAlreadyAccepted
           ? this.leaveEventSection()

@@ -78,6 +78,7 @@ export default class MapModelHelper {
       result.Status = model.status;
       result.Title = model.title;
       result.UserId = model.userId;
+      result.CreatedDate = model.createdDate;
     }
     return result;
   }

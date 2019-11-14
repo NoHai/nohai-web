@@ -22,7 +22,7 @@ class EventMembersListItemModal extends Component<EventMembersListItemModalProps
             </Typography.Text>{' '}
             {this.props.member.FirstName} {this.props.member.LastName}
           </Col>
-          {this.props.isOwner && (
+          {this.props.isOwner && !this.props.isEventStartedOrPased && (
             <Col span={8} className="text-right">
               <Button
                 size="default"
@@ -49,10 +49,14 @@ class EventMembersListItemModal extends Component<EventMembersListItemModalProps
             >
               Nu
             </Button>
-            <Button className="action-button" size="default" type="danger"
-             onClick={() => {
-              this.props.onKickoutParticipant(this.props.member.Id);
-            }}>
+            <Button
+              className="action-button"
+              size="default"
+              type="danger"
+              onClick={() => {
+                this.props.onKickoutParticipant(this.props.member.Id);
+              }}
+            >
               Da
             </Button>
           </div>

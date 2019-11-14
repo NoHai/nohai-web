@@ -22,25 +22,17 @@ class EventFilter extends Component<EventFilterProps> {
   render() {
     return (
       <div className="event-filter">
-        <Row align="middle" className="event-filter-wrapper">
-          <Col span={21}>
-            <div className="search-field">
-              <span className="icon mdi mdi-magnify"></span>
-              <input
-                className="input"
-                onChange={e => this.onSearchChange(e)}
-                placeholder="Cauta evenimente..."
-              ></input>
-            </div>
-          </Col>
+        <div className="event-filter-wrapper">
+          <div className="search-field">
+            <span className="icon mdi mdi-magnify"></span>
+            <input onChange={e => this.onSearchChange(e)} placeholder="Cauta evenimente..."></input>
+          </div>
 
-          <Col span={3} className="text-right">
-            <div
-              className="icon mdi mdi-filter margin-top"
-              onClick={() => this.toggleShowModal()}
-            ></div>
-          </Col>
-        </Row>
+          <div
+            className="icon mdi mdi-filter margin-top filter-button"
+            onClick={() => this.toggleShowModal()}
+          ></div>
+        </div>
 
         <Modal
           title="Filtreaza evenimentele"
@@ -48,17 +40,20 @@ class EventFilter extends Component<EventFilterProps> {
           onOk={() => this.applyyFilter()}
           onCancel={() => this.toggleShowModal()}
         >
-            <label className="inline-input-label">Dupa sport</label>
-            <span className="optional-span">(Optional)</span>
-          <div className="event-filter">
+          <label className="inline-input-label">Dupa sport</label>
+          <span className="optional-span">(Optional)</span>
+          <div className="filter-modal-select">
             <Select
               className="input-filter-size"
               size="default"
               placeholder="Selecteaza Sportul"
               onChange={(value: string) => {
-                if (this.eventRequest.sports) this.eventRequest.sports.push(value);
+                this.sportChange(value);
               }}
             >
+              <Option key={27895} value={''}>
+                {'Nici un sport selectat'}
+              </Option>
               {this.sports.Data.map((element: any, index: any) => (
                 <Option key={index} value={element.Id}>
                   {element.Name}
@@ -67,11 +62,11 @@ class EventFilter extends Component<EventFilterProps> {
             </Select>
           </div>
           <label className="inline-input-label">Dupa data de inceput</label>
-            <span className="optional-span">(Optional)</span>
+          <span className="optional-span">(Optional)</span>
           <DatePicker
             className="input-filter-size"
             onChange={(date, dateString) => {
-              this.eventRequest.startDate = dateString;
+              this.dateChange(dateString);
             }}
             placeholder={'Alege Data'}
             size="default"
@@ -89,6 +84,20 @@ class EventFilter extends Component<EventFilterProps> {
   private applyyFilter() {
     this.props.onOk(this.eventRequest);
     this.toggleShowModal();
+  }
+
+  private sportChange(value: string) {
+    this.eventRequest.sports = [];
+    if (value !== '') {
+      this.eventRequest.sports.push(value);
+    }
+  }
+
+  private dateChange(date: string) {
+    this.eventRequest.sports = [];
+    if (date !== '') {
+      this.eventRequest.startDate = date;
+    }
   }
 
   private toggleShowModal() {

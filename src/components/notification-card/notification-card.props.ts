@@ -8,6 +8,7 @@ export interface NotificationCardProps {
   avatarUrl: string;
   eventId: string;
   status: number;
+  createdDate:string;
   onButtonClick?: (
     action: ActionButtonType,
     notificationId: any,

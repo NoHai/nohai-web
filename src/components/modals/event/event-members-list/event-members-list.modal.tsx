@@ -33,6 +33,7 @@ class EventMembersListModal extends Component<any, any> {
             <EventMembersListItemModal
               eventId={this.props.eventId}
               isOwner={EventHelper.isOwner(this.props.eventDetails, this.userId)}
+              isEventStartedOrPased={EventHelper.isHappeningNow(this.props.eventDetails)||EventHelper.isAlreadyPast(this.props.eventDetails)}
               member={item}
               onKickoutParticipant={e => this.kickoutParticipant(e)}
             ></EventMembersListItemModal>

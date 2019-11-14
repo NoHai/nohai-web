@@ -16,19 +16,28 @@ export class EventCardButton extends Component<EventCardButtonProps> {
     const isInPending = EventHelper.isUserPending(this.props.event, this.props.userId);
     const isOwner = EventHelper.isOwner(this.props.event, this.props.userId);
     const isUnavailable = !this.props.event.status;
+    const isAlreadyPast = EventHelper.isAlreadyPast(this.props.event);
+    const isHappeningNow = EventHelper.isHappeningNow(this.props.event);
 
-    if (!isUnavailable && isOwner) {
+    if (!isUnavailable && !isAlreadyPast && !isHappeningNow && isOwner) {
       button = this.getCancelButton();
-    } else if (!isUnavailable && isAlreadyAccepted) {
+    } else if (!isUnavailable && isAlreadyAccepted && !isAlreadyPast && !isHappeningNow) {
       button = this.getApprovedButton();
-    } else if (!isUnavailable && (isInPending || this.props.requestSent)) {
+    } else if (
+      !isUnavailable &&
+      !isAlreadyPast &&
+      !isHappeningNow &&
+      (isInPending || this.props.requestSent)
+    ) {
       button = this.getPendingButton();
-    } else if (!isUnavailable && isAvailable) {
+    } else if (!isUnavailable && !isAlreadyPast && !isHappeningNow && isAvailable) {
       button = this.getJoinButton();
+    } else if (!isUnavailable && isAlreadyPast) {
+      button = this.getAlreadyPastButton();
+    } else if (!isUnavailable && isHappeningNow) {
+      button = this.getHappeningNowButton();
     } else if (isUnavailable) {
       button = this.getUnavailableButton();
-    } else if (isUnavailable) {
-      button = <div />;
     }
 
     return <div className="event-card-button">{button}</div>;
@@ -134,6 +143,26 @@ export class EventCardButton extends Component<EventCardButtonProps> {
             disabled
             className="join-button"
           ></Button>
+        </Col>
+      </Row>
+    );
+  }
+
+  private getAlreadyPastButton() {
+    return (
+      <Row type="flex" align="middle">
+        <Col span={24} className="join-text">
+          Eveniment Expirat
+        </Col>
+      </Row>
+    );
+  }
+
+  private getHappeningNowButton() {
+    return (
+      <Row type="flex" align="middle">
+        <Col span={24} className="join-text">
+          Eveniment in delurare
         </Col>
       </Row>
     );
