@@ -19,7 +19,7 @@ class CreateEventFooter extends Component<CreateEventFooterProps> {
     const centerButtonText = this.props.CenterButtonText ? this.props.CenterButtonText : 'Editeaza';
     const rightButtonText = this.props.RightButtonIcon ? this.props.RightButtonText : 'Inainte';
 
-    const colSize= this.props.ShowCenterButton? 8 : 8;
+    const colSize = this.props.ShowCenterButton ? 8 : 8;
 
     return (
       <div className="event-footer-component">
