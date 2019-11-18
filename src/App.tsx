@@ -71,7 +71,8 @@ class App extends Component<any, any> {
               />
 
               <Route path="/clear-app" component={clearStoragePage} />
-              <Route path="/email-validation" component={EmailValidation} />
+              <Route exact={true} path="/email-validation" component={EmailValidation} />
+              <Route path="/email-validation/:token" component={EmailValidation} />
 
               <PrivateRoute
                 component={WrapperPage}

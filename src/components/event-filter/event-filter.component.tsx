@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, DatePicker, Select, Row, Col } from 'antd';
+import { Modal, DatePicker, Select } from 'antd';
 import { SportModel } from '../../contracts/models/sport.model';
 import { ListModel } from '../../contracts/models';
 import './event-filter.component.scss';

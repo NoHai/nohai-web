@@ -65,19 +65,17 @@ class UserRepositoryController implements IUserRepository {
 
   public async Activate(email: string): Promise<boolean>{
     const parameter: any = {
-      email
+      parameter: email
     };
 
     const activateMutation = gql`
       mutation activateMutation($parameter: String!) {
-        activateUser(parameter: $parameter) {
-          id
-        }
+        activateUser(parameter: $parameter)
       }
     `;
 
     const result: any = await GraphqlClient.mutate(activateMutation, parameter);
-    return  result.activateUser.id && result.activateUser.id.length > 0 ? true : false;
+    return  result.activateUser;
   }
 }
 

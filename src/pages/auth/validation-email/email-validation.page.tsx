@@ -6,7 +6,9 @@ import MessageHelper from '../../../helpers/message.helper';
 import history from '../../../utilities/core/history';
 import { UserService } from '../../../business/services/user.service';
 import LoadingHelper from '../../../helpers/loading.helper';
-class EmailValidation extends Component<any> {
+import { Button } from 'antd';
+
+class EmailValidation extends Component<any, any> {
   state = { email: '', hasToken: false, activated: false };
 
   async componentDidMount() {
@@ -18,30 +20,31 @@ class EmailValidation extends Component<any> {
   }
 
   public render() {
-    if (this.state.hasToken === false) {
+    if (!this.state.hasToken) {
       return (
-        <div className="auth-page">
+        <div className="email-validation-page">
           <div className="email-validation-img"></div>
-          <span className="text-center invert">Multumim pentru inregistrare</span>
-          <span className="text-center invert">
-            Te rugam sa verifici adresa de email pentru a confirma inregistrarea.
+          <span className="text-center title">Multumim pentru inregistrare!</span>
+          <span className="text-center">
+            Te rugam sa iti verifici adresa de email pentru a confirma inregistrarea.
           </span>
         </div>
       );
-    } else if (this.state.activated == true) {
+    } else if (this.state.activated) {
       return (
-        <div className="auth-page">
+        <div className="email-validation-page">
           <div className="email-validation-img"></div>
-          <span className="text-center invert">Contul tau a fost inregistrat</span>
-          <span className="text-center invert">Bine ai venit in echipa NoHai!</span>
+          <span className="text-center title">Bine ai venit in echipa NoHai!</span>
+          <span className="text-center">Contul dvs a fost inregistrat, acum va puteti loga in aplicatie</span>
+          <Button type="primary" className="login-button" onClick={()=>this.redirectToLogin()}>Continua cu logarea</Button>
         </div>
       );
     } else {
       return (
-        <div className="auth-page">
+        <div className="email-validation-page">
           <div className="email-validation-img"></div>
-          <span className="text-center invert">Activarea contului a esuat</span>
-          <span className="text-center invert">Incearca din nou!</span>
+          <span className="text-center title">Incearca din nou!</span>
+          <span className="text-center">Activarea contului a esuat</span>
         </div>
       );
     }
@@ -50,8 +53,8 @@ class EmailValidation extends Component<any> {
   private async activateUser(token: string) {
     LoadingHelper.showLoading();
 
-    this.processToken(token);
-    const result = await UserService.ActivateUser(this.state.email);
+    const decodedToken = this.processToken(token);
+    const result = await UserService.ActivateUser(decodedToken.email);
     this.setState({ activated: result });
 
     LoadingHelper.hideLoading();
@@ -66,6 +69,7 @@ class EmailValidation extends Component<any> {
       MessageHelper.showWarning('Ne pare rau dar link-ul a expirat!');
       this.redirectToLogin();
     }
+    return decodedToken;
   }
 
   redirectToLogin() {

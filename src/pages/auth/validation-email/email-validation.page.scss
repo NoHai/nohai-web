@@ -1,8 +1,33 @@
-   .email-validation-img{
-        width: 70%;
-        height: 50%;
-        max-height: 200px;
-        background: url('/assets/unlock.svg') no-repeat;
-        background-size: contain;
-        background-position: center;
-    }
+@import './../login/login.page';
+.email-validation-page {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-size: cover;
+  overflow-y: auto;
+  padding: 100px 20px;
+  .email-validation-img {
+    width: 100%;
+    height: 50%;
+    max-height: 200px;
+    background: url('/assets/unlock.svg') no-repeat;
+    background-size: contain;
+    background-position: center;
+  }
+
+  .title {
+    font-weight: 700;
+    font-size: 17px;
+    margin: 35px;
+  }
+
+  .login-button {
+    width: 70%;
+    align-self: center;
+    margin-top: 40px;
+  }
+}
