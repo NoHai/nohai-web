@@ -4,6 +4,7 @@ import { UserService } from '../../business/services';
 import { UserViewModel } from '../../contracts/view-models/user-view.model';
 import moment from 'moment';
 import AvatarHelper from '../../helpers/avatar.helper';
+import EventCardOption from '../../components/event-card-option/event-card-option.component';
 
 class UserProfilePage extends Component {
   state = {
@@ -22,8 +23,8 @@ class UserProfilePage extends Component {
       moment().diff(moment(this.state.userDetails.details.Day, 'DD/MM/YYYY'), 'years') || '';
 
     return (
-      <div className="user-profile full-height">
-        <div className="page-sections">
+      <div className="user-profile event-list-item full-height">
+        <div className="page-sections item-card ">
           <div className="page-section page-section-large">
             <div className="text-align">
               <div
@@ -40,22 +41,38 @@ class UserProfilePage extends Component {
             </div>
 
             <div className="user-profile-content">
-              <div className="margin-bottom">
                 <div className="section-header">Despre</div>
-                  <p>
-                    Nascut(a) in data de{' '}
-                    {moment(this.state.userDetails.details.Day, 'DD/MM/YYYY').day()}{' '}
-                    {moment(this.state.userDetails.details.Day, 'DD/MM/YYYY').format('MMMM')}{' '}
-                    {moment(this.state.userDetails.details.Day, 'DD/MM/YYYY').format('YYYY')}, {age}{' '}
-                    de ani. Pasionat de {this.state.userDetails.sport.Name}.
-                  </p>
-              </div>
-
+                <div className="body-sections">
+                  <EventCardOption
+                    title={'Data Nasterii'}
+                    iconClass="mdi mdi-calendar-outline"
+                    description={`${moment(
+                      this.state.userDetails.details.Day,
+                      'DD/MM/YYYY'
+                    ).day()} ${moment(this.state.userDetails.details.Day, 'DD/MM/YYYY').format(
+                      'MMMM'
+                    )} ${moment(this.state.userDetails.details.Day, 'DD/MM/YYYY').format('YYYY')}`}
+                  />
+                  <EventCardOption
+                    title={'Varsta '}
+                    iconClass="mdi mdi-account-multiple"
+                    description={`${age} de ani`}
+                  />
+                  <EventCardOption
+                    title={'Pasiuni '}
+                    iconClass="mdi mdi-whistle"
+                    description={`${this.state.userDetails.sport.Name}`}
+                  />
+                </div>
               <div>
                 <div className="section-header">Contact</div>
-                  <p className="icon mdi mdi-email-outline inline">
-                   {this.state.userDetails.user.Email}
-                  </p>
+                <div className="body-sections email">
+                  <EventCardOption
+                    title={' '}
+                    iconClass="mdi mdi-email-outline"
+                    description={`${this.state.userDetails.user.Email}`}
+                  />
+                </div>
               </div>
             </div>
           </div>

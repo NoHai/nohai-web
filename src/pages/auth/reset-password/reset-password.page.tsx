@@ -15,9 +15,7 @@ interface TokenParams {
 }
 
 interface TokenProps {
-  required: string;
   match?: match<TokenParams>;
-  eventDetails: any;
 }
 
 class ResetPasswordPage extends Component<TokenProps> {

@@ -35,7 +35,9 @@ class DescriptionEventPage extends Component<any, any> {
       LocalStorage.CreateEvent,
       this.state.eventDetails
     );
-    eventDetails.description.IsValid = this.isEditable;
+    if (this.isEditable) {
+      eventDetails.description.IsValid = true;
+    }
 
     const validEndDate = await this.checkDates(eventDetails.description);
     this.setState({

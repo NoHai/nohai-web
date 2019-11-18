@@ -20,6 +20,7 @@ import LoadingHelper from './helpers/loading.helper';
 import { notification, Button } from 'antd';
 import { canBeInstalled, installApp } from './helpers/install-app.helper';
 import clearStoragePage from './pages/common/customer-support/clear-storage/clear-storage.page';
+import EmailValidation from './pages/auth/validation-email/email-validation.page';
 
 class App extends Component<any, any> {
   private AppConfig = new AppConfig();
@@ -70,6 +71,8 @@ class App extends Component<any, any> {
               />
 
               <Route path="/clear-app" component={clearStoragePage} />
+              <Route exact={true} path="/email-validation" component={EmailValidation} />
+              <Route path="/email-validation/:token" component={EmailValidation} />
 
               <PrivateRoute
                 component={WrapperPage}

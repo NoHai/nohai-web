@@ -54,7 +54,7 @@ class GoogleLocationAutoComplete extends Component<GoogleLocationAutoCompletePro
           placeholder={'Adresa'}
           value={this.state.streetName}
           onChange={e => this.handleAddressChange(e)}
-          onBlur={e=>this.sendAddress()}
+          onBlur={e => this.sendAddress()}
         />
       </div>
     );
@@ -64,8 +64,8 @@ class GoogleLocationAutoComplete extends Component<GoogleLocationAutoCompletePro
     var input = document.querySelector('#address');
     const google = (window as any).google;
     var defaultBounds = new google.maps.LatLngBounds(
-      new google.maps.LatLng(45.49552, 23.703),
-      new google.maps.LatLng(46.25466, 24.78516)
+      new google.maps.LatLng(43.66667, 20.48333),
+      new google.maps.LatLng(48.18333, 28.86667)
     );
 
     var options = {
@@ -95,7 +95,7 @@ class GoogleLocationAutoComplete extends Component<GoogleLocationAutoCompletePro
     });
   }
 
-  private sendAddress(){
+  private sendAddress() {
     const address: LocationEventDetailsModel = {
       City: '',
       County: '',
@@ -117,7 +117,7 @@ class GoogleLocationAutoComplete extends Component<GoogleLocationAutoCompletePro
 
       const address: LocationEventDetailsModel = {
         City: city,
-        County: county.substr(county.indexOf(' ') + 1),
+        County: county ? county.substr(county.indexOf(' ') + 1) : '',
         Latitude: latitude,
         Longitude: longitude,
         StreetName: streetName,

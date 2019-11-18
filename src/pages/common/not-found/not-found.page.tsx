@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import './not-found.page.scss';
 
 class PageNotFound extends Component {
   public render() {
-    return <div>Page not found</div>;
+    return <div className="page-not-found"></div>;
   }
 }
 

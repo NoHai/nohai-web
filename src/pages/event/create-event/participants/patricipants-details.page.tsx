@@ -27,8 +27,9 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
       LocalStorage.CreateEvent,
       this.state.eventDetails
     );
-
-    eventDetails.participantsDetails.IsValid = this.isEditable;
+    if (this.isEditable) {
+      eventDetails.participantsDetails.IsValid = true;
+    }
     this.setState({
       eventDetails: eventDetails,
     });

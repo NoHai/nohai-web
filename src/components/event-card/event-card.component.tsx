@@ -180,6 +180,7 @@ class EventCard extends Component<any, any> {
   }
 
   private goBack() {
+    this.isEditable?history.push('/edit-event/description'):
     history.push('/create-event/description');
   }
 }

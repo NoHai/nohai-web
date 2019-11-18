@@ -46,7 +46,7 @@ class UserRepositoryController implements IUserRepository {
     };
 
     const updateMutation = gql`
-      mutation userUpdateMutation($details: UpdateUserInput!) {
+      mutation updateMutation($details: UpdateUserInput!) {
         updateUser(input: $details) {
           id
         }
@@ -61,6 +61,21 @@ class UserRepositoryController implements IUserRepository {
 
   public Delete(data: any): Promise<ResultModel<boolean>> {
     throw new Error('Method not implemented.');
+  }
+
+  public async Activate(email: string): Promise<boolean>{
+    const parameter: any = {
+      parameter: email
+    };
+
+    const activateMutation = gql`
+      mutation activateMutation($parameter: String!) {
+        activateUser(parameter: $parameter)
+      }
+    `;
+
+    const result: any = await GraphqlClient.mutate(activateMutation, parameter);
+    return  result.activateUser;
   }
 }
 

@@ -7,15 +7,13 @@
 
   .text-align {
     text-align: center;
-    margin-top: 30px;
   }
 
-  .inline{
+  .inline {
     display: inline;
   }
-  
 
-  .section-header{
+  .section-header {
     font-size: 15px;
     font-weight: bold;
   }
@@ -44,7 +42,6 @@
     font-size: 17px;
     text-align: center;
     font-weight: bold;
-    margin-bottom: 15px;
   }
 
   input {
@@ -54,6 +51,19 @@
   }
 
   .user-profile-content {
-    padding: 25px;
+    padding: 12px 25px;
+  }
+
+  .body-sections {
+        margin-left: 20px;
+        margin-top: 5px;
+  }
+  .email{
+    .event-card-option {
+     .event-card-option-description:first-letter {
+      text-transform: lowercase;
+      margin-top: 3px;
+    }
+  }
   }
 }
