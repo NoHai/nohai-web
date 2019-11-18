@@ -156,7 +156,9 @@ class LocationDetailsEventPage extends Component<any, any> {
       LocalStorage.CreateEvent,
       new EventDetailsViewModel()
     );
-    eventDetails.locationDetails.IsValid = this.isEditable;
+    if (this.isEditable) {
+      eventDetails.locationDetails.IsValid = true;
+    }
     return eventDetails;
   }
 
