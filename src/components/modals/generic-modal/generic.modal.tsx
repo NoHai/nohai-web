@@ -25,10 +25,10 @@ class GenericModal extends Component<GenericModalProps> {
     return (
       <div className="modal-section-header">
         <Row type="flex" align="middle">
-          <Col span={12}>
+          <Col span={16}>
             <h2>{this.props.title}</h2>
           </Col>
-          <Col span={12} className="text-right">
+          <Col span={8} className="text-right">
             <Button
               type="link"
               icon="close"
@@ -48,7 +48,7 @@ class GenericModal extends Component<GenericModalProps> {
     return (
       <div className="modal-section-footer">
         <Row type="flex" align="middle">
-          <Col span={12}>
+          <Col span={8}>
             {!this.props.isInfoModal && (
               <Button
                 type="default"
@@ -60,7 +60,7 @@ class GenericModal extends Component<GenericModalProps> {
               </Button>
             )}
           </Col>
-          <Col span={12} className="text-right">
+          <Col span={16} className="text-right">
             <Button
               type="default"
               onClick={() => {
