@@ -77,6 +77,21 @@ class UserRepositoryController implements IUserRepository {
     const result: any = await GraphqlClient.mutate(activateMutation, parameter);
     return  result.activateUser;
   }
+
+  public async ResendActivationEmail(email: string): Promise<boolean>{
+    const parameter: any = {
+      parameter: email
+    };
+
+    const resendActivationEmailMutation = gql`
+      mutation resendActivationEmailMutation($parameter: String!) {
+        resendActivationEmail(parameter: $parameter)
+      }
+    `;
+
+    const result: any = await GraphqlClient.mutate(resendActivationEmailMutation, parameter);
+    return  result.resendActivationEmail;
+  }
 }
 
 export const UserRepository = new UserRepositoryController();
