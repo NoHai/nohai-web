@@ -39,7 +39,14 @@ self.addEventListener('push', function(event) {
     data: { url: data.notification.click_action },
   };
 
-  event.waitUntil(self.registration.showNotification(notificationTitle, notificationOptions))
+ 
+  event.waitUntil(
+    self.registration.showNotification(data.notification.title, {
+      body: data.notification.body,
+      icon: data.notificationicon,
+      tag: data.notification.tag,
+    })
+  );
   console.log('[Service Worker] Push Received.');
   console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
 });
