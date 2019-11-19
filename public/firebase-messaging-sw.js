@@ -33,12 +33,13 @@ const messaging = firebase.messaging();
 // });
 
 self.addEventListener('notificationclick', function(event) {
+  console.log(event);
   event.notification.close();
   event.waitUntil(self.clients.openWindow(event.notification.data));
 });
 
 self.addEventListener('push', function(event) {
-  const payload = event.data;
+  const payload = event.notification.data;
   console.log(event);
   var result = JSON.parse(payload);
   var notificationTitle = payload.notification.title; //or payload.notification or whatever your payload is
