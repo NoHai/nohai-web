@@ -26,7 +26,6 @@ messaging.setBackgroundMessageHandler(function(payload) {
   };
 
   return self.registration.showNotification(notificationTitle, notificationOptions);
-
 });
 
 self.addEventListener('notificationclick', function(event) {
@@ -34,7 +33,6 @@ self.addEventListener('notificationclick', function(event) {
   event.waitUntil(self.clients.openWindow(event.notification.data));
 });
 
-
-self.addEventListener('push', function (event) {
+self.addEventListener('push', function(event) {
   self.registration.hideNotification();
-}
+});
