@@ -16,37 +16,18 @@ const messaging = firebase.messaging();
 
 messaging.setBackgroundMessageHandler(function(payload) {
   var result = JSON.parse(payload);
-  //var notificationTitle = payload.notification.title; //or payload.notification or whatever your payload is
-  // var notificationOptions = {
-  //   body: payload.notification.body,
-  //   icon: payload.notification.icon,
-  //   time_to_live: result.time_to_live,
-  //   tag: result.tag,
-  //   data: { url: payload.notification.click_action },
-  // };
+  var notificationTitle = payload.notification.title; //or payload.notification or whatever your payload is
+  var notificationOptions = {
+    body: payload.notification.body,
+    icon: payload.notification.icon,
+    time_to_live: result.time_to_live,
+    tag: result.tag,
+    data: { url: payload.notification.click_action },
+  };
 
   //return self.registration.showNotification(notificationTitle, notificationOptions);
 
-
-self.addEventListener('push', function(event) {
-  console.log('Received a push message', event);
-
-  var title = payload.notification.body;
-  var body = payload.notification.icon;
-  var icon = payload.notification.icon;
-  var tag =  result.tag;
-  var data = { url: payload.notification.click_action };
-
-});
-
-  event.waitUntil(
-    self.registration.showNotification(title, {
-      body: body,
-      icon: icon,
-      tag: tag,
-      data: data
-    })
-  );
+  event.waitUntil(self.registration.showNotification(notificationTitle, notificationOptions));
 });
 
 self.addEventListener('notificationclick', function(event) {
