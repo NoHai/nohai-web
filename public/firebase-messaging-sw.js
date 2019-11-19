@@ -15,13 +15,10 @@ firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
 messaging.setBackgroundMessageHandler(function(payload) {
-  var result = JSON.parse(payload);
   var notificationTitle = payload.notification.title; //or payload.notification or whatever your payload is
   var notificationOptions = {
     body: payload.notification.body,
     icon: payload.notification.icon,
-    time_to_live: result.time_to_live,
-    tag: result.tag,
     data: { url: payload.notification.click_action },
   };
 
@@ -34,6 +31,15 @@ self.addEventListener('notificationclick', function(event) {
 });
 
 self.addEventListener('push', function(event) {
+  const data = event.data.text() 
+  var notificationTitle = data.notification.title; //or payload.notification or whatever your payload is
+  var notificationOptions = {
+    body: data.notification.body,
+    icon: data.notification.icon,
+    data: { url: data.notification.click_action },
+  };
+
+  event.waitUntil(self.registration.showNotification(notificationTitle, notificationOptions))
   console.log('[Service Worker] Push Received.');
   console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
 });
