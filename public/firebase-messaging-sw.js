@@ -34,5 +34,6 @@ self.addEventListener('notificationclick', function(event) {
 });
 
 self.addEventListener('push', function(event) {
-  self.registration.hideNotification();
+  console.log('[Service Worker] Push Received.');
+  console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
 });
