@@ -14,16 +14,16 @@ firebase.initializeApp(firebaseConfig);
 
 const messaging = firebase.messaging();
 
-messaging.setBackgroundMessageHandler(function(payload) {
-  var notificationTitle = payload.notification.title; //or payload.notification or whatever your payload is
-  var notificationOptions = {
-    body: payload.notification.body,
-    icon: payload.notification.icon,
-    data: { url: payload.notification.click_action },
-  };
+// messaging.setBackgroundMessageHandler(function(payload) {
+//   var notificationTitle = payload.notification.title; //or payload.notification or whatever your payload is
+//   var notificationOptions = {
+//     body: payload.notification.body,
+//     icon: payload.notification.icon,
+//     data: { url: payload.notification.click_action },
+//   };
 
-  return self.registration.showNotification(notificationTitle, notificationOptions);
-});
+//   return self.registration.showNotification(notificationTitle, notificationOptions);
+// });
 
 self.addEventListener('notificationclick', function(event) {
   event.notification.close();
@@ -32,21 +32,13 @@ self.addEventListener('notificationclick', function(event) {
 
 self.addEventListener('push', function(event) {
   const data = event.data.json();
-  var notificationTitle = data.notification.title; //or payload.notification or whatever your payload is
-  var notificationOptions = {
-    body: data.notification.body,
-    icon: data.notification.icon,
-    data: { url: data.notification.click_action },
-  };
-
  
   event.waitUntil(
     self.registration.showNotification(data.notification.title, {
       body: data.notification.body,
-      icon: data.notificationicon,
+      icon: data.notification.icon,
+      data: { url: data.notification.click_action },
       tag: data.notification.tag,
     })
   );
-  console.log('[Service Worker] Push Received.');
-  console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
 });
