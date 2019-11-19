@@ -31,7 +31,7 @@ self.addEventListener('notificationclick', function(event) {
 });
 
 self.addEventListener('push', function(event) {
-  const data = event.data.text() 
+  const data = event.data.json();
   var notificationTitle = data.notification.title; //or payload.notification or whatever your payload is
   var notificationOptions = {
     body: data.notification.body,
