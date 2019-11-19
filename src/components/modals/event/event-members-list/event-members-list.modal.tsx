@@ -24,6 +24,7 @@ class EventMembersListModal extends Component<any, any> {
       <GenericModal
         title="Participanti"
         showModal={this.props.showModal}
+        isInfoModal={true}
         onClose={() => this.props.showMembersModalChange(false)}
       >
         <List

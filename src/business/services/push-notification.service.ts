@@ -12,7 +12,7 @@ export const initializeFirebase = () => {
   const messaging = firebase.messaging();
 
   messaging.onMessage(function(payload) {
-    console.log('Token refreshed.', payload);
+    //console.log('Token refreshed.', payload);
     StoreUtility.store.dispatch(newNotificationReceived(1));
   });
 
@@ -20,11 +20,11 @@ export const initializeFirebase = () => {
     messaging
       .getToken()
       .then(refreshedToken => {
-        console.log('Token refreshed.', refreshedToken);
+        //console.log('Token refreshed.', refreshedToken);
         UserTokenNotificationService.CreateToken(refreshedToken);
       })
       .catch(err => {
-        console.log('Unable to retrieve refreshed token ', err);
+        //console.log('Unable to retrieve refreshed token ', err);
       });
   });
 };

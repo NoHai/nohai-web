@@ -42,7 +42,7 @@ class UserProfilePage extends Component {
 
             <div className="user-profile-content">
                 <div className="section-header">Despre</div>
-                <div className="body-sections">
+                <div>
                   <EventCardOption
                     title={'Data Nasterii'}
                     iconClass="mdi mdi-calendar-outline"
@@ -66,7 +66,7 @@ class UserProfilePage extends Component {
                 </div>
               <div>
                 <div className="section-header">Contact</div>
-                <div className="body-sections email">
+                <div className="email">
                   <EventCardOption
                     title={' '}
                     iconClass="mdi mdi-email-outline"

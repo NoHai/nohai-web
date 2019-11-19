@@ -4,7 +4,7 @@ import { Row, Col, Button } from 'antd';
 import { NotificationCardProps } from './notification-card.props';
 import { ActionType, ActionButtonType } from '../../contracts/enums/common';
 import AvatarHelper from '../../helpers/avatar.helper';
-import DateHelper from '../../helpers/date.helper';
+import moment from 'moment';
 
 class NotificationCard extends Component<NotificationCardProps> {
   render() {
@@ -37,40 +37,47 @@ class NotificationCard extends Component<NotificationCardProps> {
   }
 
   getCardButtons() {
-      return (
-        <Row className="item-card-icons">
-          <Col span={12} className="created-date">
-            Trimisa in {DateHelper.GetDateFormat(this.props.createdDate, 'DD-MM-YYYY')}
-          </Col>
-          <Col span={6} className="text-center">
-            {this.props.actionType === ActionType.Request && (
-              <Button
-                type="link"
-                className="link gray-color"
-                block
-                onClick={() => {
-                  this.onButtonClickHandler(ActionButtonType.Reject);
-                }}
-              >
-                Refuza
-              </Button>
-            )}
-          </Col>
-          <Col span={6} className="text-right">
-            {this.props.actionType === ActionType.Request && (
-              <Button
-                type="primary"
-                block
-                onClick={() => {
-                  this.onButtonClickHandler(ActionButtonType.Approve);
-                }}
-              >
-                Accepta
-              </Button>
-            )}
-          </Col>
-        </Row>
-      );
+    return (
+      <Row className="item-card-icons">
+        <Col span={12} className="created-date">
+
+          <span className="created-date">Trimisa:
+          {` ${moment(this.props.createdDate)
+            .locale('ro')
+            .format('dddd')} 
+          ${moment(this.props.createdDate).format('DD')}
+          ${moment(this.props.createdDate).format('MMMM')}`}
+          </span>
+        </Col>
+        <Col span={6} className="text-center">
+          {this.props.actionType === ActionType.Request && (
+            <Button
+              type="link"
+              className="link gray-color"
+              block
+              onClick={() => {
+                this.onButtonClickHandler(ActionButtonType.Reject);
+              }}
+            >
+              Refuza
+            </Button>
+          )}
+        </Col>
+        <Col span={6} className="text-right">
+          {this.props.actionType === ActionType.Request && (
+            <Button
+              type="primary"
+              block
+              onClick={() => {
+                this.onButtonClickHandler(ActionButtonType.Approve);
+              }}
+            >
+              Accepta
+            </Button>
+          )}
+        </Col>
+      </Row>
+    );
   }
 
   private onButtonClickHandler(action: ActionButtonType) {

@@ -14,7 +14,7 @@ const notificationReducer = (state: any = initialnNtificationReducerState, actio
     case ReduxCommonActionType.NewNotificationReceived:
       return {
         ...state,
-        unReadNotifications: initialnNtificationReducerState.unReadNotifications + action.result,
+        unReadNotifications: state.unReadNotifications + action.result,
       };
     default:
       return state;

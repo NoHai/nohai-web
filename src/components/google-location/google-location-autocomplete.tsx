@@ -8,7 +8,7 @@ import { EventDetailsViewModel, LocationEventDetailsModel } from '../../contract
 class GoogleLocationAutoComplete extends Component<GoogleLocationAutoCompleteProps> {
   private isMount: boolean = false;
 
-  state = { streetName: '' };
+  state = { streetName: '' , city:'', county:'', latitude:0, longitude:0};
   eventDetail = new EventDetailsViewModel();
   public autocomplete: any;
   constructor(props: any) {
@@ -90,6 +90,10 @@ class GoogleLocationAutoComplete extends Component<GoogleLocationAutoCompletePro
       if (this.isMount) {
         this.setState({
           streetName: address.StreetName,
+          city: address.City,
+          county: address.County,
+          latitude: address.Latitude,
+          longitude: address.Longitude,
         });
       }
     });
@@ -97,9 +101,11 @@ class GoogleLocationAutoComplete extends Component<GoogleLocationAutoCompletePro
 
   private sendAddress() {
     const address: LocationEventDetailsModel = {
-      City: '',
-      County: '',
-      StreetName: this.state.streetName,
+      City: this.state.city?this.state.city:this.eventDetail.locationDetails.City,
+      County: this.state.county?this.state.county:this.eventDetail.locationDetails.County,
+      StreetName: this.state.streetName?this.state.streetName:this.eventDetail.locationDetails.StreetName,
+      Latitude: this.state.latitude?this.state.latitude:this.eventDetail.locationDetails.Latitude,
+      Longitude: this.state.longitude?this.state.longitude:this.eventDetail.locationDetails.Longitude,
       IsValid: false,
     };
     if (this.props.onButtonClick) {
@@ -131,9 +137,11 @@ class GoogleLocationAutoComplete extends Component<GoogleLocationAutoCompletePro
 
   private createEmptyLocation(place: any) {
     const address: LocationEventDetailsModel = {
-      City: '',
-      County: '',
+      City: this.state.city,
+      County: this.eventDetail.locationDetails.City,
       StreetName: place.name,
+      Longitude:this.eventDetail.locationDetails.Longitude,
+      Latitude:this.eventDetail.locationDetails.Latitude,
       IsValid: false,
     };
     return address;

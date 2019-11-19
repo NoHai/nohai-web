@@ -48,7 +48,18 @@ class GenericModal extends Component<GenericModalProps> {
     return (
       <div className="modal-section-footer">
         <Row type="flex" align="middle">
-          <Col span={12}></Col>
+          <Col span={12}>
+            {!this.props.isInfoModal && (
+              <Button
+                type="default"
+                onClick={() => {
+                  this.Reset();
+                }}
+              >
+                Reseteaza
+              </Button>
+            )}
+          </Col>
           <Col span={12} className="text-right">
             <Button
               type="default"
@@ -58,10 +69,29 @@ class GenericModal extends Component<GenericModalProps> {
             >
               Inchide
             </Button>
+            {!this.props.isInfoModal && (
+              <Button
+                className="margin-left"
+                type="primary"
+                onClick={() => {
+                  this.Applay();
+                }}
+              >
+                Aplica
+              </Button>
+            )}
           </Col>
         </Row>
       </div>
     );
+  }
+
+  private Applay() {
+    if (this.props.onApplay) this.props.onApplay();
+  }
+
+  private Reset() {
+    if (this.props.onReset) this.props.onReset();
   }
 
   private getModalBody() {
