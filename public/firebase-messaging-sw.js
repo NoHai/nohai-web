@@ -15,6 +15,7 @@ firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
 messaging.setBackgroundMessageHandler(function(payload) {
+  subscribe({userVisibleOnly: true})
   var result = JSON.parse(payload);
   var notificationTitle = payload.notification.title; //or payload.notification or whatever your payload is
   var notificationOptions = {
