@@ -176,6 +176,7 @@ class NotificationPage extends Component {
   private async responseRequest(approve: boolean, notificationId: any) {
     LoadingHelper.showLoading();
     this.notificationContainer = new Array<NotificationModel>();
+    StoreUtility.store.dispatch(newNotificationReceived(-1));
 
     approve
       ? await EventService.Approve(notificationId)

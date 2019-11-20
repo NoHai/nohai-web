@@ -40,11 +40,10 @@ class NotificationCard extends Component<NotificationCardProps> {
     return (
       <Row className="item-card-icons">
         <Col span={12} className="created-date">
-
-          <span className="created-date">Trimisa:
-          {` ${moment(this.props.createdDate)
-            .locale('ro')
-            .format('dddd')} 
+          <span className="created-date">
+            {` ${moment(this.props.createdDate)
+              .locale('ro')
+              .format('dddd')} 
           ${moment(this.props.createdDate).format('DD')}
           ${moment(this.props.createdDate).format('MMMM')}`}
           </span>

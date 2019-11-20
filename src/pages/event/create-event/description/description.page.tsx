@@ -39,6 +39,20 @@ class DescriptionEventPage extends Component<any, any> {
       eventDetails.description.IsValid = true;
     }
 
+    if (!eventDetails.description.StartDate) {
+      eventDetails.description.StartDate = moment().format(dateFormat);
+      eventDetails.description.EndDate = moment().format(dateFormat);
+      eventDetails.description.StartTime = moment()
+        .add(1, 'hours')
+        .startOf('hour')
+        .format(timeFormat);
+      eventDetails.description.EndTime = moment()
+        .add(3, 'hours')
+        .startOf('hour')
+        .format(timeFormat);
+      eventDetails.description.IsValid = true;
+    }
+
     const validDates = await this.checkDates(eventDetails.description);
     this.setState({
       eventDetails,
@@ -142,7 +156,7 @@ class DescriptionEventPage extends Component<any, any> {
                   Ok
                 </Button>
               )}
-              defaultOpenValue={moment('00:00', timeFormat)}
+              defaultOpenValue={moment('12:00', timeFormat)}
               format={timeFormat}
               onChange={(time, timeString) => this.onDateTimeChange(time, timeString, 'StartTime')}
               placeholder={'Ora'}
@@ -158,7 +172,6 @@ class DescriptionEventPage extends Component<any, any> {
               onChange={(date, dateString) => this.onDateTimeChange(date, dateString, 'EndDate')}
               placeholder={'Data'}
               size="large"
-              disabled={this.state.eventDetails.description.StartDate === undefined}
               disabledDate={e => this.disabledDate(e, 'endDate')}
               value={
                 DateHelper.GetDateFromString(this.state.eventDetails.description.EndDate) ||
@@ -170,7 +183,7 @@ class DescriptionEventPage extends Component<any, any> {
               inputReadOnly
               open={this.state.openEndTime}
               onOpenChange={e => this.handleOpenChange('openEndTime')}
-              defaultOpenValue={moment('00:00', timeFormat)}
+              defaultOpenValue={moment('12:00', timeFormat)}
               format={timeFormat}
               size="large"
               addon={() => (
@@ -187,6 +200,14 @@ class DescriptionEventPage extends Component<any, any> {
                 ) || undefined
               }
             />
+            <div>
+              {this.state.validDates === false && this.state.validForm === true && (
+                <div className="error-text">
+                  *Verifica datele evenimentului. Ora inceperii activitatii trebuie sa fie cu cel
+                  putin 30 de minute dupa ora curenta.
+                </div>
+              )}
+            </div>
             <label className="inline-input-label">Descrierea Evenimentului</label>
             <span className="optional-span">(Optional)</span>
             <TextArea
@@ -197,12 +218,6 @@ class DescriptionEventPage extends Component<any, any> {
               value={this.state.eventDetails.description.Description || ''}
               onChange={e => this.handleChange(e)}
             />
-            <div>
-              {this.state.validDates === false && this.state.validForm === true && (
-                <div className="error-text">*Verifica datele evenimentului.
-                Ora inceperii activitatii trebuie sa fie cu cel putin 30 de minute dupa ora curenta.</div>
-              )}
-            </div>
           </div>
 
           <CreateEventFooter
@@ -228,7 +243,9 @@ class DescriptionEventPage extends Component<any, any> {
     const happensToday = startDate.isSame(nowDate);
     let isValid = false;
     if (happensToday) {
-      isValid =  happensInSameDay ? startTime.isSameOrAfter(nowTime, 'minutes') && startTime.isBefore(endTime) : startTime.isSameOrAfter(nowTime, 'minutes');
+      isValid = happensInSameDay
+        ? startTime.isSameOrAfter(nowTime, 'minutes') && startTime.isBefore(endTime)
+        : startTime.isSameOrAfter(nowTime, 'minutes');
     } else {
       isValid = happensInSameDay ? startTime.isBefore(endTime) : startDate.isBefore(endDate);
     }
@@ -263,7 +280,9 @@ class DescriptionEventPage extends Component<any, any> {
     const startTime = moment(description.StartTime, timeFormat);
     const endTime = moment(description.EndTime, timeFormat);
     const today = moment().format(dateFormat);
-    const now = moment().add(30, 'minutes').format(timeFormat);
+    const now = moment()
+      .add(30, 'minutes')
+      .format(timeFormat);
     const nowDate = moment(today, dateFormat);
     const nowTime = moment(now, timeFormat);
 
