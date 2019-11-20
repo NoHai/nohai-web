@@ -10,6 +10,7 @@ import {
 import { UserViewModel } from '../../contracts/view-models/user-view.model';
 import { ResetPasswordCommand } from '../commands/user/reset-password.command';
 import { ActivateUserCommand } from '../commands/user/activate-user.command';
+import { ResendActivationEmailCommand } from '../commands/user/resend-activation-email.command';
 
 class UserServiceController implements IUserService {
   public async Get(): Promise<UserViewModel> {
@@ -38,6 +39,10 @@ class UserServiceController implements IUserService {
 
   public async ActivateUser(email: string): Promise<boolean> {
     return await ActivateUserCommand.execute(email);
+  }
+
+  public async ResendActivationEmail(email: string): Promise<boolean>{
+    return await ResendActivationEmailCommand.execute(email);
   }
 }
 

@@ -49,7 +49,7 @@ class UserProfilePage extends Component {
                     description={`${moment(
                       this.state.userDetails.details.Day,
                       'DD/MM/YYYY'
-                    ).day()} ${moment(this.state.userDetails.details.Day, 'DD/MM/YYYY').format(
+                    ).format('DD')} ${moment(this.state.userDetails.details.Day, 'DD/MM/YYYY').format(
                       'MMMM'
                     )} ${moment(this.state.userDetails.details.Day, 'DD/MM/YYYY').format('YYYY')}`}
                   />

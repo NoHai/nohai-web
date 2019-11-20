@@ -9,7 +9,7 @@ import MessageHelper from '../../helpers/message.helper';
 
 class GraphqlClientController {
   private static instance: GraphqlClientController;
-  private  client: ApolloClient<any>;
+  private client: ApolloClient<any>;
 
   private constructor() {
     this.client = this.buildClient();
@@ -124,7 +124,10 @@ class GraphqlClientController {
               });
           });
         } else {
-          this.handleError(networkError.statusCode);
+          const errorMessage = graphQLErrors
+            ? graphQLErrors.map(({ message, }) => message)[0]
+            : '';
+          this.handleError(networkError.statusCode, errorMessage);
         }
       }
     });
@@ -142,13 +145,14 @@ class GraphqlClientController {
     return ApolloLink.from([authMiddleware, errorLink, httpLink]);
   }
 
-  private handleError(status: number) {
+  private handleError(status: number, message: string = '') {
     switch (status) {
       case 401:
         MessageHelper.showError('Unauthorized error');
         break;
       case 500:
-        MessageHelper.showError('Server error');
+        const errorMessage = message.length > 0 ? message : 'Server error';
+        MessageHelper.showError(errorMessage);
         break;
       default:
         MessageHelper.showError('Ooops ceva s-a intamplat!');

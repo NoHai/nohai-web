@@ -17,21 +17,21 @@ import CreateEventFooter from '../../../../components/create-event-footer/create
 registerSchema(Description);
 
 const timeFormat = 'HH:mm';
-const dateFormat = 'YYYY:MM:DD';
+const dateFormat = 'YYYY-MM-DD';
 
 class DescriptionEventPage extends Component<any, any> {
   private isEditable: boolean = false;
   state = {
     eventDetails: new EventDetailsViewModel(),
-    validEndDate: false,
-    finishForm: false,
+    validDates: false,
+    validForm: false,
     openStartTime: false,
     openEndTime: false,
   };
 
   async componentDidMount() {
     this.isEditable = HistoryHelper.containsPath('/edit-event');
-    let eventDetails = LocalStorageHelper.GetItemFromLocalStorage(
+    const eventDetails = LocalStorageHelper.GetItemFromLocalStorage(
       LocalStorage.CreateEvent,
       this.state.eventDetails
     );
@@ -39,10 +39,11 @@ class DescriptionEventPage extends Component<any, any> {
       eventDetails.description.IsValid = true;
     }
 
-    const validEndDate = await this.checkDates(eventDetails.description);
+    const validDates = await this.checkDates(eventDetails.description);
     this.setState({
-      eventDetails: eventDetails,
-      finishForm: eventDetails.description.IsValid && validEndDate,
+      eventDetails,
+      validForm: eventDetails.description.IsValid,
+      validDates,
     });
     if (!eventDetails.locationDetails.IsValid) {
       HistoryHelper.goHome();
@@ -64,7 +65,7 @@ class DescriptionEventPage extends Component<any, any> {
   async handleChange(event: any) {
     const { name, value } = event.target;
 
-    let val = name === 'Duration' ? parseInt(value, 10) : value;
+    const val = name === 'Duration' ? parseInt(value, 10) : value;
     this.setState((prevState: any) => ({
       eventDetails: {
         ...prevState.eventDetails,
@@ -80,7 +81,7 @@ class DescriptionEventPage extends Component<any, any> {
     const description: any = this.state.eventDetails.description;
     description[name] = DateTimeString;
 
-    const validEndDate = await this.checkDates(description);
+    const validDates = await this.checkDates(description);
     const isValid = await this.chekIfIsValid();
 
     this.setState((prevState: any) => ({
@@ -92,8 +93,8 @@ class DescriptionEventPage extends Component<any, any> {
           IsValid: isValid,
         },
       },
-      validEndDate,
-      finishForm: isValid && validEndDate,
+      validDates,
+      validForm: isValid,
     }));
   }
 
@@ -196,6 +197,12 @@ class DescriptionEventPage extends Component<any, any> {
               value={this.state.eventDetails.description.Description || ''}
               onChange={e => this.handleChange(e)}
             />
+            <div>
+              {this.state.validDates === false && this.state.validForm === true && (
+                <div className="error-text">*Verifica datele evenimentului.
+                Ora inceperii activitatii trebuie sa fie cu cel putin 30 de minute dupa ora curenta.</div>
+              )}
+            </div>
           </div>
 
           <CreateEventFooter
@@ -206,24 +213,26 @@ class DescriptionEventPage extends Component<any, any> {
             showRightButton={true}
             onRightButtonClick={() => this.goToDetails()}
             onLeftButtonClick={() => this.goToLocationDetails()}
-            isValid={this.state.finishForm}
+            isValid={this.state.validForm && this.state.validDates}
           ></CreateEventFooter>
         </div>
       </div>
     );
   }
+
   async checkDates(description: DescriptionEventModel) {
-    const startDate = this.isEditable
-      ? moment(description.StartDate)
-      : moment(description.StartDate, dateFormat);
-    const endDate = this.isEditable
-      ? moment(description.EndDate)
-      : moment(description.EndDate, dateFormat);
-    const startTime = moment(description.StartTime, timeFormat);
-    const endTime = moment(description.EndTime, timeFormat);
-    let result = startDate.isSame(endDate);
-    let test = result ? startTime < endTime : startDate.isBefore(endDate);
-    return test;
+    const { startDate, endDate, nowDate, startTime, nowTime, endTime } = this.calculateDate(
+      description
+    );
+    const happensInSameDay = startDate.isSame(endDate);
+    const happensToday = startDate.isSame(nowDate);
+    let isValid = false;
+    if (happensToday) {
+      isValid =  happensInSameDay ? startTime.isSameOrAfter(nowTime, 'minutes') && startTime.isBefore(endTime) : startTime.isSameOrAfter(nowTime, 'minutes');
+    } else {
+      isValid = happensInSameDay ? startTime.isBefore(endTime) : startDate.isBefore(endDate);
+    }
+    return isValid;
   }
 
   disabledDate(current: any, type: string) {
@@ -238,9 +247,27 @@ class DescriptionEventPage extends Component<any, any> {
       ? history.push('/edit-event/location-details')
       : history.push('/create-event/location-details');
   }
+
   goToDetails() {
     LocalStorageHelper.SaveItemToLocalStorage(LocalStorage.CreateEvent, this.state.eventDetails);
     this.isEditable ? history.push('/edit-event/preview') : history.push('/create-event/preview');
+  }
+
+  private calculateDate(description: DescriptionEventModel) {
+    const startDate = this.isEditable
+      ? moment(description.StartDate)
+      : moment(description.StartDate, dateFormat);
+    const endDate = this.isEditable
+      ? moment(description.EndDate)
+      : moment(description.EndDate, dateFormat);
+    const startTime = moment(description.StartTime, timeFormat);
+    const endTime = moment(description.EndTime, timeFormat);
+    const today = moment().format(dateFormat);
+    const now = moment().add(30, 'minutes').format(timeFormat);
+    const nowDate = moment(today, dateFormat);
+    const nowTime = moment(now, timeFormat);
+
+    return { startDate, endDate, nowDate, startTime, nowTime, endTime };
   }
 }
 
