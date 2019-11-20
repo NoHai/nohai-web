@@ -19,6 +19,14 @@ messaging.setBackgroundMessageHandler(function(payload) {
   return null;
 });
 
+self.addEventListener('install', function (event) {
+  event.waitUntil(skipWaiting());
+});
+
+self.addEventListener('activate', function (event) {
+  event.waitUntil(clients.claim());
+});
+
 self.addEventListener('notificationclick', function(event) {
   event.notification.close();
   event.waitUntil(self.clients.openWindow(event.notification.data.url));
