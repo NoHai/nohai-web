@@ -18,33 +18,26 @@ class UserIconButton extends Component<any, any> {
   }
   render() {
     const menu = (
-      <Menu className="menu-item">
-        <Menu.Item key="0"  onClick={() => this.NavigateToProfile()}>
-          Profil 
-        </Menu.Item>
-        
-        <Menu.Item key="1" className="menu-item" onClick={() => this.props.logout()}>
-          Deconectare
-        </Menu.Item>
+      <Menu className="app-menu">
+        <Menu.Item onClick={() => this.NavigateToProfile()}>Profil</Menu.Item>
+        <Menu.Item onClick={() => this.props.logout()}>Deconectare</Menu.Item>
       </Menu>
     );
 
     return (
       <div className="user-icon-buttons">
         <div
-        onClick={() => {
-          this.NavigateToNotification();
-        }}
-        className="icon mdi mdi-bell user-icon-buttons notification"
-      >
-        {this.props.unReadNotifications > 0 && (
-          <span className="badge">{this.props.unReadNotifications || ''}</span>
-        )}
-      </div>
+          onClick={() => {
+            this.NavigateToNotification();
+          }}
+          className="icon mdi mdi-bell user-icon-buttons notification"
+        >
+          {this.props.unReadNotifications > 0 && (
+            <span className="badge">{this.props.unReadNotifications || ''}</span>
+          )}
+        </div>
         <Dropdown overlay={menu} trigger={['click']}>
-          <div
-            className="icon mdi mdi-dots-vertical"
-          />
+          <div className="icon mdi mdi-dots-vertical" />
         </Dropdown>
       </div>
     );
@@ -69,7 +62,4 @@ const mapDispatchToProps = {
   unReadNotification,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UserIconButton);
+export default connect(mapStateToProps, mapDispatchToProps)(UserIconButton);

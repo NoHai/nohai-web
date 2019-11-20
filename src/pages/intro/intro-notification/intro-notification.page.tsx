@@ -57,7 +57,7 @@ class IntroNotification extends Component<any, any> {
   }
 
   private async allowNotification() {
-    let notificationToken = await GetTokenNotification();
+    const notificationToken = await GetTokenNotification();
     if (notificationToken) {
       UserTokenNotificationService.CreateToken(notificationToken);
     }

@@ -8,7 +8,7 @@ import MessageHelper from '../../../helpers/message.helper';
 import LoadingHelper from '../../../helpers/loading.helper';
 
 class RecoveryPage extends Component {
-  state = { email: '', emailError: '' };
+  state = { email: '', emailError: '', emailSent: false };
 
   componentDidMount(): any {
     LoadingHelper.hideLoading();
@@ -37,31 +37,38 @@ class RecoveryPage extends Component {
         </div>
 
         <div className="auth-page-container">
-          <div className="auth-page-form-group">
-            <div className="inline-input-wrapper">
-              <span className="icon mdi mdi-email-outline" />
-              <input
-                type="email"
-                placeholder="Adresa de email"
-                data-lpignore="true"
-                name="email"
-                onChange={e => this.handleChange(e)}
-              />
+          {!this.state.emailSent && (
+            <div className="auth-page-form-group">
+              <div className="inline-input-wrapper">
+                <span className="icon mdi mdi-email-outline" />
+                <input
+                  type="email"
+                  placeholder="Adresa de email"
+                  data-lpignore="true"
+                  name="email"
+                  onChange={e => this.handleChange(e)}
+                />
+              </div>
             </div>
-          </div>
+          )}
+          {!this.state.emailSent && (
+            <Button
+              className="margin-bottom margin-bottom-large"
+              block
+              type="primary"
+              size="large"
+              shape="round"
+              onClick={() => {
+                this.RecoveryPassword();
+              }}
+            >
+              Recuperare parola
+            </Button>
+          )}
 
-          <Button
-            className="margin-bottom margin-bottom-large"
-            block
-            type="primary"
-            size="large"
-            shape="round"
-            onClick={() => {
-              this.RecoveryPassword();
-            }}
-          >
-            Recuperare parola
-          </Button>
+          {this.state.emailSent && (
+            <div className="text-align">Email trimis, te rugam sa iti verifici emailul pentru a alege noua parola</div>
+          )}
 
           <Button
             ghost
@@ -91,6 +98,9 @@ class RecoveryPage extends Component {
       MessageHelper.showError(this.state.emailError);
     } else {
       UserService.RecoveryPassword(this.state.email);
+      this.setState({
+        emailSent: true,
+      });
     }
   }
 }
