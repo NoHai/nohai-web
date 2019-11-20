@@ -131,6 +131,7 @@ class LoginPage extends Component<any, any> {
           callback={e => this.responseFacebook(e)}
           cssClass="facebook-button"
           icon="icon mdi mdi-facebook"
+          redirectUri="https://no-hai.ro/"
         />
       );
     }
