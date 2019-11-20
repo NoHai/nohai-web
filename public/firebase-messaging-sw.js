@@ -16,6 +16,7 @@ const messaging = firebase.messaging();
 
 messaging.setBackgroundMessageHandler(function(payload) {
   self.registration.hideNotification();
+  return null;
 });
 
 self.addEventListener('notificationclick', function(event) {
@@ -31,7 +32,7 @@ self.addEventListener('push', function(event) {
       body: data.notification.body,
       icon: data.notification.icon,
       data: { url: data.notification.click_action },
-      tag: data.notification.tag,
+      tag: "notification-1",
     })
   );
 });
