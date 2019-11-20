@@ -123,7 +123,7 @@ class LoginPage extends Component<any, any> {
       fbContent = (
         <FacebookLogin
           appId={this.AppConfig.facebookAppId || ''}
-          autoLoad={false}
+          autoLoad={true}
           fields="name,email,picture"
           onClick={() => {
             LoadingHelper.showLoading();
