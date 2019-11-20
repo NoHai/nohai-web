@@ -12,20 +12,14 @@ var firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 
-const messaging = firebase.messaging();
+// const messaging = firebase.messaging();
 
-messaging.setBackgroundMessageHandler(function(payload) {
-  self.registration.hideNotification();
-  return null;
-});
+// messaging.setBackgroundMessageHandler(function(payload) {
+//   self.registration.hideNotification();
+//   return null;
+// });
 
-self.addEventListener('install', function (event) {
-  event.waitUntil(skipWaiting());
-});
 
-self.addEventListener('activate', function (event) {
-  event.waitUntil(clients.claim());
-});
 
 self.addEventListener('notificationclick', function(event) {
   event.notification.close();
