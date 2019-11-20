@@ -77,7 +77,7 @@ class AuthRepositoryController {
   public async register(register: RegisterViewModel): Promise<string> {
     let input: any = {
       credentials: {
-        login: register.Email,
+        login: register.Email.trim(),
         password: register.Password,
       },
     };
@@ -91,9 +91,9 @@ class AuthRepositoryController {
     `;
 
     const response: any = await GraphqlClient.mutate(registerMutation, input);
-    const result = response;
+    var result = response;
     if (response) {
-      const result: string = response.createUser.id;
+       result = response.createUser.id;
     }
 
     return result;
