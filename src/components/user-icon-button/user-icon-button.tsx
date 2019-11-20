@@ -18,12 +18,12 @@ class UserIconButton extends Component<any, any> {
   }
   render() {
     const menu = (
-      <Menu>
-        <Menu.Item key="0" onClick={() => this.NavigateToProfile()}>
+      <Menu className="menu-item">
+        <Menu.Item key="0"  onClick={() => this.NavigateToProfile()}>
           Profil 
         </Menu.Item>
         
-        <Menu.Item key="1" onClick={() => this.props.logout()}>
+        <Menu.Item key="1" className="menu-item" onClick={() => this.props.logout()}>
           Deconectare
         </Menu.Item>
       </Menu>

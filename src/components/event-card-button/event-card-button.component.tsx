@@ -19,6 +19,10 @@ export class EventCardButton extends Component<EventCardButtonProps> {
     const isAlreadyPast = EventHelper.isAlreadyPast(this.props.event);
     const isHappeningNow = EventHelper.isHappeningNow(this.props.event);
 
+    if (!this.props.event.event.Id) {
+      return null;
+    }
+
     if (!isUnavailable && !isAlreadyPast && !isHappeningNow && isOwner) {
       button = this.getCancelButton();
     } else if (!isUnavailable && isAlreadyAccepted && !isAlreadyPast && !isHappeningNow) {
@@ -30,7 +34,7 @@ export class EventCardButton extends Component<EventCardButtonProps> {
       (isInPending || this.props.requestSent)
     ) {
       button = this.getPendingButton();
-    } else if (!isUnavailable && !isAlreadyPast && !isHappeningNow && isAvailable) {
+    } else if (!isUnavailable && !isAlreadyPast && !isHappeningNow && isAvailable && !isOwner) {
       button = this.getJoinButton();
     } else if (!isUnavailable && isAlreadyPast) {
       button = this.getAlreadyPastButton();

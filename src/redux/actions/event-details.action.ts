@@ -1,12 +1,11 @@
-import { ReduxEventDetailsActionType } from "../../contracts/enums/actions";
-import { EventService } from "../../business/services";
+import { ReduxEventDetailsActionType } from '../../contracts/enums/actions';
+import { EventService } from '../../business/services';
 
-export const getEventDetails = (id: string,) => {
-    return (dispatch: any) => {
-      EventService.Get(id)
-        .then(eventDetailsDispatch(dispatch));
-    };
+export const getEventDetails = (id: string) => {
+  return (dispatch: any) => {
+    EventService.Get(id).then(eventDetailsDispatch(dispatch));
   };
+};
 
 export const setEventDetailsState = (eventDetailsState: any) => {
   return {
@@ -22,11 +21,14 @@ export const showMembersModalChange = (show: boolean) => {
   };
 };
 
+function eventDetailsDispatch(dispatch: any): (value: any) => void {
+  return result => {
+    dispatch(setEventDetailsState(result));
+  };
+}
 
-  function eventDetailsDispatch(dispatch: any): (value: any) => void {
-    return result => {
-      dispatch(setEventDetailsState(result));
-    };
-  }
-  
-
+export const resetEventDetails = () => {
+  return {
+    type: ReduxEventDetailsActionType.ResetEventDetails,
+  };
+};

@@ -21,6 +21,8 @@ const eventDetailsReducer = (state: any = initialnEventDetailsReducerState, acti
         eventDetails: state.eventDetails,
         showMembersModal: action.result,
       };
+    case ReduxEventDetailsActionType.ResetEventDetails:
+      return initialnEventDetailsReducerState;
     default:
       return state;
   }

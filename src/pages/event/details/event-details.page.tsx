@@ -4,7 +4,11 @@ import EventCard from '../../../components/event-card/event-card.component';
 import { LocalStorage } from '../../../contracts/enums/localStorage/local-storage';
 import { connect } from 'react-redux';
 import { initialnEventDetailsReducerState } from '../../../redux/reducers/event-details.reducer';
-import { getEventDetails, setEventDetailsState } from '../../../redux/actions/event-details.action';
+import {
+  getEventDetails,
+  setEventDetailsState,
+  resetEventDetails,
+} from '../../../redux/actions/event-details.action';
 
 class EventDetailsPage extends Component<any, any> {
   async componentDidMount() {
@@ -16,6 +20,11 @@ class EventDetailsPage extends Component<any, any> {
       );
     }
   }
+
+  async componentWillMount() {
+    this.props.resetEventDetails();
+  }
+
   render() {
     return (
       <div className="event-list-item">
@@ -37,9 +46,7 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = {
   setEventDetailsState,
   getEventDetails,
+  resetEventDetails,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(EventDetailsPage);
+export default connect(mapStateToProps, mapDispatchToProps)(EventDetailsPage);
