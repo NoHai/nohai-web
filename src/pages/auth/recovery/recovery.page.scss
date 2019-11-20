@@ -1,18 +1,20 @@
 @import './../login/login.page';
 
-.back-button {
-  position: relative;
-  display: block;
+.recovery-page {
+  .back-button {
+    position: relative;
+    display: block;
 
-  .icon {
-    position: absolute;
-    left: 25px;
-    top: 7px;
-    font-size: 22px;
+    .icon {
+      position: absolute;
+      left: 25px;
+      top: 7px;
+      font-size: 22px;
+    }
   }
-}
 
-.text-align{
-  margin-bottom: 57%;
-  text-align: center;
+  .text-align {
+    margin-bottom: 57%;
+    text-align: center;
+  }
 }
