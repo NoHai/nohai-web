@@ -12,29 +12,27 @@ var firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 
-// const messaging = firebase.messaging();
+const messaging = firebase.messaging();
 
 // messaging.setBackgroundMessageHandler(function(payload) {
 //   self.registration.hideNotification();
 //   return null;
 // });
 
+// self.addEventListener('notificationclick', function(event) {
+//   event.notification.close();
+//   event.waitUntil(self.clients.openWindow(event.notification.data.url));
+// });
 
+// self.addEventListener('push', function(event) {
+//   const data = event.data.json();
 
-self.addEventListener('notificationclick', function(event) {
-  event.notification.close();
-  event.waitUntil(self.clients.openWindow(event.notification.data.url));
-});
-
-self.addEventListener('push', function(event) {
-  const data = event.data.json();
- 
-  event.waitUntil(
-    self.registration.showNotification(data.notification.title, {
-      body: data.notification.body,
-      icon: data.notification.icon,
-      data: { url: data.notification.click_action },
-      tag: "notification-1",
-    })
-  );
-});
+//   event.waitUntil(
+//     self.registration.showNotification(data.notification.title, {
+//       body: data.notification.body,
+//       icon: data.notification.icon,
+//       data: { url: data.notification.click_action },
+//       tag: "notification-1",
+//     })
+//   );
+// });
