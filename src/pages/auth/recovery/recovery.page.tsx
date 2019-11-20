@@ -31,7 +31,7 @@ class RecoveryPage extends Component {
   }
   public render() {
     return (
-      <div className="auth-page">
+      <div className="auth-page recovery-page">
         <div className="login-logo-container">
           <div className="login-logo" />
         </div>

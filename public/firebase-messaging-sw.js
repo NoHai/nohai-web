@@ -14,16 +14,9 @@ firebase.initializeApp(firebaseConfig);
 
 const messaging = firebase.messaging();
 
-// messaging.setBackgroundMessageHandler(function(payload) {
-//   var notificationTitle = payload.notification.title; //or payload.notification or whatever your payload is
-//   var notificationOptions = {
-//     body: payload.notification.body,
-//     icon: payload.notification.icon,
-//     data: { url: payload.notification.click_action },
-//   };
-
-//   return self.registration.showNotification(notificationTitle, notificationOptions);
-// });
+messaging.setBackgroundMessageHandler(function(payload) {
+  self.registration.hideNotification();
+});
 
 self.addEventListener('notificationclick', function(event) {
   event.notification.close();

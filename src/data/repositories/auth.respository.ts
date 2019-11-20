@@ -91,7 +91,10 @@ class AuthRepositoryController {
     `;
 
     const response: any = await GraphqlClient.mutate(registerMutation, input);
-    const result: string = response.createUser.id;
+    const result = response;
+    if (response) {
+      const result: string = response.createUser.id;
+    }
 
     return result;
   }
