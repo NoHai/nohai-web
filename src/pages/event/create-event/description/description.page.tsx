@@ -43,12 +43,12 @@ class DescriptionEventPage extends Component<any, any> {
       eventDetails.description.StartDate = moment().format(dateFormat);
       eventDetails.description.EndDate = moment().format(dateFormat);
       eventDetails.description.StartTime = moment()
-        .add(1, 'hours')
-        .endOf('hour')
+        .add(2, 'hours')
+        .startOf('hour')
         .format(timeFormat);
       eventDetails.description.EndTime = moment()
-        .add(3, 'hours')
-        .endOf('hour')
+        .add(4, 'hours')
+        .startOf('hour')
         .format(timeFormat);
       eventDetails.description.IsValid = true;
     }
