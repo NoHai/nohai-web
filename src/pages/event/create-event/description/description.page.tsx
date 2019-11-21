@@ -10,10 +10,12 @@ import { LocalStorage } from '../../../../contracts/enums/localStorage/local-sto
 import LocalStorageHelper from '../../../../helpers/local-storage.helper';
 import { FormValidators } from '../../../../contracts/validators/forms-validators';
 import moment from 'moment';
+import DateFnsUtils from '@date-io/date-fns';
 import 'moment/locale/ro';
 import DateHelper from '../../../../helpers/date.helper';
 import HistoryHelper from '../../../../utilities/core/history';
 import CreateEventFooter from '../../../../components/create-event-footer/create-event-footer.component';
+import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 registerSchema(Description);
 
 const timeFormat = 'HH:mm';
@@ -27,6 +29,7 @@ class DescriptionEventPage extends Component<any, any> {
     validForm: false,
     openStartTime: false,
     openEndTime: false,
+    openStartDate: false,
   };
 
   async componentDidMount() {
@@ -110,6 +113,8 @@ class DescriptionEventPage extends Component<any, any> {
       validDates,
       validForm: isValid,
     }));
+
+    this.toggleDate();
   }
 
   async chekIfIsValid() {
@@ -130,7 +135,27 @@ class DescriptionEventPage extends Component<any, any> {
               title={'Detalii eveniment'}
               imagePath="/assets/travel-tickets-colour.svg"
             />
-            <label>Incepe in:</label>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <KeyboardDatePicker
+                className="datepiker"
+                disableToolbar
+                // onOpen={()=>this.toggleDate()}
+                // open={this.state.openStartDate}
+                variant="inline"
+                format="yyyy/MM/dd"
+                margin="normal"
+                id="date-picker-inline"
+                label="Incepe in:"
+                value={this.state.eventDetails.description.StartDate}
+                onChange={(date, value) =>
+                  this.onDateTimeChange(date, value ? value : '', 'StartDate')
+                }
+                KeyboardButtonProps={{
+                  'aria-label': 'change date',
+                }}
+              />
+            </MuiPickersUtilsProvider>
+            {/* <label>Incepe in:</label>
             <DatePicker
               onChange={(date, dateString) => this.onDateTimeChange(date, dateString, 'StartDate')}
               placeholder={'Data'}
@@ -140,7 +165,7 @@ class DescriptionEventPage extends Component<any, any> {
                 DateHelper.GetDateFromString(this.state.eventDetails.description.StartDate) ||
                 undefined
               }
-            />
+            /> */}
 
             <TimePicker
               inputReadOnly
@@ -167,17 +192,26 @@ class DescriptionEventPage extends Component<any, any> {
                 ) || undefined
               }
             />
-            <label>Se termina in:</label>
-            <DatePicker
-              onChange={(date, dateString) => this.onDateTimeChange(date, dateString, 'EndDate')}
-              placeholder={'Data'}
-              size="large"
-              disabledDate={e => this.disabledDate(e, 'endDate')}
-              value={
-                DateHelper.GetDateFromString(this.state.eventDetails.description.EndDate) ||
-                undefined
-              }
-            />
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <KeyboardDatePicker
+                className="datepiker"
+                disableToolbar
+                // onOpen={()=>this.toggleDate()}
+                // open={this.state.openStartDate}
+                variant="inline"
+                format="yyyy/MM/dd"
+                margin="normal"
+                id="date-picker-inline"
+                label="Se Termina in:"
+                value={this.state.eventDetails.description.EndDate}
+                onChange={(date, value) =>
+                  this.onDateTimeChange(date, value ? value : '', 'EndDate')
+                }
+                KeyboardButtonProps={{
+                  'aria-label': 'change date',
+                }}
+              />
+            </MuiPickersUtilsProvider>
 
             <TimePicker
               inputReadOnly
@@ -233,6 +267,12 @@ class DescriptionEventPage extends Component<any, any> {
         </div>
       </div>
     );
+  }
+
+  toggleDate() {
+    this.setState({
+      openStartDate: !this.state.openStartDate,
+    });
   }
 
   async checkDates(description: DescriptionEventModel) {
