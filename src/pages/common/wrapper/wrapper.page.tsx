@@ -12,6 +12,7 @@ import UserProfilePage from '../../user/user-profile';
 import IntroLocation from '../../intro/intro-notification/intro-notification.page';
 import HistoryEventsPage from '../../event/history-event/history-events.page';
 import HistoryHelper from '../../../utilities/core/history';
+import EventInfoPage from '../../event/event-info/event-info.page';
 
 class WrapperPage extends Component {
   public render() {
@@ -31,6 +32,8 @@ class WrapperPage extends Component {
             <Route path="/profile" component={UserProfilePage} />
             <Route path="/step-four" component={IntroLocation} />
             <Route path="/events-history" component={HistoryEventsPage} />
+            <Route path="/event-info" component={EventInfoPage} />
+            <Route path="/edit-event-info" component={EventInfoPage} />
             <Route component={PageNotFound} />
           </Switch>
         </div>

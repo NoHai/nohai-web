@@ -97,6 +97,10 @@
     display: inline;
   }
 
+  TextArea{
+    font-size: 16px;
+  }
+
   .optional-span {
     font-size: 10px;
     color: $gray-dark-color;
@@ -123,13 +127,6 @@
     font-style: oblique;
     text-align: justify;
     margin-bottom: 15px;
-  }
-
-  .datepiker {
-    width: 50%;
-    margin-top: 0;
-    margin-bottom: 8px;
-    margin-right: 10%;
   }
 }
 

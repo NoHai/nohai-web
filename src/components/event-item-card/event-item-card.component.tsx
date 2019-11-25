@@ -11,7 +11,7 @@ class EventItemCard extends Component<EventItemCardProps, any> {
     const city = this.props.eventDetails.locationDetails.City;
     const date = moment(this.props.eventDetails.description.StartDate).format("YYYY-MM-DD");
     const time = this.props.eventDetails.description.StartTime;
-    const description = `${city}, ${DateHelper.GetDateFormat(date, 'dddd, DD MMMM')}, ${time}`;
+    const description = `${city}, ${DateHelper.GetDateFormat(date, 'dddd, DD MMMM')}, ${moment(time).format('HH:mm')}`;
 
     return (
       <div className="item-card">
