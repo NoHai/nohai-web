@@ -16,19 +16,11 @@ export let Description: ValidationSchema = {
     ],
     StartTime: [
       {
-        type: 'maxLength',
-        constraints: [6],
-      },
-      {
         type: 'minLength',
         constraints: [4],
       },
     ],
     EndTime: [
-      {
-        type: 'maxLength',
-        constraints: [6],
-      },
       {
         type: 'minLength',
         constraints: [4],

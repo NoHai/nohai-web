@@ -38,7 +38,7 @@ class EventHelperClass {
     const startTime = event.description.StartTime;
     const endTime = event.description.EndTime;
 
-    return `${startTime} - ${endTime}`;
+    return `${moment(startTime).format('HH:mm')} - ${moment(endTime).format('HH:mm')}`;
   }
 
   public isOwner(event: EventDetailsViewModel, userId: string) {
@@ -67,7 +67,7 @@ class EventHelperClass {
     var result = false;
     if (event.description.EndDate) {
       const endDate = moment(event.description.EndDate).format('YYYY-MM-DD');
-      const endTime = moment(event.description.EndTime, 'HH:mm').format('HH:mm');
+      const endTime = moment(event.description.EndTime).format('HH:mm');
       const endDateTime = moment(endDate + ' ' + endTime, 'YYYY-MM-DD HH:mm');
 
       const currentDate = moment();
@@ -79,10 +79,10 @@ class EventHelperClass {
 
   public isHappeningNow(event: EventDetailsViewModel) {
     const startDate = moment(event.description.StartDate).format('YYYY-MM-DD');
-    const startTime = moment(event.description.StartTime, 'HH:mm').format('HH:mm');
+    const startTime = moment(event.description.StartTime).format('HH:mm');
     const startDateTime = moment(startDate + ' ' + startTime, 'YYYY-MM-DD HH:mm');
     const endDate = moment(event.description.EndDate).format('YYYY-MM-DD');
-    const endTime = moment(event.description.EndTime, 'HH:mm').format('HH:mm');
+    const endTime = moment(event.description.EndTime).format('HH:mm');
     const endDateTime = moment(endDate + ' ' + endTime, 'YYYY-MM-DD HH:mm');
 
     const currentDate = moment();
@@ -105,7 +105,7 @@ class EventHelperClass {
       .format('dddd')}
     ${moment(eventDetails.description.StartDate).format('DD')} ${moment(
           eventDetails.description.StartDate
-        ).format('MMMM')} ora ${eventDetails.description.StartTime}`
+        ).format('MMMM')} ora ${moment(eventDetails.description.StartTime).format('HH:MM')}`
       : '';
   }
 }

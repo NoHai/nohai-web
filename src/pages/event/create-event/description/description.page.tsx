@@ -3,33 +3,28 @@ import { EventDetailsViewModel, DescriptionEventModel } from '../../../../contra
 import { registerSchema } from 'class-validator';
 import { Description } from './../../../../contracts/schemas/description.schema';
 import TextArea from 'antd/lib/input/TextArea';
-import { DatePicker, TimePicker, Button } from 'antd';
 import history from '../../../../utilities/core/history';
 import CreateEventHeaderComponent from '../../../../components/create-event-header/create-event-header';
 import { LocalStorage } from '../../../../contracts/enums/localStorage/local-storage';
 import LocalStorageHelper from '../../../../helpers/local-storage.helper';
 import { FormValidators } from '../../../../contracts/validators/forms-validators';
 import moment from 'moment';
-import DateFnsUtils from '@date-io/date-fns';
 import 'moment/locale/ro';
-import DateHelper from '../../../../helpers/date.helper';
 import HistoryHelper from '../../../../utilities/core/history';
 import CreateEventFooter from '../../../../components/create-event-footer/create-event-footer.component';
-import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import CustomDateTimePickerProps from '../../../../components/custom-datepicker/custom-datetimepicker.component';
+import { EventService } from '../../../../business/services';
 registerSchema(Description);
 
 const timeFormat = 'HH:mm';
-const dateFormat = 'YYYY-MM-DD';
 
 class DescriptionEventPage extends Component<any, any> {
   private isEditable: boolean = false;
   state = {
     eventDetails: new EventDetailsViewModel(),
+    errorMessage: '',
     validDates: false,
     validForm: false,
-    openStartTime: false,
-    openEndTime: false,
-    openStartDate: false,
   };
 
   async componentDidMount() {
@@ -39,20 +34,6 @@ class DescriptionEventPage extends Component<any, any> {
       this.state.eventDetails
     );
     if (this.isEditable) {
-      eventDetails.description.IsValid = true;
-    }
-
-    if (!eventDetails.description.StartDate) {
-      eventDetails.description.StartDate = moment().format(dateFormat);
-      eventDetails.description.EndDate = moment().format(dateFormat);
-      eventDetails.description.StartTime = moment()
-        .add(2, 'hours')
-        .startOf('hour')
-        .format(timeFormat);
-      eventDetails.description.EndTime = moment()
-        .add(4, 'hours')
-        .startOf('hour')
-        .format(timeFormat);
       eventDetails.description.IsValid = true;
     }
 
@@ -67,19 +48,135 @@ class DescriptionEventPage extends Component<any, any> {
     }
   }
 
-  handleClose(name: any) {
-    this.setState({
-      [name]: false,
-    });
+  public render() {
+    return (
+      <div className="event-list-item full-height">
+        <div className="item-card full-min-height">
+          <div className="margin-bottom">
+            <CreateEventHeaderComponent
+              title={'Detalii eveniment'}
+              imagePath="/assets/travel-tickets-colour.svg"
+            />
+            <label>Incepe in:</label>
+            <CustomDateTimePickerProps
+              cssClass="ionic-datepicker"
+              value={this.state.eventDetails.description.StartDate}
+              onValueChange={e => this.onDateTimeChange(e, 'StartDate')}
+            ></CustomDateTimePickerProps>
+
+            <CustomDateTimePickerProps
+              cssClass="ionic-timepicker"
+              value={this.state.eventDetails.description.StartTime}
+              dateFormat={timeFormat}
+              placeholder="Alege Ora"
+              isTimePiker={true}
+              onValueChange={e => this.onDateTimeChange(e, 'StartTime')}
+            ></CustomDateTimePickerProps>
+
+            <label>Se termina in:</label>
+            <CustomDateTimePickerProps
+              cssClass="ionic-datepicker"
+              value={this.state.eventDetails.description.EndDate}
+              onValueChange={e => this.onDateTimeChange(e, 'EndDate')}
+            ></CustomDateTimePickerProps>
+
+            <CustomDateTimePickerProps
+              cssClass="ionic-timepicker"
+              value={this.state.eventDetails.description.EndTime}
+              dateFormat={timeFormat}
+              placeholder="Alege Ora"
+              isTimePiker={true}
+              onValueChange={e => this.onDateTimeChange(e, 'EndTime')}
+            ></CustomDateTimePickerProps>
+
+            <div>
+              {this.state.validDates === false && this.state.validForm === true && (
+                <div className="error-text">{this.state.errorMessage}</div>
+              )}
+            </div>
+            <label className="inline-input-label">Descrierea Evenimentului</label>
+            <span className="optional-span">(Optional)</span>
+            <TextArea
+              rows={3}
+              data-lpignore="true"
+              name="Description"
+              placeholder="Adauga o descriere a evenimentului"
+              value={this.state.eventDetails.description.Description || ''}
+              onChange={e => this.onDescriptionChange(e)}
+            />
+          </div>
+
+          <CreateEventFooter
+            showLeftButton={true}
+            ShowCenterButton={false}
+            RightButtonIcon={'mdi-calendar-plus'}
+            RightButtonText={`${this.isEditable ? 'Salveaza' : 'Adauga'}`}
+            showRightButton={true}
+            onRightButtonClick={() => this.createEvent()}
+            onLeftButtonClick={() => this.goToLocationDetails()}
+            isValid={this.state.validForm && this.state.validDates}
+          ></CreateEventFooter>
+        </div>
+      </div>
+    );
   }
 
-  handleOpenChange(name: any) {
-    this.setState({
-      [name]: true,
-    });
+  private async checkDates(description: DescriptionEventModel) {
+    const { startDateTime, endDateTime, defaultStartDate } = this.calculateDate(description);
+    if (startDateTime.isSameOrBefore(defaultStartDate)) {
+      this.setState({
+        errorMessage:
+          '*Verifica te rog datele. Evenimentul trebuie sa inceapa cu cel putin o ora dupa momentul in care ne aflam',
+      });
+      return false;
+    } else if (startDateTime.isAfter(endDateTime)) {
+      this.setState({
+        errorMessage:
+          '*Verifica te rog datele. Data de final nu trebuie sa fie inainte de data de inceput',
+      });
+      return false;
+    } else {
+      return true;
+    }
   }
 
-  async handleChange(event: any) {
+  private async chekIfIsValid() {
+    const isValid = await FormValidators.checkSchema(
+      this.state.eventDetails.description,
+      'description'
+    );
+
+    return isValid;
+  }
+
+  private calculateDate(description: DescriptionEventModel) {
+    const startDate = moment(description.StartDate).format('YYYY-MM-DD');
+    const startTime = moment(description.StartTime).format('HH:mm');
+    const startDateTime = moment(startDate + ' ' + startTime, 'YYYY-MM-DD HH:mm');
+    const endDate = moment(description.EndDate).format('YYYY-MM-DD');
+    const endTime = moment(description.EndTime).format('HH:mm');
+    const endDateTime = moment(endDate + ' ' + endTime, 'YYYY-MM-DD HH:mm');
+    const defaultStartDate = moment().add(1, 'hour');
+
+    return { startDateTime, endDateTime, defaultStartDate };
+  }
+
+  private goToLocationDetails() {
+    LocalStorageHelper.SaveItemToLocalStorage(LocalStorage.CreateEvent, this.state.eventDetails);
+    this.isEditable
+      ? history.push('/edit-event/location-details')
+      : history.push('/create-event/location-details');
+  }
+
+  private async createEvent() {
+    const result = await EventService.Create(this.state.eventDetails);
+    if (result) {
+      LocalStorageHelper.DeleteItemFromLocalStorage(LocalStorage.CreateEvent);
+      history.push(`/${this.isEditable ? 'edit-event-info' : 'event-info'}`);
+    }
+  }
+
+  private async onDescriptionChange(event: any) {
     const { name, value } = event.target;
 
     const val = name === 'Duration' ? parseInt(value, 10) : value;
@@ -94,9 +191,9 @@ class DescriptionEventPage extends Component<any, any> {
     }));
   }
 
-  async onDateTimeChange(date: any, DateTimeString: string, name: string) {
+  private async onDateTimeChange(event: any, name: string) {
     const description: any = this.state.eventDetails.description;
-    description[name] = DateTimeString;
+    description[name] = event;
 
     const validDates = await this.checkDates(description);
     const isValid = await this.chekIfIsValid();
@@ -106,227 +203,13 @@ class DescriptionEventPage extends Component<any, any> {
         ...prevState.eventDetails,
         description: {
           ...prevState.eventDetails.description,
-          [name]: DateTimeString,
+          [name]: event,
           IsValid: isValid,
         },
       },
       validDates,
       validForm: isValid,
     }));
-
-    this.toggleDate();
-  }
-
-  async chekIfIsValid() {
-    const isValid = await FormValidators.checkSchema(
-      this.state.eventDetails.description,
-      'description'
-    );
-
-    return isValid;
-  }
-
-  public render() {
-    return (
-      <div className="event-list-item full-height">
-        <div className="item-card full-min-height">
-          <div className="margin-bottom">
-            <CreateEventHeaderComponent
-              title={'Detalii eveniment'}
-              imagePath="/assets/travel-tickets-colour.svg"
-            />
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <KeyboardDatePicker
-                className="datepiker"
-                disableToolbar
-                // onOpen={()=>this.toggleDate()}
-                // open={this.state.openStartDate}
-                variant="inline"
-                format="yyyy/MM/dd"
-                margin="normal"
-                id="date-picker-inline"
-                label="Incepe in:"
-                value={this.state.eventDetails.description.StartDate}
-                onChange={(date, value) =>
-                  this.onDateTimeChange(date, value ? value : '', 'StartDate')
-                }
-                KeyboardButtonProps={{
-                  'aria-label': 'change date',
-                }}
-              />
-            </MuiPickersUtilsProvider>
-            {/* <label>Incepe in:</label>
-            <DatePicker
-              onChange={(date, dateString) => this.onDateTimeChange(date, dateString, 'StartDate')}
-              placeholder={'Data'}
-              disabledDate={e => this.disabledDate(e, 'startDate')}
-              size="large"
-              value={
-                DateHelper.GetDateFromString(this.state.eventDetails.description.StartDate) ||
-                undefined
-              }
-            /> */}
-
-            <TimePicker
-              inputReadOnly
-              open={this.state.openStartTime}
-              onOpenChange={e => this.handleOpenChange('openStartTime')}
-              size="large"
-              addon={() => (
-                <Button
-                  size="small"
-                  type="primary"
-                  onClick={e => this.handleClose('openStartTime')}
-                >
-                  Ok
-                </Button>
-              )}
-              defaultOpenValue={moment('12:00', timeFormat)}
-              format={timeFormat}
-              onChange={(time, timeString) => this.onDateTimeChange(time, timeString, 'StartTime')}
-              placeholder={'Ora'}
-              value={
-                DateHelper.GetDateFromString(
-                  this.state.eventDetails.description.StartTime,
-                  timeFormat
-                ) || undefined
-              }
-            />
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <KeyboardDatePicker
-                className="datepiker"
-                disableToolbar
-                // onOpen={()=>this.toggleDate()}
-                // open={this.state.openStartDate}
-                variant="inline"
-                format="yyyy/MM/dd"
-                margin="normal"
-                id="date-picker-inline"
-                label="Se Termina in:"
-                value={this.state.eventDetails.description.EndDate}
-                onChange={(date, value) =>
-                  this.onDateTimeChange(date, value ? value : '', 'EndDate')
-                }
-                KeyboardButtonProps={{
-                  'aria-label': 'change date',
-                }}
-              />
-            </MuiPickersUtilsProvider>
-
-            <TimePicker
-              inputReadOnly
-              open={this.state.openEndTime}
-              onOpenChange={e => this.handleOpenChange('openEndTime')}
-              defaultOpenValue={moment('12:00', timeFormat)}
-              format={timeFormat}
-              size="large"
-              addon={() => (
-                <Button size="small" type="primary" onClick={e => this.handleClose('openEndTime')}>
-                  Ok
-                </Button>
-              )}
-              onChange={(time, timeString) => this.onDateTimeChange(time, timeString, 'EndTime')}
-              placeholder={'Ora'}
-              value={
-                DateHelper.GetDateFromString(
-                  this.state.eventDetails.description.EndTime,
-                  timeFormat
-                ) || undefined
-              }
-            />
-            <div>
-              {this.state.validDates === false && this.state.validForm === true && (
-                <div className="error-text">
-                  *Verifica datele evenimentului. Ora inceperii activitatii trebuie sa fie cu cel
-                  putin 30 de minute dupa ora curenta.
-                </div>
-              )}
-            </div>
-            <label className="inline-input-label">Descrierea Evenimentului</label>
-            <span className="optional-span">(Optional)</span>
-            <TextArea
-              rows={3}
-              data-lpignore="true"
-              name="Description"
-              placeholder="Adauga o descriere a evenimentului"
-              value={this.state.eventDetails.description.Description || ''}
-              onChange={e => this.handleChange(e)}
-            />
-          </div>
-
-          <CreateEventFooter
-            showLeftButton={true}
-            ShowCenterButton={false}
-            RightButtonIcon={'mdi-calendar-check'}
-            RightButtonText={'Vizualizeaza'}
-            showRightButton={true}
-            onRightButtonClick={() => this.goToDetails()}
-            onLeftButtonClick={() => this.goToLocationDetails()}
-            isValid={this.state.validForm && this.state.validDates}
-          ></CreateEventFooter>
-        </div>
-      </div>
-    );
-  }
-
-  toggleDate() {
-    this.setState({
-      openStartDate: !this.state.openStartDate,
-    });
-  }
-
-  async checkDates(description: DescriptionEventModel) {
-    const { startDate, endDate, nowDate, startTime, nowTime, endTime } = this.calculateDate(
-      description
-    );
-    const happensInSameDay = startDate.isSame(endDate);
-    const happensToday = startDate.isSame(nowDate);
-    let isValid = false;
-    if (happensToday) {
-      isValid = happensInSameDay
-        ? startTime.isSameOrAfter(nowTime, 'minutes') && startTime.isBefore(endTime)
-        : startTime.isSameOrAfter(nowTime, 'minutes');
-    } else {
-      isValid = happensInSameDay ? startTime.isBefore(endTime) : startDate.isBefore(endDate);
-    }
-    return isValid;
-  }
-
-  disabledDate(current: any, type: string) {
-    return type === 'startDate'
-      ? current < moment().subtract(1, 'days')
-      : current < moment(this.state.eventDetails.description.StartDate);
-  }
-
-  goToLocationDetails() {
-    LocalStorageHelper.SaveItemToLocalStorage(LocalStorage.CreateEvent, this.state.eventDetails);
-    this.isEditable
-      ? history.push('/edit-event/location-details')
-      : history.push('/create-event/location-details');
-  }
-
-  goToDetails() {
-    LocalStorageHelper.SaveItemToLocalStorage(LocalStorage.CreateEvent, this.state.eventDetails);
-    this.isEditable ? history.push('/edit-event/preview') : history.push('/create-event/preview');
-  }
-
-  private calculateDate(description: DescriptionEventModel) {
-    const startDate = this.isEditable
-      ? moment(description.StartDate)
-      : moment(description.StartDate, dateFormat);
-    const endDate = this.isEditable
-      ? moment(description.EndDate)
-      : moment(description.EndDate, dateFormat);
-    const startTime = moment(description.StartTime, timeFormat);
-    const endTime = moment(description.EndTime, timeFormat);
-    const today = moment().format(dateFormat);
-    const now = moment()
-      .add(30, 'minutes')
-      .format(timeFormat);
-    const nowDate = moment(today, dateFormat);
-    const nowTime = moment(now, timeFormat);
-
-    return { startDate, endDate, nowDate, startTime, nowTime, endTime };
   }
 }
 
