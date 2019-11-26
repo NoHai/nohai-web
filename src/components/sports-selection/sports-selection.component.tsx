@@ -117,10 +117,10 @@ class SportsSelection extends Component<SportSelectionProps> {
   }
 
   private getDisplay() {
-    const hasValue = this.props.level;
-    return hasValue
-      ? `${this.props.sport.Name} - ${SportLevelType[this.props.level]}`
-      : 'Alege activitatea';
+    // const hasValue = false;
+    // return hasValue
+    //   ? `${this.props.sport.Name} - ${SportLevelType[this.props.level]}`
+    //   : 'Alege activitatea';
   }
 
   private async getSports() {

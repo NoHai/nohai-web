@@ -24,13 +24,12 @@ class IntroSport extends Component<any, any> {
     });
   }
 
-  async onCloseDrawer(sport: SportModel, level: number) {
+  async onCloseDrawer(sport: SportModel) {
     this.setState((prevState: any) => ({
       registerDetails: {
         ...prevState.registerDetails,
         details: {
           ...prevState.registerDetails.details,
-          Level: level,
           Sport: sport,
         },
         sport,
@@ -52,8 +51,7 @@ class IntroSport extends Component<any, any> {
 
             <SportsSelection
               sport={this.state.registerDetails.sport}
-              level={this.state.registerDetails.details.Level}
-              onCloseDrawer={(sport, level) => this.onCloseDrawer(sport, level)}
+              onCloseDrawer={(sport) => this.onCloseDrawer(sport)}
             />
           </div>
 

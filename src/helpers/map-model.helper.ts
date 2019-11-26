@@ -37,7 +37,7 @@ export default class MapModelHelper {
     result.sport.ImagePath = model.sport.imagePath;
     result.participantsDetails.Level = model.level;
 
-    result.status=model.status
+    result.status = model.status;
 
     return result;
   }
@@ -54,13 +54,18 @@ export default class MapModelHelper {
   public static MapUser(model: any): UserViewModel {
     const result = new UserViewModel();
     result.user.Id = model.id;
-    result.user.FirstName = model.firstName;
-    result.user.LastName = model.lastName;
+    result.user.FirstName = model.details.firstName;
+    result.user.LastName = model.details.lastName;
     result.user.Email = model.login;
-    result.user.Url = model.picture;
+    result.user.Url = model.details.picture;
 
-    result.details.DateOfBirth = model.dateOfBirth;
-    result.sport.Name = model.favoriteSport.name;
+    result.details.DateOfBirth = model.details.dateOfBirth;
+    result.details.JobTitle = model.details.jobTitle;
+    result.details.WebPage = model.details.webPage;
+    result.details.FacebookPage = model.details.facebookPage;
+    result.details.Description = model.details.description;
+    result.details.City = model.details.city;
+    result.sport.Name = model.favoriteSport[0].sport.name;
     return result;
   }
 
