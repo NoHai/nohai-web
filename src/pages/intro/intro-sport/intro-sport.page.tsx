@@ -51,7 +51,6 @@ class IntroSport extends Component<any, any> {
             <div className="selection-container">
               <SportsSelection
                 sport={this.state.registerDetails.sport}
-                level={this.state.registerDetails.details.Level}
                 onCloseDrawer={sport => this.onCloseDrawer(sport)}
               />
             </div>

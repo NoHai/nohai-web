@@ -82,7 +82,6 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
             <label>Activitatea si nivelul</label>
             <SportsSelection
               sport={this.state.eventDetails.sport || ''}
-              level={this.state.eventDetails.participantsDetails.Level || 0}
               onCloseDrawer={(sport) => this.onCloseDrawer(sport)}
             />
             <label className="inline-input-label">Locuri disponibile</label>
