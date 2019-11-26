@@ -24,13 +24,12 @@ class IntroSport extends Component<any, any> {
     });
   }
 
-  async onCloseDrawer(sport: SportModel, level: number) {
+  async onCloseDrawer(sport: SportModel) {
     this.setState((prevState: any) => ({
       registerDetails: {
         ...prevState.registerDetails,
         details: {
           ...prevState.registerDetails.details,
-          Level: level,
           Sport: sport,
         },
         sport,
@@ -49,12 +48,13 @@ class IntroSport extends Component<any, any> {
               Alege activitatea de care esti pasionat si nivelul. <br />
               Pe baza activitati selectate iti vom genera timeline-ul
             </p>
-
-            <SportsSelection
-              sport={this.state.registerDetails.sport}
-              level={this.state.registerDetails.details.Level}
-              onCloseDrawer={(sport, level) => this.onCloseDrawer(sport, level)}
-            />
+            <div className="selection-container">
+              <SportsSelection
+                sport={this.state.registerDetails.sport}
+                level={this.state.registerDetails.details.Level}
+                onCloseDrawer={sport => this.onCloseDrawer(sport)}
+              />
+            </div>
           </div>
 
           <div className="page-section page-section-footer">
@@ -72,7 +72,7 @@ class IntroSport extends Component<any, any> {
                 </Col>
                 <Col span={12} className="text-right">
                   <Button
-                    disabled={this.state.registerDetails.details.Level === undefined}
+                    disabled={this.state.registerDetails.sport.Name === undefined}
                     type="primary"
                     onClick={() => {
                       this.GoForward();
@@ -100,7 +100,7 @@ class IntroSport extends Component<any, any> {
 
   private GoBack() {
     LocalStorageHelper.SaveItemToLocalStorage(LocalStorage.IntroInfo, this.state.registerDetails);
-    history.push('/intro/step-two');
+    history.push('/intro/step-one');
   }
 }
 
@@ -119,7 +119,4 @@ const mapDispatchToProps = {
   registerComplete,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(IntroSport);
+export default connect(mapStateToProps, mapDispatchToProps)(IntroSport);

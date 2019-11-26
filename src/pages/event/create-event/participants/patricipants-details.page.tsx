@@ -49,14 +49,10 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
     }));
   }
 
-  async onCloseDrawer(sport: SportModel, level: number) {
+  async onCloseDrawer(sport: SportModel) {
     this.setState((prevState: any) => ({
       eventDetails: {
         ...prevState.eventDetails,
-        participantsDetails: {
-          ...prevState.eventDetails.participantsDetails,
-          Level: level,
-        },
         sport,
       },
     }));
@@ -87,7 +83,7 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
             <SportsSelection
               sport={this.state.eventDetails.sport || ''}
               level={this.state.eventDetails.participantsDetails.Level || 0}
-              onCloseDrawer={(sport, level) => this.onCloseDrawer(sport, level)}
+              onCloseDrawer={(sport) => this.onCloseDrawer(sport)}
             />
             <label className="inline-input-label">Locuri disponibile</label>
             <span className="optional-span">(Optional)</span>
