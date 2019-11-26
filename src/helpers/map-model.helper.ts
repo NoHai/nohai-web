@@ -59,9 +59,7 @@ export default class MapModelHelper {
     result.user.Email = model.login;
     result.user.Url = model.picture;
 
-    result.details.Day = model.dateOfBirth;
-    result.details.Weight = model.weight;
-    result.details.Height = model.height;
+    result.details.DateOfBirth = model.dateOfBirth;
     result.sport.Name = model.favoriteSport.name;
     return result;
   }

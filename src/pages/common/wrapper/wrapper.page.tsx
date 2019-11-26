@@ -33,7 +33,7 @@ class WrapperPage extends Component {
             <Route path="/step-four" component={IntroLocation} />
             <Route path="/events-history" component={HistoryEventsPage} />
             <Route path="/event-info" component={EventInfoPage} />
-            <Route path="/edit-event-info" component={EventInfoPage} />
+            <Route path="/event-edit-info" component={EventInfoPage} />
             <Route component={PageNotFound} />
           </Switch>
         </div>

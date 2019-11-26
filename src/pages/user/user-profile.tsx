@@ -20,7 +20,7 @@ class UserProfilePage extends Component {
 
   render(): any {
     const age: number | string =
-      moment().diff(moment(this.state.userDetails.details.Day, 'DD/MM/YYYY'), 'years') || '';
+      moment().diff(moment(this.state.userDetails.details.DateOfBirth, 'DD/MM/YYYY'), 'years') || '';
 
     return (
       <div className="user-profile event-list-item full-height">
@@ -47,11 +47,11 @@ class UserProfilePage extends Component {
                     title={'Data Nasterii'}
                     iconClass="mdi mdi-calendar-outline"
                     description={`${moment(
-                      this.state.userDetails.details.Day,
+                      this.state.userDetails.details.DateOfBirth,
                       'DD/MM/YYYY'
-                    ).format('DD')} ${moment(this.state.userDetails.details.Day, 'DD/MM/YYYY').format(
+                    ).format('DD')} ${moment(this.state.userDetails.details.DateOfBirth, 'DD/MM/YYYY').format(
                       'MMMM'
-                    )} ${moment(this.state.userDetails.details.Day, 'DD/MM/YYYY').format('YYYY')}`}
+                    )} ${moment(this.state.userDetails.details.DateOfBirth, 'DD/MM/YYYY').format('YYYY')}`}
                   />
                   <EventCardOption
                     title={'Varsta '}

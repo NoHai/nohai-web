@@ -38,9 +38,9 @@ class UserRepositoryController implements IUserRepository {
       details: {
         firstName: userDetails.user.FirstName,
         lastName: userDetails.user.LastName,
-        dateOfBirth: `${userDetails.details.Day}/${userDetails.details.Month}/${userDetails.details.Year}`,
-        height: +userDetails.details.Height,
-        weight: +userDetails.details.Weight,
+        dateOfBirth: userDetails.details.DateOfBirth,
+        height:0,
+        weight: 0,
         favoriteSport: { id: userDetails.sport.Id }
       },
     };

@@ -23,7 +23,8 @@ class CustomDateTimePiker extends Component<CustomDateTimePickerProps> {
       'Dec',
     ];
 
-    const yearValues=`${moment().format('YYYY')}, ${moment().add(1,'year').format('YYYY')}` 
+    const min=`${moment().add(-60,'year').format('YYYY-MM-DD')}` ;
+    const max=`${moment().add(1,'year').format('YYYY-MM-DD')}` ;
 
     return (
       <div className={this.props.cssClass}>
@@ -32,9 +33,10 @@ class CustomDateTimePiker extends Component<CustomDateTimePickerProps> {
             placeholder={placeholder}
             value={this.props.value}
             onIonChange={event => this.props.onValueChange(event.detail.value)}
-            yearValues={yearValues}
             displayFormat={dateFormat}
             monthShortNames={customDayShortNames}
+            min={min}
+            max={max}
             doneText="Ok"
             cancelText="Anuleaza"
           ></IonDatetime>

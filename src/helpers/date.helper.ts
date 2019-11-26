@@ -15,29 +15,6 @@ class DateHelperClass {
     return DateHelperClass.instance;
   }
 
-  public GetMonths() {
-    const months = [
-      'Ianuarie',
-      'Februarie',
-      'Martie',
-      'Aprilie',
-      'Mai',
-      'Iunie',
-      'Iulie',
-      'August',
-      'Septembrie',
-      'Octombrie',
-      'Noiembrie',
-      'Decembrie',
-    ];
-
-    return months;
-  }
-
-  public GetDays() {
-    return ['Luni', 'Marti', 'Miercuri', 'Joi', 'Vineri', 'Sambata', 'Duminica'];
-  }
-
   public GetDateFormat(date: string, format: string = 'DD/MM/YY') {
     return moment(date, 'YYYY-MM-DD').format(format);
   }
