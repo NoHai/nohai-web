@@ -15,10 +15,10 @@ export default class MapModelHelper {
 
     result.event.Id = model.id;
     result.event.Name = model.title;
-    result.owner.FirstName = model.owner.firstName;
-    result.owner.LastName = model.owner.lastName;
+    result.owner.FirstName = model.owner.details.firstName;
+    result.owner.LastName = model.owner.details.lastName;
     result.owner.Status = model.owner.Status;
-    result.owner.Url = model.owner.picture;
+    result.owner.Url = model.owner.details.picture;
     result.owner.Id = model.owner.id;
 
     result.locationDetails.StreetName = model.address.streetName;
@@ -65,7 +65,7 @@ export default class MapModelHelper {
     result.details.FacebookPage = model.details.facebookPage;
     result.details.Description = model.details.description;
     result.details.City = model.details.city;
-    result.sport.Name = model.favoriteSport[0].sport.name;
+    // result.sport.Name = model.favoriteSports[0].sport.name;
     return result;
   }
 
@@ -102,10 +102,10 @@ export default class MapModelHelper {
     const result = new ParticipantModel();
     if (model) {
       result.Id = model.user.id;
-      result.FirstName = model.user.firstName;
-      result.LastName = model.user.lastName;
+      result.FirstName = model.user.details.firstName;
+      result.LastName = model.user.details.lastName;
       result.Status = model.status;
-      result.Url = model.user.picture;
+      result.Url = model.user.details.picture;
     }
 
     return result;

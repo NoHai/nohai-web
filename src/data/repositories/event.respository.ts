@@ -25,9 +25,11 @@ class EventRepositoryController implements IEventRepository {
                     status
                     owner{
                         id
-                        firstName
-                        lastName
-                        picture
+                        details {
+                          firstName
+                          lastName
+                          picture
+                        }
                     }
                     title
                     description
@@ -71,9 +73,11 @@ class EventRepositoryController implements IEventRepository {
             status
             owner {
               id
-              firstName
-              lastName
-              picture
+              details {
+                firstName
+                lastName
+                picture
+              }
             }
             title
             description
@@ -104,9 +108,11 @@ class EventRepositoryController implements IEventRepository {
             status
             user {
               id
-              firstName
-              lastName
-              picture
+              details{
+                firstName
+                lastName
+                picture
+              }
             }
           }
         }
