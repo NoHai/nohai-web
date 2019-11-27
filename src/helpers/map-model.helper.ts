@@ -54,17 +54,19 @@ export default class MapModelHelper {
   public static MapUser(model: any): UserViewModel {
     const result = new UserViewModel();
     result.user.Id = model.id;
-    result.user.FirstName = model.details.firstName;
-    result.user.LastName = model.details.lastName;
     result.user.Email = model.login;
-    result.user.Url = model.details.picture;
+    if (model.details) {
+      result.user.Url = model.details.picture;
+      result.user.FirstName = model.details.firstName;
+      result.user.LastName = model.details.lastName;
+      result.details.DateOfBirth = model.details.dateOfBirth;
+      result.details.JobTitle = model.details.jobTitle;
+      result.details.WebPage = model.details.webPage;
+      result.details.FacebookPage = model.details.facebookPage;
+      result.details.Description = model.details.description;
+      result.details.City = model.details.city;
+    }
 
-    result.details.DateOfBirth = model.details.dateOfBirth;
-    result.details.JobTitle = model.details.jobTitle;
-    result.details.WebPage = model.details.webPage;
-    result.details.FacebookPage = model.details.facebookPage;
-    result.details.Description = model.details.description;
-    result.details.City = model.details.city;
     // result.sport.Name = model.favoriteSports[0].sport.name;
     return result;
   }
