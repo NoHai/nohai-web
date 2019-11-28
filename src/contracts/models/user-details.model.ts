@@ -6,4 +6,9 @@ export class UserDetailsModel {
   public FacebookPage?: string;
   public WebPage?: string;
   public Picture?: string;
+  public Activities!: Array<string>;
+
+  constructor() {
+    this.Activities = new  Array<string>();
+  }
 }

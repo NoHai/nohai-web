@@ -61,7 +61,7 @@ class UserProfilePage extends Component {
                   <EventCardOption
                     title={'Pasiuni '}
                     iconClass="mdi mdi-whistle"
-                    description={`${this.state.userDetails.sport.Name}`}
+                    // description={`${this.state.userDetails.sport.Name}`}
                   />
                 </div>
               <div>

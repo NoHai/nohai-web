@@ -6,7 +6,6 @@ import { UserService } from '../../../business/services/user.service';
 import { UserViewModel } from '../../../contracts/view-models/user-view.model';
 import { LocalStorage } from '../../../contracts/enums/localStorage/local-storage';
 import LocalStorageHelper from '../../../helpers/local-storage.helper';
-import { SportModel } from '../../../contracts/models/sport.model';
 import { connect } from 'react-redux';
 import { registerComplete } from './../../../redux/actions/auth.action';
 import { initialAuthState } from '../../../redux/reducers/auth.reducer';
@@ -24,15 +23,14 @@ class IntroSport extends Component<any, any> {
     });
   }
 
-  async onCloseDrawer(sport: SportModel) {
+  async onCloseDrawer(activities: Array<string>) {
     this.setState((prevState: any) => ({
       registerDetails: {
         ...prevState.registerDetails,
         details: {
           ...prevState.registerDetails.details,
-          Sport: sport,
+          Activities: activities,
         },
-        sport,
       },
     }));
   }
@@ -50,8 +48,9 @@ class IntroSport extends Component<any, any> {
             </p>
             <div className="selection-container">
               <SportsSelection
-                sport={this.state.registerDetails.sport}
-                onCloseDrawer={sport => this.onCloseDrawer(sport)}
+                multiple={true}
+                acivities={this.state.registerDetails.details.Activities}
+                onCloseDrawer={acivities => this.onCloseDrawer(acivities)}
               />
             </div>
           </div>
@@ -71,7 +70,10 @@ class IntroSport extends Component<any, any> {
                 </Col>
                 <Col span={12} className="text-right">
                   <Button
-                    disabled={this.state.registerDetails.sport.Name === undefined}
+                    disabled={
+                      this.state.registerDetails.details.Activities &&
+                      this.state.registerDetails.details.Activities.length < 0
+                    }
                     type="primary"
                     onClick={() => {
                       this.GoForward();

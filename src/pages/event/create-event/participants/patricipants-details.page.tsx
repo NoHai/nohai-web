@@ -49,15 +49,17 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
     }));
   }
 
-  async onCloseDrawer(sport: SportModel) {
+  async onCloseDrawer(activities: Array<string>) {
     this.setState((prevState: any) => ({
       eventDetails: {
         ...prevState.eventDetails,
-        sport,
+        participantsDetails: {
+          ActivityId:activities[0],
+        },
       },
     }));
 
-    if (sport && sport.Name !== '') {
+    if (activities.length > 0) {
       this.setState((prevState: any) => ({
         eventDetails: {
           ...prevState.eventDetails,
@@ -81,8 +83,8 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
             />
             <label>Activitatea si nivelul</label>
             <SportsSelection
-              sport={this.state.eventDetails.sport || ''}
-              onCloseDrawer={(sport) => this.onCloseDrawer(sport)}
+              acivities={this.state.eventDetails.participantsDetails.ActivityId}
+              onCloseDrawer={acivities => this.onCloseDrawer(acivities)}
             />
             <label className="inline-input-label">Locuri disponibile</label>
             <span className="optional-span">(Optional)</span>

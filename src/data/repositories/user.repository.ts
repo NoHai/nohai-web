@@ -49,22 +49,22 @@ class UserRepositoryController implements IUserRepository {
         picture: userDetails.details.Picture,
         webPage: userDetails.details.WebPage,
         facebookPage: userDetails.details.FacebookPage,
-        favoriteSports: [{ sport: { id: userDetails.sport.Id } }]
+        favoriteSports: userDetails.details.Activities.map((id) => {
+          return {sport: { id}};
+        })
       },
     };
 
     const updateMutation = gql`
       mutation updateMutation($details: UserDetailsInput!) {
-        saveUserDetails(input: $details) {
-          user { id }
-        }
+        saveUserDetails(input: $details) 
       }
     `;
 
     const result: any = await GraphqlClient.mutate(updateMutation, input);
     const user = new UserViewModel();
-    user.user.Id = result.saveUserDetails;
-    return user;
+    user.user.Id = result;
+    return result;
   }
 
   public Delete(data: any): Promise<ResultModel<boolean>> {

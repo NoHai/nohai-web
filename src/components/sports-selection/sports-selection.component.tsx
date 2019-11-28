@@ -7,7 +7,6 @@ import { IonSelect, IonSelectOption } from '@ionic/react';
 
 class SportsSelection extends Component<SportSelectionProps> {
   state = { visible: false, childrenDrawer: false, sports: new Array<SportModel>() };
-  private levels = [1, 2, 3];
   private isMount: boolean = false;
   public selectedSport = new SportModel();
 
@@ -24,23 +23,26 @@ class SportsSelection extends Component<SportSelectionProps> {
     const customActionSheetOptions = {
       header: 'Activitati',
     };
+    const multiple= this.props.multiple? this.props.multiple: false
 
     return (
       <div>
-        <IonSelect className="activity-selection"
-          interfaceOptions={customActionSheetOptions}
+        <IonSelect
+          className="activity-selection"
+          value={this.props.acivities}
           interface="action-sheet"
           placeholder="Alege Activitatea"
-          multiple={true}
-          onIonChange={(e)=>this.onValueChange(e)}
-          //onSubmit={(e)=>this.onValueChange(e)}
+          multiple={multiple}
+          onIonChange={e => this.onValueChange(e)}
         >
-          {this.state.sports.map((element, index)=>{
-          return <IonSelectOption key={index} value={element.Id}>{element.Name}</IonSelectOption>
+          {this.state.sports.map((element, index) => {
+            return (
+              <IonSelectOption key={index} value={element.Id}>
+                {element.Name}
+              </IonSelectOption>
+            );
           })}
-         
         </IonSelect>
-        
       </div>
     );
   }
@@ -54,14 +56,19 @@ class SportsSelection extends Component<SportSelectionProps> {
     }
   }
 
-
   private onValueChange(event: any) {
-    let sport = new SportModel();
-    // sport.Id = activity.value;
-    // sport.Name = activity.text;
-    // if (this.props.onCloseDrawer) {
-    //   this.props.onCloseDrawer(sport);
-    // }
+    let activities = new Array<string>();
+    if (event.detail.value && event.detail.value !== this.props.acivities) {
+      if(this.props.multiple){
+      event.detail.value.forEach((element: any) => {
+        activities.push(element);
+      });
+    }else{
+      activities.push(event.detail.value)
+    }
+
+      this.props.onCloseDrawer(activities);
+    }
   }
 }
 

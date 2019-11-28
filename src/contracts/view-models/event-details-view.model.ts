@@ -5,17 +5,16 @@ import { EventModel } from '../models/event.model';
 import { SportModel } from '../models/sport.model';
 import { ParticipantModel } from '../models/participant.model';
 export class EventDetailsViewModel {
-  sport!: SportModel;
   event!: EventModel;
   participantsDetails!: ParticipantsEventDetailsModel;
   locationDetails!: LocationEventDetailsModel;
   description!: DescriptionEventModel;
   participants!: ParticipantModel[];
   owner!: ParticipantModel;
-  status!:number;
+  status!: number;
+  sport!: SportModel;
 
   constructor() {
-    this.sport = new SportModel();
     this.event = new EventModel();
     this.participantsDetails = new ParticipantsEventDetailsModel();
     this.locationDetails = new LocationEventDetailsModel();
