@@ -8,7 +8,6 @@ import history from '../../../../utilities/core/history';
 import CreateEventHeaderComponent from '../../../../components/create-event-header/create-event-header';
 import { LocalStorage } from '../../../../contracts/enums/localStorage/local-storage';
 import LocalStorageHelper from '../../../../helpers/local-storage.helper';
-import { SportModel } from '../../../../contracts/models/sport.model';
 import CreateEventFooter from '../../../../components/create-event-footer/create-event-footer.component';
 import HistoryHelper from '../../../../utilities/core/history';
 const { confirm } = Modal;

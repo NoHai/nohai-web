@@ -65,9 +65,9 @@ export default class MapModelHelper {
       result.details.FacebookPage = model.details.facebookPage;
       result.details.Description = model.details.description;
       result.details.City = model.details.city;
+      result.details.Activities = model.details.favoriteSports.map((fs: any) => fs.sport.name)
     }
-
-    // result.sport.Name = model.favoriteSports[0].sport.name;
+    
     return result;
   }
 

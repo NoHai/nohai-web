@@ -30,10 +30,11 @@ class SportsSelection extends Component<SportSelectionProps> {
         <IonSelect
           className="activity-selection"
           value={this.props.acivities}
-          interface="action-sheet"
           placeholder="Alege Activitatea"
           multiple={multiple}
+          interfaceOptions= {customActionSheetOptions}
           onIonChange={e => this.onValueChange(e)}
+          cancelText={'Anuleaza'}
         >
           {this.state.sports.map((element, index) => {
             return (
