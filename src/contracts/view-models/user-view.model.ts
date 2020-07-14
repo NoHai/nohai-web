@@ -1,6 +1,5 @@
 import { UserModel } from '../models/user.model';
 import { UserDetailsModel } from '../models/user-details.model';
-import { SportModel } from '../models/sport.model';
 
 export class UserViewModel {
   user!: UserModel;
