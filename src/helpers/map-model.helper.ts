@@ -15,10 +15,10 @@ export default class MapModelHelper {
 
     result.event.Id = model.id;
     result.event.Name = model.title;
-    result.owner.FirstName = model.owner.firstName;
-    result.owner.LastName = model.owner.lastName;
+    result.owner.FirstName = model.owner.details.firstName;
+    result.owner.LastName = model.owner.details.lastName;
     result.owner.Status = model.owner.Status;
-    result.owner.Url = model.owner.picture;
+    result.owner.Url = model.owner.details.picture;
     result.owner.Id = model.owner.id;
 
     result.locationDetails.StreetName = model.address.streetName;
@@ -37,7 +37,7 @@ export default class MapModelHelper {
     result.sport.ImagePath = model.sport.imagePath;
     result.participantsDetails.Level = model.level;
 
-    result.status=model.status
+    result.status = model.status;
 
     return result;
   }
@@ -54,15 +54,20 @@ export default class MapModelHelper {
   public static MapUser(model: any): UserViewModel {
     const result = new UserViewModel();
     result.user.Id = model.id;
-    result.user.FirstName = model.firstName;
-    result.user.LastName = model.lastName;
     result.user.Email = model.login;
-    result.user.Url = model.picture;
-
-    result.details.Day = model.dateOfBirth;
-    result.details.Weight = model.weight;
-    result.details.Height = model.height;
-    result.sport.Name = model.favoriteSport.name;
+    if (model.details) {
+      result.user.Url = model.details.picture;
+      result.user.FirstName = model.details.firstName;
+      result.user.LastName = model.details.lastName;
+      result.details.DateOfBirth = model.details.dateOfBirth;
+      result.details.JobTitle = model.details.jobTitle;
+      result.details.WebPage = model.details.webPage;
+      result.details.FacebookPage = model.details.facebookPage;
+      result.details.Description = model.details.description;
+      result.details.City = model.details.city;
+      result.details.Activities = model.details.favoriteSports.map((fs: any) => fs.sport.name)
+    }
+    
     return result;
   }
 
@@ -99,10 +104,10 @@ export default class MapModelHelper {
     const result = new ParticipantModel();
     if (model) {
       result.Id = model.user.id;
-      result.FirstName = model.user.firstName;
-      result.LastName = model.user.lastName;
+      result.FirstName = model.user.details.firstName;
+      result.LastName = model.user.details.lastName;
       result.Status = model.status;
-      result.Url = model.user.picture;
+      result.Url = model.user.details.picture;
     }
 
     return result;

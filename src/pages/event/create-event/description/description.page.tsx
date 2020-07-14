@@ -172,7 +172,7 @@ class DescriptionEventPage extends Component<any, any> {
     const result = await EventService.Create(this.state.eventDetails);
     if (result) {
       LocalStorageHelper.DeleteItemFromLocalStorage(LocalStorage.CreateEvent);
-      history.push(`/${this.isEditable ? 'edit-event-info' : 'event-info'}`);
+      history.push(`/${this.isEditable ? 'event-edit-info' : 'event-info'}`);
     }
   }
 

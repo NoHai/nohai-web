@@ -11,15 +11,20 @@ class UserRepositoryController implements IUserRepository {
       query usersDetails {
         getUserById {
           id
-          firstName
-          lastName
-          dateOfBirth
-          height
-          weight
-          picture
           login
-          favoriteSport {
-            name
+          details {
+            firstName
+            lastName
+            dateOfBirth
+            description
+            picture
+            city
+            webPage
+            facebookPage
+            jobTitle
+            favoriteSports {
+              sport {name }
+            }
           }
         }
       }
@@ -38,24 +43,27 @@ class UserRepositoryController implements IUserRepository {
       details: {
         firstName: userDetails.user.FirstName,
         lastName: userDetails.user.LastName,
-        dateOfBirth: `${userDetails.details.Day}/${userDetails.details.Month}/${userDetails.details.Year}`,
-        height: +userDetails.details.Height,
-        weight: +userDetails.details.Weight,
-        favoriteSport: { id: userDetails.sport.Id }
+        dateOfBirth: userDetails.details.DateOfBirth,
+        description: userDetails.details.Description,
+        city: userDetails.details.City,
+        picture: userDetails.details.Picture,
+        webPage: userDetails.details.WebPage,
+        facebookPage: userDetails.details.FacebookPage,
+        favoriteSports: userDetails.details.Activities.map((id) => {
+          return {sport: { id}};
+        })
       },
     };
 
     const updateMutation = gql`
-      mutation updateMutation($details: UpdateUserInput!) {
-        updateUser(input: $details) {
-          id
-        }
+      mutation updateMutation($details: UserDetailsInput!) {
+        saveUserDetails(input: $details) 
       }
     `;
 
     const result: any = await GraphqlClient.mutate(updateMutation, input);
     const user = new UserViewModel();
-    user.user.Id = result.updateUser.id;
+    user.user.Id = result;
     return user;
   }
 
@@ -63,7 +71,7 @@ class UserRepositoryController implements IUserRepository {
     throw new Error('Method not implemented.');
   }
 
-  public async Activate(email: string): Promise<boolean>{
+  public async Activate(email: string): Promise<boolean> {
     const parameter: any = {
       parameter: email
     };
@@ -75,10 +83,10 @@ class UserRepositoryController implements IUserRepository {
     `;
 
     const result: any = await GraphqlClient.mutate(activateMutation, parameter);
-    return  result.activateUser;
+    return result.activateUser;
   }
 
-  public async ResendActivationEmail(email: string): Promise<boolean>{
+  public async ResendActivationEmail(email: string): Promise<boolean> {
     const parameter: any = {
       parameter: email
     };
@@ -90,7 +98,7 @@ class UserRepositoryController implements IUserRepository {
     `;
 
     const result: any = await GraphqlClient.mutate(resendActivationEmailMutation, parameter);
-    return  result.resendActivationEmail;
+    return result.resendActivationEmail;
   }
 }
 

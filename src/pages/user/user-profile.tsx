@@ -19,8 +19,10 @@ class UserProfilePage extends Component {
   }
 
   render(): any {
-    const age: number | string =
-      moment().diff(moment(this.state.userDetails.details.Day, 'DD/MM/YYYY'), 'years') || '';
+    const age: number | string = moment().diff(
+      moment(this.state.userDetails.details.DateOfBirth),
+      'years'
+    );
 
     return (
       <div className="user-profile event-list-item full-height">
@@ -41,29 +43,28 @@ class UserProfilePage extends Component {
             </div>
 
             <div className="user-profile-content">
-                <div className="section-header">Despre</div>
-                <div>
-                  <EventCardOption
-                    title={'Data Nasterii'}
-                    iconClass="mdi mdi-calendar-outline"
-                    description={`${moment(
-                      this.state.userDetails.details.Day,
-                      'DD/MM/YYYY'
-                    ).format('DD')} ${moment(this.state.userDetails.details.Day, 'DD/MM/YYYY').format(
-                      'MMMM'
-                    )} ${moment(this.state.userDetails.details.Day, 'DD/MM/YYYY').format('YYYY')}`}
-                  />
-                  <EventCardOption
-                    title={'Varsta '}
-                    iconClass="mdi mdi-account-multiple"
-                    description={`${age} de ani`}
-                  />
-                  <EventCardOption
-                    title={'Pasiuni '}
-                    iconClass="mdi mdi-whistle"
-                    description={`${this.state.userDetails.sport.Name}`}
-                  />
-                </div>
+              <div className="section-header">Despre</div>
+              <div>
+                <EventCardOption
+                  title={'Data Nasterii'}
+                  iconClass="mdi mdi-calendar-outline"
+                  description={`${moment(this.state.userDetails.details.DateOfBirth).format(
+                    'DD'
+                  )} ${moment(this.state.userDetails.details.DateOfBirth).format('MMMM')} ${moment(
+                    this.state.userDetails.details.DateOfBirth
+                  ).format('YYYY')}`}
+                />
+                <EventCardOption
+                  title={'Varsta '}
+                  iconClass="mdi mdi-account-multiple"
+                  description={`${age} de ani`}
+                />
+                <EventCardOption
+                  title={'Pasiuni '}
+                  iconClass="mdi mdi-whistle"
+                  description={`${this.state.userDetails.details.Activities}`}
+                />
+              </div>
               <div>
                 <div className="section-header">Contact</div>
                 <div className="email">

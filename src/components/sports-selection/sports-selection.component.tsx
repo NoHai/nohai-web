@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import './sports-selection.component.scss';
-import { Drawer, List, Button } from 'antd';
 import { SportSelectionProps } from './sports-selection.component.props';
-import { SportLevelType } from '../../contracts/enums/common/sport-level.type';
 import { CommonService } from '../../business/services/common.service';
-import { ListModel } from '../../contracts/models';
 import { SportModel } from '../../contracts/models/sport.model';
+import { IonSelect, IonSelectOption } from '@ionic/react';
 
 class SportsSelection extends Component<SportSelectionProps> {
-  state = { visible: false, childrenDrawer: false, sports: new ListModel<SportModel>() };
-  private levels = [1, 2, 3];
+  state = { visible: false, childrenDrawer: false, sports: new Array<SportModel>() };
   private isMount: boolean = false;
   public selectedSport = new SportModel();
 
@@ -22,114 +19,57 @@ class SportsSelection extends Component<SportSelectionProps> {
     this.isMount = false;
   }
 
-  showDrawer = () => {
-    this.setState({
-      visible: true,
-    });
-  };
-
-  onClose = () => {
-    this.setState({
-      visible: false,
-      textPick: this.selectedSport,
-    });
-  };
-
-  onCloseChildren = () => {
-    this.setState({
-      childrenDrawer: false,
-    });
-  };
-
-  showChildrenDrawer(sport: SportModel) {
-    this.setState({
-      childrenDrawer: true,
-    });
-    this.selectedSport = sport;
-  }
-
-  onChildrenDrawerClose(level: number) {
-    this.setState({
-      childrenDrawer: false,
-      visible: false,
-    });
-    if (this.props.onCloseDrawer) {
-      this.props.onCloseDrawer(this.selectedSport, level);
-    }
-  }
-
   public render() {
+    const customActionSheetOptions = {
+      header: 'Activitati',
+    };
+    const multiple= this.props.multiple? this.props.multiple: false
+
     return (
       <div>
-        <Button className="full-width" type="dashed" size={'large'} onClick={this.showDrawer}>
-          {this.getDisplay()}
-        </Button>
-
-        <Drawer
-          title="Sports"
-          closable={false}
-          onClose={this.onClose}
-          visible={this.state.visible}
-          placement="bottom"
-          height={350}
-          className="sports-selection-drawer"
+        <IonSelect
+          className="activity-selection"
+          value={this.props.acivities}
+          placeholder="Alege Activitatea"
+          multiple={multiple}
+          interfaceOptions= {customActionSheetOptions}
+          onIonChange={e => this.onValueChange(e)}
+          cancelText={'Anuleaza'}
+          translate
         >
-          <div className="page-sections">
-            <div className="page-section page-section-large">
-              <List
-                dataSource={this.state.sports.Data}
-                renderItem={(item: any) => (
-                  <List.Item
-                    onClick={() => {
-                      this.showChildrenDrawer(item);
-                    }}
-                  >
-                    {item.Name}
-                  </List.Item>
-                )}
-              />
-            </div>
-          </div>
-          <Drawer
-            title="Sport Level"
-            width={320}
-            closable={false}
-            visible={this.state.childrenDrawer}
-            onClose={this.onCloseChildren}
-            placement="bottom"
-          >
-            <List
-              dataSource={this.levels}
-              renderItem={(item: any) => (
-                <List.Item
-                  onClick={() => {
-                    this.onChildrenDrawerClose(item);
-                  }}
-                >
-                  {SportLevelType[item]}
-                </List.Item>
-              )}
-            />
-          </Drawer>
-        </Drawer>
+          {this.state.sports.map((element, index) => {
+            return (
+              <IonSelectOption key={index} value={element.Id}  translate>
+                {element.Name}
+              </IonSelectOption>
+            );
+          })}
+        </IonSelect>
       </div>
     );
   }
-
-  private getDisplay() {
-    const hasValue = this.props.level;
-    return hasValue
-      ? `${this.props.sport.Name} - ${SportLevelType[this.props.level]}`
-      : 'Alege activitatea';
-  }
-
   private async getSports() {
     const sports = await CommonService.GetSports();
 
     if (this.isMount) {
       this.setState({
-        sports,
+        sports: sports.Data,
       });
+    }
+  }
+
+  private onValueChange(event: any) {
+    let activities = new Array<string>();
+    if (event.detail.value && event.detail.value !== this.props.acivities) {
+      if(this.props.multiple){
+      event.detail.value.forEach((element: any) => {
+        activities.push(element);
+      });
+    }else{
+      activities.push(event.detail.value)
+    }
+
+      this.props.onCloseDrawer(activities);
     }
   }
 }

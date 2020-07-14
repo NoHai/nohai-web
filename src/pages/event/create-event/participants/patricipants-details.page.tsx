@@ -8,7 +8,6 @@ import history from '../../../../utilities/core/history';
 import CreateEventHeaderComponent from '../../../../components/create-event-header/create-event-header';
 import { LocalStorage } from '../../../../contracts/enums/localStorage/local-storage';
 import LocalStorageHelper from '../../../../helpers/local-storage.helper';
-import { SportModel } from '../../../../contracts/models/sport.model';
 import CreateEventFooter from '../../../../components/create-event-footer/create-event-footer.component';
 import HistoryHelper from '../../../../utilities/core/history';
 const { confirm } = Modal;
@@ -49,19 +48,17 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
     }));
   }
 
-  async onCloseDrawer(sport: SportModel, level: number) {
+  async onCloseDrawer(activities: Array<string>) {
     this.setState((prevState: any) => ({
       eventDetails: {
         ...prevState.eventDetails,
         participantsDetails: {
-          ...prevState.eventDetails.participantsDetails,
-          Level: level,
+          ActivityId:activities[0],
         },
-        sport,
       },
     }));
 
-    if (sport && sport.Name !== '') {
+    if (activities.length > 0) {
       this.setState((prevState: any) => ({
         eventDetails: {
           ...prevState.eventDetails,
@@ -85,9 +82,8 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
             />
             <label>Activitatea si nivelul</label>
             <SportsSelection
-              sport={this.state.eventDetails.sport || ''}
-              level={this.state.eventDetails.participantsDetails.Level || 0}
-              onCloseDrawer={(sport, level) => this.onCloseDrawer(sport, level)}
+              acivities={this.state.eventDetails.participantsDetails.ActivityId}
+              onCloseDrawer={acivities => this.onCloseDrawer(acivities)}
             />
             <label className="inline-input-label">Locuri disponibile</label>
             <span className="optional-span">(Optional)</span>

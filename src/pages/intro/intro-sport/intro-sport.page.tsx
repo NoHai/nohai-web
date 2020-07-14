@@ -6,7 +6,6 @@ import { UserService } from '../../../business/services/user.service';
 import { UserViewModel } from '../../../contracts/view-models/user-view.model';
 import { LocalStorage } from '../../../contracts/enums/localStorage/local-storage';
 import LocalStorageHelper from '../../../helpers/local-storage.helper';
-import { SportModel } from '../../../contracts/models/sport.model';
 import { connect } from 'react-redux';
 import { registerComplete } from './../../../redux/actions/auth.action';
 import { initialAuthState } from '../../../redux/reducers/auth.reducer';
@@ -24,16 +23,14 @@ class IntroSport extends Component<any, any> {
     });
   }
 
-  async onCloseDrawer(sport: SportModel, level: number) {
+  async onCloseDrawer(activities: Array<string>) {
     this.setState((prevState: any) => ({
       registerDetails: {
         ...prevState.registerDetails,
         details: {
           ...prevState.registerDetails.details,
-          Level: level,
-          Sport: sport,
+          Activities: activities,
         },
-        sport,
       },
     }));
   }
@@ -49,12 +46,13 @@ class IntroSport extends Component<any, any> {
               Alege activitatea de care esti pasionat si nivelul. <br />
               Pe baza activitati selectate iti vom genera timeline-ul
             </p>
-
-            <SportsSelection
-              sport={this.state.registerDetails.sport}
-              level={this.state.registerDetails.details.Level}
-              onCloseDrawer={(sport, level) => this.onCloseDrawer(sport, level)}
-            />
+            <div className="selection-container">
+              <SportsSelection
+                multiple={true}
+                acivities={this.state.registerDetails.details.Activities}
+                onCloseDrawer={acivities => this.onCloseDrawer(acivities)}
+              />
+            </div>
           </div>
 
           <div className="page-section page-section-footer">
@@ -72,7 +70,10 @@ class IntroSport extends Component<any, any> {
                 </Col>
                 <Col span={12} className="text-right">
                   <Button
-                    disabled={this.state.registerDetails.details.Level === undefined}
+                    disabled={
+                      this.state.registerDetails.details.Activities &&
+                      this.state.registerDetails.details.Activities.length < 0
+                    }
                     type="primary"
                     onClick={() => {
                       this.GoForward();
@@ -100,7 +101,7 @@ class IntroSport extends Component<any, any> {
 
   private GoBack() {
     LocalStorageHelper.SaveItemToLocalStorage(LocalStorage.IntroInfo, this.state.registerDetails);
-    history.push('/intro/step-two');
+    history.push('/intro/step-one');
   }
 }
 
@@ -119,7 +120,4 @@ const mapDispatchToProps = {
   registerComplete,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(IntroSport);
+export default connect(mapStateToProps, mapDispatchToProps)(IntroSport);

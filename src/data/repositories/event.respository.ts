@@ -13,48 +13,51 @@ class EventRepositoryController implements IEventRepository {
         startDate: data.startDate,
         searchText: data.searchText,
         showHistory: data.showHistory,
-        pagination: { pageSize: data.pageSize, pageIndex: data.pageIndex }
-      }
+        pagination: { pageSize: data.pageSize, pageIndex: data.pageIndex },
+      },
     };
 
     const query = gql`
-            query  events($parameter: SearchEventsParameter!){
-              events(parameter: $parameter) {
-                items {
-                    id
-                    status
-                    owner{
-                        id
-                        firstName
-                        lastName
-                        picture
-                    }
-                    title
-                    description
-                    numberOfParticipants
-                    address{
-                        streetName
-                        city
-                        county
-                    }
-                    sport{
-                        id
-                        name
-                        defaultParticipantsNumber
-                        imagePath
-                      }
-                    freeSpots
-                    cost
-                    startDate
-                    endDate
-                    startTime
-                    endTime
-                    level
-                    createdDate
-                },
-              totalCount
+      query events($parameter: SearchEventsParameter!) {
+        events(parameter: $parameter) {
+          items {
+            id
+            status
+            owner {
+              id
+              details {
+                firstName
+                lastName
+                picture
               }
-            }`;
+            }
+            title
+            description
+            numberOfParticipants
+            address {
+              streetName
+              city
+              county
+            }
+            sport {
+              id
+              name
+              defaultParticipantsNumber
+              imagePath
+            }
+            freeSpots
+            cost
+            startDate
+            endDate
+            startTime
+            endTime
+            level
+            createdDate
+          }
+          totalCount
+        }
+      }
+    `;
 
     const response: any = await GraphqlClient.queryWithVariables(query, parameter);
     const results = await this.GetEventsMap(response.events);
@@ -71,9 +74,11 @@ class EventRepositoryController implements IEventRepository {
             status
             owner {
               id
-              firstName
-              lastName
-              picture
+              details {
+                firstName
+                lastName
+                picture
+              }
             }
             title
             description
@@ -104,9 +109,11 @@ class EventRepositoryController implements IEventRepository {
             status
             user {
               id
-              firstName
-              lastName
-              picture
+              details {
+                firstName
+                lastName
+                picture
+              }
             }
           }
         }
@@ -129,7 +136,7 @@ class EventRepositoryController implements IEventRepository {
           longitude: eventDetails.locationDetails.Longitude,
           latitude: eventDetails.locationDetails.Latitude,
         },
-        sport: { id: eventDetails.sport.Id },
+        sport: { id: eventDetails.participantsDetails.ActivityId },
         freeSpots: eventDetails.participantsDetails.FreeSpots,
         cost: eventDetails.participantsDetails.PriceForParticipant
           ? eventDetails.participantsDetails.PriceForParticipant

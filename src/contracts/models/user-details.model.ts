@@ -1,8 +1,14 @@
 export class UserDetailsModel {
-  public Day!: string;
-  public Month!: string;
-  public Year!: string;
-  public Weight!: number;
-  public Height!: number;
-  public Level!: number;
+  public DateOfBirth!: string;
+  public City?: string;
+  public JobTitle?: string;
+  public Description?: string;
+  public FacebookPage?: string;
+  public WebPage?: string;
+  public Picture?: string;
+  public Activities!: Array<string>;
+
+  constructor() {
+    this.Activities = new  Array<string>();
+  }
 }
