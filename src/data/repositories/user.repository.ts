@@ -64,7 +64,7 @@ class UserRepositoryController implements IUserRepository {
     const result: any = await GraphqlClient.mutate(updateMutation, input);
     const user = new UserViewModel();
     user.user.Id = result;
-    return result;
+    return user;
   }
 
   public Delete(data: any): Promise<ResultModel<boolean>> {
