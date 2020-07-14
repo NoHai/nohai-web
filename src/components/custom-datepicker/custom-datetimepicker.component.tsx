@@ -39,6 +39,7 @@ class CustomDateTimePiker extends Component<CustomDateTimePickerProps> {
             max={max}
             doneText="Ok"
             cancelText="Anuleaza"
+            translate
           ></IonDatetime>
         </div>
         {this.props.isTimePiker ? (

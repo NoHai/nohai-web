@@ -35,10 +35,11 @@ class SportsSelection extends Component<SportSelectionProps> {
           interfaceOptions= {customActionSheetOptions}
           onIonChange={e => this.onValueChange(e)}
           cancelText={'Anuleaza'}
+          translate
         >
           {this.state.sports.map((element, index) => {
             return (
-              <IonSelectOption key={index} value={element.Id}>
+              <IonSelectOption key={index} value={element.Id}  translate>
                 {element.Name}
               </IonSelectOption>
             );
