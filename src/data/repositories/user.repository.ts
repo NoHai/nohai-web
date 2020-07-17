@@ -1,9 +1,9 @@
-import { IUserRepository } from '../../contracts/repositories/user-repository.interface';
-import { ResultModel } from '../../contracts/models';
 import gql from 'graphql-tag';
-import GraphqlClient from '../request/graphql-client';
+import { ResultModel } from '../../contracts/models';
+import { IUserRepository } from '../../contracts/repositories/user-repository.interface';
 import { UserViewModel } from '../../contracts/view-models/user-view.model';
 import MapModelHelper from '../../helpers/map-model.helper';
+import GraphqlClient from '../request/graphql-client';
 
 class UserRepositoryController implements IUserRepository {
   public async Get(): Promise<UserViewModel> {
@@ -13,6 +13,7 @@ class UserRepositoryController implements IUserRepository {
           id
           login
           details {
+            id
             firstName
             lastName
             dateOfBirth
@@ -23,7 +24,10 @@ class UserRepositoryController implements IUserRepository {
             facebookPage
             jobTitle
             favoriteSports {
-              sport {name }
+              sport {
+                id
+                name
+              }
             }
           }
         }
@@ -41,6 +45,7 @@ class UserRepositoryController implements IUserRepository {
   public async Update(userDetails: UserViewModel): Promise<UserViewModel> {
     const input: any = {
       details: {
+        id: userDetails.details.Id,
         firstName: userDetails.user.FirstName,
         lastName: userDetails.user.LastName,
         dateOfBirth: userDetails.details.DateOfBirth,
@@ -49,22 +54,44 @@ class UserRepositoryController implements IUserRepository {
         picture: userDetails.details.Picture,
         webPage: userDetails.details.WebPage,
         facebookPage: userDetails.details.FacebookPage,
-        favoriteSports: userDetails.details.Activities.map((id) => {
-          return {sport: { id}};
-        })
+        favoriteSports: userDetails.details.ActivitiesId.map((id) => {
+          return { sport: { id } };
+        }),
+        jobTitle: userDetails.details.JobTitle,
       },
     };
 
     const updateMutation = gql`
       mutation updateMutation($details: UserDetailsInput!) {
-        saveUserDetails(input: $details) 
+        saveUserDetails(input: $details) {
+          id
+          login
+          details {
+            id
+            firstName
+            lastName
+            dateOfBirth
+            description
+            picture
+            city
+            webPage
+            facebookPage
+            jobTitle
+            favoriteSports {
+              sport {
+                id
+                name
+              }
+            }
+          }
       }
+    }
     `;
 
     const result: any = await GraphqlClient.mutate(updateMutation, input);
-    const user = new UserViewModel();
-    user.user.Id = result;
-    return user;
+    const test= MapModelHelper.MapUser(result.saveUserDetails);
+    debugger;
+    return test;
   }
 
   public Delete(data: any): Promise<ResultModel<boolean>> {
@@ -73,7 +100,7 @@ class UserRepositoryController implements IUserRepository {
 
   public async Activate(email: string): Promise<boolean> {
     const parameter: any = {
-      parameter: email
+      parameter: email,
     };
 
     const activateMutation = gql`
@@ -88,7 +115,7 @@ class UserRepositoryController implements IUserRepository {
 
   public async ResendActivationEmail(email: string): Promise<boolean> {
     const parameter: any = {
-      parameter: email
+      parameter: email,
     };
 
     const resendActivationEmailMutation = gql`

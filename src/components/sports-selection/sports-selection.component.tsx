@@ -32,8 +32,8 @@ class SportsSelection extends Component<SportSelectionProps> {
           value={this.props.acivities}
           placeholder="Alege Activitatea"
           multiple={multiple}
-          interfaceOptions= {customActionSheetOptions}
-          onIonChange={e => this.onValueChange(e)}
+          interfaceOptions={customActionSheetOptions}
+          onIonChange={(e) => this.onValueChange(e)}
           cancelText={'Anuleaza'}
           translate
         >
@@ -69,7 +69,7 @@ class SportsSelection extends Component<SportSelectionProps> {
       activities.push(event.detail.value)
     }
 
-      this.props.onCloseDrawer(activities);
+      this.props.onClose(activities);
     }
   }
 }

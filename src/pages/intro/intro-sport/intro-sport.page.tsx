@@ -23,7 +23,7 @@ class IntroSport extends Component<any, any> {
     });
   }
 
-  async onCloseDrawer(activities: Array<string>) {
+  async onClose(activities: Array<string>) {
     this.setState((prevState: any) => ({
       registerDetails: {
         ...prevState.registerDetails,
@@ -49,8 +49,8 @@ class IntroSport extends Component<any, any> {
             <div className="selection-container">
               <SportsSelection
                 multiple={true}
-                acivities={this.state.registerDetails.details.Activities}
-                onCloseDrawer={acivities => this.onCloseDrawer(acivities)}
+                acivities={this.state.registerDetails.details.ActivitiesName}
+                onClose={acivities => this.onClose(acivities)}
               />
             </div>
           </div>
@@ -71,8 +71,8 @@ class IntroSport extends Component<any, any> {
                 <Col span={12} className="text-right">
                   <Button
                     disabled={
-                      this.state.registerDetails.details.Activities &&
-                      this.state.registerDetails.details.Activities.length < 0
+                      this.state.registerDetails.details.ActivitiesId &&
+                      this.state.registerDetails.details.ActivitiesId.length < 0
                     }
                     type="primary"
                     onClick={() => {

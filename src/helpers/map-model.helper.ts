@@ -30,6 +30,7 @@ export default class MapModelHelper {
     result.participantsDetails.FreeSpots = model.freeSpots;
     result.participantsDetails.TotalParticipants = model.numberOfParticipants;
     result.participantsDetails.PriceForParticipant = model.cost;
+    result.participantsDetails.ActivityId = model.sport.id;
     result.sport.Id = model.sport.id;
     result.sport.Name = model.sport.name;
     result.sport.ParticipantNumber = model.sport.participantNumber;
@@ -59,13 +60,15 @@ export default class MapModelHelper {
       result.user.Url = model.details.picture;
       result.user.FirstName = model.details.firstName;
       result.user.LastName = model.details.lastName;
+      result.details.Id = model.details.id;
       result.details.DateOfBirth = model.details.dateOfBirth;
       result.details.JobTitle = model.details.jobTitle;
       result.details.WebPage = model.details.webPage;
       result.details.FacebookPage = model.details.facebookPage;
       result.details.Description = model.details.description;
       result.details.City = model.details.city;
-      result.details.Activities = model.details.favoriteSports.map((fs: any) => fs.sport.name)
+      result.details.ActivitiesId = model.details.favoriteSports.map((fs: any) => fs.sport.id)
+      result.details.ActivitiesName = model.details.favoriteSports.map((fs: any) => fs.sport.name)
     }
     
     return result;

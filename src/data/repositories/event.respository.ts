@@ -26,6 +26,7 @@ class EventRepositoryController implements IEventRepository {
             owner {
               id
               details {
+                id
                 firstName
                 lastName
                 picture
@@ -75,6 +76,7 @@ class EventRepositoryController implements IEventRepository {
             owner {
               id
               details {
+                id
                 firstName
                 lastName
                 picture
@@ -110,6 +112,7 @@ class EventRepositoryController implements IEventRepository {
             user {
               id
               details {
+                id
                 firstName
                 lastName
                 picture

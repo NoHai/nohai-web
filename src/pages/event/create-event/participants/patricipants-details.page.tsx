@@ -48,7 +48,7 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
     }));
   }
 
-  async onCloseDrawer(activities: Array<string>) {
+  async onClose(activities: Array<string>) {
     this.setState((prevState: any) => ({
       eventDetails: {
         ...prevState.eventDetails,
@@ -83,7 +83,7 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
             <label>Activitatea si nivelul</label>
             <SportsSelection
               acivities={this.state.eventDetails.participantsDetails.ActivityId}
-              onCloseDrawer={acivities => this.onCloseDrawer(acivities)}
+              onClose={acivities => this.onClose(acivities)}
             />
             <label className="inline-input-label">Locuri disponibile</label>
             <span className="optional-span">(Optional)</span>

@@ -6,7 +6,6 @@ import EventHelper from '../../helpers/event.helper';
 class EventCardDetails extends Component<{ event: EventDetailsViewModel }> {
   render() {
     const event = this.props.event;
-    const sportLevel = EventHelper.getLevel(event);
     const price = EventHelper.getPrice(event);
     const date = EventHelper.getDate(event);
     const time = EventHelper.getTime(event);
@@ -15,7 +14,7 @@ class EventCardDetails extends Component<{ event: EventDetailsViewModel }> {
     return (
       <div>
         <EventCardOption
-          title={`${event.sport.Name}, ${sportLevel}`}
+          title={`${event.sport.Name}`}
           iconClass="mdi mdi-whistle"
           description={price}
         />

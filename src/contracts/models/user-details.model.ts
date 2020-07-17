@@ -1,4 +1,6 @@
-export class UserDetailsModel {
+import { BaseModel } from "./base.model";
+
+export class UserDetailsModel extends BaseModel {
   public DateOfBirth!: string;
   public City?: string;
   public JobTitle?: string;
@@ -6,9 +8,12 @@ export class UserDetailsModel {
   public FacebookPage?: string;
   public WebPage?: string;
   public Picture?: string;
-  public Activities!: Array<string>;
+  public ActivitiesId!: Array<string>;
+  public ActivitiesName!: Array<string>;
 
   constructor() {
-    this.Activities = new  Array<string>();
+    super();
+    this.ActivitiesId = new  Array<string>();
+    this.ActivitiesName = new  Array<string>();
   }
 }
