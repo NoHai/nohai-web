@@ -4,7 +4,7 @@ import { IonDatetime } from '@ionic/react';
 import { CustomDateTimePickerProps } from './custom-datetimepicker.component.props';
 import moment from 'moment'
 
-class CustomDateTimePiker extends Component<CustomDateTimePickerProps> {
+class CustomDateTimePicker extends Component<CustomDateTimePickerProps> {
   render() {
     const dateFormat = this.props.dateFormat ? this.props.dateFormat : 'DD-MMM-YYYY';
     const placeholder = this.props.placeholder ? this.props.placeholder : 'Alege data';
@@ -42,7 +42,7 @@ class CustomDateTimePiker extends Component<CustomDateTimePickerProps> {
             translate
           ></IonDatetime>
         </div>
-        {this.props.isTimePiker ? (
+        {this.props.isTimePicker ? (
          <span className="icon mdi mdi-clock-outline"></span>
         ) : (
        
@@ -53,4 +53,4 @@ class CustomDateTimePiker extends Component<CustomDateTimePickerProps> {
   }
 }
 
-export default CustomDateTimePiker;
+export default CustomDateTimePicker;

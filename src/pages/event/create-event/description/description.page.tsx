@@ -69,7 +69,7 @@ class DescriptionEventPage extends Component<any, any> {
               value={this.state.eventDetails.description.StartTime}
               dateFormat={timeFormat}
               placeholder="Alege Ora"
-              isTimePiker={true}
+              isTimePicker={true}
               onValueChange={e => this.onDateTimeChange(e, 'StartTime')}
             ></CustomDateTimePickerProps>
 
@@ -85,7 +85,7 @@ class DescriptionEventPage extends Component<any, any> {
               value={this.state.eventDetails.description.EndTime}
               dateFormat={timeFormat}
               placeholder="Alege Ora"
-              isTimePiker={true}
+              isTimePicker={true}
               onValueChange={e => this.onDateTimeChange(e, 'EndTime')}
             ></CustomDateTimePickerProps>
 

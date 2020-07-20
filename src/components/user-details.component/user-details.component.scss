@@ -1,0 +1,30 @@
+@import './../../globals/styles/variables';
+
+.user-details-option {
+  margin-bottom: 15px;
+
+  .icon {
+    display: inline-block;
+    font-size: 24px;
+    line-height: 1;
+    color: $gray-dark-color;
+  }
+
+  .user-details-option-title {
+    color: $text-color;
+
+    &:first-letter {
+      text-transform: uppercase;
+    }
+  }
+
+  .user-details-option-description {
+    font-size: 13px;
+    color: $secondary-color;
+    width: 100%;
+
+    &:first-letter {
+      text-transform: uppercase;
+    }
+  }
+}
