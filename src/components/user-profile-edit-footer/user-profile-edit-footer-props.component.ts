@@ -11,4 +11,5 @@ export interface UserProfileEditFooterProps {
   onLeftButtonClick?: () => void;
   onRightButtonClick?: () => void;
   onCenterButtonClick?: () => void;
+  isValid: () => boolean;
 }

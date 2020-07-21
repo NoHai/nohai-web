@@ -54,7 +54,7 @@ class EditUserProfileFooter extends Component<UserProfileEditFooterProps> {
 
           <Col span={colSize} className="text-center">
             <div
-              className={`page-footer-link active`}
+              className={`page-footer-link ${this.props.isValid() ? 'active' : ''}`}
               onClick={() => {
                 this.rightButtonClick();
               }}

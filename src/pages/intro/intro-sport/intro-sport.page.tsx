@@ -29,7 +29,7 @@ class IntroSport extends Component<any, any> {
         ...prevState.registerDetails,
         details: {
           ...prevState.registerDetails.details,
-          Activities: activities,
+          ActivitiesId: activities,
         },
       },
     }));
@@ -49,7 +49,7 @@ class IntroSport extends Component<any, any> {
             <div className="selection-container">
               <SportsSelection
                 multiple={true}
-                acivities={this.state.registerDetails.details.ActivitiesName}
+                acivities={this.state.registerDetails.details.ActivitiesId}
                 onClose={acivities => this.onClose(acivities)}
               />
             </div>
@@ -72,7 +72,7 @@ class IntroSport extends Component<any, any> {
                   <Button
                     disabled={
                       this.state.registerDetails.details.ActivitiesId &&
-                      this.state.registerDetails.details.ActivitiesId.length < 0
+                      this.state.registerDetails.details.ActivitiesId.length <= 0
                     }
                     type="primary"
                     onClick={() => {

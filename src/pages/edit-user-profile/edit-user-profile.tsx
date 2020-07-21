@@ -21,33 +21,6 @@ class EditUserProfilePage extends Component {
     });
   }
 
-  cancelEdit() {
-    history.push('/profile');
-  }
-
-  async save() {
-    await this.updateUserDetails();
-    history.push('/profile');
-  }
-
-  onLeftButtonClick() {
-    this.save();
-  }
-
-  onRightButtonClick() {
-    this.cancelEdit();
-  }
-
-  async updateUserDetails() {
-    const result = await UserService.Update(this.state.userDetails);
-    if (result) {
-      this.setState({ userDetails: result });
-      MessageHelper.showSuccess('Modificarile au fost efectuate cu succes');
-    } else {
-      MessageHelper.showError('Ooops ceva s-a intamplat!');
-    }
-  }
-
   async onClose(activities: Array<string>) {
     this.setState((prevState: any) => ({
       userDetails: {
@@ -144,9 +117,37 @@ class EditUserProfilePage extends Component {
           showRightButton={true}
           onRightButtonClick={() => this.save()}
           onLeftButtonClick={() => this.cancelEdit()}
+          isValid={() => this.isValid()}
         ></EditUserProfileFooter>
       </div>
     );
+  }
+  async updateUserDetails() {
+    const result = await UserService.Update(this.state.userDetails);
+    if (result) {
+      this.setState({ userDetails: result });
+      MessageHelper.showSuccess('Modificarile au fost efectuate cu succes');
+    } else {
+      MessageHelper.showError('Ooops ceva s-a intamplat!');
+    }
+  }
+
+  async save() {
+    if (this.isValid()) {
+      await this.updateUserDetails();
+      history.push('/profile');
+    }
+  }
+
+  cancelEdit() {
+    history.push('/profile');
+  }
+
+  isValid(): boolean {
+    if (this.state.userDetails.details.ActivitiesId.length > 0) {
+      return true;
+    }
+    return false;
   }
 }
 
