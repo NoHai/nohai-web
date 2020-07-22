@@ -1,4 +1,4 @@
-import { EventDetailsViewModel } from '../contracts/models';
+import { EventDetailsViewModel, ListModel } from '../contracts/models';
 import { UserViewModel } from '../contracts/view-models/user-view.model';
 import { NotificationModel } from '../contracts/models/notification.model';
 import { SportModel } from '../contracts/models/sport.model';
@@ -67,10 +67,14 @@ export default class MapModelHelper {
       result.details.FacebookPage = model.details.facebookPage;
       result.details.Description = model.details.description;
       result.details.City = model.details.city;
-      result.details.ActivitiesId = model.details.favoriteSports.map((fs: any) => fs.sport.id)
-      result.details.ActivitiesName = model.details.favoriteSports.map((fs: any) => fs.sport.name)
+      let activities = new ListModel<SportModel>();
+      model.details.favoriteSports.forEach((element: any) => {
+        let activity: SportModel = MapModelHelper.MapSport(element.sport);
+        activities.Data.push(activity);
+      });
+      result.details.Activities = activities.Data;
     }
-    
+
     return result;
   }
 

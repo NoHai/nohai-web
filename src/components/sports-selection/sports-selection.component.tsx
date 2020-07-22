@@ -23,7 +23,7 @@ class SportsSelection extends Component<SportSelectionProps> {
     const customActionSheetOptions = {
       header: 'Activitati',
     };
-    const multiple= this.props.multiple? this.props.multiple: false
+    const multiple = this.props.multiple ? this.props.multiple : false;
 
     return (
       <div>
@@ -39,7 +39,7 @@ class SportsSelection extends Component<SportSelectionProps> {
         >
           {this.state.sports.map((element, index) => {
             return (
-              <IonSelectOption key={index} value={element.Id}  translate>
+              <IonSelectOption key={index} value={element.Id} translate>
                 {element.Name}
               </IonSelectOption>
             );
@@ -59,15 +59,15 @@ class SportsSelection extends Component<SportSelectionProps> {
   }
 
   private onValueChange(event: any) {
-    let activities = new Array<string>();
+    let activities = new Array<SportModel>();
     if (event.detail.value && event.detail.value !== this.props.acivities) {
-      if(this.props.multiple){
-      event.detail.value.forEach((element: any) => {
-        activities.push(element);
-      });
-    }else{
-      activities.push(event.detail.value)
-    }
+      if (this.props.multiple) {
+        activities = this.state.sports
+          .filter((x) => event.detail.value.indexOf(x.Id) > -1)
+          .filter((elem1, pos, arr) => arr.findIndex((elem2) => elem2.Id === elem1.Id) === pos);
+      } else {
+        activities = this.state.sports.filter((x) => x.Id === event.detail.value);
+      }
 
       this.props.onClose(activities);
     }

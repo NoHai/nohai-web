@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import CustomDateTimePicker from '../custom-datepicker/custom-datetimepicker.component';
 import SportsSelection from '../sports-selection/sports-selection.component';
 import { UserDetailsEditProps } from './user-details-edit.props';
+import { SportModel } from '../../contracts/models/sport.model';
 
 class UserDetailsEdit extends Component<UserDetailsEditProps> {
   state = {
@@ -18,7 +19,7 @@ class UserDetailsEdit extends Component<UserDetailsEditProps> {
     }
   }
 
-  async onClose(activities: Array<string>) {
+  async onClose(activities: Array<SportModel>) {
     this.props.onClose(activities);
   }
 
@@ -34,7 +35,9 @@ class UserDetailsEdit extends Component<UserDetailsEditProps> {
 
           <SportsSelection
             multiple={true}
-            acivities={this.props.userDetails.details.ActivitiesId}
+            acivities={this.props.userDetails.details.Activities.map(
+              item => item.Id
+            )}
             onClose={(activities) => this.onClose(activities)}
           ></SportsSelection>
 

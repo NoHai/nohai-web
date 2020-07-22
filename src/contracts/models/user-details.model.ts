@@ -1,4 +1,5 @@
 import { BaseModel } from "./base.model";
+import { SportModel } from "./sport.model";
 
 export class UserDetailsModel extends BaseModel {
   public DateOfBirth!: string;
@@ -8,12 +9,10 @@ export class UserDetailsModel extends BaseModel {
   public FacebookPage?: string;
   public WebPage?: string;
   public Picture?: string;
-  public ActivitiesId!: Array<string>;
-  public ActivitiesName!: Array<string>;
+  public Activities:Array<SportModel>
 
   constructor() {
     super();
-    this.ActivitiesId = new  Array<string>();
-    this.ActivitiesName = new  Array<string>();
+    this.Activities = new Array<SportModel>();
   }
 }

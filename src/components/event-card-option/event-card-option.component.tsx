@@ -31,7 +31,7 @@ class EventCardOption extends Component<EventCardOptionProps> {
 
           <Col span={21}>
             <div className="event-card-option-title">{this.props.title}</div>
-            {this.props.description != "" && (
+            {this.props.description !== "" && (
               <input
                 name={this.props.name}
                 readOnly={isReadOnly}

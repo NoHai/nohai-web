@@ -10,6 +10,7 @@ import { LocalStorage } from '../../../../contracts/enums/localStorage/local-sto
 import LocalStorageHelper from '../../../../helpers/local-storage.helper';
 import CreateEventFooter from '../../../../components/create-event-footer/create-event-footer.component';
 import HistoryHelper from '../../../../utilities/core/history';
+import { SportModel } from '../../../../contracts/models/sport.model';
 const { confirm } = Modal;
 
 registerSchema(ParticipantsDetailsSchema);
@@ -48,12 +49,12 @@ class ParticipantsDetailsEventPage extends Component<any, any> {
     }));
   }
 
-  async onClose(activities: Array<string>) {
+  async onClose(activities: Array<SportModel>) {
     this.setState((prevState: any) => ({
       eventDetails: {
         ...prevState.eventDetails,
         participantsDetails: {
-          ActivityId:activities[0],
+          ActivityId:activities[0].Id,
         },
       },
     }));

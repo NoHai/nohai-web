@@ -11,7 +11,7 @@ class UserDetailsComponent extends Component<UserDetailsProps> {
         ...prevState.userDetails,
         details: {
           ...prevState.userDetails.details,
-          ActivitiesId: activities,
+          Activities: activities,
         },
       },
     }));
@@ -84,7 +84,9 @@ class UserDetailsComponent extends Component<UserDetailsProps> {
             title={'Pasiuni '}
             name="Activities"
             iconClass="mdi mdi-whistle"
-            description={`${this.props.userDetails.details.ActivitiesName}`}
+            description={`${this.props.userDetails.details.Activities.map(
+              item => item.Name
+            )}`}
             onValueChange={(name, value) => this.valueChange(name, value)}
           />
 
@@ -92,7 +94,7 @@ class UserDetailsComponent extends Component<UserDetailsProps> {
             title={'Oraș '}
             name={'City'}
             iconClass="mdi mdi-map-marker"
-            description={`${this.props.userDetails.details.City}`}
+            description={`${this.props.userDetails.details.City?this.props.userDetails.details.City:'Adaugă un oraș'}`}
             onValueChange={(name, value) => this.valueChange(name, value)}
           />
 
@@ -100,7 +102,7 @@ class UserDetailsComponent extends Component<UserDetailsProps> {
             title={'Descriere '}
             name="Description"
             iconClass="mdi mdi-information-outline"
-            description={`${this.props.userDetails.details.Description}`}
+            description={`${this.props.userDetails.details.Description?this.props.userDetails.details.Description:'Adaugă o descriere'}`}
             onValueChange={(name, value) => this.valueChange(name, value)}
           />
 
@@ -108,7 +110,7 @@ class UserDetailsComponent extends Component<UserDetailsProps> {
             title={'Job '}
             name="JobTitle"
             iconClass="mdi mdi-briefcase"
-            description={`${this.props.userDetails.details.JobTitle}`}
+            description={`${this.props.userDetails.details.JobTitle?this.props.userDetails.details.JobTitle:'Adaugă jobul'}`}
             onValueChange={(name, value) => this.valueChange(name, value)}
           />
         </div>
@@ -121,7 +123,7 @@ class UserDetailsComponent extends Component<UserDetailsProps> {
               title={' '}
               name="FacebookPage"
               iconClass="mdi mdi-facebook "
-              description={`${this.props.userDetails.details.FacebookPage}`}
+              description={`${this.props.userDetails.details.FacebookPage?this.props.userDetails.details.FacebookPage:'Adaugă profilul de facebook'}`}
               onValueChange={(name, value) => this.valueChange(name, value)}
             />
           </div>
@@ -130,7 +132,7 @@ class UserDetailsComponent extends Component<UserDetailsProps> {
               title={' '}
               name="WebPage"
               iconClass="mdi mdi-web"
-              description={`${this.props.userDetails.details.WebPage}`}
+              description={`${this.props.userDetails.details.WebPage?this.props.userDetails.details.WebPage:'Adaugă pagina ta web'}`}
               onValueChange={(name, value) => this.valueChange(name, value)}
             />
           </div>

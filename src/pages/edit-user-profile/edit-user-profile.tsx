@@ -1,13 +1,13 @@
-import moment from 'moment';
 import React, { Component } from 'react';
 import { UserService } from '../../business/services';
 import UserDetailsEdit from '../../components/user-details-edit.component/user-details-edit.component';
 import EditUserProfileFooter from '../../components/user-profile-edit-footer/user-profile-edit-footer.component';
+import { SportModel } from '../../contracts/models/sport.model';
 import { UserViewModel } from '../../contracts/view-models/user-view.model';
 import AvatarHelper from '../../helpers/avatar.helper';
+import MessageHelper from '../../helpers/message.helper';
 import history from '../../utilities/core/history';
 import './edit-user-profile.scss';
-import MessageHelper from '../../helpers/message.helper';
 
 class EditUserProfilePage extends Component {
   state = {
@@ -21,13 +21,13 @@ class EditUserProfilePage extends Component {
     });
   }
 
-  async onClose(activities: Array<string>) {
+  async onClose(activities: Array<SportModel>) {
     this.setState((prevState: any) => ({
       userDetails: {
         ...prevState.userDetails,
         details: {
           ...prevState.userDetails.details,
-          ActivitiesId: activities,
+          Activities: activities,
         },
       },
     }));
@@ -71,10 +71,6 @@ class EditUserProfilePage extends Component {
   }
 
   render(): any {
-    const age: number | string = moment().diff(
-      moment(this.state.userDetails.details.DateOfBirth),
-      'years'
-    );
 
     return (
       <div className="user-profile event-list-item full-height">
@@ -144,7 +140,10 @@ class EditUserProfilePage extends Component {
   }
 
   isValid(): boolean {
-    if (this.state.userDetails.details.ActivitiesId.length > 0) {
+    if (
+      this.state.userDetails.details.Activities &&
+      this.state.userDetails.details.Activities.length > 0
+    ) {
       return true;
     }
     return false;

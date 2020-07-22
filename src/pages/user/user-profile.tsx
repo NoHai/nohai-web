@@ -1,5 +1,4 @@
 import { Col, Row } from 'antd';
-import moment from 'moment';
 import React, { Component } from 'react';
 import { UserService } from '../../business/services';
 import UserDetailsComponent from '../../components/user-details.component/user-details.component';
@@ -34,10 +33,6 @@ class UserProfilePage extends Component<any, any> {
   }
 
   render(): any {
-    const age: number | string = moment().diff(
-      moment(this.state.userDetails.details.DateOfBirth),
-      'years'
-    );
 
     const editIcon = this.state.editAbout
       ? 'edit-pencil mdi mdi-pencil'

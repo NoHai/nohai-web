@@ -54,7 +54,8 @@ class UserRepositoryController implements IUserRepository {
         picture: userDetails.details.Picture,
         webPage: userDetails.details.WebPage,
         facebookPage: userDetails.details.FacebookPage,
-        favoriteSports: userDetails.details.ActivitiesId.map((id) => {
+        favoriteSports: userDetails.details.Activities.map((item) => {
+          let id = item.Id
           return { sport: { id } };
         }),
         jobTitle: userDetails.details.JobTitle,
