@@ -97,8 +97,8 @@ class EditUserProfilePage extends Component {
               <UserDetailsEdit
                 userDetails={this.state.userDetails}
                 onValueChange={(name, value) => this.valueChange(name, value)}
-                onClose={(e) => this.onClose(e)}
-                handleChange={(e) => this.handleChange(e)}
+                onClose={(activities) => this.onClose(activities)}
+                handleChange={(editValue) => this.handleChange(editValue)}
               ></UserDetailsEdit>
             </div>
           </div>
