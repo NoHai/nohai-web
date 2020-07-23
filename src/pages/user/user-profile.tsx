@@ -1,14 +1,17 @@
+import { Col, Row } from 'antd';
 import React, { Component } from 'react';
-import './user-profile.scss';
 import { UserService } from '../../business/services';
+import UserDetailsComponent from '../../components/user-details.component/user-details.component';
 import { UserViewModel } from '../../contracts/view-models/user-view.model';
-import moment from 'moment';
 import AvatarHelper from '../../helpers/avatar.helper';
-import EventCardOption from '../../components/event-card-option/event-card-option.component';
+import history from '../../utilities/core/history';
+import './user-profile.scss';
 
-class UserProfilePage extends Component {
+class UserProfilePage extends Component<any, any> {
   state = {
     userDetails: new UserViewModel(),
+    editContact: true,
+    editAbout: true,
   };
 
   async componentDidMount(): Promise<void> {
@@ -18,11 +21,22 @@ class UserProfilePage extends Component {
     });
   }
 
+  navigateEditPage() {
+    history.push('/edit-profile');
+  }
+
+  async updateUserDetails() {
+    const result = await UserService.Update(this.state.userDetails);
+    if (result) {
+    }
+    this.setState({ userDetails: result });
+  }
+
   render(): any {
-    const age: number | string = moment().diff(
-      moment(this.state.userDetails.details.DateOfBirth),
-      'years'
-    );
+
+    const editIcon = this.state.editAbout
+      ? 'edit-pencil mdi mdi-pencil'
+      : 'edit-pencil mdi mdi-check-bold';
 
     return (
       <div className="user-profile event-list-item full-height">
@@ -41,40 +55,20 @@ class UserProfilePage extends Component {
               {this.state.userDetails.user.FirstName || ''}{' '}
               {this.state.userDetails.user.LastName || ''}
             </div>
+            <div className="email">
+              <div>{this.state.userDetails.user.Email}</div>
+            </div>
 
             <div className="user-profile-content">
-              <div className="section-header">Despre</div>
-              <div>
-                <EventCardOption
-                  title={'Data Nasterii'}
-                  iconClass="mdi mdi-calendar-outline"
-                  description={`${moment(this.state.userDetails.details.DateOfBirth).format(
-                    'DD'
-                  )} ${moment(this.state.userDetails.details.DateOfBirth).format('MMMM')} ${moment(
-                    this.state.userDetails.details.DateOfBirth
-                  ).format('YYYY')}`}
-                />
-                <EventCardOption
-                  title={'Varsta '}
-                  iconClass="mdi mdi-account-multiple"
-                  description={`${age} de ani`}
-                />
-                <EventCardOption
-                  title={'Pasiuni '}
-                  iconClass="mdi mdi-whistle"
-                  description={`${this.state.userDetails.details.Activities}`}
-                />
-              </div>
-              <div>
-                <div className="section-header">Contact</div>
-                <div className="email">
-                  <EventCardOption
-                    title={' '}
-                    iconClass="mdi mdi-email-outline"
-                    description={`${this.state.userDetails.user.Email}`}
-                  />
-                </div>
-              </div>
+              <Row>
+                <Col span={23}>
+                  <div className="section-header ">Despre</div>
+                </Col>
+                <Col span={1}>
+                  <span className={editIcon} onClick={() => this.navigateEditPage()}></span>
+                </Col>
+              </Row>
+              <UserDetailsComponent userDetails={this.state.userDetails}></UserDetailsComponent>
             </div>
           </div>
         </div>

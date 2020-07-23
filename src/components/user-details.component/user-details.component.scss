@@ -1,6 +1,6 @@
 @import './../../globals/styles/variables';
 
-.event-card-option {
+.user-details-option {
   margin-bottom: 15px;
 
   .icon {
@@ -10,7 +10,7 @@
     color: $gray-dark-color;
   }
 
-  .event-card-option-title {
+  .user-details-option-title {
     color: $text-color;
 
     &:first-letter {
@@ -18,7 +18,7 @@
     }
   }
 
-  .event-card-option-description {
+  .user-details-option-description {
     font-size: 13px;
     color: $secondary-color;
     width: 100%;

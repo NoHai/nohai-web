@@ -1,0 +1,153 @@
+@import './../../globals/styles/variables';
+@import './../../globals/styles/functions';
+
+.create-event-page {
+  height: 100%;
+
+  .ant-carousel {
+    height: 100%;
+
+    .slick-slider {
+      height: 100%;
+
+      .slick-list {
+        height: 100%;
+      }
+    }
+
+    .slick-dots li button {
+      background-color: $main-color;
+    }
+
+    .slick-dots li.slick-active button {
+      background-color: $main-color;
+    }
+  }
+
+  .slider-buttons {
+    .arrow-button {
+      font-size: 15px;
+      cursor: pointer;
+      @include user-select-none();
+
+      &.active {
+        color: $main-color;
+      }
+
+      &.right {
+        text-align: right;
+      }
+    }
+  }
+  .align-right {
+    text-align: right;
+  }
+
+  .display-inline {
+    display: inline;
+  }
+  .ant-calendar-picker {
+    width: 57%;
+    margin-right: 3%;
+  }
+  .ant-time-picker {
+    width: 40%;
+  }
+
+  .ant-calendar-picker-icon {
+    top: 35%;
+  }
+
+  .ant-time-picker-panel-addon {
+    text-align: right;
+  }
+
+  label {
+    margin-bottom: 4px;
+    display: block;
+    font-weight: 400;
+  }
+
+  .ant-input {
+    margin-bottom: 15px;
+  }
+
+  .constant-palcholder {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    z-index: 1;
+    width: 14px;
+    height: 14px;
+    margin-top: -7px;
+    color: rgba(0, 0, 0, 0.25);
+    line-height: 14px;
+    -webkit-transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  .position-relative {
+    position: relative;
+  }
+  .inline-input-label {
+    display: inline;
+  }
+
+  TextArea {
+    font-size: 16px;
+  }
+
+  .optional-span {
+    font-size: 10px;
+    color: $gray-dark-color;
+    margin-left: 1px;
+  }
+
+  .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    width: 100%;
+    height: $footer-height;
+    background-color: $footer-color;
+    border-top: 1px solid $footer-border-color;
+    padding: 0;
+    box-shadow: 0 -1px 10px 1px $footer-border-color;
+    align-items: center;
+  }
+  .error-text {
+    color: rgba(230, 5, 5, 0.65);
+    font-size: 12px;
+    font-style: oblique;
+    text-align: justify;
+    margin-bottom: 15px;
+  }
+}
+
+.location-search-input {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-variant: tabular-nums;
+  list-style: none;
+  font-feature-settings: 'tnum', 'tnum';
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  height: 41px;
+  padding: 4px 11px;
+  color: rgba(0, 0, 0, 0.65);
+  font-size: 14px;
+  line-height: 32px;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  transition: all 0.3s;
+}

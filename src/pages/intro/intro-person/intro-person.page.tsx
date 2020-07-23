@@ -4,7 +4,7 @@ import history from '../../../utilities/core/history';
 import { LocalStorage } from '../../../contracts/enums/localStorage/local-storage';
 import { UserViewModel } from '../../../contracts/view-models/user-view.model';
 import LocalStorageHelper from '../../../helpers/local-storage.helper';
-import CustomDateTimePiker from '../../../components/custom-datepicker/custom-datetimepicker.component';
+import CustomDateTimePicker from '../../../components/custom-datepicker/custom-datetimepicker.component';
 
 class IntroPersonPage extends Component<any, any> {
   state = {
@@ -80,11 +80,11 @@ class IntroPersonPage extends Component<any, any> {
     return (
       <div className="form-group">
         <label>Data nasterii</label>
-        <CustomDateTimePiker
+        <CustomDateTimePicker
           value={this.state.registerDetails.details.DateOfBirth}
           onValueChange={e => this.onDateChange(e)}
           cssClass={'ionic-datepicker full-width'}
-        ></CustomDateTimePiker>
+        ></CustomDateTimePicker>
       </div>
     );
   }

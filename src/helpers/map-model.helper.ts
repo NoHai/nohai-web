@@ -1,4 +1,4 @@
-import { EventDetailsViewModel } from '../contracts/models';
+import { EventDetailsViewModel, ListModel } from '../contracts/models';
 import { UserViewModel } from '../contracts/view-models/user-view.model';
 import { NotificationModel } from '../contracts/models/notification.model';
 import { SportModel } from '../contracts/models/sport.model';
@@ -30,6 +30,7 @@ export default class MapModelHelper {
     result.participantsDetails.FreeSpots = model.freeSpots;
     result.participantsDetails.TotalParticipants = model.numberOfParticipants;
     result.participantsDetails.PriceForParticipant = model.cost;
+    result.participantsDetails.ActivityId = model.sport.id;
     result.sport.Id = model.sport.id;
     result.sport.Name = model.sport.name;
     result.sport.ParticipantNumber = model.sport.participantNumber;
@@ -59,15 +60,21 @@ export default class MapModelHelper {
       result.user.Url = model.details.picture;
       result.user.FirstName = model.details.firstName;
       result.user.LastName = model.details.lastName;
+      result.details.Id = model.details.id;
       result.details.DateOfBirth = model.details.dateOfBirth;
       result.details.JobTitle = model.details.jobTitle;
       result.details.WebPage = model.details.webPage;
       result.details.FacebookPage = model.details.facebookPage;
       result.details.Description = model.details.description;
       result.details.City = model.details.city;
-      result.details.Activities = model.details.favoriteSports.map((fs: any) => fs.sport.name)
+      let activities = new ListModel<SportModel>();
+      model.details.favoriteSports.forEach((element: any) => {
+        let activity: SportModel = MapModelHelper.MapSport(element.sport);
+        activities.Data.push(activity);
+      });
+      result.details.Activities = activities.Data;
     }
-    
+
     return result;
   }
 

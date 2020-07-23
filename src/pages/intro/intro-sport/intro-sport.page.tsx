@@ -9,6 +9,7 @@ import LocalStorageHelper from '../../../helpers/local-storage.helper';
 import { connect } from 'react-redux';
 import { registerComplete } from './../../../redux/actions/auth.action';
 import { initialAuthState } from '../../../redux/reducers/auth.reducer';
+import { SportModel } from '../../../contracts/models/sport.model';
 
 class IntroSport extends Component<any, any> {
   state = {
@@ -23,7 +24,7 @@ class IntroSport extends Component<any, any> {
     });
   }
 
-  async onCloseDrawer(activities: Array<string>) {
+  async onClose(activities: Array<SportModel>) {
     this.setState((prevState: any) => ({
       registerDetails: {
         ...prevState.registerDetails,
@@ -49,8 +50,8 @@ class IntroSport extends Component<any, any> {
             <div className="selection-container">
               <SportsSelection
                 multiple={true}
-                acivities={this.state.registerDetails.details.Activities}
-                onCloseDrawer={acivities => this.onCloseDrawer(acivities)}
+                acivities={this.state.registerDetails.details.Activities.map((item) => item.Id)}
+                onClose={(acivities) => this.onClose(acivities)}
               />
             </div>
           </div>
@@ -72,7 +73,7 @@ class IntroSport extends Component<any, any> {
                   <Button
                     disabled={
                       this.state.registerDetails.details.Activities &&
-                      this.state.registerDetails.details.Activities.length < 0
+                      this.state.registerDetails.details.Activities.length <= 0
                     }
                     type="primary"
                     onClick={() => {

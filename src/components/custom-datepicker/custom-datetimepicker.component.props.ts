@@ -4,6 +4,6 @@ export interface CustomDateTimePickerProps {
   pickerFormat?: string;
   placeholder?: string;
   cssClass:string;
-  isTimePiker?:boolean;
+  isTimePicker?:boolean;
   onValueChange: (date: any) => void;
 }

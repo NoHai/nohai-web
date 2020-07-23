@@ -1,5 +1,7 @@
+import { SportModel } from "../../contracts/models/sport.model";
+
 export interface SportSelectionProps {
   acivities: any;
   multiple?: boolean;
-  onCloseDrawer: (activities: Array<string>) => void;
+  onClose: (activities: Array<SportModel>) => void;
 }
