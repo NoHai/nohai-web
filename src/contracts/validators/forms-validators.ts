@@ -2,9 +2,13 @@ import { validate } from 'class-validator';
 
 export class FormValidators {
   static emailValidation(email: string): string {
+    if(email){
     const regexp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     return regexp.test(email.trim()) ? '' : 'adresa de email este invalida';
+    }else{
+      return 'adresa de email este invalida'
+    }
   }
 
   static passwordValidation(minLength: number = 3, value: string): string {
@@ -32,5 +36,9 @@ export class FormValidators {
   static async checkSchema(model: any, schema: string) {
     let error = await validate(schema, model);
     return error.length === 0;
+  }
+
+  static checkTermsAndCondValidation(value: boolean){
+    return value === true ? '': 'Vă rugăm să acceptați termenii și condițiile'
   }
 }

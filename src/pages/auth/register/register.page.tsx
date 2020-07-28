@@ -1,24 +1,26 @@
-import React, { Component } from 'react';
-import history from '../../../utilities/core/history';
 import { Button } from 'antd';
-import './register.page.scss';
-import { FormValidators } from '../../../contracts/validators/forms-validators';
-import AuthService from '../../../business/services/auth.service';
-import { UserViewModel } from '../../../contracts/view-models/user-view.model';
-import { LocalStorage } from '../../../contracts/enums/localStorage/local-storage';
-import LocalStorageHelper from '../../../helpers/local-storage.helper';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { login } from './../../../redux/actions/auth.action';
-import { initialAuthState } from '../../../redux/reducers/auth.reducer';
+import AuthService from '../../../business/services/auth.service';
+import { LocalStorage } from '../../../contracts/enums/localStorage/local-storage';
+import { FormValidators } from '../../../contracts/validators/forms-validators';
+import { UserViewModel } from '../../../contracts/view-models/user-view.model';
+import LocalStorageHelper from '../../../helpers/local-storage.helper';
 import MessageHelper from '../../../helpers/message.helper';
+import { initialAuthState } from '../../../redux/reducers/auth.reducer';
+import history from '../../../utilities/core/history';
+import { login } from './../../../redux/actions/auth.action';
+import './register.page.scss';
 
 class RegisterPage extends Component<any, any> {
+  termsAndConditions = false;
   state = {
     registerDetails: new UserViewModel(),
     confirmationPassword: '',
     passwordError: '',
     confirmationPasswordError: '',
     emailError: '',
+    termsAndConditionsError: '',
   };
   componentDidMount() {
     this.setState({
@@ -46,6 +48,14 @@ class RegisterPage extends Component<any, any> {
     });
   }
 
+  goToTermsPage() {
+    history.push('/terms-and-conditions');
+  }
+
+  handleTermsChange(event: any) {
+    this.termsAndConditions = event.target.checked;
+  }
+
   public render() {
     return (
       <div className="auth-page">
@@ -63,7 +73,7 @@ class RegisterPage extends Component<any, any> {
                 data-lpignore="true"
                 name="Email"
                 value={this.state.registerDetails.user.Email || ''}
-                onChange={e => this.handleChange(e)}
+                onChange={(e) => this.handleChange(e)}
                 required
               />
             </div>
@@ -75,7 +85,7 @@ class RegisterPage extends Component<any, any> {
                 data-lpignore="true"
                 name="Password"
                 value={this.state.registerDetails.user.Password || ''}
-                onChange={e => this.handleChange(e)}
+                onChange={(e) => this.handleChange(e)}
                 required
               />
             </div>
@@ -88,10 +98,18 @@ class RegisterPage extends Component<any, any> {
                 data-lpignore="true"
                 name="confirmationPassword"
                 value={this.state.confirmationPassword || ''}
-                onChange={e => this.confirmationPasswordChange(e)}
+                onChange={(e) => this.confirmationPasswordChange(e)}
                 required
               />
             </div>
+            <input
+              className="checkBox"
+              type="checkbox"
+              onChange={(event) => this.handleTermsChange(event)}
+            />
+            <label className="checkBoxContainer link" onClick={() => this.goToTermsPage()}>
+              Accept termenii și condițiile
+            </label>
           </div>
 
           <Button
@@ -145,7 +163,7 @@ class RegisterPage extends Component<any, any> {
     } else {
       const registered = await AuthService.register(this.state.registerDetails.user);
       if (registered) {
-        history.push("/email-validation")
+        history.push('/email-validation');
       }
     }
   }
@@ -170,7 +188,9 @@ class RegisterPage extends Component<any, any> {
           ? this.state.passwordError
           : this.state.confirmationPasswordError
           ? this.state.confirmationPasswordError
-          : '';
+          : this.state.confirmationPasswordError
+          ? this.state.termsAndConditionsError
+          : this.state.termsAndConditionsError;
     } else {
       errors = 'toate campurile sunt obligatorii';
     }
@@ -185,14 +205,16 @@ class RegisterPage extends Component<any, any> {
         this.state.confirmationPassword
       ),
       passwordError: FormValidators.passwordValidation(6, this.state.registerDetails.user.Password),
+      termsAndConditionsError: FormValidators.checkTermsAndCondValidation(this.termsAndConditions),
     });
   }
 
   private checkForm() {
     return (
-      this.state.registerDetails.user.Email !== '' &&
-      this.state.registerDetails.user.Password !== '' &&
-      this.state.confirmationPassword !== ''
+      this.state.registerDetails.user.Email !== '' ||
+      this.state.registerDetails.user.Password !== '' ||
+      this.state.confirmationPassword !== '' ||
+      this.state.termsAndConditionsError !== ''
     );
   }
 }
@@ -212,7 +234,4 @@ const mapDispatchToProps = {
   login,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(RegisterPage);
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterPage);
