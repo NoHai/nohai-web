@@ -64,9 +64,6 @@ class TermsAndConditions extends Component<any, any> {
               <br />
               <b>Dreptul de ștergere – </b>Aveți dreptul de a cere ștergerea datelor personale{' '}
               <br />
-              <b>The right to restrict processing –</b> You have the right to request that Our
-              Company restrict the processing of your personal data, under certain conditions.{' '}
-              <br />
               <br />
               <h3>Cum ne puteți contacta?</h3>Dacă aveți întrebări despre termenii și condițiile
               prezentate, protecția datelor, datele colectate sau drepturile de protecție a datelor,
