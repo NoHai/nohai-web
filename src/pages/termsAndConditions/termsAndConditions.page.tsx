@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PageHeaderTerms from '../../components/page-header/page-header-simple.component';
+import PageHeaderTerms from '../../components/page-header/page-header-terms.component';
 import './termsAndConditions.scss';
 
 class TermsAndConditions extends Component<any, any> {
@@ -24,7 +24,7 @@ class TermsAndConditions extends Component<any, any> {
               a vă permite să navigație prin aplicația noastră și să beneficiați de serviciile
               noastre.
               <br />
-              <b>Cookie-urile de funcționalitate - </b>Aceste cookie permit aplicației să rețină
+              <b>Cookie-urile de funcționalitate - </b>Aceste cookie uri permit aplicației să rețină
               alegerile pe care le faceți în timpul navigării. Aceste informații pe care cookie
               urile le colectează nu vor putea fi folosite pentru a vă identifica personal pe dvs și
               acestea nu va pot urmării activitatea de navigare pe alte aplicații în afara
@@ -38,8 +38,10 @@ class TermsAndConditions extends Component<any, any> {
               dumneavoastră.
               <br />
               <b>Informații personale</b>.Precum nume, prenume, oraș, data nașterii, titlul
-              job-ului, pagina personală web, pagina personală de facebook și descrierea, aceste
-              informații sunt afișate public în interiorul aplicației.
+              job-ului, pagina personală web, pagina personală de Facebook și descrierea, aceste
+              informații sunt afișate public în interiorul aplicației. De asemenea prin acordul tau
+              accesăm ID-ul tău de pe platforma de socializare Facebook, acesta este necesar pentru
+              a te putea identifica în continuare prin ID-ul de socializare.
               <br />
               <br />
               <h3>Protecția datelor</h3> Tratăm cu seriozitate protecția infomațiilor personale,
