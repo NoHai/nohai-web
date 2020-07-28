@@ -14,3 +14,19 @@
     font-size: 22px;
   }
 }
+
+label {
+  display: inline-block;
+  margin-left: 10px;
+}
+input[type='checkbox'] {
+  position: relative;
+  top: 2px;
+  margin-left: 5px;
+}
+
+.link {
+  cursor: pointer;
+  color: $login-text-color;
+  border-bottom: 1px solid $login-button-border-color;
+}

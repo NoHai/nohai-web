@@ -21,6 +21,7 @@ import { notification, Button } from 'antd';
 import { canBeInstalled, installApp } from './helpers/install-app.helper';
 import clearStoragePage from './pages/common/customer-support/clear-storage/clear-storage.page';
 import EmailValidation from './pages/auth/validation-email/email-validation.page';
+import TermsAndConditions from './pages/termsAndConditions/termsAndConditions.page';
 
 class App extends Component<any, any> {
   private AppConfig = new AppConfig();
@@ -48,6 +49,12 @@ class App extends Component<any, any> {
               <AuthorizationRoute
                 path="/register"
                 component={RegisterPage}
+                isAuthorized={this.props.isAuthorized}
+                isCompleted={this.props.isCompleted}
+              />
+              <AuthorizationRoute
+                path="/terms-and-conditions"
+                component={TermsAndConditions}
                 isAuthorized={this.props.isAuthorized}
                 isCompleted={this.props.isCompleted}
               />
