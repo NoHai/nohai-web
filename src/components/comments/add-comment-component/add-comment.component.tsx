@@ -39,7 +39,7 @@ class AddCommentComponent extends Component<AddCommentProps> {
       <div className="container">
         <Row>
           <Col span={3} className="pt-8">
-            <img src={this.props.avatar} className="avatar" />
+            <img src={this.props.avatar} className="avatar" alt="" />
           </Col>
           <Col span={21}>
             <div className="add-comment-container">

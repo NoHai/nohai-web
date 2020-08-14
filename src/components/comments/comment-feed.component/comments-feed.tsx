@@ -11,11 +11,11 @@ import './comments-feed.scss';
 
 class EventCommentsFeed extends Component<CommentFeedProps> {
   comment = new CommentModel();
-  public comments = new Array();
-  public showFewComments = new Array();
+  public comments:any = [];
+  public showFewComments:any = [];
 
   state = {
-    comments: new Array(),
+    comments: [],
     comment: new CommentModel(),
     user: new UserViewModel(),
     showMore: false,
@@ -61,7 +61,7 @@ class EventCommentsFeed extends Component<CommentFeedProps> {
 
   addComment(comment: CommentModel) {
     let newComm = comment;
-    if (comment.Description != '' && comment.Description != undefined) {
+    if (comment.Description !== '' && comment.Description !== undefined) {
       const result = CommentRepository.Create(newComm);
       newComm.User.FirstName = this.state.user.user.FirstName;
       newComm.User.LastName = this.state.user.user.LastName;

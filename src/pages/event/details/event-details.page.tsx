@@ -12,9 +12,9 @@ import { initialnEventDetailsReducerState } from '../../../redux/reducers/event-
 import './event-details.page.scss';
 
 class EventDetailsPage extends Component<any, any> {
-  eventComments = new Array();
+  eventComments = [];
   state = {
-    eventComments: new Array(),
+    eventComments: [],
   };
   async componentDidMount() {
     if (this.props.match && this.props.match.params.id) {

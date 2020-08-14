@@ -8,7 +8,7 @@ class CommentComponent extends Component<CommentProps> {
     return (
       <Row>
         <div className="container">
-          <img src={this.props.avatar} className="avatar" />
+          <img src={this.props.avatar} className="avatar" alt=""/>
           <div className={'comment-container'}>
             <div className="author">{this.props.author}</div>
             <div className="sender-comment">{this.props.description}</div>

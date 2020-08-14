@@ -122,7 +122,7 @@ export default class MapModelHelper {
   }
 
   public static MapComments(model: any): Comment[] {
-    let commentsArray = new Array();
+    let commentsArray:any = [];
     if (model) {
       model.forEach((element: any) => {
         let result = new CommentModel();
