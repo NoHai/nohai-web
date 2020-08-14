@@ -166,7 +166,7 @@ export class EventCardButton extends Component<EventCardButtonProps> {
     return (
       <Row type="flex" align="middle">
         <Col span={24} className="join-text">
-          Eveniment in delurare
+          Eveniment in derulare
         </Col>
       </Row>
     );

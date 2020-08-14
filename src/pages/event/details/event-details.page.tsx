@@ -1,19 +1,26 @@
 import React, { Component } from 'react';
-import './event-details.page.scss';
+import { connect } from 'react-redux';
 import EventCard from '../../../components/event-card/event-card.component';
 import { LocalStorage } from '../../../contracts/enums/localStorage/local-storage';
-import { connect } from 'react-redux';
-import { initialnEventDetailsReducerState } from '../../../redux/reducers/event-details.reducer';
+import { CommentRepository } from '../../../data/repositories/comment.repository';
 import {
   getEventDetails,
-  setEventDetailsState,
   resetEventDetails,
+  setEventDetailsState,
 } from '../../../redux/actions/event-details.action';
+import { initialnEventDetailsReducerState } from '../../../redux/reducers/event-details.reducer';
+import './event-details.page.scss';
 
 class EventDetailsPage extends Component<any, any> {
+  eventComments = new Array();
+  state = {
+    eventComments: new Array(),
+  };
   async componentDidMount() {
     if (this.props.match && this.props.match.params.id) {
       this.props.getEventDetails(this.props.match.params.id);
+      this.eventComments = await CommentRepository.getCommentsForEvent(this.props.match.params.id);
+      this.setState({ eventComments: this.eventComments });
     } else {
       this.props.setEventDetailsState(
         JSON.parse(localStorage.getItem(LocalStorage.CreateEvent) || '{}')
@@ -28,7 +35,10 @@ class EventDetailsPage extends Component<any, any> {
   render() {
     return (
       <div className="event-list-item">
-        <EventCard eventDetails={this.props.eventDetails} />
+        <EventCard
+          eventDetails={this.props.eventDetails}
+          eventComments={this.state.eventComments}
+        />
       </div>
     );
   }
