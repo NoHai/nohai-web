@@ -1,0 +1,51 @@
+.container {
+  width: 100%;
+
+  .pt-8 {
+    padding-top: 8px;
+  }
+
+  .add-comment-container {
+    vertical-align: middle;
+    display: inline-flex;
+    position: relative;
+    background: #f0f0f0;
+    border: 3px solid #f0f0f0;
+    margin-top: 10px;
+    padding-left: 7px;
+    border-radius: 15px;
+    width: 100%;
+  }
+
+  .add-comment {
+    display: inline-flex;
+    margin-bottom: 0px;
+    padding-top: 3px;
+    border: none;
+    overflow: hidden;
+    word-break: break-all;
+    outline: none;
+    background-color: #f0f0f0;
+    width: 88%;
+  }
+
+  .add-comment-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+  }
+
+  [contentEditable='true']:empty:before {
+    content: attr(data-placeholder);
+  }
+
+  .send-btn {
+    position: absolute;
+    bottom: 0;
+    right: 5px;
+  }
+
+  .hide {
+    display: none;
+  }
+}

@@ -4,6 +4,7 @@ import { LocationEventDetailsModel } from '../models/location-event-details.mode
 import { ParticipantModel } from '../models/participant.model';
 import { ParticipantsEventDetailsModel } from '../models/participants-event-details.model';
 import { SportModel } from '../models/sport.model';
+import { CommentModel } from '../models/comment.model';
 export class EventDetailsViewModel {
   event!: EventModel;
   participantsDetails!: ParticipantsEventDetailsModel;
@@ -13,6 +14,7 @@ export class EventDetailsViewModel {
   owner!: ParticipantModel;
   status!: number;
   sport!: SportModel;
+  comments!: Array<CommentModel>;
 
   constructor() {
     this.event = new EventModel();
@@ -22,5 +24,6 @@ export class EventDetailsViewModel {
     this.participants = [];
     this.owner = new ParticipantModel();
     this.sport = new SportModel();
+    this.comments = new Array<CommentModel>();
   }
 }

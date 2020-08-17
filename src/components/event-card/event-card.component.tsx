@@ -1,21 +1,21 @@
+import { Col, Row } from 'antd';
 import React, { Component } from 'react';
-import './event-card.component.scss';
-import { Row, Col } from 'antd';
-import EventMembers from '../event-members/event-members.component';
-import EventMap from '../event-map/event-map.component';
 import { EventService } from '../../business/services';
-import history from '../../utilities/core/history';
-import LocalStorageHelper from '../../helpers/local-storage.helper';
 import { LocalStorage } from '../../contracts/enums/localStorage/local-storage';
+import EventHelper from '../../helpers/event.helper';
+import LocalStorageHelper from '../../helpers/local-storage.helper';
+import { default as history, default as HistoryHelper } from '../../utilities/core/history';
 import TokenProvider from '../../utilities/providers/token.provider';
-import EventCardTitle from '../event-card-title/event-card-title.component';
-import EventCardDetails from '../event-card-details/event-card-details.component';
-import EventCardOwner from '../event-card-owner/event-card-owner.component';
 import { EventCardAvailability } from '../event-card-availability/event-card-availability.component';
 import { EventCardButton } from '../event-card-button/event-card-button.component';
-import EventHelper from '../../helpers/event.helper';
-import HistoryHelper from '../../utilities/core/history';
+import EventCardDetails from '../event-card-details/event-card-details.component';
+import EventCardOwner from '../event-card-owner/event-card-owner.component';
+import EventCardTitle from '../event-card-title/event-card-title.component';
 import EventDetailsFooterButtons from '../event-details-section/event-details-footer-buttons';
+import EventMap from '../event-map/event-map.component';
+import EventMembers from '../event-members/event-members.component';
+import './event-card.component.scss';
+import EventCommentsFeed from '../comments/comment-feed.component/comments-feed';
 
 class EventCard extends Component<any, any> {
   private isEditable = false;
@@ -25,15 +25,27 @@ class EventCard extends Component<any, any> {
 
     this.state = {
       eventDetails: this.props.eventDetails,
+      comments: this.props.eventComments,
       requestSent: false,
+      displayComments: false,
+      commentsLength: 0,
     };
 
     this.isEditable = HistoryHelper.containsPath('/edit-event');
   }
 
+  updateCommentsCounter(nr: number) {
+    this.setState({ comments: nr });
+  }
+
   async componentDidMount() {
     const user = await TokenProvider.getUser();
     user ? (this.userId = user.userId) : (this.userId = '');
+    this.setState({ comments: this.props.eventComments });
+  }
+
+  toggleComments() {
+    this.setState({ displayComments: !this.state.displayComments });
   }
 
   render() {
@@ -69,9 +81,24 @@ class EventCard extends Component<any, any> {
         <EventCardAvailability userId={this.userId} event={this.props.eventDetails} />
         <EventCardDetails event={this.props.eventDetails} />
 
-        <hr />
+        <hr className="hr-margins" />
 
-        <p className="description">{this.props.eventDetails.description.Description}</p>
+        {this.props.eventDetails.description.Description != null && (
+          <p className="description">{this.props.eventDetails.description.Description}</p>
+        )}
+
+        <div
+          className={'comments-header'}
+          onClick={() => this.toggleComments()}
+        >{`Comentarii (${this.props.eventComments.length})`}</div>
+        {this.state.displayComments && (
+          <EventCommentsFeed
+            eventId={this.state.eventDetails.event.Id}
+            comments={this.props.eventComments}
+            updateCommentsCount={(e) => this.updateCommentsCounter(e)}
+          />
+        )}
+        <hr />
 
         <EventCardOwner owner={this.props.eventDetails.owner} />
 

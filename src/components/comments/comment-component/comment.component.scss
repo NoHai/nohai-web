@@ -1,0 +1,40 @@
+.container {
+  .comment-container {
+    vertical-align: middle;
+    display: inline-block;
+    position: relative;
+    margin-left: 6px;
+    background: #f0f0f0;
+    border: 3px solid #f0f0f0;
+    width: fit-content;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-left: 7px;
+    max-width: 80%;
+    border-radius: 15px;
+  }
+
+    .author {
+      padding-top: 5px;
+      padding-right: 12px;
+      display: block;
+      position: relative;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+    }
+
+    .date {
+      font-size: 9px;
+      text-align: right;
+      padding-right: 3px;
+      color: #c8c8c8;
+    }
+
+  
+
+}
