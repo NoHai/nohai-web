@@ -4,6 +4,7 @@ import { CommentModel } from '../../../contracts/models/comment.model';
 import { UserViewModel } from '../../../contracts/view-models/user-view.model';
 import { UserRepository } from '../../../data/repositories';
 import { CommentRepository } from '../../../data/repositories/comment.repository';
+import ColorHelper from '../../../helpers/color.helper';
 import AddCommentComponent from '../add-comment-component/add-comment.component';
 import CommentComponent from '../comment-component/comment.component';
 import { CommentFeedProps } from './comment-feed.props';
@@ -11,8 +12,8 @@ import './comments-feed.scss';
 
 class EventCommentsFeed extends Component<CommentFeedProps> {
   comment = new CommentModel();
-  public comments:any = [];
-  public showFewComments:any = [];
+  public comments: any = [];
+  public showFewComments: any = [];
 
   state = {
     comments: [],
@@ -78,21 +79,45 @@ class EventCommentsFeed extends Component<CommentFeedProps> {
     this.props.updateCommentsCount(nr);
   }
 
+  getInitials(firstname: string, lastname: string) {
+    if (firstname && lastname) {
+      let str = `${firstname} ${lastname}`;
+      let matches = str.match(/\b(\w)/g);
+      if (matches) {
+        let acronym = matches.join('');
+        return acronym.toUpperCase();
+      }
+    }
+    return;
+  }
+
   render() {
     let showComments = this.state.showMore
       ? 'Vezi mai putine comentarii'
       : 'Vezi mai multe comentarii';
     let displayShowMore = this.state.displayShowMore ? 'show-more' : 'show-more hide';
+
+    const initials = this.getInitials(
+      this.state.user.user.FirstName,
+      this.state.user.user.LastName
+    );
+
     return (
       <div className="container">
         <Row>
-          <AddCommentComponent
-            avatar={this.state.user.user.Url}
-            comment={this.state.comment}
-            addComment={(e) => this.addComment(e)}
-            eventId={this.props.eventId}
-            userId={this.state.user.user.Id}
-          />
+          {this.state.user.user.FirstName && (
+            <AddCommentComponent
+              author={`${this.state.user.user.FirstName} ${this.state.user.user.LastName}`}
+              initials={initials}
+              comment={this.state.comment}
+              addComment={(e) => this.addComment(e)}
+              eventId={this.props.eventId}
+              userId={this.state.user.user.Id}
+              avatarColor={ColorHelper.stringToHslColor(
+                `${this.state.user.user.FirstName} ${this.state.user.user.LastName}`
+              )}
+            />
+          )}
         </Row>
         {this.state.comments.map((element: any, index: any) => {
           return (
@@ -101,6 +126,7 @@ class EventCommentsFeed extends Component<CommentFeedProps> {
               avatar={element.User.Url}
               description={element.Description}
               author={`${element.User.FirstName} ${element.User.LastName}`}
+              initials={this.getInitials(element.User.FirstName, element.User.LastName)}
               date={element.Date}
               eventId={this.props.eventId}
             ></CommentComponent>
