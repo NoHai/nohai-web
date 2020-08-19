@@ -1,5 +1,6 @@
-import { Row } from 'antd';
+import { Avatar, Row } from 'antd';
 import React, { Component } from 'react';
+import ColorHelper from '../../../helpers/color.helper';
 import './comment.component.scss';
 import { CommentProps } from './comment.props';
 
@@ -8,10 +9,18 @@ class CommentComponent extends Component<CommentProps> {
     return (
       <Row>
         <div className="container">
-          <img src={this.props.avatar} className="avatar" alt=""/>
+          <Avatar
+            style={{
+              backgroundColor: ColorHelper.stringToHslColor(this.props.author),
+              verticalAlign: 'middle',
+            }}
+            size="large"
+          >
+            {this.props.initials}
+          </Avatar>
           <div className={'comment-container'}>
             <div className="author">{this.props.author}</div>
-            <div className="sender-comment">{this.props.description}</div>
+            <div className="comment-text">{this.props.description}</div>
           </div>
         </div>
       </Row>

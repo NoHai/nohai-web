@@ -4,4 +4,5 @@ export interface CommentProps {
   avatar: string;
   date: Date;
   eventId: string;
+  initials: string | undefined;
 }

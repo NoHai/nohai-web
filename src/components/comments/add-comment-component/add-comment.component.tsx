@@ -1,4 +1,4 @@
-import { Col, Row } from 'antd';
+import { Avatar, Col, Row } from 'antd';
 import React, { Component } from 'react';
 import { CommentModel } from '../../../contracts/models/comment.model';
 import './add-comment.component.scss';
@@ -38,10 +38,18 @@ class AddCommentComponent extends Component<AddCommentProps> {
     return (
       <div className="container">
         <Row>
-          <Col span={3} className="pt-8">
-            <img src={this.props.avatar} className="avatar" alt="" />
+          <Col span={4} className="pt-8">
+            <Avatar
+              style={{
+                backgroundColor: this.props.avatarColor,
+                verticalAlign: 'middle',
+              }}
+              size="large"
+            >
+              {this.props.initials}
+            </Avatar>
           </Col>
-          <Col span={21}>
+          <Col span={20}>
             <div className="add-comment-container">
               <div
                 data-placeholder="Adaugă un comentariu..."
