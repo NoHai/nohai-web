@@ -9,6 +9,7 @@ import AddCommentComponent from '../add-comment-component/add-comment.component'
 import CommentComponent from '../comment-component/comment.component';
 import { CommentFeedProps } from './comment-feed.props';
 import './comments-feed.scss';
+import MessageHelper from '../../../helpers/message.helper';
 
 class EventCommentsFeed extends Component<CommentFeedProps> {
   comment = new CommentModel();
@@ -30,7 +31,7 @@ class EventCommentsFeed extends Component<CommentFeedProps> {
   }
 
   formatComments() {
-    if (this.comments.length > 5) {
+    if (this.comments.length >= 5) {
       this.showFewComments = this.comments.slice(this.comments.length - 3);
       this.setState({
         comments: this.showFewComments,
@@ -91,6 +92,25 @@ class EventCommentsFeed extends Component<CommentFeedProps> {
     return;
   }
 
+  deleteComment(commentId: string) {
+    if (commentId) {
+      this.comments.forEach((element: any) => {
+        if (element.Id === commentId) {
+          this.comments.splice(this.comments.indexOf(element), 1);
+          this.formatComments();
+          this.updateCommentsCounter(this.state.comments.length);
+          let result = CommentRepository.Delete(commentId);
+          if (result) {
+            MessageHelper.showSuccess('Comentariul a fost șters cu success!');
+          } else {
+            MessageHelper.showError('Ooops ceva s-a intamplat!');
+          }
+          return;
+        }
+      });
+    }
+  }
+
   render() {
     let showComments = this.state.showMore
       ? 'Vezi mai putine comentarii'
@@ -120,6 +140,8 @@ class EventCommentsFeed extends Component<CommentFeedProps> {
           )}
         </Row>
         {this.state.comments.map((element: any, index: any) => {
+          console.log(element);
+          
           return (
             <CommentComponent
               key={index}
@@ -129,6 +151,10 @@ class EventCommentsFeed extends Component<CommentFeedProps> {
               initials={this.getInitials(element.User.FirstName, element.User.LastName)}
               date={element.Date}
               eventId={this.props.eventId}
+              commentId={element.Id}
+              deleteComment={(commId) => this.deleteComment(commId)}
+              userId={element.User.Id}
+              currentUserId={this.state.user.user.Id}
             ></CommentComponent>
           );
         })}
