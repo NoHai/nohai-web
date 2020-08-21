@@ -1,9 +1,9 @@
 import { EventDetailsViewModel, ListModel } from '../contracts/models';
-import { UserViewModel } from '../contracts/view-models/user-view.model';
-import { NotificationModel } from '../contracts/models/notification.model';
-import { SportModel } from '../contracts/models/sport.model';
-import { ParticipantModel } from '../contracts/models/participant.model';
 import { CommentModel } from '../contracts/models/comment.model';
+import { NotificationModel } from '../contracts/models/notification.model';
+import { ParticipantModel } from '../contracts/models/participant.model';
+import { SportModel } from '../contracts/models/sport.model';
+import { UserViewModel } from '../contracts/view-models/user-view.model';
 
 export default class MapModelHelper {
   public static MapEvent(model: any): EventDetailsViewModel {
@@ -122,13 +122,14 @@ export default class MapModelHelper {
   }
 
   public static MapComments(model: any): Comment[] {
-    let commentsArray:any = [];
+    let commentsArray: any = [];
     if (model) {
       model.forEach((element: any) => {
         let result = new CommentModel();
         result.Id = element.id;
         result.Description = element.description;
         result.Date = element.date;
+        result.User.Id = element.user.id;
         result.User.FirstName = element.user.details.firstName;
         result.User.LastName = element.user.details.lastName;
         result.User.Url = element.user.details.picture;

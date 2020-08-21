@@ -5,4 +5,8 @@ export interface CommentProps {
   date: Date;
   eventId: string;
   initials: string | undefined;
+  deleteComment(commentId: string): any;
+  commentId: string;
+  userId: string;
+  currentUserId: string;
 }

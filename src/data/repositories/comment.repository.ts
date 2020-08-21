@@ -1,4 +1,5 @@
 import { gql } from 'apollo-boost';
+import { ResultModel } from '../../contracts/models';
 import { CommentModel } from '../../contracts/models/comment.model';
 import MapModelHelper from '../../helpers/map-model.helper';
 import GraphqlClient from '../request/graphql-client';
@@ -14,7 +15,9 @@ class CommentRepositoryController {
           date
           isDeleted
           user {
+            id
             details {
+              id
               firstName
               lastName
               picture
@@ -48,6 +51,19 @@ class CommentRepositoryController {
 
     const result: any = await GraphqlClient.mutate(saveCommentMutation, input);
     return result.saveComment.id;
+  }
+
+  async Delete(id: any): Promise<ResultModel<boolean>> {
+    console.log(id);
+    const parameter: any = { parameter: id };
+    const deleteCommentMutation = gql`
+      mutation deleteComment($parameter: String!) {
+        deleteComment(parameter: $parameter)
+      }
+    `;
+
+    const result: any = await GraphqlClient.mutate(deleteCommentMutation, parameter);
+    return result.deleteComment;
   }
 }
 
